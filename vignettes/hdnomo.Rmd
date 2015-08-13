@@ -1,0 +1,24 @@
+---
+title: "Nomograms for High-Dimensional Penalized Cox Models"
+author: "Nan Xiao <<nanx@uchicago.edu>>"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    number_sections: true
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Nomograms for High-Dimensional Penalized Cox Models}
+---
+
+# Fit Penalized Cox Models
+
+All available options are expained below.
+
+```{r, eval = FALSE}
+R code here
+```
+
+<hr>
+
+`--EOF--`
