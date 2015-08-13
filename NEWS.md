@@ -2,4 +2,4 @@
 
 ## NEW FEATURES
 
-* Initial version of hdnomo. (may have another unique name ^^)
+* Initial version of hdnomo. (may have another unique name)
