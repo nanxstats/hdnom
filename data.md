@@ -8,6 +8,6 @@ SEER 1973-2012 Research [Data File](http://seer.cancer.gov/data/) include SEER i
 
 Surveillance, Epidemiology and End Results Program (SEER), and SEER-Medicare data can also be checked at [Society of General Internal Medicine](http://www.sgim.org/communities/research/dataset-compendium/surveillance-epidemiology-and-end-results-program-seer-and-seer-medicare-data)
 
-Clinical Prediction Models: A Practical Approach to Development, Validation, and Updating [Table of contents](http://onlinelibrary.wiley.com/doi/10.1111/j.1751-5823.2009.00085_22.x), 2009.
+[Clinical Prediction Models](http://www.clinicalpredictionmodels.org/doku.php?id=start): A Practical Approach to Development, Validation, and Updating, 2009 with one [book review](http://aje.oxfordjournals.org/content/170/4/528.full) on Am. J. Epidemiol.
 The author summarized some useful [links](http://www.clinicalpredictionmodels.org/doku.php?id=links:start), marker research in [methodological work](http://www.clinicalpredictionmodels.org/doku.php?id=markers:start), [NRI](http://www.clinicalpredictionmodels.org/doku.php?id=presentations:start) presentation slides. 
 Data sets and `R code` were also supplied, e.g. [case study on survival data](http://www.clinicalpredictionmodels.org/doku.php?id=rcode_and_data:chapter23).
