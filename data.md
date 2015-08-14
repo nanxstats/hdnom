@@ -5,3 +5,5 @@ The [SEER-Medicare database](http://healthcaredelivery.cancer.gov/seermedicare/a
 
 The [SEER Program](http://seer.cancer.gov/) is an epidemiologic surveillance system consisting of population-based tumor registries designed to track cancer incidence and survival in the United States. Collection of the SEER data began on January 1, 1973. The registries routinely collect information on newly diagnosed cancer patients residing in geographically defined areas. 
 SEER 1973-2012 Research [Data File](http://seer.cancer.gov/data/) include SEER incidence and population data associated by age, sex, race, year of diagnosis, and geographic areas.
+
+Surveillance, Epidemiology and End Results Program (SEER), and SEER-Medicare data can also be checked at [Society of General Internal Medicine](http://www.sgim.org/communities/research/dataset-compendium/surveillance-epidemiology-and-end-results-program-seer-and-seer-medicare-data)
