@@ -7,3 +7,5 @@ The [SEER Program](http://seer.cancer.gov/) is an epidemiologic surveillance sys
 SEER 1973-2012 Research [Data File](http://seer.cancer.gov/data/) include SEER incidence and population data associated by age, sex, race, year of diagnosis, and geographic areas.
 
 Surveillance, Epidemiology and End Results Program (SEER), and SEER-Medicare data can also be checked at [Society of General Internal Medicine](http://www.sgim.org/communities/research/dataset-compendium/surveillance-epidemiology-and-end-results-program-seer-and-seer-medicare-data)
+
+Clinical Prediction Models: A Practical Approach to Development, Validation, and Updating [Table of contents](http://onlinelibrary.wiley.com/doi/10.1111/j.1751-5823.2009.00085_22.x), 2009 was cited by [A new framework](http://www.sciencedirect.com/science/article/pii/S0895435614002753) to enhance the interpretation of external validation studies of clinical prediction models, (http://www.sciencedirect.com/science/article/pii/S0895435614002753) on Journal of Clinical Epidemiology,Volume 68, Issue 3, March 2015, Pages 279–289.
