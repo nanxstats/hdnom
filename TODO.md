@@ -12,6 +12,7 @@
  * glmpath
  * ncvreg
  * c060
+ * CoxBoost
  * fastcox
  * CoxRidge
  * uniCox
