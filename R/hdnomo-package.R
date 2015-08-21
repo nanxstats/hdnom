@@ -9,7 +9,8 @@
 #'
 #' @name hdnomo-package
 #' @docType package
-#' @author Nan Xiao <\email{nanx@@uchicago.edu}>
-#'         Miaozhu Li <\email{miaozhu.li@@duke.edu}>
+#' @author Miaozhu Li <\email{miaozhu.li@@duke.edu}>
+#'         Nan Xiao <\email{nanx@@uchicago.edu}>
+#'
 #'
 NULL

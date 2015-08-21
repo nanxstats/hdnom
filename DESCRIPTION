@@ -17,4 +17,5 @@ Imports:
     glmnet,
     rms
 Suggests:
-    knitr
+    knitr,
+    survival
