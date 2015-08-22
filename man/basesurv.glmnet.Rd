@@ -2,7 +2,7 @@
 % Please edit documentation in R/glmnet.nomogram.R
 \name{basesurv.glmnet}
 \alias{basesurv.glmnet}
-\title{Breslow Estimator for Baseline Hazard}
+\title{Breslow estimator for baseline hazard}
 \usage{
 basesurv.glmnet(time, event, lp, times.eval = NULL, centered = FALSE)
 }

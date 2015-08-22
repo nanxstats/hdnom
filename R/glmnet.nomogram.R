@@ -8,8 +8,9 @@
 #' Must be of the same length with the number of rows as \code{x}.
 #' @param event Status indicator, normally 0 = alive, 1 = dead.
 #' Must be of the same length with the number of rows as \code{x}.
-#' @param ddist Data frame version of x, made by \code{datadist()}.
-#' @param s Value of the penalty parameter lambda in \code{glmnet}.
+#' @param ddist Data frame version of x, made by \code{\link[rms]{datadist}}.
+#' @param s Value of the penalty parameter lambda in
+#' \code{\link[glmnet]{glmnet}}.
 #' We will use the selected variables at the provided \code{s} to
 #' build the nomogram, and make predictions.
 #' See the example for choosing a proper lambda value extracted
@@ -17,7 +18,7 @@
 #' @param pred.at Time point at which to draw nomogram prediction axis.
 #' @param fun.at Function values to label on axis.
 #' @param funlabel Label for \code{fun} axis.
-#' @param ... other arguments for \code{nomogram}.
+#' @param ... other arguments for \code{\link[rms]{nomogram}}.
 #'
 #' @export glmnet.nomogram
 #'
@@ -101,9 +102,9 @@ glmnet.nomogram = function(object, x, time, event, ddist,
 
 }
 
-#' Plot Nomograms Objects Generated with glmnet.nomogram
+#' Plot nomograms objects generated with glmnet.nomogram
 #'
-#' Plot Nomograms Objects Generated with glmnet.nomogram
+#' Plot nomograms objects generated with glmnet.nomogram
 #'
 #' @param object \code{"glmnet.nomogram"} object.
 #'
@@ -149,7 +150,7 @@ plot.glmnet.nomogram = function (object) {
 
 }
 
-#' Survival Curve Prediction for glmnet Objects
+#' Survival curve prediction for glmnet objects
 #'
 #' Derived from c060::predictProb.coxnet
 #'
@@ -172,7 +173,7 @@ survcurve.glmnet = function (object, time, event, x, survtime, lambda) {
 
 }
 
-#' Breslow Estimator for Baseline Hazard
+#' Breslow estimator for baseline hazard
 #'
 #' Derived from \code{peperr:::basesurv} and \code{gbm::basehaz.gbm}.
 #'

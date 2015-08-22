@@ -7,7 +7,8 @@
 #' @usage data(smarto)
 #'
 #' @format
-#' A numeric matrix with 3873 samples, and 29 variables:
+#' A numeric matrix with 3873 samples, and 29 variables
+#' (27 variables + time variable + event variable):
 #' \itemize{
 #' \item Demographics
 #' \itemize{
@@ -73,7 +74,8 @@ NULL
 #' @usage data(smart)
 #'
 #' @format
-#' A numeric matrix with 3873 samples, and 29 variables:
+#' A numeric matrix with 3873 samples, and 29 variables
+#' (27 variables + time variable + event variable):
 #' \itemize{
 #' \item Demographics
 #' \itemize{
@@ -146,4 +148,19 @@ NULL
 #' smart = smarto
 #' smart[names(imputed)] = imputed
 #' str(smart)}
+NULL
+
+#' Simulation data derived from rms
+#'
+#' Simulation data derived from rms
+#' https://github.com/harrelfe/rms/blob/master/demo/all.R
+#' Detailed Example 1, 2, 3
+#'
+#' @docType data
+#' @name simdata
+#' @usage data(simdata)
+#'
+#' @examples
+#' data(simdata)
+#' str(simdata)
 NULL

@@ -2,7 +2,7 @@
 % Please edit documentation in R/glmnet.nomogram.R
 \name{plot.glmnet.nomogram}
 \alias{plot.glmnet.nomogram}
-\title{Plot Nomograms Objects Generated with glmnet.nomogram}
+\title{Plot nomograms objects generated with glmnet.nomogram}
 \usage{
 \method{plot}{glmnet.nomogram}(object)
 }
@@ -10,7 +10,7 @@
 \item{object}{\code{"glmnet.nomogram"} object.}
 }
 \description{
-Plot Nomograms Objects Generated with glmnet.nomogram
+Plot nomograms objects generated with glmnet.nomogram
 }
 \examples{
 library("glmnet")

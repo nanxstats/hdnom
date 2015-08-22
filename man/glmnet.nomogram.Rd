@@ -18,9 +18,10 @@ Must be of the same length with the number of rows as \code{x}.}
 \item{event}{Status indicator, normally 0 = alive, 1 = dead.
 Must be of the same length with the number of rows as \code{x}.}
 
-\item{ddist}{Data frame version of x, made by \code{datadist()}.}
+\item{ddist}{Data frame version of x, made by \code{\link[rms]{datadist}}.}
 
-\item{s}{Value of the penalty parameter lambda in \code{glmnet}.
+\item{s}{Value of the penalty parameter lambda in
+\code{\link[glmnet]{glmnet}}.
 We will use the selected variables at the provided \code{s} to
 build the nomogram, and make predictions.
 See the example for choosing a proper lambda value extracted
@@ -32,7 +33,7 @@ from cross-validation results.}
 
 \item{funlabel}{Label for \code{fun} axis.}
 
-\item{...}{other arguments for \code{nomogram}.}
+\item{...}{other arguments for \code{\link[rms]{nomogram}}.}
 }
 \description{
 Nomograms for Cox models fitted with glmnet

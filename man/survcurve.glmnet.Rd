@@ -2,7 +2,7 @@
 % Please edit documentation in R/glmnet.nomogram.R
 \name{survcurve.glmnet}
 \alias{survcurve.glmnet}
-\title{Survival Curve Prediction for glmnet Objects}
+\title{Survival curve prediction for glmnet objects}
 \usage{
 survcurve.glmnet(object, time, event, x, survtime, lambda)
 }

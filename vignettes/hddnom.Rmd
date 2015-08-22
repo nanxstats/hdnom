@@ -1,5 +1,5 @@
 ---
-title: "Nomograms for High-Dimensional Penalized Cox Models"
+title: "Nomograms for High-Dimensional Cox Models"
 author: "Nan Xiao <<nanx@uchicago.edu>>"
 date: "`r Sys.Date()`"
 output:
@@ -8,10 +8,10 @@ output:
     number_sections: true
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Nomograms for High-Dimensional Penalized Cox Models}
+  %\VignetteIndexEntry{Nomograms for High-Dimensional Cox Models}
 ---
 
-# Fit Penalized Cox Models
+# Fit Penalized Cox Models on High-Dimensional Data
 
 All available options are expained below.
 
