@@ -14,10 +14,13 @@ BugReports: https://github.com/road2stat/hddnom/issues
 Depends:
     R (>= 3.0.2)
 Imports:
+    survival,
     glmnet,
     rms,
     foreach,
-    doParallel
+    survAUC
 Suggests:
     knitr,
-    survival
+    doParallel,
+    Hmisc,
+    mice

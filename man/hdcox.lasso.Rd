@@ -4,18 +4,53 @@
 \alias{hdcox.lasso}
 \title{Lasso model selection for high-dimensional Cox models}
 \usage{
-hdcox.lasso(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05))
+hdcox.lasso(x, y, nfolds = 5L, rule = c("lambda.min", "lambda.1se"),
+  seed = 1001)
 }
 \arguments{
 \item{x}{data matrix}
 
 \item{y}{response matrix made by \code{\link[survival]{Surv}}}
+
+\item{nfolds}{fold numbers of cross-validation}
+
+\item{rule}{Model selection criterion, \code{"lambda.min"} or
+\code{"lambda.1se"}. See \code{\link[glmnet]{cv.glmnet}}
+for details.}
+
+\item{seed}{a random seed for cross-validation fold division}
 }
 \description{
 Automatic lasso model selection for high-dimensional
-Cox models, evaluated by time-dependent AUC (tAUC).
+Cox models, evaluated by penalized partial-likelihood.
 }
 \examples{
-set.seed(1001)
+library("glmnet")
+library("survival")
+library("rms")
+library("doParallel")
+registerDoParallel(detectCores())
+
+# Load imputed SMART data
+data("smart")
+x = as.matrix(smart[, -c(1, 2)])
+time = smart$TEVENT
+event = smart$EVENT
+y = Surv(time, event)
+
+# Fit Cox model by adaptive lasso penalization
+lassofit = hdcox.lasso(x, y, nfolds = 10, rule = 'lambda.1se', seed = 11)
+
+# Prepare data for glmnet.nomogram
+x.df = as.data.frame(x)
+dd = datadist(x.df)
+options(datadist = "dd")
+
+# Generate glmnet.nomogram objects and draw nomogram
+nom = glmnet.nomogram(lassofit$lasso_all, x, time, event, x.df,
+                      s = lassofit$best_lambda_lasso, pred.at = 365 * 2,
+                      funlabel = "2-Year Overall Survival Probability")
+
+plot(nom)
 }
 

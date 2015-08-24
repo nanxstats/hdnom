@@ -4,12 +4,46 @@
 \alias{glmnet.calibrate}
 \title{Calibrate Cox models fitted with glmnet}
 \usage{
-glmnet.calibrate()
+glmnet.calibrate(x, time, event, alpha, lambda, method = c("fitting",
+  "bootstrap", "cv", "repeated.cv"), boot.times = NULL, nfolds = NULL,
+  rep.times = NULL, pred.at, ngroup = 5)
+}
+\arguments{
+\item{x}{Matrix of training data used for the \code{glmnet} object;
+on which to run the calibration.}
+
+\item{time}{Survival time.
+Must be of the same length with the number of rows as \code{x}.}
+
+\item{event}{Status indicator, normally 0 = alive, 1 = dead.
+Must be of the same length with the number of rows as \code{x}.}
+
+\item{alpha}{Value of the elastic-net mixing parameter alpha in
+glmnet. \code{alpha=1}: lasso; \code{alpha=0}: ridge.
+From the Cox model you have built.}
+
+\item{lambda}{Value of the penalty parameter lambda to use in the
+glmnet fits on the resampled data. From the Cox model you have built.}
+
+\item{method}{Calibration method.
+Options including \code{"fitting"}, \code{"bootstrap"}, \code{"cv"},
+and \code{"repeated.cv"}.}
+
+\item{boot.times}{Number of repetitions for bootstrap.}
+
+\item{nfolds}{Number of folds for cross-validation and
+repeated cross-validation.}
+
+\item{rep.times}{Number of repeated times for repeated cross-validation.}
+
+\item{pred.at}{Time point at which calibration should take place.}
+
+\item{ngroup}{number of groups to be formed for calibration}
 }
 \description{
 Calibrate Cox models fitted with glmnet
 }
 \examples{
-set.seed(1003)
+NULL
 }
 

@@ -4,7 +4,7 @@
 \alias{tuneAlpha}
 \title{Automatic alpha tuning function by k-fold cross-validation}
 \usage{
-tuneAlpha(..., alphas)
+tuneAlpha(..., alphas, seed)
 }
 \value{
 best model object and best alpha

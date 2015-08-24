@@ -4,13 +4,11 @@
 \alias{glmnet.validate}
 \title{Validate Cox models fitted with glmnet using time-dependent AUC}
 \usage{
-glmnet.validate(nomogram, x, time, event, s = nomogram$s,
-  method = c("bootstrap", "cv", "repeated.cv"), B = NULL, nfolds = NULL,
-  rep.times = NULL)
+glmnet.validate(x, time, event, alpha, lambda, method = c("bootstrap", "cv",
+  "repeated.cv"), boot.times = NULL, nfolds = NULL, rep.times = NULL,
+  tauc.type = c("CD", "SZ", "UNO"), tauc.time, trace = TRUE)
 }
 \arguments{
-\item{nomogram}{object returned by \code{\link{glmnet.nomogram}}.}
-
 \item{x}{Matrix of training data used for the \code{glmnet} object;
 on which to run the validation.}
 
@@ -20,22 +18,53 @@ Must be of the same length with the number of rows as \code{x}.}
 \item{event}{Status indicator, normally 0 = alive, 1 = dead.
 Must be of the same length with the number of rows as \code{x}.}
 
-\item{s}{Value of the penalty parameter lambda in glmnet. By default,
-we use the same penalty parameter as the nomogram object.}
+\item{alpha}{Value of the elastic-net mixing parameter alpha in
+glmnet. \code{alpha=1}: lasso; \code{alpha=0}: ridge.
+From the Cox model you have built.}
 
-\item{method}{Validation method. "bootstrap", "cv", or "repeated.cv".}
+\item{lambda}{Value of the penalty parameter lambda to use in the
+glmnet fits on the resampled data. From the Cox model you have built.}
 
-\item{B}{Number of repetitions for bootstrap.}
+\item{method}{Validation method.
+Could be \code{"bootstrap"}, \code{"cv"}, or \code{"repeated.cv"}.}
+
+\item{boot.times}{Number of repetitions for bootstrap.}
 
 \item{nfolds}{Number of folds for cross-validation and
 repeated cross-validation.}
 
 \item{rep.times}{Number of repeated times for repeated cross-validation.}
+
+\item{tauc.type}{Type of time-dependent AUC.
+Including \code{"CD"} proposed by Chambless and Diao (2006).,
+\code{"SZ"} proposed by Song and Zhou (2008).,
+\code{"UNO"} proposed by Uno et al. (2007).}
+
+\item{tauc.time}{Numeric vector. Time points at which to evaluate
+the time-dependent AUC.}
+
+\item{trace}{Logical. Print trace or not. Default is \code{TRUE}.}
 }
 \description{
 Validate Cox models fitted with glmnet using time-dependent AUC
 }
 \examples{
-set.seed(1002)
+NULL
+}
+\references{
+Chambless, L. E. and G. Diao (2006).
+Estimation of time-dependent area under the ROC curve for long-term
+risk prediction.
+\emph{Statistics in Medicine} 25, 3474--3486.
+
+Song, X. and X.-H. Zhou (2008).
+A semiparametric approach for the covariate specific ROC curve with
+survival outcome.
+\emph{Statistica Sinica} 18, 947--965.
+
+Uno, H., T. Cai, L. Tian, and L. J. Wei (2007).
+Evaluating prediction rules for t-year survivors with censored
+regression models.
+\emph{Journal of the American Statistical Association} 102, 527--537.
 }
 

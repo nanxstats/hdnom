@@ -2,15 +2,17 @@
 % Please edit documentation in R/glmnet.validate.R
 \name{print.glmnet.validate}
 \alias{print.glmnet.validate}
-\title{Print validation result objects generated with glmnet.validate}
+\title{Print validation result generated with glmnet.validate}
 \usage{
-\method{print}{glmnet.validate}(object)
+\method{print}{glmnet.validate}(x, ...)
 }
 \arguments{
-\item{object}{\code{"glmnet.validate"} object.}
+\item{x}{a \code{"glmnet.validate"} object.}
+
+\item{...}{other parameters (not used).}
 }
 \description{
-Print validation result objects generated with glmnet.validate
+Print validation result generated with glmnet.validate
 }
 \examples{
 NULL

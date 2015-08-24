@@ -4,18 +4,56 @@
 \alias{hdcox.aenet}
 \title{Adaptive elastic-net model selection for high-dimensional Cox models}
 \usage{
-hdcox.aenet(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05))
+hdcox.aenet(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
+  rule = c("lambda.min", "lambda.1se"), seeds = c(1001, 1002))
 }
 \arguments{
 \item{x}{data matrix}
 
 \item{y}{response matrix made by \code{\link[survival]{Surv}}}
+
+\item{nfolds}{fold numbers of cross-validation}
+
+\item{alphas}{alphas to tune in \code{\link[glmnet]{cv.glmnet}}}
+
+\item{rule}{Model selection criterion, \code{"lambda.min"} or
+\code{"lambda.1se"}. See \code{\link[glmnet]{cv.glmnet}}
+for details.}
+
+\item{seeds}{two random seeds for cross-validation fold division
+in the two steps}
 }
 \description{
 Automatic adaptive elastic-net model selection for high-dimensional
-Cox models, evaluated by time-dependent AUC (tAUC).
+Cox models, evaluated by penalized partial-likelihood.
 }
 \examples{
-set.seed(1001)
+library("glmnet")
+library("survival")
+library("rms")
+library("doParallel")
+registerDoParallel(detectCores())
+
+# Load imputed SMART data
+data("smart")
+x = as.matrix(smart[, -c(1, 2)])
+time = smart$TEVENT
+event = smart$EVENT
+y = Surv(time, event)
+
+# Fit Cox model by adaptive elastic-net penalization
+aenetfit = hdcox.aenet(x, y, nfolds = 10, rule = 'lambda.1se', seeds = c(5, 7))
+
+# Prepare data for glmnet.nomogram
+x.df = as.data.frame(x)
+dd = datadist(x.df)
+options(datadist = "dd")
+
+# Generate glmnet.nomogram objects and draw nomogram
+nom = glmnet.nomogram(aenetfit$aenet_all, x, time, event, x.df,
+                      s = aenetfit$best_lambda_aenet, pred.at = 365 * 2,
+                      funlabel = "2-Year Overall Survival Probability")
+
+plot(nom)
 }
 

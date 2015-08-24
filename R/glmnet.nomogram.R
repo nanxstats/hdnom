@@ -38,7 +38,7 @@
 #' dd = datadist(x.df)
 #' options(datadist = "dd")
 #'
-#' # Fit penalized Cox models with glmnet
+#' # Fit penalized Cox model (lasso penalty) with glmnet
 #' set.seed(1010)
 #' cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 10)
 #' fit = glmnet(x, Surv(time, event), family = "cox")
@@ -67,7 +67,7 @@ glmnet.nomogram = function(object, x, time, event, ddist,
 
   all_vars = rownames(object$beta)
   selected_vars =
-    all_vars[which(as.vector(abs(coef(fit, s = s)) > .Machine$double.eps))]
+    all_vars[which(as.vector(abs(coef(object, s = s)) > .Machine$double.eps))]
   ols_formula = paste('glmnet_pred_lp ~',
                       paste(selected_vars, collapse = ' + '))
   ols_fit = ols(as.formula(ols_formula), data = ddist,
@@ -80,7 +80,7 @@ glmnet.nomogram = function(object, x, time, event, ddist,
   survtime_at = survtime_ones[which(survtime_ones > pred.at)[1L] - 1L]
   survtime_at_idx = names(survtime_at)
 
-  survcurve = survcurve.glmnet(object = fit, time = time, event = event,
+  survcurve = survcurve.glmnet(object = object, time = time, event = event,
                                x = x, survtime = survtime_ones, lambda = s)
   baseline = exp(
     log(survcurve$p[1L, which(colnames(survcurve$p) == survtime_at_idx)]) /
@@ -102,54 +102,6 @@ glmnet.nomogram = function(object, x, time, event, ddist,
 
 }
 
-#' Plot nomograms objects generated with glmnet.nomogram
-#'
-#' Plot nomograms objects generated with glmnet.nomogram
-#'
-#' @param object \code{"glmnet.nomogram"} object.
-#'
-#' @method plot glmnet.nomogram
-#'
-#' @export
-#'
-#' @examples
-#' library("glmnet")
-#' library("survival")
-#' library("rms")
-#'
-#' # Load imputed SMART data
-#' data(smart)
-#' x = as.matrix(smart[, -c(1, 2)])
-#' time = smart$TEVENT
-#' event = smart$EVENT
-#' x.df = as.data.frame(x)
-#' dd = datadist(x.df)
-#' options(datadist = "dd")
-#'
-#' # Fit penalized Cox models with glmnet
-#' set.seed(1010)
-#' cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 10)
-#' fit = glmnet(x, Surv(time, event), family = "cox")
-#'
-#' # Generate glmnet.nomogram objects and draw nomogram
-#' nom = glmnet.nomogram(fit, x, time, event, x.df,
-#'                       s = cvfit$lambda.1se, pred.at = 365 * 2,
-#'                       funlabel = "2-Year Overall Survival Probability")
-#'
-#' plot(nom)
-plot.glmnet.nomogram = function (object) {
-
-  if (class(object) != 'glmnet.nomogram')
-    stop('object class must be "glmnet.nomogram"')
-
-  nom = nomogram(fit = object$ols_fit, fun = object$bhfun,
-                 fun.at = object$fun.at, funlabel = object$funlabel,
-                 lp = TRUE, vnames = 'labels')
-
-  plot(nom)
-
-}
-
 #' Survival curve prediction for glmnet objects
 #'
 #' Derived from c060::predictProb.coxnet
@@ -158,7 +110,7 @@ plot.glmnet.nomogram = function (object) {
 #' linear predictors for all samples
 #'
 #' @keywords internal
-survcurve.glmnet = function (object, time, event, x, survtime, lambda) {
+survcurve.glmnet = function(object, time, event, x, survtime, lambda) {
 
   lp = as.numeric(predict(object, newx = data.matrix(x),
                           s = lambda, type = 'link'))
@@ -180,8 +132,8 @@ survcurve.glmnet = function (object, time, event, x, survtime, lambda) {
 #' @return list containing cumulative base hazard
 #'
 #' @keywords internal
-basesurv.glmnet = function (time, event, lp,
-                            times.eval = NULL, centered = FALSE) {
+basesurv.glmnet = function(time, event, lp,
+                           times.eval = NULL, centered = FALSE) {
 
   if (is.null(times.eval)) times.eval = sort(unique(time))
 
@@ -201,5 +153,103 @@ basesurv.glmnet = function (time, event, lp,
   names(obj) = c('times', 'cumulative_base_hazard', 'base_surv')
 
   obj
+
+}
+
+#' Plot nomogram objects generated with glmnet.nomogram
+#'
+#' Plot nomogram objects generated with glmnet.nomogram
+#'
+#' @param x a \code{"glmnet.nomogram"} object.
+#' @param ... other parameters for \code{\link[rms]{nomogram}}.
+#'
+#' @method plot glmnet.nomogram
+#'
+#' @export
+#'
+#' @examples
+#' library("glmnet")
+#' library("survival")
+#' library("rms")
+#'
+#' # Load imputed SMART data
+#' data(smart)
+#' x = as.matrix(smart[, -c(1, 2)])
+#' time = smart$TEVENT
+#' event = smart$EVENT
+#' x.df = as.data.frame(x)
+#' dd = datadist(x.df)
+#' options(datadist = "dd")
+#'
+#' # Fit penalized Cox model (lasso penalty) with glmnet
+#' set.seed(1010)
+#' cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 10)
+#' fit = glmnet(x, Surv(time, event), family = "cox")
+#'
+#' # Generate glmnet.nomogram objects and draw nomogram
+#' nom = glmnet.nomogram(fit, x, time, event, x.df,
+#'                       s = cvfit$lambda.1se, pred.at = 365 * 2,
+#'                       funlabel = "2-Year Overall Survival Probability")
+#'
+#' plot(nom)
+plot.glmnet.nomogram = function(x, ...) {
+
+  if (class(x) != 'glmnet.nomogram')
+    stop('object class must be "glmnet.nomogram"')
+
+  nom = nomogram(fit = x$ols_fit, fun = x$bhfun,
+                 fun.at = x$fun.at, funlabel = x$funlabel,
+                 lp = TRUE, vnames = 'labels', ...)
+
+  plot(nom)
+
+}
+
+#' Print nomograms objects generated with glmnet.nomogram
+#'
+#' Print nomograms objects generated with glmnet.nomogram
+#'
+#' @param x a \code{"glmnet.nomogram"} object.
+#' @param ... other parameters for \code{\link[rms]{nomogram}}.
+#'
+#' @method print glmnet.nomogram
+#'
+#' @export
+#'
+#' @examples
+#' library("glmnet")
+#' library("survival")
+#' library("rms")
+#'
+#' # Load imputed SMART data
+#' data(smart)
+#' x = as.matrix(smart[, -c(1, 2)])
+#' time = smart$TEVENT
+#' event = smart$EVENT
+#' x.df = as.data.frame(x)
+#' dd = datadist(x.df)
+#' options(datadist = "dd")
+#'
+#' # Fit penalized Cox model (lasso penalty) with glmnet
+#' set.seed(1010)
+#' cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 10)
+#' fit = glmnet(x, Surv(time, event), family = "cox")
+#'
+#' # Generate glmnet.nomogram objects and draw nomogram
+#' nom = glmnet.nomogram(fit, x, time, event, x.df,
+#'                       s = cvfit$lambda.1se, pred.at = 365 * 2,
+#'                       funlabel = "2-Year Overall Survival Probability")
+#'
+#' print(nom)
+print.glmnet.nomogram = function(x, ...) {
+
+  if (class(x) != 'glmnet.nomogram')
+    stop('object class must be "glmnet.nomogram"')
+
+  nom = nomogram(fit = x$ols_fit, fun = x$bhfun,
+                 fun.at = x$fun.at, funlabel = x$funlabel,
+                 lp = TRUE, vnames = 'labels', ...)
+
+  print(nom)
 
 }

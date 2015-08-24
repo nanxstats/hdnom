@@ -2,15 +2,17 @@
 % Please edit documentation in R/glmnet.validate.R
 \name{plot.glmnet.validate}
 \alias{plot.glmnet.validate}
-\title{Plot validation result objects generated with glmnet.validate}
+\title{Plot validation result generated with glmnet.validate}
 \usage{
-\method{plot}{glmnet.validate}(object)
+\method{plot}{glmnet.validate}(x, ...)
 }
 \arguments{
-\item{object}{\code{"glmnet.validate"} object.}
+\item{x}{a \code{"glmnet.validate"} object.}
+
+\item{...}{other parameters for \code{plot}.}
 }
 \description{
-Plot validation result objects generated with glmnet.validate
+Plot validation result generated with glmnet.validate
 }
 \examples{
 NULL

@@ -52,7 +52,7 @@ x.df = as.data.frame(x)
 dd = datadist(x.df)
 options(datadist = "dd")
 
-# Fit penalized Cox models with glmnet
+# Fit penalized Cox model (lasso penalty) with glmnet
 set.seed(1010)
 cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 10)
 fit = glmnet(x, Surv(time, event), family = "cox")

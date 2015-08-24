@@ -150,17 +150,18 @@ NULL
 #' str(smart)}
 NULL
 
-#' Simulation data derived from rms
+#' Some TCGA dataset (mRNA expression and survival time)
 #'
-#' Simulation data derived from rms
-#' https://github.com/harrelfe/rms/blob/master/demo/all.R
-#' Detailed Example 1, 2, 3
+#' Some TCGA dataset (mRNA expression and survival time)
+#'
+#' Complimentary with the SMART clinical data, this is
+#' the molecular-level data.
 #'
 #' @docType data
-#' @name simdata
-#' @usage data(simdata)
+#' @name gbmsurv
+#' @usage data(gbmsurv)
 #'
 #' @examples
-#' data(simdata)
-#' str(simdata)
+#' # data(gbmsurv)
+#' # str(gbmsurv)
 NULL

@@ -2,15 +2,17 @@
 % Please edit documentation in R/glmnet.calibrate.R
 \name{plot.glmnet.calibrate}
 \alias{plot.glmnet.calibrate}
-\title{Plot calibration result objects generated with glmnet.calibrate}
+\title{Plot calibration curves}
 \usage{
-\method{plot}{glmnet.calibrate}(object)
+\method{plot}{glmnet.calibrate}(x, ...)
 }
 \arguments{
-\item{object}{\code{"glmnet.calibrate"} object.}
+\item{x}{a \code{"glmnet.calibrate"} object.}
+
+\item{...}{other parameters for \code{plot}.}
 }
 \description{
-Plot calibration result objects generated with glmnet.calibrate
+Plot calibration curves
 }
 \examples{
 NULL
