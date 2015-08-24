@@ -49,7 +49,54 @@ the time-dependent AUC.}
 Validate Cox models fitted with glmnet using time-dependent AUC
 }
 \examples{
-NULL
+library("glmnet")
+library("survival")
+library("rms")
+
+# Load imputed SMART data
+data(smart)
+x = as.matrix(smart[, -c(1, 2)])
+time = smart$TEVENT
+event = smart$EVENT
+
+# Fit penalized Cox model (lasso penalty) with glmnet
+set.seed(1010)
+cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 10)
+fit = glmnet(x, Surv(time, event), lambda = cvfit$lambda.1se, family = "cox")
+
+# Model validation by bootstrap with time-dependent AUC
+val.boot = glmnet.validate(x, time, event,
+                           alpha = 1, lambda = cvfit$lambda.1se,
+                           method = "bootstrap", boot.times = 20,
+                           tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
+
+# Model validation by 10-fold cross-validation with time-dependent AUC
+val.cv = glmnet.validate(x, time, event,
+                         alpha = 1, lambda = cvfit$lambda.1se,
+                         method = "cv", nfolds = 10,
+                         tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
+
+# Model validation by repeated cross-validation with time-dependent AUC
+val.repcv = glmnet.validate(x, time, event,
+                            alpha = 1, lambda = cvfit$lambda.1se,
+                            method = "repeated.cv", nfolds = 10, rep.times = 5,
+                            tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
+
+# bootstrap-based discrimination curves has a very narrow band
+print(val.boot)
+summary(val.boot)
+plot(val.boot, ylim = c(0.4, 0.8))
+
+# k-fold cv provides a more strict evaluation than bootstrap
+print(val.cv)
+summary(val.cv)
+plot(val.cv, ylim = c(0.4, 0.8))
+
+# repeated cv provides similar results as k-fold cv
+# but more stable than k-fold cv
+print(val.repcv)
+summary(val.repcv)
+plot(val.repcv, ylim = c(0.4, 0.8))
 }
 \references{
 Chambless, L. E. and G. Diao (2006).

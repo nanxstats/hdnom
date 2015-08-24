@@ -62,6 +62,7 @@ nom = glmnet.nomogram(fit, x, time, event, x.df,
                       s = cvfit$lambda.1se, pred.at = 365 * 2,
                       funlabel = "2-Year Overall Survival Probability")
 
+print(nom)
 plot(nom)
 }
 

@@ -2,17 +2,24 @@
 % Please edit documentation in R/glmnet.validate.R
 \name{plot.glmnet.validate}
 \alias{plot.glmnet.validate}
-\title{Plot validation result generated with glmnet.validate}
+\title{Plot optimism-corrected time-dependent discrimination curves}
 \usage{
-\method{plot}{glmnet.validate}(x, ...)
+\method{plot}{glmnet.validate}(x, ylim = c(0.5, 1), xlab = "Time",
+  ylab = "Time-dependent Area under ROC", ...)
 }
 \arguments{
 \item{x}{a \code{"glmnet.validate"} object.}
 
+\item{ylim}{y axis limits of the plot.}
+
+\item{xlab}{title for the x axis.}
+
+\item{ylab}{title for the y axis.}
+
 \item{...}{other parameters for \code{plot}.}
 }
 \description{
-Plot validation result generated with glmnet.validate
+Plot optimism-corrected time-dependent discrimination curves
 }
 \examples{
 NULL

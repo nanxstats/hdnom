@@ -48,6 +48,7 @@
 #'                       s = cvfit$lambda.1se, pred.at = 365 * 2,
 #'                       funlabel = "2-Year Overall Survival Probability")
 #'
+#' print(nom)
 #' plot(nom)
 glmnet.nomogram = function(object, x, time, event, ddist,
                            s = NULL, pred.at = NULL,
@@ -168,30 +169,7 @@ basesurv.glmnet = function(time, event, lp,
 #' @export
 #'
 #' @examples
-#' library("glmnet")
-#' library("survival")
-#' library("rms")
-#'
-#' # Load imputed SMART data
-#' data(smart)
-#' x = as.matrix(smart[, -c(1, 2)])
-#' time = smart$TEVENT
-#' event = smart$EVENT
-#' x.df = as.data.frame(x)
-#' dd = datadist(x.df)
-#' options(datadist = "dd")
-#'
-#' # Fit penalized Cox model (lasso penalty) with glmnet
-#' set.seed(1010)
-#' cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 10)
-#' fit = glmnet(x, Surv(time, event), family = "cox")
-#'
-#' # Generate glmnet.nomogram objects and draw nomogram
-#' nom = glmnet.nomogram(fit, x, time, event, x.df,
-#'                       s = cvfit$lambda.1se, pred.at = 365 * 2,
-#'                       funlabel = "2-Year Overall Survival Probability")
-#'
-#' plot(nom)
+#' NULL
 plot.glmnet.nomogram = function(x, ...) {
 
   if (class(x) != 'glmnet.nomogram')
@@ -217,30 +195,7 @@ plot.glmnet.nomogram = function(x, ...) {
 #' @export
 #'
 #' @examples
-#' library("glmnet")
-#' library("survival")
-#' library("rms")
-#'
-#' # Load imputed SMART data
-#' data(smart)
-#' x = as.matrix(smart[, -c(1, 2)])
-#' time = smart$TEVENT
-#' event = smart$EVENT
-#' x.df = as.data.frame(x)
-#' dd = datadist(x.df)
-#' options(datadist = "dd")
-#'
-#' # Fit penalized Cox model (lasso penalty) with glmnet
-#' set.seed(1010)
-#' cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 10)
-#' fit = glmnet(x, Surv(time, event), family = "cox")
-#'
-#' # Generate glmnet.nomogram objects and draw nomogram
-#' nom = glmnet.nomogram(fit, x, time, event, x.df,
-#'                       s = cvfit$lambda.1se, pred.at = 365 * 2,
-#'                       funlabel = "2-Year Overall Survival Probability")
-#'
-#' print(nom)
+#' NULL
 print.glmnet.nomogram = function(x, ...) {
 
   if (class(x) != 'glmnet.nomogram')

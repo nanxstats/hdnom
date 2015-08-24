@@ -46,7 +46,54 @@
 #' \emph{Journal of the American Statistical Association} 102, 527--537.
 #'
 #' @examples
-#' NULL
+#' library("glmnet")
+#' library("survival")
+#' library("rms")
+#'
+#' # Load imputed SMART data
+#' data(smart)
+#' x = as.matrix(smart[, -c(1, 2)])
+#' time = smart$TEVENT
+#' event = smart$EVENT
+#'
+#' # Fit penalized Cox model (lasso penalty) with glmnet
+#' set.seed(1010)
+#' cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 10)
+#' fit = glmnet(x, Surv(time, event), lambda = cvfit$lambda.1se, family = "cox")
+#'
+#' # Model validation by bootstrap with time-dependent AUC
+#' val.boot = glmnet.validate(x, time, event,
+#'                            alpha = 1, lambda = cvfit$lambda.1se,
+#'                            method = "bootstrap", boot.times = 20,
+#'                            tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
+#'
+#' # Model validation by 10-fold cross-validation with time-dependent AUC
+#' val.cv = glmnet.validate(x, time, event,
+#'                          alpha = 1, lambda = cvfit$lambda.1se,
+#'                          method = "cv", nfolds = 10,
+#'                          tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
+#'
+#' # Model validation by repeated cross-validation with time-dependent AUC
+#' val.repcv = glmnet.validate(x, time, event,
+#'                             alpha = 1, lambda = cvfit$lambda.1se,
+#'                             method = "repeated.cv", nfolds = 10, rep.times = 5,
+#'                             tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
+#'
+#' # bootstrap-based discrimination curves has a very narrow band
+#' print(val.boot)
+#' summary(val.boot)
+#' plot(val.boot, ylim = c(0.4, 0.8))
+#'
+#' # k-fold cv provides a more strict evaluation than bootstrap
+#' print(val.cv)
+#' summary(val.cv)
+#' plot(val.cv, ylim = c(0.4, 0.8))
+#'
+#' # repeated cv provides similar results as k-fold cv
+#' # but more stable than k-fold cv
+#' print(val.repcv)
+#' summary(val.repcv)
+#' plot(val.repcv, ylim = c(0.4, 0.8))
 glmnet.validate = function (x, time, event,
                             alpha, lambda,
                             method = c('bootstrap', 'cv', 'repeated.cv'),
@@ -173,13 +220,26 @@ glmnet.validate = function (x, time, event,
 
   switch(method,
          bootstrap = {
-           class(tauc) = c('glmnet.validate', 'glmnet.validate.bootstrap')
+           class(tauc) = c('glmnet.validate',
+                           'glmnet.validate.bootstrap')
+           attr(tauc, 'boot.times') = boot.times
+           attr(tauc, 'tauc.type')  = tauc.type
+           attr(tauc, 'tauc.time')  = tauc.time
          },
          cv = {
-           class(tauc) = c('glmnet.validate', 'glmnet.validate.cv')
+           class(tauc) = c('glmnet.validate',
+                           'glmnet.validate.cv')
+           attr(tauc, 'nfolds')    = nfolds
+           attr(tauc, 'tauc.type') = tauc.type
+           attr(tauc, 'tauc.time') = tauc.time
          },
          repeated.cv = {
-           class(tauc) = c('glmnet.validate', 'glmnet.validate.repeated.cv')
+           class(tauc) = c('glmnet.validate',
+                           'glmnet.validate.repeated.cv')
+           attr(tauc, 'nfolds')    = nfolds
+           attr(tauc, 'rep.times') = rep.times
+           attr(tauc, 'tauc.type') = tauc.type
+           attr(tauc, 'tauc.time') = tauc.time
          }
   )
 
@@ -228,30 +288,6 @@ glmnet.validate.internal = function(x_tr, x_te, y_tr, y_te,
 
 }
 
-#' Plot validation result generated with glmnet.validate
-#'
-#' Plot validation result generated with glmnet.validate
-#'
-#' @param x a \code{"glmnet.validate"} object.
-#' @param ... other parameters for \code{plot}.
-#'
-#' @method plot glmnet.validate
-#'
-#' @export
-#'
-#' @examples
-#' NULL
-plot.glmnet.validate = function (x, ...) {
-
-  if (class(x) != 'glmnet.validate')
-    stop('object class must be "glmnet.validate"')
-
-  val = x
-
-  plot(val, ...)
-
-}
-
 #' Print validation result generated with glmnet.validate
 #'
 #' Print validation result generated with glmnet.validate
@@ -267,11 +303,182 @@ plot.glmnet.validate = function (x, ...) {
 #' NULL
 print.glmnet.validate = function (x, ...) {
 
-  if (class(x) != 'glmnet.validate')
+  if (!('glmnet.validate' %in% class(x)))
     stop('object class must be "glmnet.validate"')
 
-  val = x
+  method = setdiff(class(x), 'glmnet.validate')
 
-  print(val)
+  if (method == 'glmnet.validate.bootstrap') {
+
+    cat('High-dimensional Cox model validation object\n')
+    cat('Validation method: bootstrap\n')
+    cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
+    cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
+    cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
+
+  } else if (method == 'glmnet.validate.cv') {
+
+    cat('High-dimensional Cox model validation object\n')
+    cat('Validation method: k-fold cross-validation\n')
+    cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
+    cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
+    cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
+
+  } else if (method == 'glmnet.validate.repeated.cv') {
+
+    cat('High-dimensional Cox model validation object\n')
+    cat('Validation method: repeated cross-validation\n')
+    cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
+    cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
+    cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
+    cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
+
+  } else {
+
+    stop('glmnet.validate object is not valid')
+
+  }
+
+}
+
+#' Summary validation result generated with glmnet.validate
+#'
+#' Summary validation result generated with glmnet.validate
+#'
+#' @param object a \code{"glmnet.validate"} object.
+#' @param silent Print summary table header or not.
+#' Default is \code{FALSE}.
+#' @param ... other parameters (not used).
+#'
+#' @method summary glmnet.validate
+#'
+#' @export
+#'
+#' @examples
+#' NULL
+summary.glmnet.validate = function (object, silent = FALSE, ...) {
+
+  if (!('glmnet.validate' %in% class(object)))
+    stop('object class must be "glmnet.validate"')
+
+  method = setdiff(class(object), 'glmnet.validate')
+
+  if (method == 'glmnet.validate.bootstrap') {
+
+    boot.times = attr(object, 'boot.times')
+    tauc.time = attr(object, 'tauc.time')
+    aucmat = matrix(NA, ncol = length(tauc.time), nrow = boot.times)
+    for (i in 1L:boot.times) aucmat[i, ] = object[[i]]$auc
+    summary_mat = rbind(apply(aucmat, 2, mean), apply(aucmat, 2, quantile))
+    rownames(summary_mat) = c('Mean', 'Min', '0.25 Qt.',
+                              'Median', '0.75 Qt.', 'Max')
+    colnames(summary_mat) = tauc.time
+
+  } else if (method == 'glmnet.validate.cv') {
+
+    nfolds = attr(object, 'nfolds')
+    tauc.time = attr(object, 'tauc.time')
+    aucmat = matrix(NA, ncol = length(tauc.time), nrow = nfolds)
+    for (i in 1L:nfolds) aucmat[i, ] = object[[i]]$auc
+    summary_mat = rbind(apply(aucmat, 2, mean), apply(aucmat, 2, quantile))
+    rownames(summary_mat) = c('Mean', 'Min', '0.25 Qt.',
+                              'Median', '0.75 Qt.', 'Max')
+    colnames(summary_mat) = tauc.time
+
+  } else if (method == 'glmnet.validate.repeated.cv') {
+
+    nfolds = attr(object, 'nfolds')
+    rep.times = attr(object, 'rep.times')
+    tauc.time = attr(object, 'tauc.time')
+    auclist = vector('list', rep.times)
+    for (i in 1L:rep.times) {
+      auclist[[i]] = matrix(NA, ncol = length(tauc.time), nrow = nfolds)
+    }
+    for (i in 1L:rep.times) {
+      for (j in 1L:nfolds) {
+        auclist[[i]][j, ] = object[[i]][[j]]$auc
+      }
+    }
+
+    summary_list = vector('list', rep.times)
+    for (i in 1L:rep.times) {
+      summary_list[[i]] = rbind(apply(auclist[[i]], 2, mean),
+                                apply(auclist[[i]], 2, quantile))
+    }
+
+    summary_mat = Reduce('+', summary_list)/length(summary_list)
+    rownames(summary_mat) = c('Mean of Mean', 'Mean of Min',
+                              'Mean of 0.25 Qt.', 'Mean of Median',
+                              'Mean of 0.75 Qt.', 'Mean of Max')
+    colnames(summary_mat) = tauc.time
+
+    if (!silent) {
+      cat('Note: for repeated CV, we evaluated quantile statistic tables for\n')
+      cat('each CV repeat, then calculated element-wise mean across all tables.\n')
+    }
+
+  } else {
+    stop('glmnet.validate object is not valid')
+  }
+
+  if (!silent)
+    cat('Time-dependent AUC summary over all bootstrap runs at evaluation time points\n')
+
+  return(summary_mat)
+
+}
+
+#' Plot optimism-corrected time-dependent discrimination curves
+#'
+#' Plot optimism-corrected time-dependent discrimination curves
+#'
+#' @param x a \code{"glmnet.validate"} object.
+#' @param ylim y axis limits of the plot.
+#' @param xlab title for the x axis.
+#' @param ylab title for the y axis.
+#' @param ... other parameters for \code{plot}.
+#'
+#' @method plot glmnet.validate
+#'
+#' @export
+#'
+#' @examples
+#' NULL
+plot.glmnet.validate = function (x, ylim = c(0.5, 1), xlab = 'Time',
+                                 ylab = 'Time-dependent Area under ROC',
+                                 ...) {
+
+  if (!('glmnet.validate' %in% class(x)))
+    stop('object class must be "glmnet.validate"')
+
+  mat = summary(x, silent = TRUE)
+  tauc_time = attr(x, 'tauc.time')
+  tauc_mean = mat[1L, ]
+  tauc_median = mat[4L, ]
+  tauc_q25 = mat[3L, ]
+  tauc_q75 = mat[5L, ]
+
+  # two panels, one for plot, one for legend
+  layout(rbind(1, 2), heights = c(7, 1))
+
+  plot(tauc_time, tauc_median, type = 'l',
+       xlab = xlab, ylab = ylab, ylim = ylim)
+  polygon(c(tauc_time, rev(tauc_time)), c(tauc_q25, rev(tauc_q75)),
+          col = 'grey85', border = FALSE)
+  lines(tauc_time, tauc_median, lty = 5, lwd = 2)
+  lines(tauc_time, tauc_mean, lty = 1, lwd = 2)
+  lines(tauc_time, tauc_q75, lty = 3, lwd = 1)
+  lines(tauc_time, tauc_q25, lty = 3, lwd = 1)
+
+  for (i in seq(0.1, 1, 0.1)) abline(h = i, lty = 3)
+
+  mar = par('mar')
+  par(mar = c(0, 0, 0, 0))
+  plot.new()
+  legend('center', 'groups',
+         c('Median', 'Mean', '25th/75th Quantiles'),
+         lwd = c(2, 2, 1), lty = c(5, 1, 3),
+         bty = 'n', horiz = TRUE, text.width = c(0.1, 0.1, 0.1))
+  par(mar = mar)
 
 }
