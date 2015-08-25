@@ -1,6 +1,6 @@
 ---
 title: "Nomograms for High-Dimensional Cox Models"
-author: "Nan Xiao <<nanx@uchicago.edu>>"
+author: "Miaozhu Li <<miaozhu.li@duke.edu>> <br> Nan Xiao <<nanx@uchicago.edu>>"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
@@ -11,13 +11,29 @@ vignette: >
   %\VignetteIndexEntry{Nomograms for High-Dimensional Cox Models}
 ---
 
-# Fit Penalized Cox Models on High-Dimensional Data
+# Build Penalized Cox Models
 
-All available options are expained below.
+automatic model selection functions
 
 ```{r, eval = FALSE}
 R code here
 ```
+
+# Draw Nomograms
+
+# Model Validation
+
+# Model Calibration
+
+# Datasets
+
+## SMART Study Data
+
+clinical
+
+## TCGA GBM microRNA Expression Data
+
+molecular
 
 <hr>
 

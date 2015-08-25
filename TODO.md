@@ -1,16 +1,8 @@
 
 # TODO
 
-1. nomogram plot
-2. validation value
-3. calibration plot
-4. generate Shiny-based interactive nomogram from glmnet model
-5. support:
- * glmnet
- * penalized
- * glmpath
- * CoxBoost
- * ncvreg
- * fastcox
- * CoxRidge
- * c060
+ * Support more high-dimensional Cox model types:
+   * ncvreg - (adaptive) SCAD and (adaptive) MCP penalty
+   * penalized - (adaptive) fused lasso penalty
+
+ * Generate Shiny-based interactive nomogram for high-dimensional Cox models

@@ -14,7 +14,7 @@
 #' @importFrom foreach foreach
 #'
 #' @keywords internal
-tuneAlpha = function(..., alphas, seed) {
+tune.glmnet.alpha = function(..., alphas, seed) {
 
   # Run models
   modelList <- foreach(alphas = alphas) %dopar% {
@@ -85,7 +85,7 @@ hdcox.aenet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
   rule = match.arg(rule)
 
   # Tuning alpha for the both two stages of adaptive enet estimation
-  enet_y = tuneAlpha(x, y, family = 'cox',
+  enet_y = tune.glmnet.alpha(x, y, family = 'cox',
                      nfolds = nfolds, alphas = alphas,
                      seed = seeds[1L])
 
@@ -108,7 +108,7 @@ hdcox.aenet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
   # adaptive penalty
   adpen = (1/pmax(abs(bhat), .Machine$double.eps))
 
-  aenet_y = tuneAlpha(x, y, family = 'cox', nfolds = nfolds, alphas = alphas,
+  aenet_y = tune.glmnet.alpha(x, y, family = 'cox', nfolds = nfolds, alphas = alphas,
                       exclude = which(bhat == 0), penalty.factor = adpen,
                       seed = seeds[2L])
 
@@ -274,7 +274,7 @@ hdcox.alasso = function(x, y, nfolds = 5L,
 hdcox.enet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
                       rule = c('lambda.min', 'lambda.1se'), seed = 1001) {
 
-  enet_y = tuneAlpha(x, y, family = 'cox',
+  enet_y = tune.glmnet.alpha(x, y, family = 'cox',
                      nfolds = nfolds, alphas = alphas,
                      seed = seed)
 

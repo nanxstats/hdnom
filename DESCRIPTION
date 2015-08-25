@@ -1,4 +1,4 @@
-Package: hddnom
+Package: hdnom
 Type: Package
 Title: Nomograms for High-Dimensional Cox Models
 Version: 1.0
@@ -10,7 +10,7 @@ License: GPL
 LazyData: TRUE
 VignetteBuilder: knitr
 URL: http://nomogr.am
-BugReports: https://github.com/road2stat/hddnom/issues
+BugReports: https://github.com/road2stat/hdnom/issues
 Depends:
     R (>= 3.0.2)
 Imports:

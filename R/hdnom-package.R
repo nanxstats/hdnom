@@ -2,12 +2,12 @@
 #'
 #' Nomograms for High-Dimensional Cox Models
 #'
-#' The vignette can be opened with \code{vignette('hddnom')}.
+#' The vignette can be opened with \code{vignette('hdnom')}.
 #'
-#' \tabular{ll}{ Package: \tab hddnom\cr Type: \tab Package\cr
+#' \tabular{ll}{ Package: \tab hdnom\cr Type: \tab Package\cr
 #' License: \tab GPL\cr }
 #'
-#' @name hddnom-package
+#' @name hdnom-package
 #' @docType package
 #' @author Miaozhu Li <\email{miaozhu.li@@duke.edu}>
 #'         Nan Xiao <\email{nanx@@uchicago.edu}>
