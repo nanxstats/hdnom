@@ -6,7 +6,7 @@
 \usage{
 glmnet.calibrate(x, time, event, alpha, lambda, method = c("fitting",
   "bootstrap", "cv", "repeated.cv"), boot.times = NULL, nfolds = NULL,
-  rep.times = NULL, pred.at, ngroup = 5)
+  rep.times = NULL, pred.at, ngroup = 5, trace = TRUE)
 }
 \arguments{
 \item{x}{Matrix of training data used for the \code{glmnet} object;
@@ -38,12 +38,66 @@ repeated cross-validation.}
 
 \item{pred.at}{Time point at which calibration should take place.}
 
-\item{ngroup}{number of groups to be formed for calibration}
+\item{ngroup}{Number of groups to be formed for calibration.}
+
+\item{trace}{Logical. Print trace or not. Default is \code{TRUE}.}
 }
 \description{
 Calibrate Cox models fitted with glmnet
 }
 \examples{
-NULL
+library("glmnet")
+library("survival")
+library("rms")
+
+# Load imputed SMART data
+data(smart)
+x = as.matrix(smart[, -c(1, 2)])
+time = smart$TEVENT
+event = smart$EVENT
+
+# Fit penalized Cox model (lasso penalty) with glmnet
+set.seed(1010)
+cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 10)
+
+# Model calibration by fitting the original data directly
+cal.fitting = glmnet.calibrate(x, time, event,
+                               alpha = 1, lambda = cvfit$lambda.1se,
+                               method = 'fitting',
+                               pred.at = 365 * 9, ngroup = 5)
+
+print(cal.fitting)
+summary(cal.fitting)
+plot(cal.fitting)
+
+# Model calibration by bootstrap
+cal.boot = glmnet.calibrate(x, time, event,
+                            alpha = 1, lambda = cvfit$lambda.1se,
+                            method = 'bootstrap', boot.times = 20,
+                            pred.at = 365 * 9, ngroup = 5)
+
+print(cal.boot)
+summary(cal.boot)
+plot(cal.boot)
+
+# Model calibration by 10-fold cross-validation
+cal.cv = glmnet.calibrate(x, time, event,
+                          alpha = 1, lambda = cvfit$lambda.1se,
+                          method = 'cv', nfolds = 10,
+                          pred.at = 365 * 9, ngroup = 5)
+
+print(cal.cv)
+summary(cal.cv)
+plot(cal.cv)
+
+# Model calibration by repeated cross-validation
+cal.repcv = glmnet.calibrate(x, time, event,
+                             alpha = 1, lambda = cvfit$lambda.1se,
+                             method = 'repeated.cv', nfolds = 10, rep.times = 5,
+                             pred.at = 365 * 9, ngroup = 5)
+
+print(cal.repcv)
+summary(cal.repcv)
+plot(cal.repcv)
 }
 

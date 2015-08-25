@@ -59,7 +59,7 @@ Original SMART study data (with missing values) from Steyerberg et, al. 2008.
 }
 \examples{
 data(smarto)
-str(smarto)
+dim(smarto)
 }
 \references{
 Steyerberg, E. W. (2008). Clinical prediction models:

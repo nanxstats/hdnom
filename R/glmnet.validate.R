@@ -59,7 +59,6 @@
 #' # Fit penalized Cox model (lasso penalty) with glmnet
 #' set.seed(1010)
 #' cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 10)
-#' fit = glmnet(x, Surv(time, event), lambda = cvfit$lambda.1se, family = "cox")
 #'
 #' # Model validation by bootstrap with time-dependent AUC
 #' val.boot = glmnet.validate(x, time, event,
@@ -222,6 +221,8 @@ glmnet.validate = function (x, time, event,
          bootstrap = {
            class(tauc) = c('glmnet.validate',
                            'glmnet.validate.bootstrap')
+           attr(tauc, 'alpha')      = alpha
+           attr(tauc, 'lambda')     = lambda
            attr(tauc, 'boot.times') = boot.times
            attr(tauc, 'tauc.type')  = tauc.type
            attr(tauc, 'tauc.time')  = tauc.time
@@ -229,6 +230,8 @@ glmnet.validate = function (x, time, event,
          cv = {
            class(tauc) = c('glmnet.validate',
                            'glmnet.validate.cv')
+           attr(tauc, 'alpha')     = alpha
+           attr(tauc, 'lambda')    = lambda
            attr(tauc, 'nfolds')    = nfolds
            attr(tauc, 'tauc.type') = tauc.type
            attr(tauc, 'tauc.time') = tauc.time
@@ -236,6 +239,8 @@ glmnet.validate = function (x, time, event,
          repeated.cv = {
            class(tauc) = c('glmnet.validate',
                            'glmnet.validate.repeated.cv')
+           attr(tauc, 'alpha')     = alpha
+           attr(tauc, 'lambda')    = lambda
            attr(tauc, 'nfolds')    = nfolds
            attr(tauc, 'rep.times') = rep.times
            attr(tauc, 'tauc.type') = tauc.type
@@ -247,7 +252,7 @@ glmnet.validate = function (x, time, event,
 
 }
 
-#' Compute validation measures for glmnet objects by bootstrap
+#' Compute validation measures for glmnet objects
 #'
 #' @importFrom survAUC AUC.cd AUC.sh AUC.uno
 #' @importFrom glmnet glmnet
@@ -313,6 +318,8 @@ print.glmnet.validate = function (x, ...) {
     cat('High-dimensional Cox model validation object\n')
     cat('Validation method: bootstrap\n')
     cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
+    cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
+    cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
     cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
     cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
 
@@ -321,6 +328,8 @@ print.glmnet.validate = function (x, ...) {
     cat('High-dimensional Cox model validation object\n')
     cat('Validation method: k-fold cross-validation\n')
     cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
+    cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
+    cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
     cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
     cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
 
@@ -330,6 +339,8 @@ print.glmnet.validate = function (x, ...) {
     cat('Validation method: repeated cross-validation\n')
     cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
     cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
+    cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
+    cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
     cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
     cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
 
@@ -458,6 +469,9 @@ plot.glmnet.validate = function (x, ylim = c(0.5, 1), xlab = 'Time',
   tauc_q25 = mat[3L, ]
   tauc_q75 = mat[5L, ]
 
+  # save original par setting
+  def_par = par(no.readonly = TRUE)
+
   # two panels, one for plot, one for legend
   layout(rbind(1, 2), heights = c(7, 1))
 
@@ -472,13 +486,14 @@ plot.glmnet.validate = function (x, ylim = c(0.5, 1), xlab = 'Time',
 
   for (i in seq(0.1, 1, 0.1)) abline(h = i, lty = 3)
 
-  mar = par('mar')
   par(mar = c(0, 0, 0, 0))
   plot.new()
   legend('center', 'groups',
          c('Median', 'Mean', '25th/75th Quantiles'),
          lwd = c(2, 2, 1), lty = c(5, 1, 3),
          bty = 'n', horiz = TRUE, text.width = c(0.1, 0.1, 0.1))
-  par(mar = mar)
+
+  # reset to original par setting
+  par(def_par)
 
 }

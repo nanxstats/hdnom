@@ -59,7 +59,7 @@ Imputed SMART study data (no missing values).
 }
 \examples{
 data(smart)
-str(smart)
+dim(smart)
 \donttest{
 # Code for generating the smart dataset by imputing the smarto data
 library("mice")

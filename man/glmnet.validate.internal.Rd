@@ -2,7 +2,7 @@
 % Please edit documentation in R/glmnet.validate.R
 \name{glmnet.validate.internal}
 \alias{glmnet.validate.internal}
-\title{Compute validation measures for glmnet objects by bootstrap}
+\title{Compute validation measures for glmnet objects}
 \usage{
 glmnet.validate.internal(x_tr, x_te, y_tr, y_te, alpha, lambda, tauc.type,
   tauc.time)
@@ -11,7 +11,7 @@ glmnet.validate.internal(x_tr, x_te, y_tr, y_te, alpha, lambda, tauc.type,
 time-dependent AUC (tAUC) value
 }
 \description{
-Compute validation measures for glmnet objects by bootstrap
+Compute validation measures for glmnet objects
 }
 \keyword{internal}
 

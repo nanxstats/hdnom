@@ -94,8 +94,9 @@ glmnet.nomogram = function(object, x, time, event, ddist,
   if (is.null(funlabel))
     funlabel = paste('Overall Survival Probability at Time', pred.at)
 
-  nom = list('ols_fit' = ols_fit, 's' = s, 'bhfun' = bhfun,
-             'pred.at' = pred.at, 'fun.at' = fun.at, 'funlabel' = funlabel)
+  nom = list('ols_fit' = ols_fit, 's' = s, 'survcurve' = survcurve,
+             'bhfun' = bhfun, 'pred.at' = pred.at,
+             'fun.at' = fun.at, 'funlabel' = funlabel)
 
   class(nom) = 'glmnet.nomogram'
 

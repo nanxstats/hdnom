@@ -62,7 +62,6 @@ event = smart$EVENT
 # Fit penalized Cox model (lasso penalty) with glmnet
 set.seed(1010)
 cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 10)
-fit = glmnet(x, Surv(time, event), lambda = cvfit$lambda.1se, family = "cox")
 
 # Model validation by bootstrap with time-dependent AUC
 val.boot = glmnet.validate(x, time, event,

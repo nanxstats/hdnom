@@ -4,10 +4,14 @@
 \alias{plot.glmnet.calibrate}
 \title{Plot calibration curves}
 \usage{
-\method{plot}{glmnet.calibrate}(x, ...)
+\method{plot}{glmnet.calibrate}(x, xlim = c(0, 1), ylim = c(0, 1), ...)
 }
 \arguments{
 \item{x}{a \code{"glmnet.calibrate"} object.}
+
+\item{xlim}{x axis limits of the plot.}
+
+\item{ylim}{y axis limits of the plot.}
 
 \item{...}{other parameters for \code{plot}.}
 }

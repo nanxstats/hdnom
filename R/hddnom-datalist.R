@@ -62,7 +62,7 @@
 #'
 #' @examples
 #' data(smarto)
-#' str(smarto)
+#' dim(smarto)
 NULL
 
 #' Imputed SMART Study Data
@@ -129,7 +129,7 @@ NULL
 #'
 #' @examples
 #' data(smart)
-#' str(smart)
+#' dim(smart)
 #' \donttest{
 #' # Code for generating the smart dataset by imputing the smarto data
 #' library("mice")
@@ -150,18 +150,26 @@ NULL
 #' str(smart)}
 NULL
 
-#' Some TCGA dataset (mRNA expression and survival time)
+#' TCGA Glioblastoma Multiforme (GBM) mircoRNA expression data
 #'
-#' Some TCGA dataset (mRNA expression and survival time)
+#' Processed TCGA Glioblastoma Multiforme (GBM) mircoRNA expression data,
+#' with survival time and status, from Wang et, al. 2014.
 #'
-#' Complimentary with the SMART clinical data, this is
-#' the molecular-level data.
+#' The dataset is a list with three components:
+#' \code{x}, \code{time}, and \code{event}.
 #'
 #' @docType data
-#' @name gbmsurv
-#' @usage data(gbmsurv)
+#' @name mirna
+#' @usage data(mirna)
+#'
+#' @references
+#' Wang, B. (2014). Similarity network fusion for aggregating data types
+#' on a genomic scale. \emph{Nature methods}, 11(3), 333--337.
 #'
 #' @examples
-#' # data(gbmsurv)
-#' # str(gbmsurv)
+#' data(mirna)
+#' x = mirna$x
+#' time = mirna$time
+#' event = mirna$event
+#' dim(x)
 NULL
