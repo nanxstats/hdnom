@@ -29,8 +29,6 @@ Cox models, evaluated by penalized partial-likelihood.
 library("glmnet")
 library("survival")
 library("rms")
-library("doParallel")
-registerDoParallel(detectCores())
 
 # Load imputed SMART data
 data("smart")
@@ -40,7 +38,7 @@ event = smart$EVENT
 y = Surv(time, event)
 
 # Fit Cox model by adaptive lasso penalization
-\donttest{alassofit = hdcox.alasso(x, y, nfolds = 10, rule = "lambda.1se", seeds = c(7, 11))
+alassofit = hdcox.alasso(x, y, nfolds = 5, rule = "lambda.1se", seeds = c(7, 11))
 
 # Prepare data for hdnom.nomogram
 x.df = as.data.frame(x)
@@ -52,6 +50,6 @@ nom = hdnom.nomogram(alassofit$alasso_model, x, time, event, x.df,
                      lambda = alassofit$alasso_best_lambda, pred.at = 365 * 2,
                      funlabel = "2-Year Overall Survival Probability")
 
-plot(nom)}
+plot(nom)
 }
 

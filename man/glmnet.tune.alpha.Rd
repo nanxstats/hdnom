@@ -4,7 +4,7 @@
 \alias{glmnet.tune.alpha}
 \title{Automatic alpha tuning function by k-fold cross-validation}
 \usage{
-glmnet.tune.alpha(..., alphas, seed)
+glmnet.tune.alpha(..., alphas, seed, parallel)
 }
 \value{
 best model object and best alpha

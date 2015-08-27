@@ -5,7 +5,8 @@
 \title{Adaptive elastic-net model selection for high-dimensional Cox models}
 \usage{
 hdcox.aenet(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
-  rule = c("lambda.min", "lambda.1se"), seeds = c(1001, 1002))
+  rule = c("lambda.min", "lambda.1se"), seeds = c(1001, 1002),
+  parallel = FALSE)
 }
 \arguments{
 \item{x}{Data matrix.}
@@ -22,6 +23,11 @@ for details.}
 
 \item{seeds}{Two random seeds for cross-validation fold division
 in two estimation steps.}
+
+\item{parallel}{Logical. Enable parallel parameter tuning or not,
+default is {FALSE}. To enable parallel tuning, load the
+\code{doParallel} package and run \code{registerDoParallel()}
+with the number of CPU cores before calling this function.}
 }
 \description{
 Automatic adaptive elastic-net model selection for high-dimensional
@@ -31,8 +37,6 @@ Cox models, evaluated by penalized partial-likelihood.
 library("glmnet")
 library("survival")
 library("rms")
-library("doParallel")
-registerDoParallel(detectCores())
 
 # Load imputed SMART data
 data("smart")
@@ -41,8 +45,14 @@ time = smart$TEVENT
 event = smart$EVENT
 y = Surv(time, event)
 
+# To enable parallel parameter tuning, first run:
+# library("doParallel")
+# registerDoParallel(detectCores())
+# then set hdcox.aenet(..., parallel = TRUE).
+
 # Fit Cox model by adaptive elastic-net penalization
-\donttest{aenetfit = hdcox.aenet(x, y, nfolds = 10, rule = "lambda.1se", seeds = c(5, 7))
+aenetfit = hdcox.aenet(x, y, nfolds = 5, alphas = seq(0.2, 0.8, 0.2),
+                       rule = "lambda.1se", seeds = c(5, 7))
 
 # Prepare data for hdnom.nomogram
 x.df = as.data.frame(x)
@@ -54,6 +64,6 @@ nom = hdnom.nomogram(aenetfit$aenet_model, x, time, event, x.df,
                      lambda = aenetfit$aenet_best_lambda, pred.at = 365 * 2,
                      funlabel = "2-Year Overall Survival Probability")
 
-plot(nom)}
+plot(nom)
 }
 

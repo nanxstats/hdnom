@@ -14,12 +14,19 @@
 #' @importFrom foreach foreach
 #'
 #' @keywords internal
-glmnet.tune.alpha = function(..., alphas, seed) {
+glmnet.tune.alpha = function(..., alphas, seed, parallel) {
 
-  # Run models
-  modelList <- foreach(alphas = alphas) %dopar% {
-    set.seed(seed)
-    cv.glmnet(..., alpha = alphas)
+  if (!parallel) {
+    modelList = vector('list', length(alphas))
+    for (i in 1L:length(alphas)) {
+      set.seed(seed)
+      modelList[[i]] = cv.glmnet(..., alpha = alphas[i])
+    }
+  } else {
+    modelList <- foreach(alphas = alphas) %dopar% {
+      set.seed(seed)
+      cv.glmnet(..., alpha = alphas)
+    }
   }
 
   # Choose model for best alpha first (then lambda)
@@ -45,6 +52,10 @@ glmnet.tune.alpha = function(..., alphas, seed) {
 #' for details.
 #' @param seeds Two random seeds for cross-validation fold division
 #' in two estimation steps.
+#' @param parallel Logical. Enable parallel parameter tuning or not,
+#' default is {FALSE}. To enable parallel tuning, load the
+#' \code{doParallel} package and run \code{registerDoParallel()}
+#' with the number of CPU cores before calling this function.
 #'
 #' @importFrom glmnet glmnet
 #'
@@ -54,8 +65,6 @@ glmnet.tune.alpha = function(..., alphas, seed) {
 #' library("glmnet")
 #' library("survival")
 #' library("rms")
-#' library("doParallel")
-#' registerDoParallel(detectCores())
 #'
 #' # Load imputed SMART data
 #' data("smart")
@@ -64,8 +73,14 @@ glmnet.tune.alpha = function(..., alphas, seed) {
 #' event = smart$EVENT
 #' y = Surv(time, event)
 #'
+#' # To enable parallel parameter tuning, first run:
+#' # library("doParallel")
+#' # registerDoParallel(detectCores())
+#' # then set hdcox.aenet(..., parallel = TRUE).
+#'
 #' # Fit Cox model by adaptive elastic-net penalization
-#' \donttest{aenetfit = hdcox.aenet(x, y, nfolds = 10, rule = "lambda.1se", seeds = c(5, 7))
+#' aenetfit = hdcox.aenet(x, y, nfolds = 5, alphas = seq(0.2, 0.8, 0.2),
+#'                        rule = "lambda.1se", seeds = c(5, 7))
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -77,18 +92,18 @@ glmnet.tune.alpha = function(..., alphas, seed) {
 #'                      lambda = aenetfit$aenet_best_lambda, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
-#' plot(nom)}
-# Skipped testing the above code since parallel computation is required
+#' plot(nom)
 hdcox.aenet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
                        rule = c('lambda.min', 'lambda.1se'),
-                       seeds = c(1001, 1002)) {
+                       seeds = c(1001, 1002),
+                       parallel = FALSE) {
 
   rule = match.arg(rule)
 
   # Tuning alpha for the both two stages of adaptive enet estimation
   enet_y = glmnet.tune.alpha(x, y, family = 'cox',
                              nfolds = nfolds, alphas = alphas,
-                             seed = seeds[1L])
+                             seed = seeds[1L], parallel = parallel)
 
   # fit the model on all the data use the parameters got by CV
   best_alpha_enet  = enet_y$best.alpha
@@ -113,7 +128,8 @@ hdcox.aenet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
                               exclude = which(bhat == 0),
                               penalty.factor = adpen,
                               alphas = alphas,
-                              seed = seeds[2L])
+                              seed = seeds[2L],
+                              parallel = parallel)
 
   # fit the model on all the data use the parameters got by CV
   best_alpha_aenet  = aenet_y$best.alpha
@@ -168,8 +184,6 @@ hdcox.aenet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
 #' library("glmnet")
 #' library("survival")
 #' library("rms")
-#' library("doParallel")
-#' registerDoParallel(detectCores())
 #'
 #' # Load imputed SMART data
 #' data("smart")
@@ -179,7 +193,7 @@ hdcox.aenet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
 #' y = Surv(time, event)
 #'
 #' # Fit Cox model by adaptive lasso penalization
-#' \donttest{alassofit = hdcox.alasso(x, y, nfolds = 10, rule = "lambda.1se", seeds = c(7, 11))
+#' alassofit = hdcox.alasso(x, y, nfolds = 5, rule = "lambda.1se", seeds = c(7, 11))
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -191,8 +205,7 @@ hdcox.aenet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
 #'                      lambda = alassofit$alasso_best_lambda, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
-#' plot(nom)}
-# Skipped testing the above code since parallel computation is required
+#' plot(nom)
 hdcox.alasso = function(x, y, nfolds = 5L,
                         rule = c('lambda.min', 'lambda.1se'),
                         seeds = c(1001, 1002)) {
@@ -260,6 +273,10 @@ hdcox.alasso = function(x, y, nfolds = 5L,
 #' \code{"lambda.1se"}. See \code{\link[glmnet]{cv.glmnet}}
 #' for details.
 #' @param seed A random seed for cross-validation fold division.
+#' @param parallel Logical. Enable parallel parameter tuning or not,
+#' default is {FALSE}. To enable parallel tuning, load the
+#' \code{doParallel} package and run \code{registerDoParallel()}
+#' with the number of CPU cores before calling this function.
 #'
 #' @export hdcox.enet
 #'
@@ -267,8 +284,6 @@ hdcox.alasso = function(x, y, nfolds = 5L,
 #' library("glmnet")
 #' library("survival")
 #' library("rms")
-#' library("doParallel")
-#' registerDoParallel(detectCores())
 #'
 #' # Load imputed SMART data
 #' data("smart")
@@ -277,8 +292,14 @@ hdcox.alasso = function(x, y, nfolds = 5L,
 #' event = smart$EVENT
 #' y = Surv(time, event)
 #'
+#' # To enable parallel parameter tuning, first run:
+#' # library("doParallel")
+#' # registerDoParallel(detectCores())
+#' # then set hdcox.enet(..., parallel = TRUE).
+#'
 #' # Fit Cox model by adaptive elastic-net penalization
-#' \donttest{enetfit = hdcox.enet(x, y, nfolds = 10, rule = "lambda.1se", seed = 11)
+#' enetfit = hdcox.enet(x, y, nfolds = 5, alphas = seq(0.2, 0.8, 0.2),
+#'                      rule = "lambda.1se", seed = 11)
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -290,14 +311,14 @@ hdcox.alasso = function(x, y, nfolds = 5L,
 #'                      lambda = enetfit$enet_best_lambda, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
-#' plot(nom)}
-# Skipped testing the above code since parallel computation is required
+#' plot(nom)
 hdcox.enet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
-                      rule = c('lambda.min', 'lambda.1se'), seed = 1001) {
+                      rule = c('lambda.min', 'lambda.1se'),
+                      seed = 1001, parallel = FALSE) {
 
   enet_y = glmnet.tune.alpha(x, y, family = 'cox',
                              nfolds = nfolds, alphas = alphas,
-                             seed = seed)
+                             seed = seed, parallel = parallel)
 
   # fit the model on all the data use the parameters got by CV
   best_alpha_enet = enet_y$best.alpha
@@ -350,7 +371,7 @@ hdcox.enet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
 #' y = Surv(time, event)
 #'
 #' # Fit Cox model by adaptive lasso penalization
-#' lassofit = hdcox.lasso(x, y, nfolds = 10, rule = "lambda.1se", seed = 11)
+#' lassofit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)

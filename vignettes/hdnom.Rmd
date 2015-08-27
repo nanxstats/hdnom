@@ -67,10 +67,12 @@ Fit a penalized Cox model by adaptive elastic-net regularization,
 with `hdcox.aenet`:
 
 ```{r, eval = FALSE}
+# Enable parallel parameter tuning
 suppressMessages(library("doParallel"))
 registerDoParallel(detectCores())
 
-aenetfit = hdcox.aenet(x, y, nfolds = 10, rule = "lambda.1se", seeds = c(5, 7))
+aenetfit = hdcox.aenet(x, y, nfolds = 10, rule = "lambda.1se",
+                       seeds = c(5, 7), parallel = TRUE)
 names(aenetfit)
 ```
 
