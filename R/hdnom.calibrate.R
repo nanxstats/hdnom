@@ -1,6 +1,6 @@
-#' Calibrate Cox models fitted with glmnet
+#' Calibrate High-Dimensional Cox models
 #'
-#' Calibrate Cox models fitted with glmnet
+#' Calibrate High-Dimensional Cox models
 #'
 #' @param x Matrix of training data used for the \code{glmnet} object;
 #' on which to run the calibration.
@@ -9,10 +9,12 @@
 #' @param event Status indicator, normally 0 = alive, 1 = dead.
 #' Must be of the same length with the number of rows as \code{x}.
 #' @param alpha Value of the elastic-net mixing parameter alpha in
-#' glmnet. \code{alpha=1}: lasso; \code{alpha=0}: ridge.
+#' glmnet. \code{alpha = 1}: lasso; \code{alpha = 0}: ridge.
 #' From the Cox model you have built.
 #' @param lambda Value of the penalty parameter lambda to use in the
 #' glmnet fits on the resampled data. From the Cox model you have built.
+#' @param pen.factor Penalty factors to apply to each coefficient.
+#' From the \emph{adaptive} penalized Cox model you have built.
 #' @param method Calibration method.
 #' Options including \code{"fitting"}, \code{"bootstrap"}, \code{"cv"},
 #' and \code{"repeated.cv"}.
@@ -25,8 +27,10 @@
 #' @param trace Logical. Print trace or not. Default is \code{TRUE}.
 #'
 #' @importFrom survival Surv
+#' @importFrom stats quantile
+#' @importFrom stats median
 #'
-#' @export glmnet.calibrate
+#' @export hdnom.calibrate
 #'
 #' @examples
 #' library("glmnet")
@@ -44,50 +48,50 @@
 #' cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 10)
 #'
 #' # Model calibration by fitting the original data directly
-#' cal.fitting = glmnet.calibrate(x, time, event,
-#'                                alpha = 1, lambda = cvfit$lambda.1se,
-#'                                method = 'fitting',
-#'                                pred.at = 365 * 9, ngroup = 5)
+#' cal.fitting = hdnom.calibrate(x, time, event,
+#'                               alpha = 1, lambda = cvfit$lambda.1se,
+#'                               method = "fitting",
+#'                               pred.at = 365 * 9, ngroup = 5)
+#'
+#' # Model calibration by bootstrap
+#' cal.boot = hdnom.calibrate(x, time, event,
+#'                            alpha = 1, lambda = cvfit$lambda.1se,
+#'                            method = "bootstrap", boot.times = 20,
+#'                            pred.at = 365 * 9, ngroup = 5)
+#'
+#' # Model calibration by 10-fold cross-validation
+#' cal.cv = hdnom.calibrate(x, time, event,
+#'                          alpha = 1, lambda = cvfit$lambda.1se,
+#'                          method = "cv", nfolds = 10,
+#'                          pred.at = 365 * 9, ngroup = 5)
+#'
+#' # Model calibration by repeated cross-validation
+#' cal.repcv = hdnom.calibrate(x, time, event,
+#'                             alpha = 1, lambda = cvfit$lambda.1se,
+#'                             method = "repeated.cv", nfolds = 10, rep.times = 5,
+#'                             pred.at = 365 * 9, ngroup = 5)
 #'
 #' print(cal.fitting)
 #' summary(cal.fitting)
 #' plot(cal.fitting)
 #'
-#' # Model calibration by bootstrap
-#' cal.boot = glmnet.calibrate(x, time, event,
-#'                             alpha = 1, lambda = cvfit$lambda.1se,
-#'                             method = 'bootstrap', boot.times = 20,
-#'                             pred.at = 365 * 9, ngroup = 5)
-#'
 #' print(cal.boot)
 #' summary(cal.boot)
 #' plot(cal.boot)
-#'
-#' # Model calibration by 10-fold cross-validation
-#' cal.cv = glmnet.calibrate(x, time, event,
-#'                           alpha = 1, lambda = cvfit$lambda.1se,
-#'                           method = 'cv', nfolds = 10,
-#'                           pred.at = 365 * 9, ngroup = 5)
 #'
 #' print(cal.cv)
 #' summary(cal.cv)
 #' plot(cal.cv)
 #'
-#' # Model calibration by repeated cross-validation
-#' cal.repcv = glmnet.calibrate(x, time, event,
-#'                              alpha = 1, lambda = cvfit$lambda.1se,
-#'                              method = 'repeated.cv', nfolds = 10, rep.times = 5,
-#'                              pred.at = 365 * 9, ngroup = 5)
-#'
 #' print(cal.repcv)
 #' summary(cal.repcv)
 #' plot(cal.repcv)
-glmnet.calibrate = function(x, time, event,
-                            alpha, lambda,
-                            method = c('fitting', 'bootstrap', 'cv', 'repeated.cv'),
-                            boot.times = NULL, nfolds = NULL, rep.times = NULL,
-                            pred.at, ngroup = 5,
-                            trace = TRUE) {
+hdnom.calibrate = function(x, time, event,
+                           alpha, lambda, pen.factor = NULL,
+                           method = c('fitting', 'bootstrap', 'cv', 'repeated.cv'),
+                           boot.times = NULL, nfolds = NULL, rep.times = NULL,
+                           pred.at, ngroup = 5,
+                           trace = TRUE) {
 
   method = match.arg(method)
   if (length(pred.at) != 1L) stop('pred.at should only contain 1 time point')
@@ -101,7 +105,7 @@ glmnet.calibrate = function(x, time, event,
 
     pred_list = glmnet.calibrate.internal.pred(
       x_tr = x, x_te = x, y_tr = Surv(time, event), y_te = Surv(time, event),
-      alpha = alpha, lambda = lambda,
+      alpha = alpha, lambda = lambda, pen.factor = pen.factor,
       pred.at = pred.at
     )
 
@@ -145,7 +149,7 @@ glmnet.calibrate = function(x, time, event,
 
       pred_list_list[[i]] = glmnet.calibrate.internal.pred(
         x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
-        alpha = alpha, lambda = lambda,
+        alpha = alpha, lambda = lambda, pen.factor = pen.factor,
         pred.at = pred.at
       )
 
@@ -199,7 +203,7 @@ glmnet.calibrate = function(x, time, event,
 
       pred_list_list[[i]] = glmnet.calibrate.internal.pred(
         x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
-        alpha = alpha, lambda = lambda,
+        alpha = alpha, lambda = lambda, pen.factor = pen.factor,
         pred.at = pred.at
       )
 
@@ -261,7 +265,7 @@ glmnet.calibrate = function(x, time, event,
 
         pred_list_list[[j]][[i]] = glmnet.calibrate.internal.pred(
           x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
-          alpha = alpha, lambda = lambda,
+          alpha = alpha, lambda = lambda, pen.factor,
           pred.at = pred.at
         )
 
@@ -309,40 +313,44 @@ glmnet.calibrate = function(x, time, event,
 
   switch(method,
          fitting = {
-           class(prob) = c('glmnet.calibrate',
+           class(prob) = c('hdnom.calibrate',
                            'glmnet.calibrate.fitting')
            attr(prob, 'alpha') = alpha
            attr(prob, 'lambda') = lambda
+           attr(prob, 'pen.factor') = pen.factor
            attr(prob, 'pred.at') = pred.at
            attr(prob, 'ngroup') = ngroup
          },
          bootstrap = {
-           class(prob) = c('glmnet.calibrate',
+           class(prob) = c('hdnom.calibrate',
                            'glmnet.calibrate.bootstrap')
            attr(prob, 'alpha')      = alpha
            attr(prob, 'lambda')     = lambda
+           attr(prob, 'pen.factor') = pen.factor
            attr(prob, 'pred.at')    = pred.at
            attr(prob, 'ngroup')     = ngroup
            attr(prob, 'boot.times') = boot.times
          },
          cv = {
-           class(prob) = c('glmnet.calibrate',
+           class(prob) = c('hdnom.calibrate',
                            'glmnet.calibrate.cv')
            attr(prob, 'alpha')   = alpha
            attr(prob, 'lambda')  = lambda
+           attr(prob, 'pen.factor') = pen.factor
            attr(prob, 'pred.at') = pred.at
            attr(prob, 'ngroup')  = ngroup
            attr(prob, 'nfolds')  = nfolds
          },
          repeated.cv = {
-           class(prob) = c('glmnet.calibrate',
+           class(prob) = c('hdnom.calibrate',
                            'glmnet.calibrate.repeated.cv')
-           attr(prob, 'alpha')     = alpha
-           attr(prob, 'lambda')    = lambda
-           attr(prob, 'pred.at')   = pred.at
-           attr(prob, 'ngroup')    = ngroup
-           attr(prob, 'nfolds')    = nfolds
-           attr(prob, 'rep.times') = rep.times
+           attr(prob, 'alpha')      = alpha
+           attr(prob, 'lambda')     = lambda
+           attr(prob, 'pen.factor') = pen.factor
+           attr(prob, 'pred.at')    = pred.at
+           attr(prob, 'ngroup')     = ngroup
+           attr(prob, 'nfolds')     = nfolds
+           attr(prob, 'rep.times')  = rep.times
          }
   )
 
@@ -353,16 +361,23 @@ glmnet.calibrate = function(x, time, event,
 #' Compute predicted survival probabilities for calibration
 #'
 #' @importFrom glmnet glmnet
+#' @importFrom stats predict
 #'
 #' @return list containing predicted survival probability
 #'
 #' @keywords internal
 glmnet.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
-                                          alpha, lambda,
+                                          alpha, lambda, pen.factor,
                                           pred.at) {
 
-  object = glmnet(x = x_tr, y = y_tr, family = 'cox',
-                  alpha = alpha, lambda = lambda)
+  if (is.null(pen.factor)) {
+    object = glmnet(x = x_tr, y = y_tr, family = 'cox',
+                    alpha = alpha, lambda = lambda)
+  } else {
+    object = glmnet(x = x_tr, y = y_tr, family = 'cox',
+                    alpha = alpha, lambda = lambda,
+                    penalty.factor = pen.factor)
+  }
 
   lp = as.numeric(predict(object, newx = data.matrix(x_te),
                           s = lambda, type = 'link'))
@@ -376,7 +391,7 @@ glmnet.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
   names(survtime_ones) = idx_ones
   survtime_ones = sort(survtime_ones)
 
-  basesurv = basesurv.glmnet(time_te, event_te, lp, survtime_ones)
+  basesurv = glmnet.basesurv(time_te, event_te, lp, survtime_ones)
   p = exp(exp(lp) %*% (-t(basesurv$cumulative_base_hazard)))
 
   if (nrow(p) != nrow(x_te) || ncol(p) != length(survtime_ones))
@@ -418,129 +433,153 @@ glmnet.calibrate.internal.true = function(pred_prob, grp,
 
 }
 
-#' Print calibration result generated with glmnet.calibrate
+#' Print calibration result generated by hdnom.calibrate
 #'
-#' Print calibration result generated with glmnet.calibrate
+#' Print calibration result generated by hdnom.calibrate
 #'
-#' @param x a \code{"glmnet.calibrate"} object.
+#' @param x an object returned by \code{\link{hdnom.calibrate}}.
 #' @param ... other parameters (not used).
 #'
-#' @method print glmnet.calibrate
+#' @method print hdnom.calibrate
 #'
 #' @export
 #'
 #' @examples
 #' NULL
-print.glmnet.calibrate = function (x, ...) {
+print.hdnom.calibrate = function (x, ...) {
 
-  if (!('glmnet.calibrate' %in% class(x)))
-    stop('object class must be "glmnet.calibrate"')
+  if (!('hdnom.calibrate' %in% class(x)))
+    stop('object class must be "hdnom.calibrate"')
 
-  method = setdiff(class(x), 'glmnet.calibrate')
+  method = setdiff(class(x), 'hdnom.calibrate')
 
   if (method == 'glmnet.calibrate.fitting') {
 
-    cat('High-dimensional Cox model calibration object\n')
+    cat('High-Dimensional Cox Model Calibration Object\n')
     cat('Calibration method: fitting\n')
     cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
     cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
+    if (is.null(attr(x, 'pen.factor'))) {
+      cat('glmnet model penalty factor: not specified\n')
+    } else {
+      cat('glmnet model penalty factor: specified\n')
+    }
     cat('Calibration time point:', attr(x, 'pred.at'), '\n')
     cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
 
   } else if  (method == 'glmnet.calibrate.bootstrap') {
 
-    cat('High-dimensional Cox model calibration object\n')
+    cat('High-Dimensional Cox Model Calibration Object\n')
     cat('Calibration method: bootstrap\n')
     cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
     cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
     cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
+    if (is.null(attr(x, 'pen.factor'))) {
+      cat('glmnet model penalty factor: not specified\n')
+    } else {
+      cat('glmnet model penalty factor: specified\n')
+    }
     cat('Calibration time point:', attr(x, 'pred.at'), '\n')
     cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
 
   } else if  (method == 'glmnet.calibrate.cv') {
 
-    cat('High-dimensional Cox model calibration object\n')
+    cat('High-Dimensional Cox Model Calibration Object\n')
     cat('Calibration method: k-fold cross-validation\n')
     cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
     cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
     cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
+    if (is.null(attr(x, 'pen.factor'))) {
+      cat('glmnet model penalty factor: not specified\n')
+    } else {
+      cat('glmnet model penalty factor: specified\n')
+    }
     cat('Calibration time point:', attr(x, 'pred.at'), '\n')
     cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
 
   } else if  (method == 'glmnet.calibrate.repeated.cv') {
 
-    cat('High-dimensional Cox model calibration object\n')
+    cat('High-Dimensional Cox Model Calibration Object\n')
     cat('Calibration method: repeated cross-validation\n')
     cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
     cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
     cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
     cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
+    if (is.null(attr(x, 'pen.factor'))) {
+      cat('glmnet model penalty factor: not specified\n')
+    } else {
+      cat('glmnet model penalty factor: specified\n')
+    }
     cat('Calibration time point:', attr(x, 'pred.at'), '\n')
     cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
 
   } else {
 
-    stop('glmnet.calibrate object is not valid')
+    stop('hdnom.calibrate object is not valid')
 
   }
 
 }
 
-#' Summary calibration result generated with glmnet.calibrate
+#' Summary calibration result generated by hdnom.calibrate
 #'
-#' Summary calibration result generated with glmnet.calibrate
+#' Summary calibration result generated by hdnom.calibrate
 #'
-#' @param object a \code{"glmnet.calibrate"} object.
+#' @param object an object returned by \code{\link{hdnom.calibrate}}.
 #' @param ... other parameters (not used).
 #'
-#' @method summary glmnet.calibrate
+#' @method summary hdnom.calibrate
 #'
 #' @export
 #'
 #' @examples
 #' NULL
-summary.glmnet.calibrate = function (object, ...) {
+summary.hdnom.calibrate = function(object, ...) {
 
-  if (!('glmnet.calibrate' %in% class(object)))
-    stop('object class must be "glmnet.calibrate"')
+  if (!('hdnom.calibrate' %in% class(object)))
+    stop('object class must be "hdnom.calibrate"')
 
-  method = setdiff(class(object), 'glmnet.calibrate')
+  method = setdiff(class(object), 'hdnom.calibrate')
 
   if (method == 'glmnet.calibrate.fitting') {
 
-    attr(object, 'alpha')   = NULL
-    attr(object, 'lambda')  = NULL
-    attr(object, 'pred.at') = NULL
-    attr(object, 'ngroup')  = NULL
+    attr(object, 'alpha')      = NULL
+    attr(object, 'lambda')     = NULL
+    attr(object, 'pen.factor') = NULL
+    attr(object, 'pred.at')    = NULL
+    attr(object, 'ngroup')     = NULL
 
   } else if  (method == 'glmnet.calibrate.bootstrap') {
 
     attr(object, 'boot.times') = NULL
-    attr(object, 'alpha')   = NULL
-    attr(object, 'lambda')  = NULL
-    attr(object, 'pred.at') = NULL
-    attr(object, 'ngroup')  = NULL
+    attr(object, 'alpha')      = NULL
+    attr(object, 'lambda')     = NULL
+    attr(object, 'pen.factor') = NULL
+    attr(object, 'pred.at')    = NULL
+    attr(object, 'ngroup')     = NULL
 
   } else if  (method == 'glmnet.calibrate.cv') {
 
-    attr(object, 'nfolds')  = NULL
-    attr(object, 'alpha')   = NULL
-    attr(object, 'lambda')  = NULL
-    attr(object, 'pred.at') = NULL
-    attr(object, 'ngroup')  = NULL
+    attr(object, 'nfolds')     = NULL
+    attr(object, 'alpha')      = NULL
+    attr(object, 'lambda')     = NULL
+    attr(object, 'pen.factor') = NULL
+    attr(object, 'pred.at')    = NULL
+    attr(object, 'ngroup')     = NULL
 
   } else if  (method == 'glmnet.calibrate.repeated.cv') {
 
-    attr(object, 'nfolds')  = NULL
-    attr(object, 'rep.times') = NULL
-    attr(object, 'alpha')   = NULL
-    attr(object, 'lambda')  = NULL
-    attr(object, 'pred.at') = NULL
-    attr(object, 'ngroup')  = NULL
+    attr(object, 'nfolds')     = NULL
+    attr(object, 'rep.times')  = NULL
+    attr(object, 'alpha')      = NULL
+    attr(object, 'lambda')     = NULL
+    attr(object, 'pen.factor') = NULL
+    attr(object, 'pred.at')    = NULL
+    attr(object, 'ngroup')     = NULL
 
   } else {
 
-    stop('glmnet.calibrate object is not valid')
+    stop('hdnom.calibrate object is not valid')
 
   }
 
@@ -554,21 +593,23 @@ summary.glmnet.calibrate = function (object, ...) {
 #'
 #' Plot calibration curves
 #'
-#' @param x a \code{"glmnet.calibrate"} object.
+#' @param x an object returned by \code{\link{hdnom.calibrate}}.
 #' @param xlim x axis limits of the plot.
 #' @param ylim y axis limits of the plot.
 #' @param ... other parameters for \code{plot}.
 #'
-#' @method plot glmnet.calibrate
+#' @method plot hdnom.calibrate
 #'
 #' @export
 #'
+#' @importFrom graphics arrows abline
+#'
 #' @examples
 #' NULL
-plot.glmnet.calibrate = function (x, xlim = c(0, 1), ylim = c(0, 1), ...) {
+plot.hdnom.calibrate = function(x, xlim = c(0, 1), ylim = c(0, 1), ...) {
 
-  if (!('glmnet.calibrate' %in% class(x)))
-    stop('object class must be "glmnet.calibrate"')
+  if (!('hdnom.calibrate' %in% class(x)))
+    stop('object class must be "hdnom.calibrate"')
 
   pre = x[, 'Predicted']
   obs = x[, 'Observed']

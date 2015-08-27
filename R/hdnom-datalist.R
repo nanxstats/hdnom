@@ -149,27 +149,3 @@ NULL
 #' smart[names(imputed)] = imputed
 #' str(smart)}
 NULL
-
-#' TCGA Glioblastoma Multiforme (GBM) mircoRNA expression data
-#'
-#' Processed TCGA Glioblastoma Multiforme (GBM) mircoRNA expression data,
-#' with survival time and status, from Wang et, al. 2014.
-#'
-#' The dataset is a list with three components:
-#' \code{x}, \code{time}, and \code{event}.
-#'
-#' @docType data
-#' @name mirna
-#' @usage data(mirna)
-#'
-#' @references
-#' Wang, B. (2014). Similarity network fusion for aggregating data types
-#' on a genomic scale. \emph{Nature methods}, 11(3), 333--337.
-#'
-#' @examples
-#' data(mirna)
-#' x = mirna$x
-#' time = mirna$time
-#' event = mirna$event
-#' dim(x)
-NULL

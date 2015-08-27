@@ -1,6 +1,6 @@
-#' Validate Cox models fitted with glmnet using time-dependent AUC
+#' Validate High-Dimensional Cox models with time-dependent AUC
 #'
-#' Validate Cox models fitted with glmnet using time-dependent AUC
+#' Validate High-Dimensional Cox models with time-dependent AUC
 #'
 #' @param x Matrix of training data used for the \code{glmnet} object;
 #' on which to run the validation.
@@ -13,6 +13,8 @@
 #' From the Cox model you have built.
 #' @param lambda Value of the penalty parameter lambda to use in the
 #' glmnet fits on the resampled data. From the Cox model you have built.
+#' @param pen.factor Penalty factors to apply to each coefficient.
+#' From the \emph{adaptive} penalized Cox model you have built.
 #' @param method Validation method.
 #' Could be \code{"bootstrap"}, \code{"cv"}, or \code{"repeated.cv"}.
 #' @param boot.times Number of repetitions for bootstrap.
@@ -27,7 +29,7 @@
 #' the time-dependent AUC.
 #' @param trace Logical. Print trace or not. Default is \code{TRUE}.
 #'
-#' @export glmnet.validate
+#' @export hdnom.validate
 #'
 #' @references
 #' Chambless, L. E. and G. Diao (2006).
@@ -61,22 +63,22 @@
 #' cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 10)
 #'
 #' # Model validation by bootstrap with time-dependent AUC
-#' val.boot = glmnet.validate(x, time, event,
-#'                            alpha = 1, lambda = cvfit$lambda.1se,
-#'                            method = "bootstrap", boot.times = 20,
-#'                            tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
+#' val.boot = hdnom.validate(x, time, event,
+#'                           alpha = 1, lambda = cvfit$lambda.1se,
+#'                           method = "bootstrap", boot.times = 20,
+#'                           tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
 #'
 #' # Model validation by 10-fold cross-validation with time-dependent AUC
-#' val.cv = glmnet.validate(x, time, event,
-#'                          alpha = 1, lambda = cvfit$lambda.1se,
-#'                          method = "cv", nfolds = 10,
-#'                          tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
+#' val.cv = hdnom.validate(x, time, event,
+#'                         alpha = 1, lambda = cvfit$lambda.1se,
+#'                         method = "cv", nfolds = 10,
+#'                         tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
 #'
 #' # Model validation by repeated cross-validation with time-dependent AUC
-#' val.repcv = glmnet.validate(x, time, event,
-#'                             alpha = 1, lambda = cvfit$lambda.1se,
-#'                             method = "repeated.cv", nfolds = 10, rep.times = 5,
-#'                             tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
+#' val.repcv = hdnom.validate(x, time, event,
+#'                            alpha = 1, lambda = cvfit$lambda.1se,
+#'                            method = "repeated.cv", nfolds = 10, rep.times = 5,
+#'                            tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
 #'
 #' # bootstrap-based discrimination curves has a very narrow band
 #' print(val.boot)
@@ -93,12 +95,12 @@
 #' print(val.repcv)
 #' summary(val.repcv)
 #' plot(val.repcv, ylim = c(0.4, 0.8))
-glmnet.validate = function (x, time, event,
-                            alpha, lambda,
-                            method = c('bootstrap', 'cv', 'repeated.cv'),
-                            boot.times = NULL, nfolds = NULL, rep.times = NULL,
-                            tauc.type = c("CD", "SZ", "UNO"), tauc.time,
-                            trace = TRUE) {
+hdnom.validate = function(x, time, event,
+                          alpha, lambda, pen.factor = NULL,
+                          method = c('bootstrap', 'cv', 'repeated.cv'),
+                          boot.times = NULL, nfolds = NULL, rep.times = NULL,
+                          tauc.type = c("CD", "SZ", "UNO"), tauc.time,
+                          trace = TRUE) {
 
   method = match.arg(method)
   tauc.type = match.arg(tauc.type)
@@ -131,7 +133,7 @@ glmnet.validate = function (x, time, event,
       tauc[[i]] =
         glmnet.validate.internal(
           x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
-          alpha = alpha, lambda = lambda,
+          alpha = alpha, lambda = lambda, pen.factor = pen.factor,
           tauc.type = tauc.type, tauc.time = tauc.time
         )
 
@@ -166,7 +168,7 @@ glmnet.validate = function (x, time, event,
       tauc[[i]] =
         glmnet.validate.internal(
           x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
-          alpha = alpha, lambda = lambda,
+          alpha = alpha, lambda = lambda, pen.factor = pen.factor,
           tauc.type = tauc.type, tauc.time = tauc.time
         )
 
@@ -206,7 +208,7 @@ glmnet.validate = function (x, time, event,
         tauc[[j]][[i]] =
           glmnet.validate.internal(
             x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
-            alpha = alpha, lambda = lambda,
+            alpha = alpha, lambda = lambda, pen.factor = pen.factor,
             tauc.type = tauc.type, tauc.time = tauc.time
           )
 
@@ -219,32 +221,35 @@ glmnet.validate = function (x, time, event,
 
   switch(method,
          bootstrap = {
-           class(tauc) = c('glmnet.validate',
+           class(tauc) = c('hdnom.validate',
                            'glmnet.validate.bootstrap')
            attr(tauc, 'alpha')      = alpha
            attr(tauc, 'lambda')     = lambda
+           attr(tauc, 'pen.factor') = pen.factor
            attr(tauc, 'boot.times') = boot.times
            attr(tauc, 'tauc.type')  = tauc.type
            attr(tauc, 'tauc.time')  = tauc.time
          },
          cv = {
-           class(tauc) = c('glmnet.validate',
+           class(tauc) = c('hdnom.validate',
                            'glmnet.validate.cv')
-           attr(tauc, 'alpha')     = alpha
-           attr(tauc, 'lambda')    = lambda
-           attr(tauc, 'nfolds')    = nfolds
-           attr(tauc, 'tauc.type') = tauc.type
-           attr(tauc, 'tauc.time') = tauc.time
+           attr(tauc, 'alpha')      = alpha
+           attr(tauc, 'lambda')     = lambda
+           attr(tauc, 'pen.factor') = pen.factor
+           attr(tauc, 'nfolds')     = nfolds
+           attr(tauc, 'tauc.type')  = tauc.type
+           attr(tauc, 'tauc.time')  = tauc.time
          },
          repeated.cv = {
-           class(tauc) = c('glmnet.validate',
+           class(tauc) = c('hdnom.validate',
                            'glmnet.validate.repeated.cv')
-           attr(tauc, 'alpha')     = alpha
-           attr(tauc, 'lambda')    = lambda
-           attr(tauc, 'nfolds')    = nfolds
-           attr(tauc, 'rep.times') = rep.times
-           attr(tauc, 'tauc.type') = tauc.type
-           attr(tauc, 'tauc.time') = tauc.time
+           attr(tauc, 'alpha')      = alpha
+           attr(tauc, 'lambda')     = lambda
+           attr(tauc, 'pen.factor') = pen.factor
+           attr(tauc, 'nfolds')     = nfolds
+           attr(tauc, 'rep.times')  = rep.times
+           attr(tauc, 'tauc.type')  = tauc.type
+           attr(tauc, 'tauc.time')  = tauc.time
          }
   )
 
@@ -262,11 +267,17 @@ glmnet.validate = function (x, time, event,
 #'
 #' @keywords internal
 glmnet.validate.internal = function(x_tr, x_te, y_tr, y_te,
-                                    alpha, lambda,
+                                    alpha, lambda, pen.factor,
                                     tauc.type, tauc.time) {
 
-  samp_fit = glmnet(x = x_tr, y = y_tr, family = 'cox',
-                    alpha = alpha, lambda = lambda)
+  if (is.null(pen.factor)) {
+    samp_fit = glmnet(x = x_tr, y = y_tr, family = 'cox',
+                      alpha = alpha, lambda = lambda)
+  } else {
+    samp_fit = glmnet(x = x_tr, y = y_tr, family = 'cox',
+                      alpha = alpha, lambda = lambda,
+                      penalty.factor = pen.factor)
+  }
 
   lp_tr = as.vector(predict(samp_fit, newx = x_tr, type = 'link'))
   lp_te = as.vector(predict(samp_fit, newx = x_te, type = 'link'))
@@ -293,86 +304,101 @@ glmnet.validate.internal = function(x_tr, x_te, y_tr, y_te,
 
 }
 
-#' Print validation result generated with glmnet.validate
+#' Print validation result generated by hdnom.validate
 #'
-#' Print validation result generated with glmnet.validate
+#' Print validation result generated by hdnom.validate
 #'
-#' @param x a \code{"glmnet.validate"} object.
-#' @param ... other parameters (not used).
+#' @param x An object returned by \code{\link{hdnom.validate}}.
+#' @param ... Other parameters (not used).
 #'
-#' @method print glmnet.validate
+#' @method print hdnom.validate
 #'
 #' @export
 #'
 #' @examples
 #' NULL
-print.glmnet.validate = function (x, ...) {
+print.hdnom.validate = function(x, ...) {
 
-  if (!('glmnet.validate' %in% class(x)))
-    stop('object class must be "glmnet.validate"')
+  if (!('hdnom.validate' %in% class(x)))
+    stop('object class must be "hdnom.validate"')
 
-  method = setdiff(class(x), 'glmnet.validate')
+  method = setdiff(class(x), 'hdnom.validate')
 
   if (method == 'glmnet.validate.bootstrap') {
 
-    cat('High-dimensional Cox model validation object\n')
+    cat('High-Dimensional Cox Model Validation Object\n')
     cat('Validation method: bootstrap\n')
     cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
     cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
     cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
+    if (is.null(attr(x, 'pen.factor'))) {
+      cat('glmnet model penalty factor: not specified\n')
+    } else {
+      cat('glmnet model penalty factor: specified\n')
+    }
     cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
     cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
 
   } else if (method == 'glmnet.validate.cv') {
 
-    cat('High-dimensional Cox model validation object\n')
+    cat('High-Dimensional Cox Model Validation Object\n')
     cat('Validation method: k-fold cross-validation\n')
     cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
     cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
     cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
+    if (is.null(attr(x, 'pen.factor'))) {
+      cat('glmnet model penalty factor: not specified\n')
+    } else {
+      cat('glmnet model penalty factor: specified\n')
+    }
     cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
     cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
 
   } else if (method == 'glmnet.validate.repeated.cv') {
 
-    cat('High-dimensional Cox model validation object\n')
+    cat('High-Dimensional Cox Model Validation Object\n')
     cat('Validation method: repeated cross-validation\n')
     cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
     cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
     cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
     cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
+    if (is.null(attr(x, 'pen.factor'))) {
+      cat('glmnet model penalty factor: not specified\n')
+    } else {
+      cat('glmnet model penalty factor: specified\n')
+    }
     cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
     cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
 
   } else {
 
-    stop('glmnet.validate object is not valid')
+    stop('hdnom.validate object is not valid')
 
   }
 
 }
 
-#' Summary validation result generated with glmnet.validate
+#' Summary validation result generated by hdnom.validate
 #'
-#' Summary validation result generated with glmnet.validate
+#' Summary validation result generated by hdnom.validate
 #'
-#' @param object a \code{"glmnet.validate"} object.
-#' @param silent Print summary table header or not.
-#' Default is \code{FALSE}.
-#' @param ... other parameters (not used).
+#' @param object An object \code{\link{hdnom.validate}}.
+#' @param silent Print summary table header or not,
+#' default is \code{FALSE}.
+#' @param ... Other parameters (not used).
 #'
-#' @method summary glmnet.validate
+#' @method summary hdnom.validate
 #'
 #' @export
 #'
 #' @examples
 #' NULL
-summary.glmnet.validate = function (object, silent = FALSE, ...) {
+summary.hdnom.validate = function(object, silent = FALSE, ...) {
 
-  if (!('glmnet.validate' %in% class(object)))
-    stop('object class must be "glmnet.validate"')
+  if (!('hdnom.validate' %in% class(object)))
+    stop('object class must be "hdnom.validate"')
 
-  method = setdiff(class(object), 'glmnet.validate')
+  method = setdiff(class(object), 'hdnom.validate')
 
   if (method == 'glmnet.validate.bootstrap') {
 
@@ -429,11 +455,11 @@ summary.glmnet.validate = function (object, silent = FALSE, ...) {
     }
 
   } else {
-    stop('glmnet.validate object is not valid')
+    stop('hdnom.validate object is not valid')
   }
 
   if (!silent)
-    cat('Time-dependent AUC summary over all bootstrap runs at evaluation time points\n')
+    cat('Time-Dependent AUC Summary at Evaluation Time Points\n')
 
   return(summary_mat)
 
@@ -443,24 +469,29 @@ summary.glmnet.validate = function (object, silent = FALSE, ...) {
 #'
 #' Plot optimism-corrected time-dependent discrimination curves
 #'
-#' @param x a \code{"glmnet.validate"} object.
-#' @param ylim y axis limits of the plot.
-#' @param xlab title for the x axis.
-#' @param ylab title for the y axis.
-#' @param ... other parameters for \code{plot}.
+#' @param x An object returned by \code{\link{hdnom.validate}}.
+#' @param ylim The y axis limits of the plot.
+#' @param xaxt.label The x axis tick label.
+#' @param xlab Title for the x axis.
+#' @param ylab Title for the y axis.
+#' @param ... Other parameters for \code{\link{plot}}.
 #'
-#' @method plot glmnet.validate
+#' @method plot hdnom.validate
 #'
 #' @export
 #'
+#' @importFrom graphics par layout polygon lines abline axis plot.new legend
+#'
 #' @examples
 #' NULL
-plot.glmnet.validate = function (x, ylim = c(0.5, 1), xlab = 'Time',
-                                 ylab = 'Time-dependent Area under ROC',
-                                 ...) {
+plot.hdnom.validate = function(x, ylim = c(0.5, 1),
+                               xaxt.label = NULL,
+                               xlab = 'Time',
+                               ylab = 'Time-dependent Area under ROC',
+                               ...) {
 
-  if (!('glmnet.validate' %in% class(x)))
-    stop('object class must be "glmnet.validate"')
+  if (!('hdnom.validate' %in% class(x)))
+    stop('object class must be "hdnom.validate"')
 
   mat = summary(x, silent = TRUE)
   tauc_time = attr(x, 'tauc.time')
@@ -476,15 +507,21 @@ plot.glmnet.validate = function (x, ylim = c(0.5, 1), xlab = 'Time',
   layout(rbind(1, 2), heights = c(7, 1))
 
   plot(tauc_time, tauc_median, type = 'l',
-       xlab = xlab, ylab = ylab, ylim = ylim)
+       xlab = xlab, ylab = ylab, ylim = ylim, xaxt = 'n')
   polygon(c(tauc_time, rev(tauc_time)), c(tauc_q25, rev(tauc_q75)),
           col = 'grey85', border = FALSE)
   lines(tauc_time, tauc_median, lty = 5, lwd = 2)
   lines(tauc_time, tauc_mean, lty = 1, lwd = 2)
   lines(tauc_time, tauc_q75, lty = 3, lwd = 1)
   lines(tauc_time, tauc_q25, lty = 3, lwd = 1)
-
   for (i in seq(0.1, 1, 0.1)) abline(h = i, lty = 3)
+
+  if (is.null(xaxt.label)) {
+    xaxt.label = as.character(tauc_time)
+    axis(1, at = tauc_time, labels = xaxt.label)
+  } else {
+    axis(1, at = tauc_time, labels = xaxt.label)
+  }
 
   par(mar = c(0, 0, 0, 0))
   plot.new()

@@ -1,7 +1,8 @@
 ---
-title: "Nomograms for High-Dimensional Cox Models"
+title: "Building Nomograms for High-Dimensional Cox Models"
 author: "Miaozhu Li <<miaozhu.li@duke.edu>> <br> Nan Xiao <<nanx@uchicago.edu>>"
 date: "`r Sys.Date()`"
+bibliography: hdnom.bib
 output:
   rmarkdown::html_vignette:
     toc: true
@@ -11,30 +12,204 @@ vignette: >
   %\VignetteIndexEntry{Nomograms for High-Dimensional Cox Models}
 ---
 
-# Build Penalized Cox Models
+# Introduction
 
-automatic model selection functions
+It is a challenging task to model the emerging high-dimensional clinical
+data with survival outcomes.
+For its simplicity and efficiency, penalized Cox models is significantly
+useful for accomplishing such tasks.
 
-```{r, eval = FALSE}
-R code here
+`hdnom` streamlines the workflow of high-dimensional Cox model building,
+model validation, model calibration, and nomogram plotting.
+To load the package in R, simply type:
+
+```{r}
+library("hdnom")
 ```
 
-# Draw Nomograms
+# Build Penalized Cox Models
+
+Penalized Cox models usually needs parameters tuning.
+For example, the elastic-net model requires to tune the $\ell_1$-$\ell_2$
+penalty trade-off parameter $\alpha$, and the regularization parameter
+$\lambda$.
+
+To free the users from the tedious and error-prone parameter tuning process,
+`hdnom` provides several functions for automatic parameter tuning and
+model selection, including the following model types:
+
+  * `hdcox.lasso()` - lasso model;
+  * `hdcox.alasso()` - adaptive lasso model;
+  * `hdcox.enet()` - elastic-net model;
+  * `hdcox.aenet()` - adaptive elastic-net model.
+
+In the next, we will use the imputed SMART study data [@steyerberg2008clinical]
+to demonstrate a complete process of model building, nomogram plotting,
+model validation, and model calibration with `hdnom`.
+
+Load the `smart` dataset:
+
+```{r}
+data("smart")
+x = as.matrix(smart[, -c(1, 2)])
+time = smart$TEVENT
+event = smart$EVENT
+
+library("survival")
+y = Surv(time, event)
+```
+
+The dataset contains 3873 observations with corresponding survival outcome
+(`time`, `event`). 27 clinical variables (`x`) are available as the predictors.
+See `?smart` for detailed explanation of the variables.
+
+Fit a penalized Cox model by adaptive elastic-net regularization,
+with `hdcox.aenet`:
+
+```{r, eval = FALSE}
+suppressMessages(library("doParallel"))
+registerDoParallel(detectCores())
+
+aenetfit = hdcox.aenet(x, y, nfolds = 10, rule = "lambda.1se", seeds = c(5, 7))
+names(aenetfit)
+```
+
+```
+## [1] "enet_best_alpha"   "enet_best_lambda"  "enet_model"
+## [4] "aenet_best_alpha"  "aenet_best_lambda" "aenet_model"
+## [7] "pen_factor"
+```
+
+```{r, echo = FALSE}
+aenetfit = readRDS("aenetfit.rds")
+```
+
+The adaptive elastic-net model includes two estimation steps.
+The selected best $\alpha$, the selected best $\lambda$,
+the model fitted for each estimation step, and the penalty factor
+for the model coefficients in the second estimation step
+are all stored in the `aenetfit` list object.
+
+For building nomograms, it is also possible to employ the `cv.glmnet()`
+and `glmnet()` functions in the `glmnet` package [@simon2011regularization]
+directly to tune and fit penalized Cox models,
+as long as the final model object is returned by `glmnet()`.
+
+# Plot Nomograms
+
+Before plotting the nomogram, we need to extract some necessary information
+about the model, namely, the model object and model parameters,
+from the result of the last step:
+
+```{r}
+fit    = aenetfit$aenet_model
+alpha  = aenetfit$aenet_best_alpha
+lambda = aenetfit$aenet_best_lambda
+adapen = aenetfit$pen_factor
+```
+
+To plot the nomogram, first we make `x` available as a `datadist` object
+for the `rms` package [@harrell2013regression], then generate a `hdnom.nomogram`
+object with `hdnom.nomogram()`, and finally plot the nomogram:
+
+```{r, fig.width = 8, fig.height = 8, out.width = 600, out.height = 600}
+suppressMessages(library("rms"))
+x.df = as.data.frame(x)
+dd = datadist(x.df)
+options(datadist = "dd")
+
+nom = hdnom.nomogram(fit, x, time, event, x.df,
+                     lambda = lambda, pred.at = 365 * 2,
+                     funlabel = "2-Year Overall Survival Probability")
+plot(nom)
+```
+
+According to the nomogram, the adaptive elastic-net model selected 6 variables
+from the original set of 27 variables, effectively reduced the model complexity.
+
+As the internal information of the nomogram, the point-linear predictor
+unit mapping, and total points-survival probability mapping, can be viewed
+by directly printing the `nom` object.
 
 # Model Validation
 
+It is a common practice to utilize resampling methods to validate the
+predictive performance of a Cox model.
+Bootstrap, k-fold cross-validation, and repeated k-fold cross-validation
+are the mostly employed resampling methods for such purpose.
+`hdnom.validate` allows us to assess the model performance by
+time-dependent AUC (Area Under the ROC Curve) with the above three
+resampling methods.
+
+Here, we validate the adaptive elastic-net model performance by
+time-dependent AUC with bootstrap resampling, at every half year
+from the first year to the fifth year:
+
+```{r}
+set.seed(11)
+val = hdnom.validate(x, time, event,
+                     alpha = alpha, lambda = lambda, pen.factor = adapen,
+                     method = "bootstrap", boot.times = 10,
+                     tauc.type = "UNO", tauc.time = seq(1, 5, 0.5) * 365,
+                     trace = FALSE)
+val
+summary(val)
+```
+
+The mean, median, 25%, and 75% quantiles of time-dependent AUC at each
+time point across all bootstrap predictions are listed above.
+The median and the mean can be considered as the bias-corrected estimation
+of the model performance.
+
+It is also possible to plot the model validation result:
+
+```{r, fig.width = 8, fig.height = 8, out.width = 600, out.height = 600}
+plot(val, ylim = c(0.6, 0.8), xaxt.label = seq(1, 5, 0.5))
+```
+
+It seems that the bootstrap-based validation result is stable:
+the median and the mean value at each evaluation time point are close;
+the 25% and 75% quantiles are also close to the median at each time point.
+
+Cross-validation and repeated cross-validation will usually yield results
+with different patterns. Check `?hdnom.validate` for more examples about
+model validation.
+
 # Model Calibration
 
-# Datasets
+Measuring how far the model predictions are from actual survival outcomes
+is known as _calibration_. Calibration can be assessed by plotting the
+predicted probabilities from the model versus actual survival probabilities.
 
-## SMART Study Data
+`hdnom.calibrate()` provides non-resampling and resampling
+methods for model calibration, including direct fitting, bootstrap
+resampling, k-fold cross-validation and repeated cross-validation.
 
-clinical
+For example, to calibrate the model with the bootstrap method:
 
-## TCGA GBM microRNA Expression Data
+```{r}
+cal = hdnom.calibrate(x, time, event,
+                      alpha = alpha, lambda = lambda, pen.factor = adapen,
+                      method = "bootstrap", boot.times = 10,
+                      pred.at = 365 * 5, ngroup = 5,
+                      trace = FALSE)
+cal
+summary(cal)
+```
 
-molecular
+The calibration result (median of the predicted survival probability;
+median of the observed survival probability estimated by Kaplan-Meier method,
+with 95% CI) are summarized above.
 
-<hr>
+Plot the calibration result:
 
-`--EOF--`
+```{r, fig.width = 8, fig.height = 8, out.width = 600, out.height = 600}
+plot(cal, xlim = c(0.6, 1), ylim = c(0.6, 1))
+```
+
+See `?hdnom.calibrate` for more examples about model calibration.
+
+For further information about `hdnom`, consult the project homepage:
+[nomogr.am](http://nomogr.am).
+
+# References
