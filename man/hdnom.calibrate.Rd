@@ -62,7 +62,7 @@ event = smart$EVENT
 
 # Fit penalized Cox model (lasso penalty) with glmnet
 set.seed(1010)
-cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 10)
+cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 5)
 
 # Model calibration by fitting the original data directly
 cal.fitting = hdnom.calibrate(x, time, event,
@@ -71,21 +71,23 @@ cal.fitting = hdnom.calibrate(x, time, event,
                               pred.at = 365 * 9, ngroup = 5)
 
 # Model calibration by bootstrap
+# Normally boot.times should be set to 200 or more,
+# we set it to 3 here only to save example running time.
 cal.boot = hdnom.calibrate(x, time, event,
                            alpha = 1, lambda = cvfit$lambda.1se,
-                           method = "bootstrap", boot.times = 20,
+                           method = "bootstrap", boot.times = 3,
                            pred.at = 365 * 9, ngroup = 5)
 
 # Model calibration by 10-fold cross-validation
 cal.cv = hdnom.calibrate(x, time, event,
                          alpha = 1, lambda = cvfit$lambda.1se,
-                         method = "cv", nfolds = 10,
+                         method = "cv", nfolds = 5,
                          pred.at = 365 * 9, ngroup = 5)
 
 # Model calibration by repeated cross-validation
 cal.repcv = hdnom.calibrate(x, time, event,
                             alpha = 1, lambda = cvfit$lambda.1se,
-                            method = "repeated.cv", nfolds = 10, rep.times = 5,
+                            method = "repeated.cv", nfolds = 5, rep.times = 3,
                             pred.at = 365 * 9, ngroup = 5)
 
 print(cal.fitting)

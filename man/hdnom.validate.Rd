@@ -65,24 +65,26 @@ event = smart$EVENT
 
 # Fit penalized Cox model (lasso penalty) with glmnet
 set.seed(1010)
-cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 10)
+cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 5)
 
 # Model validation by bootstrap with time-dependent AUC
+# Normally boot.times should be set to 200 or more,
+# we set it to 3 here only to save example running time.
 val.boot = hdnom.validate(x, time, event,
                           alpha = 1, lambda = cvfit$lambda.1se,
-                          method = "bootstrap", boot.times = 20,
+                          method = "bootstrap", boot.times = 3,
                           tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
 
 # Model validation by 10-fold cross-validation with time-dependent AUC
 val.cv = hdnom.validate(x, time, event,
                         alpha = 1, lambda = cvfit$lambda.1se,
-                        method = "cv", nfolds = 10,
+                        method = "cv", nfolds = 5,
                         tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
 
 # Model validation by repeated cross-validation with time-dependent AUC
 val.repcv = hdnom.validate(x, time, event,
                            alpha = 1, lambda = cvfit$lambda.1se,
-                           method = "repeated.cv", nfolds = 10, rep.times = 5,
+                           method = "repeated.cv", nfolds = 5, rep.times = 3,
                            tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
 
 # bootstrap-based discrimination curves has a very narrow band

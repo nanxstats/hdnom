@@ -1,3 +1,10 @@
+# CHANGES IN hdnom VERSION 1.2 (2015-08-27)
+
+## IMPROVEMENTS
+
+* Reduced example running time for `hdnom.validate()`, `hdnom.calibrate()`,
+`hdcox.aenet()`, and `hdcox.enet()` by reducing resampling times.
+
 # CHANGES IN hdnom VERSION 1.1 (2015-08-27)
 
 ## BUG FIXES

@@ -38,7 +38,7 @@ event = smart$EVENT
 y = Surv(time, event)
 
 # Fit Cox model by adaptive lasso penalization
-alassofit = hdcox.alasso(x, y, nfolds = 5, rule = "lambda.1se", seeds = c(7, 11))
+alassofit = hdcox.alasso(x, y, nfolds = 3, rule = "lambda.1se", seeds = c(7, 11))
 
 # Prepare data for hdnom.nomogram
 x.df = as.data.frame(x)

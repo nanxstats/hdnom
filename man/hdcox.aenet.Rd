@@ -51,7 +51,7 @@ y = Surv(time, event)
 # then set hdcox.aenet(..., parallel = TRUE).
 
 # Fit Cox model by adaptive elastic-net penalization
-aenetfit = hdcox.aenet(x, y, nfolds = 5, alphas = seq(0.2, 0.8, 0.2),
+aenetfit = hdcox.aenet(x, y, nfolds = 3, alphas = c(0.3, 0.7),
                        rule = "lambda.1se", seeds = c(5, 7))
 
 # Prepare data for hdnom.nomogram

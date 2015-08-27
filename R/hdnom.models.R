@@ -79,7 +79,7 @@ glmnet.tune.alpha = function(..., alphas, seed, parallel) {
 #' # then set hdcox.aenet(..., parallel = TRUE).
 #'
 #' # Fit Cox model by adaptive elastic-net penalization
-#' aenetfit = hdcox.aenet(x, y, nfolds = 5, alphas = seq(0.2, 0.8, 0.2),
+#' aenetfit = hdcox.aenet(x, y, nfolds = 3, alphas = c(0.3, 0.7),
 #'                        rule = "lambda.1se", seeds = c(5, 7))
 #'
 #' # Prepare data for hdnom.nomogram
@@ -193,7 +193,7 @@ hdcox.aenet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
 #' y = Surv(time, event)
 #'
 #' # Fit Cox model by adaptive lasso penalization
-#' alassofit = hdcox.alasso(x, y, nfolds = 5, rule = "lambda.1se", seeds = c(7, 11))
+#' alassofit = hdcox.alasso(x, y, nfolds = 3, rule = "lambda.1se", seeds = c(7, 11))
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -298,7 +298,7 @@ hdcox.alasso = function(x, y, nfolds = 5L,
 #' # then set hdcox.enet(..., parallel = TRUE).
 #'
 #' # Fit Cox model by adaptive elastic-net penalization
-#' enetfit = hdcox.enet(x, y, nfolds = 5, alphas = seq(0.2, 0.8, 0.2),
+#' enetfit = hdcox.enet(x, y, nfolds = 3, alphas = c(0.3, 0.7),
 #'                      rule = "lambda.1se", seed = 11)
 #'
 #' # Prepare data for hdnom.nomogram
