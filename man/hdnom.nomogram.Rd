@@ -22,7 +22,7 @@ Must be of the same length with the number of rows as \code{x}.}
 
 \item{lambda}{Value of the penalty parameter lambda in
 \code{\link[glmnet]{glmnet}}.
-We will use the selected variables at the provided \code{s} to
+We will use the selected variables at the provided \code{lambda} to
 build the nomogram, and make predictions.
 See the example for choosing a proper lambda value extracted
 from cross-validation results.}

@@ -29,7 +29,7 @@ glmnet.tune.alpha = function(..., alphas, seed, parallel) {
     }
   }
 
-  # Choose model for best alpha first (then lambda)
+  # Choose model for best lambda first (then alpha)
   # Criterion: penalized partial likelihood
   errors = unlist(lapply(modelList, function(x) min(sqrt(x$cvm))))
 
