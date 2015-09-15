@@ -4,11 +4,16 @@
 \alias{hdnom.nomogram}
 \title{Nomograms for High-Dimensional Cox models}
 \usage{
-hdnom.nomogram(object, x, time, event, ddist, lambda = NULL, pred.at = NULL,
-  fun.at = NULL, funlabel = NULL)
+hdnom.nomogram(object, model.type = c("lasso", "alasso", "flasso", "enet",
+  "aenet", "mcp", "mnet", "scad", "snet"), x, time, event, ddist,
+  lambda = NULL, pred.at = NULL, fun.at = NULL, funlabel = NULL)
 }
 \arguments{
-\item{object}{Fitted \code{glmnet} model object.}
+\item{object}{Fitted model object.}
+
+\item{model.type}{Fitted model type. Could be one of \code{"lasso"},
+\code{"alasso"}, \code{"flasso"}, \code{"enet"}, \code{"aenet"},
+\code{"mcp"}, \code{"mnet"}, \code{"scad"}, or \code{"snet"}.}
 
 \item{x}{Matrix of training data used for the \code{glmnet} object.}
 
@@ -21,7 +26,8 @@ Must be of the same length with the number of rows as \code{x}.}
 \item{ddist}{Data frame version of x, made by \code{\link[rms]{datadist}}.}
 
 \item{lambda}{Value of the penalty parameter lambda in
-\code{\link[glmnet]{glmnet}}.
+\code{\link[glmnet]{glmnet}} or \code{\link[ncvreg]{ncvreg}}.
+Required except when \code{model.type == "flasso"}.
 We will use the selected variables at the provided \code{lambda} to
 build the nomogram, and make predictions.
 See the example for choosing a proper lambda value extracted
@@ -32,8 +38,6 @@ from cross-validation results.}
 \item{fun.at}{Function values to label on axis.}
 
 \item{funlabel}{Label for \code{fun} axis.}
-
-\item{...}{Other arguments for \code{\link[rms]{nomogram}}.}
 }
 \description{
 Nomograms for High-Dimensional Cox models
@@ -58,7 +62,7 @@ cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 10)
 fit = glmnet(x, Surv(time, event), family = "cox")
 
 # Generate hdnom.nomogram objects and plot nomogram
-nom = hdnom.nomogram(fit, x, time, event, x.df,
+nom = hdnom.nomogram(fit, model.type = 'lasso', x, time, event, x.df,
                      lambda = cvfit$lambda.1se, pred.at = 365 * 2,
                      funlabel = "2-Year Overall Survival Probability")
 

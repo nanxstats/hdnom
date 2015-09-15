@@ -2,7 +2,10 @@
 #'
 #' Nomograms for High-Dimensional Cox models
 #'
-#' @param object Fitted \code{glmnet} model object.
+#' @param object Fitted model object.
+#' @param model.type Fitted model type. Could be one of \code{"lasso"},
+#' \code{"alasso"}, \code{"flasso"}, \code{"enet"}, \code{"aenet"},
+#' \code{"mcp"}, \code{"mnet"}, \code{"scad"}, or \code{"snet"}.
 #' @param x Matrix of training data used for the \code{glmnet} object.
 #' @param time Survival time.
 #' Must be of the same length with the number of rows as \code{x}.
@@ -10,7 +13,8 @@
 #' Must be of the same length with the number of rows as \code{x}.
 #' @param ddist Data frame version of x, made by \code{\link[rms]{datadist}}.
 #' @param lambda Value of the penalty parameter lambda in
-#' \code{\link[glmnet]{glmnet}}.
+#' \code{\link[glmnet]{glmnet}} or \code{\link[ncvreg]{ncvreg}}.
+#' Required except when \code{model.type == "flasso"}.
 #' We will use the selected variables at the provided \code{lambda} to
 #' build the nomogram, and make predictions.
 #' See the example for choosing a proper lambda value extracted
@@ -18,7 +22,6 @@
 #' @param pred.at Time point at which to plot nomogram prediction axis.
 #' @param fun.at Function values to label on axis.
 #' @param funlabel Label for \code{fun} axis.
-#' @param ... Other arguments for \code{\link[rms]{nomogram}}.
 #'
 #' @export hdnom.nomogram
 #'
@@ -45,46 +48,175 @@
 #' fit = glmnet(x, Surv(time, event), family = "cox")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(fit, x, time, event, x.df,
+#' nom = hdnom.nomogram(fit, model.type = 'lasso', x, time, event, x.df,
 #'                      lambda = cvfit$lambda.1se, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
 #' print(nom)
 #' plot(nom)
-hdnom.nomogram = function(object, x, time, event, ddist,
+#'
+# ### Fit fused lasso models ###
+# library("penalized")
+# library("survival")
+# library("rms")
+#
+# # Load imputed SMART data
+# data(smart)
+# x = as.matrix(smart[, -c(1, 2)])
+# x = x[1:500, ]
+# time = smart$TEVENT[1:500]
+# event = smart$EVENT[1:500]
+# x.df = as.data.frame(x)
+# dd = datadist(x.df)
+# options(datadist = "dd")
+#
+# # Fit penalized Cox model (fused lasso penalty) with penalized package
+# set.seed(1010)
+# cvfit = optL1(response = Surv(time, event), penalized = x, fusedl = TRUE,
+#               standardize = TRUE, model = 'cox', fold = 3, trace = TRUE)
+#
+# # Generate hdnom.nomogram objects and plot nomogram
+# nom = hdnom.nomogram(cvfit$fullfit, model.type = 'flasso',
+#                      x, time, event, x.df, pred.at = 365 * 2,
+#                      funlabel = "2-Year Overall Survival Probability")
+#
+# print(nom)
+# plot(nom)
+#
+# ### Fit MCP models ###
+# library("ncvreg")
+# library("survival")
+# library("rms")
+#
+# # Load imputed SMART data
+# data(smart)
+# x = as.matrix(smart[, -c(1, 2)])
+# x = x[1:500, ]
+# time = smart$TEVENT[1:500]
+# event = smart$EVENT[1:500]
+# x.df = as.data.frame(x)
+# dd = datadist(x.df)
+# options(datadist = "dd")
+#
+# # Fit penalized Cox model (MCP penalty) with ncvreg
+# cvfit = cv.ncvsurv(x, Surv(time, event),
+#                    model = 'cox', penalty = 'MCP',
+#                    alpha = 1, nfolds = 3,
+#                    seed = 1010, trace = TRUE)
+# fit = ncvsurv(x, Surv(time, event), model = 'cox', penalty = 'MCP', alpha = 1)
+#
+# # Generate hdnom.nomogram objects and plot nomogram
+# nom = hdnom.nomogram(fit, model.type = 'mcp', x, time, event, x.df,
+#                      lambda = cvfit$lambda.min, pred.at = 365 * 2,
+#                      funlabel = "2-Year Overall Survival Probability")
+#
+# print(nom)
+# plot(nom)
+hdnom.nomogram = function(object,
+                          model.type = c('lasso', 'alasso', 'flasso',
+                                         'enet', 'aenet',
+                                         'mcp', 'mnet',
+                                         'scad', 'snet'),
+                          x, time, event, ddist,
                           lambda = NULL, pred.at = NULL,
                           fun.at = NULL, funlabel = NULL) {
 
-  if (!all(c('coxnet', 'glmnet') %in% class(object)))
-    stop('object class must be "glmnet" and "coxnet"')
+  model.type = match.arg(model.type)
 
   if (nrow(x) != length(time) || nrow(x) != length(event))
     stop('Number of x rows and length of time/event did not match')
 
-  if (is.null(lambda)) stop('Missing argument lambda')
+  if (is.null(pred.at)) stop('Missing argument pred.at')
 
-  if (is.null(lambda)) stop('Missing argument pred.at')
+  if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
 
-  glmnet_pred_lp = as.vector(predict(object, newx = x, s = lambda, type = 'link'))
+    if (!all(c('coxnet', 'glmnet') %in% class(object)))
+      stop('object class must be "glmnet" and "coxnet"')
 
-  all_vars = rownames(object$beta)
-  selected_vars =
-    all_vars[which(as.vector(abs(coef(object, s = lambda)) > .Machine$double.eps))]
-  ols_formula = paste('glmnet_pred_lp ~',
-                      paste(paste('`', selected_vars, '`', sep = ''),
-                            collapse = ' + '))
-  ols_fit = ols(as.formula(ols_formula), data = ddist,
-                sigma = 1, x = TRUE, y = TRUE)
+    if (is.null(lambda)) stop('Missing argument lambda')
 
-  idx_ones = which(event == 1L)
-  survtime_ones = time[idx_ones]
-  names(survtime_ones) = idx_ones
-  survtime_ones = sort(survtime_ones)
-  survtime_at = survtime_ones[which(survtime_ones > pred.at)[1L] - 1L]
-  survtime_at_idx = names(survtime_at)
+    glmnet_pred_lp = as.vector(predict(object, newx = x, s = lambda, type = 'link'))
 
-  survcurve = glmnet.survcurve(object = object, time = time, event = event,
-                               x = x, survtime = survtime_ones, lambda = lambda)
+    all_vars = rownames(object$beta)
+    selected_vars =
+      all_vars[which(as.vector(abs(coef(object, s = lambda)) > .Machine$double.eps))]
+    ols_formula = paste('glmnet_pred_lp ~',
+                        paste(paste('`', selected_vars, '`', sep = ''),
+                              collapse = ' + '))
+    ols_fit = ols(as.formula(ols_formula), data = ddist,
+                  sigma = 1, x = TRUE, y = TRUE)
+
+    idx_ones = which(event == 1L)
+    survtime_ones = time[idx_ones]
+    names(survtime_ones) = idx_ones
+    survtime_ones = sort(survtime_ones)
+    survtime_at = survtime_ones[which(survtime_ones > pred.at)[1L] - 1L]
+    survtime_at_idx = names(survtime_at)
+
+    survcurve = glmnet.survcurve(object = object, time = time, event = event,
+                                 x = x, survtime = survtime_ones, lambda = lambda)
+
+  }
+
+  if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
+
+    if (!all(c('ncvsurv', 'ncvreg') %in% class(object)))
+      stop('object class must be "ncvreg" and "ncvsurv"')
+
+    if (is.null(lambda)) stop('Missing argument lambda')
+
+    ncvreg_pred_lp = predict(object, X = x, lambda = lambda, type = 'link')
+
+    all_vars = rownames(object$beta)
+    selected_vars =
+      all_vars[which(as.vector(abs(coef(object, lambda = lambda)) > .Machine$double.eps))]
+    ols_formula = paste('ncvreg_pred_lp ~',
+                        paste(paste('`', selected_vars, '`', sep = ''),
+                              collapse = ' + '))
+    ols_fit = ols(as.formula(ols_formula), data = ddist,
+                  sigma = 1, x = TRUE, y = TRUE)
+
+    idx_ones = which(event == 1L)
+    survtime_ones = time[idx_ones]
+    names(survtime_ones) = idx_ones
+    survtime_ones = sort(survtime_ones)
+    survtime_at = survtime_ones[which(survtime_ones > pred.at)[1L] - 1L]
+    survtime_at_idx = names(survtime_at)
+
+    survcurve = ncvreg.survcurve(object = object, time = time, event = event,
+                                 x = x, survtime = survtime_ones, lambda = lambda)
+
+  }
+
+  if (model.type %in% c('flasso')) {
+
+    if (!('penfit' %in% class(object)))
+      stop('object class must be "penfit"')
+
+    lambda = object@lambda1
+    penalized_pred_lp = as.numeric(object@lin.pred)
+
+    all_vars = colnames(x)
+    selected_vars =
+      all_vars[which(abs(object@penalized) > .Machine$double.eps)]
+    ols_formula = paste('penalized_pred_lp ~',
+                        paste(paste('`', selected_vars, '`', sep = ''),
+                              collapse = ' + '))
+    ols_fit = ols(as.formula(ols_formula), data = ddist,
+                  sigma = 1, x = TRUE, y = TRUE)
+
+    idx_ones = which(event == 1L)
+    survtime_ones = time[idx_ones]
+    names(survtime_ones) = idx_ones
+    survtime_ones = sort(survtime_ones)
+    survtime_at = survtime_ones[which(survtime_ones > pred.at)[1L] - 1L]
+    survtime_at_idx = names(survtime_at)
+
+    survcurve = penalized.survcurve(object = object, time = time, event = event,
+                                    x = x, survtime = survtime_ones)
+
+  }
+
   baseline = exp(
     log(survcurve$p[1L, which(colnames(survcurve$p) == survtime_at_idx)]) /
       exp(survcurve$lp[1L]))
@@ -129,7 +261,7 @@ glmnet.survcurve = function(object, time, event, x, survtime, lambda) {
 
 }
 
-#' Breslow baseline hazard estimator
+#' Breslow baseline hazard estimator for glmnet objects
 #'
 #' Derived from \code{peperr:::basesurv} and \code{gbm::basehaz.gbm}.
 #'
@@ -140,6 +272,117 @@ glmnet.survcurve = function(object, time, event, x, survtime, lambda) {
 #' @keywords internal
 glmnet.basesurv = function(time, event, lp,
                            times.eval = NULL, centered = FALSE) {
+
+  if (is.null(times.eval)) times.eval = sort(unique(time))
+
+  t.unique = sort(unique(time[event == 1L]))
+  alpha = length(t.unique)
+
+  for (i in 1L:length(t.unique)) {
+    alpha[i] = sum(time[event == 1L] ==
+                     t.unique[i])/sum(exp(lp[time >= t.unique[i]]))
+  }
+
+  obj = approx(t.unique, cumsum(alpha), yleft = 0, xout = times.eval, rule = 2)
+
+  if (centered) obj$y = obj$y * exp(mean(lp))
+  obj$z = exp(-obj$y)
+
+  names(obj) = c('times', 'cumulative_base_hazard', 'base_surv')
+
+  obj
+
+}
+
+#' Survival curve prediction for ncvreg objects
+#'
+#' Derived from c060::predictProb.coxnet
+#'
+#' @return list containing predicted survival probabilities and
+#' linear predictors for all samples
+#'
+#' @keywords internal
+ncvreg.survcurve = function(object, time, event, x, survtime, lambda) {
+
+  lp = as.numeric(predict(object, X = data.matrix(x),
+                          lambda = lambda, type = 'link'))
+  basesurv = ncvreg.basesurv(time, event, lp, sort(survtime))
+  p = exp(exp(lp) %*% (-t(basesurv$cumulative_base_hazard)))
+  colnames(p) = names(sort(survtime))
+
+  if (nrow(p) != nrow(x) || ncol(p) != length(survtime))
+    stop('Prediction error when estimating baseline hazard')
+
+  list('p' = p, 'lp' = lp)
+
+}
+
+#' Breslow baseline hazard estimator for ncvreg objects
+#'
+#' Derived from \code{peperr:::basesurv} and \code{gbm::basehaz.gbm}.
+#'
+#' @importFrom stats approx
+#'
+#' @return list containing cumulative base hazard
+#'
+#' @keywords internal
+ncvreg.basesurv = function(time, event, lp,
+                           times.eval = NULL, centered = FALSE) {
+
+  if (is.null(times.eval)) times.eval = sort(unique(time))
+
+  t.unique = sort(unique(time[event == 1L]))
+  alpha = length(t.unique)
+
+  for (i in 1L:length(t.unique)) {
+    alpha[i] = sum(time[event == 1L] ==
+                     t.unique[i])/sum(exp(lp[time >= t.unique[i]]))
+  }
+
+  obj = approx(t.unique, cumsum(alpha), yleft = 0, xout = times.eval, rule = 2)
+
+  if (centered) obj$y = obj$y * exp(mean(lp))
+  obj$z = exp(-obj$y)
+
+  names(obj) = c('times', 'cumulative_base_hazard', 'base_surv')
+
+  obj
+
+}
+
+#' Survival curve prediction for "penalized" objects
+#'
+#' Derived from c060::predictProb.coxnet
+#'
+#' @return list containing predicted survival probabilities and
+#' linear predictors for all samples
+#'
+#' @keywords internal
+penalized.survcurve = function(object, time, event, x, survtime) {
+
+  lp = as.numeric(object@lin.pred)
+  basesurv = penalized.basesurv(time, event, lp, sort(survtime))
+  p = exp(exp(lp) %*% (-t(basesurv$cumulative_base_hazard)))
+  colnames(p) = names(sort(survtime))
+
+  if (nrow(p) != nrow(x) || ncol(p) != length(survtime))
+    stop('Prediction error when estimating baseline hazard')
+
+  list('p' = p, 'lp' = lp)
+
+}
+
+#' Breslow baseline hazard estimator for "penalized" objects
+#'
+#' Derived from \code{peperr:::basesurv} and \code{gbm::basehaz.gbm}.
+#'
+#' @importFrom stats approx
+#'
+#' @return list containing cumulative base hazard
+#'
+#' @keywords internal
+penalized.basesurv = function(time, event, lp,
+                              times.eval = NULL, centered = FALSE) {
 
   if (is.null(times.eval)) times.eval = sort(unique(time))
 
