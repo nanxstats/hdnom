@@ -27,7 +27,7 @@ From the Cox model you have built.}
 glmnet fits on the resampled data. From the Cox model you have built.}
 
 \item{pen.factor}{Penalty factors to apply to each coefficient.
-From the \emph{adaptive} penalized Cox model you have built.}
+From the built \emph{adaptive lasso} or \emph{adaptive elastic-net} model.}
 
 \item{method}{Calibration method.
 Options including \code{"fitting"}, \code{"bootstrap"}, \code{"cv"},

@@ -14,7 +14,7 @@
 #' @param lambda Value of the penalty parameter lambda to use in the
 #' glmnet fits on the resampled data. From the Cox model you have built.
 #' @param pen.factor Penalty factors to apply to each coefficient.
-#' From the \emph{adaptive} penalized Cox model you have built.
+#' From the built \emph{adaptive lasso} or \emph{adaptive elastic-net} model.
 #' @param method Calibration method.
 #' Options including \code{"fitting"}, \code{"bootstrap"}, \code{"cv"},
 #' and \code{"repeated.cv"}.
