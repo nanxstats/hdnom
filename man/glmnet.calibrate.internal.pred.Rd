@@ -2,7 +2,7 @@
 % Please edit documentation in R/hdnom.calibrate.R
 \name{glmnet.calibrate.internal.pred}
 \alias{glmnet.calibrate.internal.pred}
-\title{Compute predicted survival probabilities for calibration}
+\title{Compute glmnet predicted survival probabilities for calibration}
 \usage{
 glmnet.calibrate.internal.pred(x_tr, x_te, y_tr, y_te, alpha, lambda,
   pen.factor, pred.at)
@@ -11,7 +11,7 @@ glmnet.calibrate.internal.pred(x_tr, x_te, y_tr, y_te, alpha, lambda,
 list containing predicted survival probability
 }
 \description{
-Compute predicted survival probabilities for calibration
+Compute glmnet predicted survival probabilities for calibration
 }
 \keyword{internal}
 

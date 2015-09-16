@@ -4,13 +4,14 @@
 \alias{hdnom.calibrate}
 \title{Calibrate High-Dimensional Cox models}
 \usage{
-hdnom.calibrate(x, time, event, alpha, lambda, pen.factor = NULL,
-  method = c("fitting", "bootstrap", "cv", "repeated.cv"),
-  boot.times = NULL, nfolds = NULL, rep.times = NULL, pred.at,
-  ngroup = 5, trace = TRUE)
+hdnom.calibrate(x, time, event, model.type = c("lasso", "alasso", "flasso",
+  "enet", "aenet", "mcp", "mnet", "scad", "snet"), alpha, lambda,
+  pen.factor = NULL, gamma, method = c("fitting", "bootstrap", "cv",
+  "repeated.cv"), boot.times = NULL, nfolds = NULL, rep.times = NULL,
+  pred.at, ngroup = 5, trace = TRUE)
 }
 \arguments{
-\item{x}{Matrix of training data used for the \code{glmnet} object;
+\item{x}{Matrix of training data used for fitting the model;
 on which to run the calibration.}
 
 \item{time}{Survival time.
@@ -19,15 +20,23 @@ Must be of the same length with the number of rows as \code{x}.}
 \item{event}{Status indicator, normally 0 = alive, 1 = dead.
 Must be of the same length with the number of rows as \code{x}.}
 
-\item{alpha}{Value of the elastic-net mixing parameter alpha in
-glmnet. \code{alpha = 1}: lasso; \code{alpha = 0}: ridge.
-From the Cox model you have built.}
+\item{model.type}{Model type to validate. Could be one of \code{"lasso"},
+\code{"alasso"}, \code{"flasso"}, \code{"enet"}, \code{"aenet"},
+\code{"mcp"}, \code{"mnet"}, \code{"scad"}, or \code{"snet"}.}
+
+\item{alpha}{Value of the elastic-net mixing parameter alpha for
+\code{enet}, \code{aenet}, \code{mnet}, and \code{snet} models.
+\code{alpha=1}: lasso/MCP/SCAD; \code{alpha=0}: ridge. Note that
+for \code{mnet} and \code{snet} models, \code{alpha} can be set to
+very close to 0 but not 0 exactly.}
 
 \item{lambda}{Value of the penalty parameter lambda to use in the
-glmnet fits on the resampled data. From the Cox model you have built.}
+model fits on the resampled data. From the Cox model you have built.}
 
 \item{pen.factor}{Penalty factors to apply to each coefficient.
 From the built \emph{adaptive lasso} or \emph{adaptive elastic-net} model.}
+
+\item{gamma}{Value of the model parameter gamma for MCP/SCAD/Mnet/Snet models.}
 
 \item{method}{Calibration method.
 Options including \code{"fitting"}, \code{"bootstrap"}, \code{"cv"},
@@ -65,7 +74,7 @@ set.seed(1010)
 cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 5)
 
 # Model calibration by fitting the original data directly
-cal.fitting = hdnom.calibrate(x, time, event,
+cal.fitting = hdnom.calibrate(x, time, event, model.type = 'lasso',
                               alpha = 1, lambda = cvfit$lambda.1se,
                               method = "fitting",
                               pred.at = 365 * 9, ngroup = 5)
@@ -73,19 +82,19 @@ cal.fitting = hdnom.calibrate(x, time, event,
 # Model calibration by bootstrap
 # Normally boot.times should be set to 200 or more,
 # we set it to 3 here only to save example running time.
-cal.boot = hdnom.calibrate(x, time, event,
+cal.boot = hdnom.calibrate(x, time, event, model.type = 'lasso',
                            alpha = 1, lambda = cvfit$lambda.1se,
                            method = "bootstrap", boot.times = 3,
                            pred.at = 365 * 9, ngroup = 5)
 
 # Model calibration by 10-fold cross-validation
-cal.cv = hdnom.calibrate(x, time, event,
+cal.cv = hdnom.calibrate(x, time, event, model.type = 'lasso',
                          alpha = 1, lambda = cvfit$lambda.1se,
                          method = "cv", nfolds = 5,
                          pred.at = 365 * 9, ngroup = 5)
 
 # Model calibration by repeated cross-validation
-cal.repcv = hdnom.calibrate(x, time, event,
+cal.repcv = hdnom.calibrate(x, time, event, model.type = 'lasso',
                             alpha = 1, lambda = cvfit$lambda.1se,
                             method = "repeated.cv", nfolds = 5, rep.times = 3,
                             pred.at = 365 * 9, ngroup = 5)

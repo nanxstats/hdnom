@@ -6,14 +6,14 @@
 #' @param model.type Fitted model type. Could be one of \code{"lasso"},
 #' \code{"alasso"}, \code{"flasso"}, \code{"enet"}, \code{"aenet"},
 #' \code{"mcp"}, \code{"mnet"}, \code{"scad"}, or \code{"snet"}.
-#' @param x Matrix of training data used for the \code{glmnet} object.
+#' @param x Matrix of training data used for fitting the model.
 #' @param time Survival time.
 #' Must be of the same length with the number of rows as \code{x}.
 #' @param event Status indicator, normally 0 = alive, 1 = dead.
 #' Must be of the same length with the number of rows as \code{x}.
 #' @param ddist Data frame version of x, made by \code{\link[rms]{datadist}}.
 #' @param lambda Value of the penalty parameter lambda in
-#' \code{\link[glmnet]{glmnet}} or \code{\link[ncvreg]{ncvreg}}.
+#' \code{\link[glmnet]{glmnet}} or \code{\link[ncvreg]{ncvsurv}}.
 #' Required except when \code{model.type == "flasso"}.
 #' We will use the selected variables at the provided \code{lambda} to
 #' build the nomogram, and make predictions.
@@ -55,7 +55,7 @@
 #' print(nom)
 #' plot(nom)
 #'
-# ### Fit fused lasso models ###
+# ### Testing fused lasso models ###
 # library("penalized")
 # library("survival")
 # library("rms")
@@ -83,30 +83,31 @@
 # print(nom)
 # plot(nom)
 #
-# ### Fit MCP models ###
+# ### Testing SCAD models ###
 # library("ncvreg")
-# library("survival")
-# library("rms")
 #
-# # Load imputed SMART data
-# data(smart)
-# x = as.matrix(smart[, -c(1, 2)])
-# x = x[1:500, ]
-# time = smart$TEVENT[1:500]
-# event = smart$EVENT[1:500]
-# x.df = as.data.frame(x)
-# dd = datadist(x.df)
-# options(datadist = "dd")
+# cvfit = cv.ncvsurv(x, Surv(time, event),
+#                    model = 'cox', penalty = 'SCAD',
+#                    alpha = 1, nfolds = 5,
+#                    seed = 1010, trace = TRUE)
+# fit = ncvsurv(x, Surv(time, event), model = 'cox', penalty = 'SCAD', alpha = 1)
 #
-# # Fit penalized Cox model (MCP penalty) with ncvreg
+# nom = hdnom.nomogram(fit, model.type = 'scad', x, time, event, x.df,
+#                      lambda = cvfit$lambda.min, pred.at = 365 * 2,
+#                      funlabel = "2-Year Overall Survival Probability")
+#
+# print(nom)
+# plot(nom)
+#
+# ### Testing Mnet models ###
 # cvfit = cv.ncvsurv(x, Surv(time, event),
 #                    model = 'cox', penalty = 'MCP',
-#                    alpha = 1, nfolds = 3,
+#                    alpha = 0.5, nfolds = 5,
 #                    seed = 1010, trace = TRUE)
-# fit = ncvsurv(x, Surv(time, event), model = 'cox', penalty = 'MCP', alpha = 1)
+# fit = ncvsurv(x, Surv(time, event), model = 'cox', penalty = 'MCP', alpha = 0.5)
 #
 # # Generate hdnom.nomogram objects and plot nomogram
-# nom = hdnom.nomogram(fit, model.type = 'mcp', x, time, event, x.df,
+# nom = hdnom.nomogram(fit, model.type = 'mnet', x, time, event, x.df,
 #                      lambda = cvfit$lambda.min, pred.at = 365 * 2,
 #                      funlabel = "2-Year Overall Survival Probability")
 #
@@ -165,11 +166,11 @@ hdnom.nomogram = function(object,
 
     if (is.null(lambda)) stop('Missing argument lambda')
 
-    ncvreg_pred_lp = predict(object, X = x, lambda = lambda, type = 'link')
+    ncvreg_pred_lp = predict(object, X = x, type = 'link')
 
     all_vars = rownames(object$beta)
     selected_vars =
-      all_vars[which(as.vector(abs(coef(object, lambda = lambda)) > .Machine$double.eps))]
+      all_vars[which(as.vector(abs(coef(object)) > .Machine$double.eps))]
     ols_formula = paste('ncvreg_pred_lp ~',
                         paste(paste('`', selected_vars, '`', sep = ''),
                               collapse = ' + '))
@@ -304,8 +305,7 @@ glmnet.basesurv = function(time, event, lp,
 #' @keywords internal
 ncvreg.survcurve = function(object, time, event, x, survtime, lambda) {
 
-  lp = as.numeric(predict(object, X = data.matrix(x),
-                          lambda = lambda, type = 'link'))
+  lp = as.numeric(predict(object, X = data.matrix(x), type = 'link'))
   basesurv = ncvreg.basesurv(time, event, lp, sort(survtime))
   p = exp(exp(lp) %*% (-t(basesurv$cumulative_base_hazard)))
   colnames(p) = names(sort(survtime))

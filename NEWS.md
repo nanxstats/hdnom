@@ -1,3 +1,15 @@
+# CHANGES IN hdnom VERSION 2.0 (2015-09-15)
+
+## NEW FEATURES
+
+* Support five more high-dimensional penalized Cox model types:
+
+  * Fused lasso
+  * MCP
+  * Mnet
+  * SCAD
+  * Snet
+
 # CHANGES IN hdnom VERSION 1.2 (2015-08-27)
 
 ## IMPROVEMENTS

@@ -38,10 +38,27 @@ To free the users from the tedious and error-prone parameter tuning process,
 `hdnom` provides several functions for automatic parameter tuning and
 model selection, including the following model types:
 
-  * `hdcox.lasso()` - lasso model;
-  * `hdcox.alasso()` - adaptive lasso model;
-  * `hdcox.enet()` - elastic-net model;
-  * `hdcox.aenet()` - adaptive elastic-net model.
++------------------+---------------------------------+
+| Function Name    | Model Type                      |
++==================+=================================+
+| `hdcox.lasso()`  | Lasso model                     |
++------------------+---------------------------------+
+| `hdcox.alasso()` | Adaptive lasso model            |
++------------------+---------------------------------+
+| `hdcox.flasso()` | Fused lasso model               |
++------------------+---------------------------------+
+| `hdcox.enet()`   | Elastic-net model               |
++------------------+---------------------------------+
+| `hdcox.aenet()`  | Adaptive elastic-net model      |
++------------------+---------------------------------+
+| `hdcox.mcp()`    | MCP model                       |
++------------------+---------------------------------+
+| `hdcox.mnet()`   | Mnet (MCP + elastic-net) model  |
++------------------+---------------------------------+
+| `hdcox.scad()`   | SCAD model                      |
++------------------+---------------------------------+
+| `hdcox.snet()`   | Snet (SCAD + elastic-net) model |
++------------------+---------------------------------+
 
 In the next, we will use the imputed SMART study data [@steyerberg2008clinical]
 to demonstrate a complete process of model building, nomogram plotting,
@@ -120,7 +137,7 @@ x.df = as.data.frame(x)
 dd = datadist(x.df)
 options(datadist = "dd")
 
-nom = hdnom.nomogram(fit, x, time, event, x.df,
+nom = hdnom.nomogram(fit, model.type = "aenet", x, time, event, x.df,
                      lambda = lambda, pred.at = 365 * 2,
                      funlabel = "2-Year Overall Survival Probability")
 plot(nom)
@@ -149,7 +166,7 @@ from the first year to the fifth year:
 
 ```{r}
 set.seed(11)
-val = hdnom.validate(x, time, event,
+val = hdnom.validate(x, time, event, model.type = "aenet",
                      alpha = alpha, lambda = lambda, pen.factor = adapen,
                      method = "bootstrap", boot.times = 10,
                      tauc.type = "UNO", tauc.time = seq(1, 5, 0.5) * 365,
@@ -190,7 +207,7 @@ resampling, k-fold cross-validation and repeated cross-validation.
 For example, to calibrate the model with the bootstrap method:
 
 ```{r}
-cal = hdnom.calibrate(x, time, event,
+cal = hdnom.calibrate(x, time, event, model.type = "aenet",
                       alpha = alpha, lambda = lambda, pen.factor = adapen,
                       method = "bootstrap", boot.times = 10,
                       pred.at = 365 * 5, ngroup = 5,

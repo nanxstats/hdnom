@@ -58,7 +58,8 @@ dd = datadist(x.df)
 options(datadist = "dd")
 
 # Generate hdnom.nomogram objects and plot nomogram
-nom = hdnom.nomogram(enetfit$enet_model, x, time, event, x.df,
+nom = hdnom.nomogram(enetfit$enet_model, model.type = 'enet',
+                     x, time, event, x.df,
                      lambda = enetfit$enet_best_lambda, pred.at = 365 * 2,
                      funlabel = "2-Year Overall Survival Probability")
 

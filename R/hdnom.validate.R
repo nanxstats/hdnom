@@ -2,7 +2,7 @@
 #'
 #' Validate High-Dimensional Cox models with time-dependent AUC
 #'
-#' @param x Matrix of training data used for the \code{glmnet} object;
+#' @param x Matrix of training data used for fitting the model;
 #' on which to run the validation.
 #' @param time Survival time.
 #' Must be of the same length with the number of rows as \code{x}.
@@ -12,15 +12,15 @@
 #' \code{"alasso"}, \code{"flasso"}, \code{"enet"}, \code{"aenet"},
 #' \code{"mcp"}, \code{"mnet"}, \code{"scad"}, or \code{"snet"}.
 #' @param alpha Value of the elastic-net mixing parameter alpha for
-#' \code{enet}, \code{aenet}, \code{mnet} and \code{snet} models.
+#' \code{enet}, \code{aenet}, \code{mnet}, and \code{snet} models.
 #' \code{alpha=1}: lasso/MCP/SCAD; \code{alpha=0}: ridge. Note that
 #' for \code{mnet} and \code{snet} models, \code{alpha} can be set to
 #' very close to 0 but not 0 exactly.
 #' @param lambda Value of the penalty parameter lambda to use in the
-#' glmnet fits on the resampled data. From the Cox model you have built.
+#' model fits on the resampled data. From the built Cox model.
 #' @param pen.factor Penalty factors to apply to each coefficient.
 #' From the built \emph{adaptive lasso} or \emph{adaptive elastic-net} model.
-#' @param gamma Parameter gamma for MCP/SCAD/Mnet/Snet models.
+#' @param gamma Value of the model parameter gamma for MCP/SCAD/Mnet/Snet models.
 #' @param method Validation method.
 #' Could be \code{"bootstrap"}, \code{"cv"}, or \code{"repeated.cv"}.
 #' @param boot.times Number of repetitions for bootstrap.
@@ -103,6 +103,7 @@
 #' print(val.repcv)
 #' summary(val.repcv)
 #' plot(val.repcv, ylim = c(0.4, 0.8))
+#'
 # ### Testing fused lasso, SCAD, and Mnet models ###
 # library("survival")
 # library("rms")
@@ -116,7 +117,7 @@
 #
 # set.seed(1010)
 # val.boot = hdnom.validate(x, time, event, model.type = 'flasso',
-#                           lambda = 50,
+#                           lambda = 60,
 #                           method = "bootstrap", boot.times = 10,
 #                           tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
 #

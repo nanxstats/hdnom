@@ -45,7 +45,8 @@ dd = datadist(x.df)
 options(datadist = "dd")
 
 # Generate hdnom.nomogram objects and plot nomogram
-nom = hdnom.nomogram(lassofit$lasso_model, x, time, event, x.df,
+nom = hdnom.nomogram(lassofit$lasso_model, model.type = 'lasso',
+                     x, time, event, x.df,
                      lambda = lassofit$lasso_best_lambda, pred.at = 365 * 2,
                      funlabel = "2-Year Overall Survival Probability")
 

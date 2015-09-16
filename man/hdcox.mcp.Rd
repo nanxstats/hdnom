@@ -20,6 +20,11 @@ hdcox.mcp(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100), seed = 1001,
 
 \item{trace}{Output the cross-validation parameter tuning
 progress or not. Default is \code{FALSE}.}
+
+\item{parallel}{Logical. Enable parallel parameter tuning or not,
+default is {FALSE}. To enable parallel tuning, load the
+\code{doParallel} package and run \code{registerDoParallel()}
+with the number of CPU cores before calling this function.}
 }
 \description{
 Automatic MCP model selection for high-dimensional
@@ -30,15 +35,15 @@ library("ncvreg")
 library("survival")
 library("rms")
 
-# Load imputed SMART data
+# Load imputed SMART data; only use the first 120 samples
 data("smart")
-x = as.matrix(smart[, -c(1, 2)])
-time = smart$TEVENT
-event = smart$EVENT
+x = as.matrix(smart[, -c(1, 2)])[1:120, ]
+time = smart$TEVENT[1:120]
+event = smart$EVENT[1:120]
 y = Surv(time, event)
 
 # Fit Cox model by MCP penalization
-mcpfit = hdcox.mcp(x, y, nfolds = 3, gammas = c(1.7, 3), trace = TRUE)
+mcpfit = hdcox.mcp(x, y, nfolds = 3, gammas = c(2.1, 3))
 
 # Prepare data for hdnom.nomogram
 x.df = as.data.frame(x)
@@ -46,12 +51,9 @@ dd = datadist(x.df)
 options(datadist = "dd")
 
 # Generate hdnom.nomogram objects and plot nomogram
-nom = hdnom.nomogram(mcpfit$mcp_model, x, time, event, x.df,
-                     gamma = mcpfit$mcp_best_gamma,
-                     lambda = mcpfit$mcp_best_lambda,
-                     pred.at = 365 * 2,
+nom = hdnom.nomogram(mcpfit$mcp_model, model.type = 'mcp', x, time, event, x.df,
+                     lambda = mcpfit$mcp_best_lambda, pred.at = 365 * 2,
                      funlabel = "2-Year Overall Survival Probability")
-
 plot(nom)
 }
 

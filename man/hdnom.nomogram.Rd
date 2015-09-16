@@ -15,7 +15,7 @@ hdnom.nomogram(object, model.type = c("lasso", "alasso", "flasso", "enet",
 \code{"alasso"}, \code{"flasso"}, \code{"enet"}, \code{"aenet"},
 \code{"mcp"}, \code{"mnet"}, \code{"scad"}, or \code{"snet"}.}
 
-\item{x}{Matrix of training data used for the \code{glmnet} object.}
+\item{x}{Matrix of training data used for fitting the model.}
 
 \item{time}{Survival time.
 Must be of the same length with the number of rows as \code{x}.}
@@ -26,7 +26,7 @@ Must be of the same length with the number of rows as \code{x}.}
 \item{ddist}{Data frame version of x, made by \code{\link[rms]{datadist}}.}
 
 \item{lambda}{Value of the penalty parameter lambda in
-\code{\link[glmnet]{glmnet}} or \code{\link[ncvreg]{ncvreg}}.
+\code{\link[glmnet]{glmnet}} or \code{\link[ncvreg]{ncvsurv}}.
 Required except when \code{model.type == "flasso"}.
 We will use the selected variables at the provided \code{lambda} to
 build the nomogram, and make predictions.

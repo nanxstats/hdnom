@@ -11,7 +11,7 @@ hdnom.validate(x, time, event, model.type = c("lasso", "alasso", "flasso",
   tauc.type = c("CD", "SZ", "UNO"), tauc.time, trace = TRUE)
 }
 \arguments{
-\item{x}{Matrix of training data used for the \code{glmnet} object;
+\item{x}{Matrix of training data used for fitting the model;
 on which to run the validation.}
 
 \item{time}{Survival time.
@@ -25,18 +25,18 @@ Must be of the same length with the number of rows as \code{x}.}
 \code{"mcp"}, \code{"mnet"}, \code{"scad"}, or \code{"snet"}.}
 
 \item{alpha}{Value of the elastic-net mixing parameter alpha for
-\code{enet}, \code{aenet}, \code{mnet} and \code{snet} models.
+\code{enet}, \code{aenet}, \code{mnet}, and \code{snet} models.
 \code{alpha=1}: lasso/MCP/SCAD; \code{alpha=0}: ridge. Note that
 for \code{mnet} and \code{snet} models, \code{alpha} can be set to
 very close to 0 but not 0 exactly.}
 
 \item{lambda}{Value of the penalty parameter lambda to use in the
-glmnet fits on the resampled data. From the Cox model you have built.}
+model fits on the resampled data. From the built Cox model.}
 
 \item{pen.factor}{Penalty factors to apply to each coefficient.
 From the built \emph{adaptive lasso} or \emph{adaptive elastic-net} model.}
 
-\item{gamma}{Parameter gamma for MCP/SCAD/Mnet/Snet models.}
+\item{gamma}{Value of the model parameter gamma for MCP/SCAD/Mnet/Snet models.}
 
 \item{method}{Validation method.
 Could be \code{"bootstrap"}, \code{"cv"}, or \code{"repeated.cv"}.}

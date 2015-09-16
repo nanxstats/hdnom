@@ -88,7 +88,8 @@ glmnet.tune.alpha = function(..., alphas, seed, parallel) {
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(aenetfit$aenet_model, x, time, event, x.df,
+#' nom = hdnom.nomogram(aenetfit$aenet_model, model.type = 'aenet',
+#'                      x, time, event, x.df,
 #'                      lambda = aenetfit$aenet_best_lambda, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
@@ -201,7 +202,8 @@ hdcox.aenet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(alassofit$alasso_model, x, time, event, x.df,
+#' nom = hdnom.nomogram(alassofit$alasso_model, model.type = 'alasso',
+#'                      x, time, event, x.df,
 #'                      lambda = alassofit$alasso_best_lambda, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
@@ -307,7 +309,8 @@ hdcox.alasso = function(x, y, nfolds = 5L,
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(enetfit$enet_model, x, time, event, x.df,
+#' nom = hdnom.nomogram(enetfit$enet_model, model.type = 'enet',
+#'                      x, time, event, x.df,
 #'                      lambda = enetfit$enet_best_lambda, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
@@ -379,7 +382,8 @@ hdcox.enet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(lassofit$lasso_model, x, time, event, x.df,
+#' nom = hdnom.nomogram(lassofit$lasso_model, model.type = 'lasso',
+#'                      x, time, event, x.df,
 #'                      lambda = lassofit$lasso_best_lambda, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
@@ -438,11 +442,11 @@ hdcox.lasso = function(x, y, nfolds = 5L,
 #' library("survival")
 #' library("rms")
 #'
-#' # Load imputed SMART data
+#' # Load imputed SMART data; only use the first 120 samples
 #' data("smart")
-#' x = as.matrix(smart[, -c(1, 2)])
-#' time = smart$TEVENT
-#' event = smart$EVENT
+#' x = as.matrix(smart[, -c(1, 2)])[1:120, ]
+#' time = smart$TEVENT[1:120]
+#' event = smart$EVENT[1:120]
 #' y = Surv(time, event)
 #'
 #' # Fit Cox model by fused lasso penalization
@@ -454,7 +458,8 @@ hdcox.lasso = function(x, y, nfolds = 5L,
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(flassofit$flasso_model, x, time, event, x.df,
+#' nom = hdnom.nomogram(flassofit$flasso_model, model.type = 'flasso',
+#'                      x, time, event, x.df,
 #'                      lambda = flassofit$flasso_best_lambda, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
@@ -521,6 +526,10 @@ ncvreg.tune.gamma = function(..., gammas, seed, parallel) {
 #' @param seed A random seed for cross-validation fold division.
 #' @param trace Output the cross-validation parameter tuning
 #' progress or not. Default is \code{FALSE}.
+#' @param parallel Logical. Enable parallel parameter tuning or not,
+#' default is {FALSE}. To enable parallel tuning, load the
+#' \code{doParallel} package and run \code{registerDoParallel()}
+#' with the number of CPU cores before calling this function.
 #'
 #' @importFrom ncvreg ncvsurv
 #'
@@ -531,15 +540,15 @@ ncvreg.tune.gamma = function(..., gammas, seed, parallel) {
 #' library("survival")
 #' library("rms")
 #'
-#' # Load imputed SMART data
+#' # Load imputed SMART data; only use the first 120 samples
 #' data("smart")
-#' x = as.matrix(smart[, -c(1, 2)])
-#' time = smart$TEVENT
-#' event = smart$EVENT
+#' x = as.matrix(smart[, -c(1, 2)])[1:120, ]
+#' time = smart$TEVENT[1:120]
+#' event = smart$EVENT[1:120]
 #' y = Surv(time, event)
 #'
 #' # Fit Cox model by MCP penalization
-#' mcpfit = hdcox.mcp(x, y, nfolds = 3, gammas = c(1.7, 3), trace = TRUE)
+#' mcpfit = hdcox.mcp(x, y, nfolds = 3, gammas = c(2.1, 3))
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -547,12 +556,9 @@ ncvreg.tune.gamma = function(..., gammas, seed, parallel) {
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(mcpfit$mcp_model, x, time, event, x.df,
-#'                      gamma = mcpfit$mcp_best_gamma,
-#'                      lambda = mcpfit$mcp_best_lambda,
-#'                      pred.at = 365 * 2,
+#' nom = hdnom.nomogram(mcpfit$mcp_model, model.type = 'mcp', x, time, event, x.df,
+#'                      lambda = mcpfit$mcp_best_lambda, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
-#'
 #' plot(nom)
 hdcox.mcp = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
                      seed = 1001, trace = FALSE, parallel = FALSE) {
@@ -643,6 +649,10 @@ ncvreg.tune.gamma.alpha = function(..., gammas, alphas, seed, parallel) {
 #' @param seed A random seed for cross-validation fold division.
 #' @param trace Output the cross-validation parameter tuning
 #' progress or not. Default is \code{FALSE}.
+#' @param parallel Logical. Enable parallel parameter tuning or not,
+#' default is {FALSE}. To enable parallel tuning, load the
+#' \code{doParallel} package and run \code{registerDoParallel()}
+#' with the number of CPU cores before calling this function.
 #'
 #' @importFrom ncvreg ncvsurv
 #'
@@ -653,16 +663,15 @@ ncvreg.tune.gamma.alpha = function(..., gammas, alphas, seed, parallel) {
 #' library("survival")
 #' library("rms")
 #'
-#' # Load imputed SMART data
+#' # Load imputed SMART data; only use the first 120 samples
 #' data("smart")
-#' x = as.matrix(smart[, -c(1, 2)])
-#' time = smart$TEVENT
-#' event = smart$EVENT
+#' x = as.matrix(smart[, -c(1, 2)])[1:120, ]
+#' time = smart$TEVENT[1:120]
+#' event = smart$EVENT[1:120]
 #' y = Surv(time, event)
 #'
 #' # Fit Cox model by Mnet penalization
-#' mnetfit = hdcox.mnet(x, y, nfolds = 3, gammas = c(1.7, 3),
-#'                      alphas = c(0.3, 0.8), trace = TRUE)
+#' mnetfit = hdcox.mnet(x, y, nfolds = 3, gammas = 3, alphas = c(0.3, 0.8))
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -670,9 +679,8 @@ ncvreg.tune.gamma.alpha = function(..., gammas, alphas, seed, parallel) {
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(mnetfit$mnet_model, x, time, event, x.df,
-#'                      gamma = mnetfit$mnet_best_gamma,
-#'                      alpha = mnetfit$mnet_best_alpha,
+#' nom = hdnom.nomogram(mnetfit$mnet_model, model.type = 'mnet',
+#'                      x, time, event, x.df,
 #'                      lambda = mnetfit$mnet_best_lambda,
 #'                      pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
@@ -721,6 +729,10 @@ hdcox.mnet = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
 #' @param seed A random seed for cross-validation fold division.
 #' @param trace Output the cross-validation parameter tuning
 #' progress or not. Default is \code{FALSE}.
+#' @param parallel Logical. Enable parallel parameter tuning or not,
+#' default is {FALSE}. To enable parallel tuning, load the
+#' \code{doParallel} package and run \code{registerDoParallel()}
+#' with the number of CPU cores before calling this function.
 #'
 #' @importFrom ncvreg ncvsurv
 #'
@@ -731,15 +743,15 @@ hdcox.mnet = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
 #' library("survival")
 #' library("rms")
 #'
-#' # Load imputed SMART data
+#' # Load imputed SMART data; only use the first 120 samples
 #' data("smart")
-#' x = as.matrix(smart[, -c(1, 2)])
-#' time = smart$TEVENT
-#' event = smart$EVENT
+#' x = as.matrix(smart[, -c(1, 2)])[1:120, ]
+#' time = smart$TEVENT[1:120]
+#' event = smart$EVENT[1:120]
 #' y = Surv(time, event)
 #'
 #' # Fit Cox model by SCAD penalization
-#' scadfit = hdcox.scad(x, y, nfolds = 3, gammas = c(2.3, 3.7), trace = TRUE)
+#' scadfit = hdcox.scad(x, y, nfolds = 3, gammas = c(3.7, 5))
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -747,10 +759,8 @@ hdcox.mnet = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(scadfit$scad_model, x, time, event, x.df,
-#'                      gamma = scadfit$scad_best_gamma,
-#'                      lambda = scadfit$scad_best_lambda,
-#'                      pred.at = 365 * 2,
+#' nom = hdnom.nomogram(scadfit$scad_model, model.type = 'scad', x, time, event, x.df,
+#'                      lambda = scadfit$scad_best_lambda, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
 #' plot(nom)
@@ -791,6 +801,10 @@ hdcox.scad = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
 #' @param seed A random seed for cross-validation fold division.
 #' @param trace Output the cross-validation parameter tuning
 #' progress or not. Default is \code{FALSE}.
+#' @param parallel Logical. Enable parallel parameter tuning or not,
+#' default is {FALSE}. To enable parallel tuning, load the
+#' \code{doParallel} package and run \code{registerDoParallel()}
+#' with the number of CPU cores before calling this function.
 #'
 #' @importFrom ncvreg ncvsurv
 #'
@@ -801,16 +815,15 @@ hdcox.scad = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
 #' library("survival")
 #' library("rms")
 #'
-#' # Load imputed SMART data
+#' # Load imputed SMART data; only use the first 120 samples
 #' data("smart")
-#' x = as.matrix(smart[, -c(1, 2)])
-#' time = smart$TEVENT
-#' event = smart$EVENT
+#' x = as.matrix(smart[, -c(1, 2)])[1:120, ]
+#' time = smart$TEVENT[1:120]
+#' event = smart$EVENT[1:120]
 #' y = Surv(time, event)
 #'
 #' # Fit Cox model by Snet penalization
-#' snetfit = hdcox.snet(x, y, nfolds = 3, gammas = c(2.01, 3.7),
-#'                      alphas = c(0.3, 0.8), trace = TRUE)
+#' snetfit = hdcox.snet(x, y, nfolds = 3, gammas = 3.7, alphas = c(0.3, 0.8))
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -818,9 +831,8 @@ hdcox.scad = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(snetfit$snet_model, x, time, event, x.df,
-#'                      gamma = snetfit$snet_best_gamma,
-#'                      alpha = snetfit$snet_best_alpha,
+#' nom = hdnom.nomogram(snetfit$snet_model, model.type = 'snet',
+#'                      x, time, event, x.df,
 #'                      lambda = snetfit$snet_best_lambda,
 #'                      pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")

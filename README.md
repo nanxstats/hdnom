@@ -27,3 +27,9 @@ library("hdnom")
 ```
 
 and you are all set. See [the vignette](https://cran.r-project.org/web/packages/hdnom/vignettes/hdnom.html) (can also be opened with `vignette("hdnom")` in R) for a quick-start guide.
+
+## Links
+
+* hdnom homepage: [nomogr.am](http://nomogr.am)
+* hdnom on CRAN: [https://cran.r-project.org/web/packages/hdnom/](https://cran.r-project.org/web/packages/hdnom/)
+* hdnom on GitHub: [https://github.com/road2stat/hdnom/](https://github.com/road2stat/hdnom/)

@@ -35,11 +35,11 @@ library("penalized")
 library("survival")
 library("rms")
 
-# Load imputed SMART data
+# Load imputed SMART data; only use the first 120 samples
 data("smart")
-x = as.matrix(smart[, -c(1, 2)])
-time = smart$TEVENT
-event = smart$EVENT
+x = as.matrix(smart[, -c(1, 2)])[1:120, ]
+time = smart$TEVENT[1:120]
+event = smart$EVENT[1:120]
 y = Surv(time, event)
 
 # Fit Cox model by fused lasso penalization
@@ -51,7 +51,8 @@ dd = datadist(x.df)
 options(datadist = "dd")
 
 # Generate hdnom.nomogram objects and plot nomogram
-nom = hdnom.nomogram(flassofit$flasso_model, x, time, event, x.df,
+nom = hdnom.nomogram(flassofit$flasso_model, model.type = 'flasso',
+                     x, time, event, x.df,
                      lambda = flassofit$flasso_best_lambda, pred.at = 365 * 2,
                      funlabel = "2-Year Overall Survival Probability")
 
