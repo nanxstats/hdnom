@@ -43,7 +43,7 @@ event = smart$EVENT[1:120]
 y = Surv(time, event)
 
 # Fit Cox model by SCAD penalization
-scadfit = hdcox.scad(x, y, nfolds = 3, gammas = c(3.7, 5))
+scadfit = hdcox.scad(x, y, nfolds = 3, gammas = c(3.7, 5), seed = 1010)
 
 # Prepare data for hdnom.nomogram
 x.df = as.data.frame(x)

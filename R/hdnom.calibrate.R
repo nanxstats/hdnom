@@ -13,9 +13,9 @@
 #' \code{"mcp"}, \code{"mnet"}, \code{"scad"}, or \code{"snet"}.
 #' @param alpha Value of the elastic-net mixing parameter alpha for
 #' \code{enet}, \code{aenet}, \code{mnet}, and \code{snet} models.
-#' \code{alpha=1}: lasso/MCP/SCAD; \code{alpha=0}: ridge. Note that
-#' for \code{mnet} and \code{snet} models, \code{alpha} can be set to
-#' very close to 0 but not 0 exactly.
+#' \code{alpha=1}: lasso (l1) penalty; \code{alpha=0}: ridge (l2) penalty.
+#' Note that for \code{mnet} and \code{snet} models,
+#' \code{alpha} can be set to very close to 0 but not 0 exactly.
 #' @param lambda Value of the penalty parameter lambda to use in the
 #' model fits on the resampled data. From the Cox model you have built.
 #' @param pen.factor Penalty factors to apply to each coefficient.
@@ -30,7 +30,8 @@
 #' @param rep.times Number of repeated times for repeated cross-validation.
 #' @param pred.at Time point at which calibration should take place.
 #' @param ngroup Number of groups to be formed for calibration.
-#' @param trace Logical. Print trace or not. Default is \code{TRUE}.
+#' @param trace Logical. Output the calibration progress or not.
+#' Default is \code{TRUE}.
 #'
 #' @importFrom survival Surv
 #' @importFrom stats quantile

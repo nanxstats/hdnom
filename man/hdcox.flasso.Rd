@@ -43,7 +43,7 @@ event = smart$EVENT[1:120]
 y = Surv(time, event)
 
 # Fit Cox model by fused lasso penalization
-flassofit = hdcox.flasso(x, y, nfolds = 3, seed = 11, trace = TRUE)
+flassofit = hdcox.flasso(x, y, nfolds = 3, seed = 11)
 
 # Prepare data for hdnom.nomogram
 x.df = as.data.frame(x)

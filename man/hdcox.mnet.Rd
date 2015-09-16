@@ -46,7 +46,8 @@ event = smart$EVENT[1:120]
 y = Surv(time, event)
 
 # Fit Cox model by Mnet penalization
-mnetfit = hdcox.mnet(x, y, nfolds = 3, gammas = 3, alphas = c(0.3, 0.8))
+mnetfit = hdcox.mnet(x, y, nfolds = 3, gammas = 3,
+                     alphas = c(0.3, 0.8), seed = 1010)
 
 # Prepare data for hdnom.nomogram
 x.df = as.data.frame(x)

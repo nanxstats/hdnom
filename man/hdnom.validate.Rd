@@ -26,9 +26,9 @@ Must be of the same length with the number of rows as \code{x}.}
 
 \item{alpha}{Value of the elastic-net mixing parameter alpha for
 \code{enet}, \code{aenet}, \code{mnet}, and \code{snet} models.
-\code{alpha=1}: lasso/MCP/SCAD; \code{alpha=0}: ridge. Note that
-for \code{mnet} and \code{snet} models, \code{alpha} can be set to
-very close to 0 but not 0 exactly.}
+\code{alpha=1}: lasso (l1) penalty; \code{alpha=0}: ridge (l2) penalty.
+Note that for \code{mnet} and \code{snet} models,
+\code{alpha} can be set to very close to 0 but not 0 exactly.}
 
 \item{lambda}{Value of the penalty parameter lambda to use in the
 model fits on the resampled data. From the built Cox model.}
@@ -56,7 +56,8 @@ Including \code{"CD"} proposed by Chambless and Diao (2006).,
 \item{tauc.time}{Numeric vector. Time points at which to evaluate
 the time-dependent AUC.}
 
-\item{trace}{Logical. Print trace or not. Default is \code{TRUE}.}
+\item{trace}{Logical. Output the validation progress or not.
+Default is \code{TRUE}.}
 }
 \description{
 Validate High-Dimensional Cox models with time-dependent AUC

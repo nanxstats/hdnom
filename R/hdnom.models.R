@@ -450,7 +450,7 @@ hdcox.lasso = function(x, y, nfolds = 5L,
 #' y = Surv(time, event)
 #'
 #' # Fit Cox model by fused lasso penalization
-#' flassofit = hdcox.flasso(x, y, nfolds = 3, seed = 11, trace = TRUE)
+#' flassofit = hdcox.flasso(x, y, nfolds = 3, seed = 11)
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -548,7 +548,7 @@ ncvreg.tune.gamma = function(..., gammas, seed, parallel) {
 #' y = Surv(time, event)
 #'
 #' # Fit Cox model by MCP penalization
-#' mcpfit = hdcox.mcp(x, y, nfolds = 3, gammas = c(2.1, 3))
+#' mcpfit = hdcox.mcp(x, y, nfolds = 3, gammas = c(2.1, 3), seed = 1010)
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -671,7 +671,8 @@ ncvreg.tune.gamma.alpha = function(..., gammas, alphas, seed, parallel) {
 #' y = Surv(time, event)
 #'
 #' # Fit Cox model by Mnet penalization
-#' mnetfit = hdcox.mnet(x, y, nfolds = 3, gammas = 3, alphas = c(0.3, 0.8))
+#' mnetfit = hdcox.mnet(x, y, nfolds = 3, gammas = 3,
+#'                      alphas = c(0.3, 0.8), seed = 1010)
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -751,7 +752,7 @@ hdcox.mnet = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
 #' y = Surv(time, event)
 #'
 #' # Fit Cox model by SCAD penalization
-#' scadfit = hdcox.scad(x, y, nfolds = 3, gammas = c(3.7, 5))
+#' scadfit = hdcox.scad(x, y, nfolds = 3, gammas = c(3.7, 5), seed = 1010)
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -823,7 +824,8 @@ hdcox.scad = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
 #' y = Surv(time, event)
 #'
 #' # Fit Cox model by Snet penalization
-#' snetfit = hdcox.snet(x, y, nfolds = 3, gammas = 3.7, alphas = c(0.3, 0.8))
+#' snetfit = hdcox.snet(x, y, nfolds = 3, gammas = 3.7,
+#'                      alphas = c(0.3, 0.8), seed = 1010)
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)

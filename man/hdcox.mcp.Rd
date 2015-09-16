@@ -43,7 +43,7 @@ event = smart$EVENT[1:120]
 y = Surv(time, event)
 
 # Fit Cox model by MCP penalization
-mcpfit = hdcox.mcp(x, y, nfolds = 3, gammas = c(2.1, 3))
+mcpfit = hdcox.mcp(x, y, nfolds = 3, gammas = c(2.1, 3), seed = 1010)
 
 # Prepare data for hdnom.nomogram
 x.df = as.data.frame(x)
