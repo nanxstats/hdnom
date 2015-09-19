@@ -228,7 +228,7 @@ plot(cal, xlim = c(0.6, 1), ylim = c(0.6, 1))
 
 See `?hdnom.calibrate` for more examples about model calibration.
 
-For further information about `hdnom`, consult the project homepage:
-[nomogr.am](http://nomogr.am).
+For further information about `hdnom`, consult the project website:
+[http://hdnom.org](http://hdnom.org).
 
 # References

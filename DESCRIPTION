@@ -1,15 +1,15 @@
 Package: hdnom
 Type: Package
 Title: Nomograms for High-Dimensional Cox Models
-Version: 2.0
-Date: 2015-09-15
+Version: 2.1
+Date: 2015-09-20
 Author: Miaozhu Li <miaozhu.li@duke.edu>, Nan Xiao <nanx@uchicago.edu>
 Maintainer: Nan Xiao <nanx@uchicago.edu>
 Description: Build nomograms for high-dimensional Cox models, with support for model validation and calibration.
 License: GPL
 LazyData: TRUE
 VignetteBuilder: knitr
-URL: http://nomogr.am
+URL: http://hdnom.org
 BugReports: https://github.com/road2stat/hdnom/issues
 Depends:
     R (>= 3.0.2)

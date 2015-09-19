@@ -8,7 +8,7 @@
 #' Must be of the same length with the number of rows as \code{x}.
 #' @param event Status indicator, normally 0 = alive, 1 = dead.
 #' Must be of the same length with the number of rows as \code{x}.
-#' @param model.type Model type to validate. Could be one of \code{"lasso"},
+#' @param model.type Model type to calibrate. Could be one of \code{"lasso"},
 #' \code{"alasso"}, \code{"flasso"}, \code{"enet"}, \code{"aenet"},
 #' \code{"mcp"}, \code{"mnet"}, \code{"scad"}, or \code{"snet"}.
 #' @param alpha Value of the elastic-net mixing parameter alpha for

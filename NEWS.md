@@ -1,3 +1,10 @@
+# CHANGES IN hdnom VERSION 2.1 (2015-09-20)
+
+## NEW FEATURES
+
+* New website: hdnom.org
+* Shiny-based web application (hdnom.io) shipped.
+
 # CHANGES IN hdnom VERSION 2.0 (2015-09-15)
 
 ## NEW FEATURES

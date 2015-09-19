@@ -30,6 +30,6 @@ and you are all set. See [the vignette](https://cran.r-project.org/web/packages/
 
 ## Links
 
-* hdnom homepage: [nomogr.am](http://nomogr.am)
+* hdnom website: [http://hdnom.org](http://hdnom.org)
 * hdnom on CRAN: [https://cran.r-project.org/web/packages/hdnom/](https://cran.r-project.org/web/packages/hdnom/)
 * hdnom on GitHub: [https://github.com/road2stat/hdnom/](https://github.com/road2stat/hdnom/)
