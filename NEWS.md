@@ -1,9 +1,15 @@
-# CHANGES IN hdnom VERSION 2.1 (2015-09-20)
+# CHANGES IN hdnom VERSION 2.1 (2015-10-26)
 
 ## NEW FEATURES
 
 * New website: hdnom.org
 * Shiny-based web application (hdnom.io) shipped.
+
+## IMPROVEMENTS
+
+* Added exception handling for null models in all hdcox.* functions.
+  Make examples compatible with ncvreg 3.5-0, which refined CV
+  implementation for survival models and improved computation speed.
 
 # CHANGES IN hdnom VERSION 2.0 (2015-09-15)
 
@@ -38,4 +44,4 @@ or disable the use of parallel parameter tuning.
 * Initial version of hdnom.
 * Nomograms for glmnet models.
 * Validation for glmnet models.
-* Calibration for glmnet models. 
+* Calibration for glmnet models.

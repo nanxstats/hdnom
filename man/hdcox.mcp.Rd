@@ -35,15 +35,15 @@ library("ncvreg")
 library("survival")
 library("rms")
 
-# Load imputed SMART data; only use the first 120 samples
+# Load imputed SMART data; only use the first 150 samples
 data("smart")
-x = as.matrix(smart[, -c(1, 2)])[1:120, ]
-time = smart$TEVENT[1:120]
-event = smart$EVENT[1:120]
+x = as.matrix(smart[, -c(1, 2)])[1:150, ]
+time = smart$TEVENT[1:150]
+event = smart$EVENT[1:150]
 y = Surv(time, event)
 
 # Fit Cox model by MCP penalization
-mcpfit = hdcox.mcp(x, y, nfolds = 3, gammas = c(2.1, 3), seed = 1010)
+mcpfit = hdcox.mcp(x, y, nfolds = 3, gammas = c(2.1, 3), seed = 1001)
 
 # Prepare data for hdnom.nomogram
 x.df = as.data.frame(x)

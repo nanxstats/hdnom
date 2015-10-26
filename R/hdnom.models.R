@@ -147,6 +147,10 @@ hdcox.aenet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
                      penalty.factor = adpen,
                      alpha   = best_alpha_aenet)
 
+  if (aenet_all$df < 0.5)
+    stop('Null model produced by the full fit (all coefficients are zero).
+         Please try to tune rule, alphas, seed, nfolds, or increase sample size.')
+
   adpen_vec = as.vector(adpen)
   adpen_name = rownames(adpen)
   names(adpen_vec) = adpen_name
@@ -246,6 +250,10 @@ hdcox.alasso = function(x, y, nfolds = 5L,
   alasso_all = glmnet(x, y, family = 'cox', lambda = best_lambda_alasso,
                       alpha = 1, penalty.factor = adpen)
 
+  if (alasso_all$df < 0.5)
+    stop('Null model produced by the full fit (all coefficients are zero).
+         Please try to tune rule, seed, nfolds, or increase sample size.')
+
   adpen_vec = as.vector(adpen)
   adpen_name = rownames(adpen)
   names(adpen_vec) = adpen_name
@@ -336,6 +344,10 @@ hdcox.enet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
                     lambda = best_lambda_enet,
                     alpha  = best_alpha_enet)
 
+  if (enet_all$df < 0.5)
+    stop('Null model produced by the full fit (all coefficients are zero).
+         Please try to tune rule, alphas, seed, nfolds, or increase sample size.')
+
   coxenet_model = list('enet_best_alpha' = best_alpha_enet,
                        'enet_best_lambda' = best_lambda_enet,
                        'enet_model' = enet_all)
@@ -405,6 +417,10 @@ hdcox.lasso = function(x, y, nfolds = 5L,
   lasso_all = glmnet(x, y, family = 'cox',
                      lambda = best_lambda_lasso, alpha = 1)
 
+  if (lasso_all$df < 0.5)
+    stop('Null model produced by the full fit (all coefficients are zero).
+         Please try to tune rule, seed, nfolds, or increase sample size.')
+
   coxlasso_model = list('lasso_best_lambda' = best_lambda_lasso,
                         'lasso_model' = lasso_all)
 
@@ -471,6 +487,10 @@ hdcox.flasso = function(x, y, nfolds = 5L,
   flasso_all = optL1(response = y, penalized = x, fusedl = TRUE,
                      standardize = TRUE, model = 'cox', fold = nfolds,
                      trace = trace)
+
+  if (all(abs(flasso_all$fullfit@penalized) < .Machine$double.eps))
+    stop('Null model produced by the full fit (all coefficients are zero).
+         Please try to tune seed, nfolds, or increase sample size.')
 
   coxflasso_model = list('flasso_best_lambda' = flasso_all$lambda,
                          'flasso_model' = flasso_all$fullfit)
@@ -540,15 +560,15 @@ ncvreg.tune.gamma = function(..., gammas, seed, parallel) {
 #' library("survival")
 #' library("rms")
 #'
-#' # Load imputed SMART data; only use the first 120 samples
+#' # Load imputed SMART data; only use the first 150 samples
 #' data("smart")
-#' x = as.matrix(smart[, -c(1, 2)])[1:120, ]
-#' time = smart$TEVENT[1:120]
-#' event = smart$EVENT[1:120]
+#' x = as.matrix(smart[, -c(1, 2)])[1:150, ]
+#' time = smart$TEVENT[1:150]
+#' event = smart$EVENT[1:150]
 #' y = Surv(time, event)
 #'
 #' # Fit Cox model by MCP penalization
-#' mcpfit = hdcox.mcp(x, y, nfolds = 3, gammas = c(2.1, 3), seed = 1010)
+#' mcpfit = hdcox.mcp(x, y, nfolds = 3, gammas = c(2.1, 3), seed = 1001)
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -573,6 +593,11 @@ hdcox.mcp = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
   # fit the model on all the data use the parameters got by CV
   mcp_all = ncvsurv(x, y, model = 'cox', penalty = 'MCP', alpha = 1,
                     gamma = mcp_best_gamma, lambda = mcp_best_lambda)
+
+  # deal with null models, thanks for the suggestion from Patrick Breheny
+  if (all(abs(mcp_all$beta[-1L, ]) < .Machine$double.eps))
+    stop('Null model produced by the full fit (all coefficients are zero).
+         Please try to tune gammas, seed, nfolds, or increase sample size.')
 
   coxmcp_model = list('mcp_best_gamma' = mcp_best_gamma,
                       'mcp_best_lambda' = mcp_best_lambda,
@@ -707,6 +732,10 @@ hdcox.mnet = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
                      alpha = mnet_best_alpha,
                      lambda = mnet_best_lambda)
 
+  if (all(abs(mnet_all$beta[-1L, ]) < .Machine$double.eps))
+    stop('Null model produced by the full fit (all coefficients are zero).
+         Please try to tune gammas, alphas, seed, nfolds, or increase sample size.')
+
   coxmnet_model = list('mnet_best_gamma'  = mnet_best_gamma,
                        'mnet_best_alpha'  = mnet_best_alpha,
                        'mnet_best_lambda' = mnet_best_lambda,
@@ -778,6 +807,10 @@ hdcox.scad = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
   # fit the model on all the data use the parameters got by CV
   scad_all = ncvsurv(x, y, model = 'cox', penalty = 'SCAD', alpha = 1,
                      gamma = scad_best_gamma, lambda = scad_best_lambda)
+
+  if (all(abs(scad_all$beta[-1L, ]) < .Machine$double.eps))
+    stop('Null model produced by the full fit (all coefficients are zero).
+         Please try to tune gammas, seed, nfolds, or increase sample size.')
 
   coxscad_model = list('scad_best_gamma' = scad_best_gamma,
                        'scad_best_lambda' = scad_best_lambda,
@@ -859,6 +892,10 @@ hdcox.snet = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
                      gamma = snet_best_gamma,
                      alpha = snet_best_alpha,
                      lambda = snet_best_lambda)
+
+  if (all(abs(snet_all$beta[-1L, ]) < .Machine$double.eps))
+    stop('Null model produced by the full fit (all coefficients are zero).
+         Please try to tune gammas, alphas, seed, nfolds, or increase sample size.')
 
   coxsnet_model = list('snet_best_gamma'  = snet_best_gamma,
                        'snet_best_alpha'  = snet_best_alpha,
