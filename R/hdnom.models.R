@@ -38,7 +38,7 @@ glmnet.tune.alpha = function(..., alphas, seed, parallel) {
 
 }
 
-#' Adaptive elastic-net model selection for high-dimensional Cox models
+#' Adaptive Elastic-Net Model Selection for High-Dimensional Cox Models
 #'
 #' Automatic adaptive elastic-net model selection for high-dimensional
 #' Cox models, evaluated by penalized partial-likelihood.
@@ -88,7 +88,7 @@ glmnet.tune.alpha = function(..., alphas, seed, parallel) {
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(aenetfit$aenet_model, model.type = 'aenet',
+#' nom = hdnom.nomogram(aenetfit$aenet_model, model.type = "aenet",
 #'                      x, time, event, x.df,
 #'                      lambda = aenetfit$aenet_best_lambda, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
@@ -163,13 +163,13 @@ hdcox.aenet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
                         'aenet_model' = aenet_all,
                         'pen_factor' = adpen_vec)
 
-  class(coxaenet_model) = 'hdcox.model.aenet'
+  class(coxaenet_model) = c('hdcox.model', 'hdcox.model.aenet')
 
   return(coxaenet_model)
 
 }
 
-#' Adaptive lasso model selection for high-dimensional Cox models
+#' Adaptive Lasso Model Selection for High-Dimensional Cox Models
 #'
 #' Automatic adaptive lasso model selection for high-dimensional
 #' Cox models, evaluated by penalized partial-likelihood.
@@ -206,7 +206,7 @@ hdcox.aenet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(alassofit$alasso_model, model.type = 'alasso',
+#' nom = hdnom.nomogram(alassofit$alasso_model, model.type = "alasso",
 #'                      x, time, event, x.df,
 #'                      lambda = alassofit$alasso_best_lambda, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
@@ -264,13 +264,13 @@ hdcox.alasso = function(x, y, nfolds = 5L,
                          'alasso_model' = alasso_all,
                          'pen_factor' = adpen_vec)
 
-  class(coxalasso_model) = 'hdcox.model.alasso'
+  class(coxalasso_model) = c('hdcox.model', 'hdcox.model.alasso')
 
   return(coxalasso_model)
 
 }
 
-#' Elastic-net model selection for high-dimensional Cox models
+#' Elastic-Net Model Selection for High-Dimensional Cox Models
 #'
 #' Automatic elastic-net model selection for high-dimensional
 #' Cox models, evaluated by penalized partial-likelihood.
@@ -307,7 +307,7 @@ hdcox.alasso = function(x, y, nfolds = 5L,
 #' # registerDoParallel(detectCores())
 #' # then set hdcox.enet(..., parallel = TRUE).
 #'
-#' # Fit Cox model by adaptive elastic-net penalization
+#' # Fit Cox model by elastic-net penalization
 #' enetfit = hdcox.enet(x, y, nfolds = 3, alphas = c(0.3, 0.7),
 #'                      rule = "lambda.1se", seed = 11)
 #'
@@ -317,7 +317,7 @@ hdcox.alasso = function(x, y, nfolds = 5L,
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(enetfit$enet_model, model.type = 'enet',
+#' nom = hdnom.nomogram(enetfit$enet_model, model.type = "enet",
 #'                      x, time, event, x.df,
 #'                      lambda = enetfit$enet_best_lambda, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
@@ -352,13 +352,13 @@ hdcox.enet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
                        'enet_best_lambda' = best_lambda_enet,
                        'enet_model' = enet_all)
 
-  class(coxenet_model) = 'hdcox.model.enet'
+  class(coxenet_model) = c('hdcox.model', 'hdcox.model.enet')
 
   return(coxenet_model)
 
 }
 
-#' Lasso model selection for high-dimensional Cox models
+#' Lasso Model Selection for High-Dimensional Cox Models
 #'
 #' Automatic lasso model selection for high-dimensional
 #' Cox models, evaluated by penalized partial-likelihood.
@@ -385,7 +385,7 @@ hdcox.enet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
 #' event = smart$EVENT
 #' y = Surv(time, event)
 #'
-#' # Fit Cox model by adaptive lasso penalization
+#' # Fit Cox model by lasso penalization
 #' lassofit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 #'
 #' # Prepare data for hdnom.nomogram
@@ -394,7 +394,7 @@ hdcox.enet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(lassofit$lasso_model, model.type = 'lasso',
+#' nom = hdnom.nomogram(lassofit$lasso_model, model.type = "lasso",
 #'                      x, time, event, x.df,
 #'                      lambda = lassofit$lasso_best_lambda, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
@@ -424,13 +424,13 @@ hdcox.lasso = function(x, y, nfolds = 5L,
   coxlasso_model = list('lasso_best_lambda' = best_lambda_lasso,
                         'lasso_model' = lasso_all)
 
-  class(coxlasso_model) = 'hdcox.model.lasso'
+  class(coxlasso_model) = c('hdcox.model', 'hdcox.model.lasso')
 
   return(coxlasso_model)
 
 }
 
-#' Fused lasso model selection for high-dimensional Cox models
+#' Fused Lasso Model Selection for High-Dimensional Cox Models
 #'
 #' Automatic fused lasso model selection for high-dimensional
 #' Cox models, evaluated by penalized partial-likelihood.
@@ -474,7 +474,7 @@ hdcox.lasso = function(x, y, nfolds = 5L,
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(flassofit$flasso_model, model.type = 'flasso',
+#' nom = hdnom.nomogram(flassofit$flasso_model, model.type = "flasso",
 #'                      x, time, event, x.df,
 #'                      lambda = flassofit$flasso_best_lambda, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
@@ -495,7 +495,7 @@ hdcox.flasso = function(x, y, nfolds = 5L,
   coxflasso_model = list('flasso_best_lambda' = flasso_all$lambda,
                          'flasso_model' = flasso_all$fullfit)
 
-  class(coxflasso_model) = 'hdcox.model.flasso'
+  class(coxflasso_model) = c('hdcox.model', 'hdcox.model.flasso')
 
   return(coxflasso_model)
 
@@ -534,7 +534,7 @@ ncvreg.tune.gamma = function(..., gammas, seed, parallel) {
 
 }
 
-#' MCP model selection for high-dimensional Cox models
+#' MCP Model Selection for High-Dimensional Cox Models
 #'
 #' Automatic MCP model selection for high-dimensional
 #' Cox models, evaluated by penalized partial-likelihood.
@@ -576,7 +576,7 @@ ncvreg.tune.gamma = function(..., gammas, seed, parallel) {
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(mcpfit$mcp_model, model.type = 'mcp', x, time, event, x.df,
+#' nom = hdnom.nomogram(mcpfit$mcp_model, model.type = "mcp", x, time, event, x.df,
 #'                      lambda = mcpfit$mcp_best_lambda, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #' plot(nom)
@@ -603,7 +603,7 @@ hdcox.mcp = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
                       'mcp_best_lambda' = mcp_best_lambda,
                       'mcp_model' = mcp_all)
 
-  class(coxmcp_model) = 'hdcox.model.mcp'
+  class(coxmcp_model) = c('hdcox.model', 'hdcox.model.mcp')
 
   return(coxmcp_model)
 
@@ -661,7 +661,7 @@ ncvreg.tune.gamma.alpha = function(..., gammas, alphas, seed, parallel) {
 
 }
 
-#' Mnet model selection for high-dimensional Cox models
+#' Mnet Model Selection for High-Dimensional Cox Models
 #'
 #' Automatic Mnet model selection for high-dimensional
 #' Cox models, evaluated by penalized partial-likelihood.
@@ -705,7 +705,7 @@ ncvreg.tune.gamma.alpha = function(..., gammas, alphas, seed, parallel) {
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(mnetfit$mnet_model, model.type = 'mnet',
+#' nom = hdnom.nomogram(mnetfit$mnet_model, model.type = "mnet",
 #'                      x, time, event, x.df,
 #'                      lambda = mnetfit$mnet_best_lambda,
 #'                      pred.at = 365 * 2,
@@ -741,13 +741,13 @@ hdcox.mnet = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
                        'mnet_best_lambda' = mnet_best_lambda,
                        'mnet_model'       = mnet_all)
 
-  class(coxmnet_model) = 'hdcox.model.mnet'
+  class(coxmnet_model) = c('hdcox.model', 'hdcox.model.mnet')
 
   return(coxmnet_model)
 
 }
 
-#' SCAD model selection for high-dimensional Cox models
+#' SCAD Model Selection for High-Dimensional Cox Models
 #'
 #' Automatic SCAD model selection for high-dimensional
 #' Cox models, evaluated by penalized partial-likelihood.
@@ -789,7 +789,7 @@ hdcox.mnet = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(scadfit$scad_model, model.type = 'scad', x, time, event, x.df,
+#' nom = hdnom.nomogram(scadfit$scad_model, model.type = "scad", x, time, event, x.df,
 #'                      lambda = scadfit$scad_best_lambda, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
@@ -816,13 +816,13 @@ hdcox.scad = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
                        'scad_best_lambda' = scad_best_lambda,
                        'scad_model' = scad_all)
 
-  class(coxscad_model) = 'hdcox.model.scad'
+  class(coxscad_model) = c('hdcox.model', 'hdcox.model.scad')
 
   return(coxscad_model)
 
 }
 
-#' Snet model selection for high-dimensional Cox models
+#' Snet Model Selection for High-Dimensional Cox Models
 #'
 #' Automatic Snet model selection for high-dimensional
 #' Cox models, evaluated by penalized partial-likelihood.
@@ -866,7 +866,7 @@ hdcox.scad = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(snetfit$snet_model, model.type = 'snet',
+#' nom = hdnom.nomogram(snetfit$snet_model, model.type = "snet",
 #'                      x, time, event, x.df,
 #'                      lambda = snetfit$snet_best_lambda,
 #'                      pred.at = 365 * 2,
@@ -902,7 +902,7 @@ hdcox.snet = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
                        'snet_best_lambda' = snet_best_lambda,
                        'snet_model'       = snet_all)
 
-  class(coxsnet_model) = 'hdcox.model.snet'
+  class(coxsnet_model) = c('hdcox.model', 'hdcox.model.snet')
 
   return(coxsnet_model)
 

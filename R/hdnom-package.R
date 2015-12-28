@@ -1,10 +1,11 @@
-#' Nomograms for High-Dimensional Cox Models
+#' Nomograms for High-Dimensional Data with Penalized Cox Models
 #'
-#' Nomograms for High-Dimensional Cox Models
+#' Nomograms for High-Dimensional Data with Penalized Cox Models
 #'
 #' The vignette can be opened with \code{vignette('hdnom')}.
 #'
-#' \tabular{ll}{ Package: \tab hdnom\cr Type: \tab Package\cr
+#' \tabular{ll}{ Package: \tab hdnom\cr
+#' Type: \tab Package\cr
 #' License: \tab GPL\cr }
 #'
 #' @name hdnom-package

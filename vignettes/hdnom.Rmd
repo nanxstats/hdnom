@@ -1,5 +1,5 @@
 ---
-title: "Building Nomograms for High-Dimensional Cox Models"
+title: "Building Nomograms for High-Dimensional Data with Penalized Cox Models"
 author: "Miaozhu Li <<miaozhu.li@duke.edu>> <br> Nan Xiao <<nanx@uchicago.edu>>"
 date: "`r Sys.Date()`"
 bibliography: hdnom.bib
@@ -9,7 +9,7 @@ output:
     number_sections: true
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Nomograms for High-Dimensional Cox Models}
+  %\VignetteIndexEntry{Nomograms for High-Dimensional Data}
 ---
 
 # Introduction
@@ -114,7 +114,7 @@ and `glmnet()` functions in the `glmnet` package [@simon2011regularization]
 directly to tune and fit penalized Cox models,
 as long as the final model object is returned by `glmnet()`.
 
-# Plot Nomograms
+# Nomogram Plotting
 
 Before plotting the nomogram, we need to extract some necessary information
 about the model, namely, the model object and model parameters,
@@ -183,7 +183,7 @@ of the model performance.
 It is also possible to plot the model validation result:
 
 ```{r, fig.width = 8, fig.height = 8, out.width = 600, out.height = 600}
-plot(val, ylim = c(0.6, 0.8), xaxt.label = seq(1, 5, 0.5))
+plot(val)
 ```
 
 It seems that the bootstrap-based validation result is stable:

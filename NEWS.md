@@ -1,3 +1,14 @@
+# CHANGES IN hdnom VERSION 3.0 (2015-12-15)
+
+## NEW FEATURES
+
+* Model comparison via validation and calibration is now supported both in the hdnom R package and web application.
+* External validation is now supported both in the hdnom R package and web application.
+
+## IMPROVEMENTS
+
+* Documentation (function documentation and vignette) improvements.
+
 # CHANGES IN hdnom VERSION 2.1 (2015-10-26)
 
 ## NEW FEATURES

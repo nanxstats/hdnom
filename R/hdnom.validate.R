@@ -1,6 +1,6 @@
-#' Validate High-Dimensional Cox models with time-dependent AUC
+#' Validate High-Dimensional Cox Models with Time-Dependent AUC
 #'
-#' Validate High-Dimensional Cox models with time-dependent AUC
+#' Validate High-Dimensional Cox Models with Time-Dependent AUC
 #'
 #' @param x Matrix of training data used for fitting the model;
 #' on which to run the validation.
@@ -13,6 +13,8 @@
 #' \code{"mcp"}, \code{"mnet"}, \code{"scad"}, or \code{"snet"}.
 #' @param alpha Value of the elastic-net mixing parameter alpha for
 #' \code{enet}, \code{aenet}, \code{mnet}, and \code{snet} models.
+#' For \code{lasso}, \code{alasso}, \code{mcp}, and \code{scad} models,
+#' please set \code{alpha = 1}.
 #' \code{alpha=1}: lasso (l1) penalty; \code{alpha=0}: ridge (l2) penalty.
 #' Note that for \code{mnet} and \code{snet} models,
 #' \code{alpha} can be set to very close to 0 but not 0 exactly.
@@ -20,7 +22,8 @@
 #' model fits on the resampled data. From the built Cox model.
 #' @param pen.factor Penalty factors to apply to each coefficient.
 #' From the built \emph{adaptive lasso} or \emph{adaptive elastic-net} model.
-#' @param gamma Value of the model parameter gamma for MCP/SCAD/Mnet/Snet models.
+#' @param gamma Value of the model parameter gamma for
+#' MCP/SCAD/Mnet/Snet models.
 #' @param method Validation method.
 #' Could be \code{"bootstrap"}, \code{"cv"}, or \code{"repeated.cv"}.
 #' @param boot.times Number of repetitions for bootstrap.
@@ -61,9 +64,9 @@
 #'
 #' # Load imputed SMART data
 #' data(smart)
-#' x = as.matrix(smart[, -c(1, 2)])
-#' time = smart$TEVENT
-#' event = smart$EVENT
+#' x = as.matrix(smart[, -c(1, 2)])[1:500, ]
+#' time = smart$TEVENT[1:500]
+#' event = smart$EVENT[1:500]
 #'
 #' # Fit penalized Cox model (lasso penalty) with glmnet
 #' set.seed(1010)
@@ -72,19 +75,19 @@
 #' # Model validation by bootstrap with time-dependent AUC
 #' # Normally boot.times should be set to 200 or more,
 #' # we set it to 3 here only to save example running time.
-#' val.boot = hdnom.validate(x, time, event, model.type = 'lasso',
+#' val.boot = hdnom.validate(x, time, event, model.type = "lasso",
 #'                           alpha = 1, lambda = cvfit$lambda.1se,
 #'                           method = "bootstrap", boot.times = 3,
 #'                           tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
 #'
-#' # Model validation by 10-fold cross-validation with time-dependent AUC
-#' val.cv = hdnom.validate(x, time, event, model.type = 'lasso',
+#' # Model validation by 5-fold cross-validation with time-dependent AUC
+#' val.cv = hdnom.validate(x, time, event, model.type = "lasso",
 #'                         alpha = 1, lambda = cvfit$lambda.1se,
 #'                         method = "cv", nfolds = 5,
 #'                         tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
 #'
 #' # Model validation by repeated cross-validation with time-dependent AUC
-#' val.repcv = hdnom.validate(x, time, event, model.type = 'lasso',
+#' val.repcv = hdnom.validate(x, time, event, model.type = "lasso",
 #'                            alpha = 1, lambda = cvfit$lambda.1se,
 #'                            method = "repeated.cv", nfolds = 5, rep.times = 3,
 #'                            tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
@@ -92,18 +95,18 @@
 #' # bootstrap-based discrimination curves has a very narrow band
 #' print(val.boot)
 #' summary(val.boot)
-#' plot(val.boot, ylim = c(0.4, 0.8))
+#' plot(val.boot)
 #'
 #' # k-fold cv provides a more strict evaluation than bootstrap
 #' print(val.cv)
 #' summary(val.cv)
-#' plot(val.cv, ylim = c(0.4, 0.8))
+#' plot(val.cv)
 #'
 #' # repeated cv provides similar results as k-fold cv
-#' # but more stable than k-fold cv
+#' # but more robust than k-fold cv
 #' print(val.repcv)
 #' summary(val.repcv)
-#' plot(val.repcv, ylim = c(0.4, 0.8))
+#' plot(val.repcv)
 #'
 # ### Testing fused lasso, SCAD, and Mnet models ###
 # library("survival")
@@ -117,32 +120,32 @@
 # y = Surv(time, event)
 #
 # set.seed(1010)
-# val.boot = hdnom.validate(x, time, event, model.type = 'flasso',
+# val.boot = hdnom.validate(x, time, event, model.type = "flasso",
 #                           lambda = 60,
 #                           method = "bootstrap", boot.times = 10,
 #                           tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
 #
-# val.cv = hdnom.validate(x, time, event, model.type = 'scad',
+# val.cv = hdnom.validate(x, time, event, model.type = "scad",
 #                         gamma = 3.7, alpha = 1, lambda = 0.05,
 #                         method = "cv", nfolds = 5,
 #                         tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
 #
-# val.repcv = hdnom.validate(x, time, event, model.type = 'mnet',
+# val.repcv = hdnom.validate(x, time, event, model.type = "mnet",
 #                            gamma = 3, alpha = 0.3, lambda = 0.05,
 #                            method = "repeated.cv", nfolds = 5, rep.times = 3,
 #                            tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
 #
 # print(val.boot)
 # summary(val.boot)
-# plot(val.boot, ylim = c(0.4, 0.8))
+# plot(val.boot)
 #
 # print(val.cv)
 # summary(val.cv)
-# plot(val.cv, ylim = c(0, 0.9))
+# plot(val.cv)
 #
 # print(val.repcv)
 # summary(val.repcv)
-# plot(val.repcv, ylim = c(0, 0.9))
+# plot(val.repcv)
 hdnom.validate = function(x, time, event,
                           model.type = c('lasso', 'alasso', 'flasso',
                                          'enet', 'aenet',
@@ -176,7 +179,7 @@ hdnom.validate = function(x, time, event,
       if (trace) cat('Start bootstrap sample', i, '\n')
 
       samp_idx = samp_mat[, i]
-      x_tr = x[samp_idx, ]
+      x_tr = x[samp_idx, , drop = FALSE]
       time_tr = time[samp_idx]
       event_tr = event[samp_idx]
       y_tr = Surv(time_tr, event_tr)
@@ -230,11 +233,11 @@ hdnom.validate = function(x, time, event,
 
       if (trace) cat('Start fold', i, '\n')
 
-      x_tr = x[samp_idx != i, ]
+      x_tr = x[samp_idx != i, , drop = FALSE]
       time_tr = time[samp_idx != i]
       event_tr = event[samp_idx != i]
       y_tr = Surv(time_tr, event_tr)
-      x_te  = x[samp_idx == i, ]
+      x_te  = x[samp_idx == i, , drop = FALSE]
       time_te = time[samp_idx == i]
       event_te = event[samp_idx == i]
       y_te = Surv(time_te, event_te)
@@ -291,11 +294,11 @@ hdnom.validate = function(x, time, event,
 
         if (trace) cat('Start repeat round', j, 'fold', i, '\n')
 
-        x_tr = x[samp_idx[[j]] != i, ]
+        x_tr = x[samp_idx[[j]] != i, , drop = FALSE]
         time_tr = time[samp_idx[[j]] != i]
         event_tr = event[samp_idx[[j]] != i]
         y_tr = Surv(time_tr, event_tr)
-        x_te  = x[samp_idx[[j]] == i, ]
+        x_te  = x[samp_idx[[j]] == i, , drop = FALSE]
         time_te = time[samp_idx[[j]] == i]
         event_te = event[samp_idx[[j]] == i]
         y_te = Surv(time_te, event_te)
@@ -332,7 +335,7 @@ hdnom.validate = function(x, time, event,
     }
 
   } else {
-    stop('method must be one of "bootstrap", "cv", or "repeated.cv"')
+    stop('method must be one of "bootstrap", cv", or "repeated.cv"')
   }
 
   switch(method,
@@ -459,7 +462,7 @@ hdnom.validate = function(x, time, event,
 
 }
 
-#' Compute validation measures for glmnet objects
+#' Compute Validation Measures for glmnet Objects
 #'
 #' @importFrom survAUC AUC.cd AUC.sh AUC.uno
 #' @importFrom glmnet glmnet
@@ -568,7 +571,7 @@ ncvreg.validate.internal = function(x_tr, x_te, y_tr, y_te, model.type,
 
 }
 
-#' Compute validation measures for "penalized" model objects
+#' Compute Validation Measures for "penalized" Model Objects
 #'
 #' @importFrom survAUC AUC.cd AUC.sh AUC.uno
 #' @importFrom penalized penalized
@@ -610,9 +613,9 @@ penalized.validate.internal = function(x_tr, x_te, y_tr, y_te,
 
 }
 
-#' Print validation result generated by hdnom.validate
+#' Print Validation Results Generated by hdnom.validate
 #'
-#' Print validation result generated by hdnom.validate
+#' Print Validation Results Generated by hdnom.validate
 #'
 #' @param x An object returned by \code{\link{hdnom.validate}}.
 #' @param ... Other parameters (not used).
@@ -753,9 +756,9 @@ print.hdnom.validate = function(x, ...) {
 
 }
 
-#' Summary validation result generated by hdnom.validate
+#' Summary of Validation Results Generated by hdnom.validate
 #'
-#' Summary validation result generated by hdnom.validate
+#' Summary of Validation Results Generated by hdnom.validate
 #'
 #' @param object An object \code{\link{hdnom.validate}}.
 #' @param silent Print summary table header or not,
@@ -840,72 +843,55 @@ summary.hdnom.validate = function(object, silent = FALSE, ...) {
 
 }
 
-#' Plot optimism-corrected time-dependent discrimination curves
+#' Plot Optimism-Corrected Time-Dependent Discrimination Curves
 #'
-#' Plot optimism-corrected time-dependent discrimination curves
+#' Plot Optimism-Corrected Time-Dependent Discrimination Curves
 #'
 #' @param x An object returned by \code{\link{hdnom.validate}}.
-#' @param ylim The y axis limits of the plot.
-#' @param xaxt.label The x axis tick label.
-#' @param xlab Title for the x axis.
-#' @param ylab Title for the y axis.
-#' @param ... Other parameters for \code{\link{plot}}.
+#' @param col The color for the points, lines, and the ribbons.
+#' @param ... Other parameters (not used).
 #'
 #' @method plot hdnom.validate
 #'
 #' @export
 #'
-#' @importFrom graphics par layout polygon lines abline axis plot.new legend
+#' @importFrom ggplot2 ggplot aes_string geom_point geom_line geom_point
+#' geom_ribbon scale_x_continuous scale_fill_manual scale_colour_manual
+#' theme_bw theme ylab
 #'
 #' @examples
 #' NULL
-plot.hdnom.validate = function(x, ylim = c(0.5, 1),
-                               xaxt.label = NULL,
-                               xlab = 'Time',
-                               ylab = 'Time-dependent Area under ROC',
-                               ...) {
+plot.hdnom.validate = function(x, col = 'darkgrey', ...) {
 
   if (!('hdnom.validate' %in% class(x)))
     stop('object class must be "hdnom.validate"')
 
-  mat = summary(x, silent = TRUE)
+  df = as.data.frame(t(summary(x, silent = TRUE)))
   tauc_time = attr(x, 'tauc.time')
-  tauc_mean = mat[1L, ]
-  tauc_median = mat[4L, ]
-  tauc_q25 = mat[3L, ]
-  tauc_q75 = mat[5L, ]
 
-  # save original par setting
-  def_par = par(no.readonly = TRUE)
+  # special processing for repeated cv
+  if (any(grepl(pattern = 'validate.repeated.cv', class(x))))
+    names(df) = sapply(strsplit(names(df), 'Mean of '), '[', 2L)
 
-  # two panels, one for plot, one for legend
-  layout(rbind(1, 2), heights = c(7, 1))
+  df[, 'Time'] = tauc_time
+  names(df)[which(names(df) == '0.25 Qt.')] = 'Qt25'
+  names(df)[which(names(df) == '0.75 Qt.')] = 'Qt75'
 
-  plot(tauc_time, tauc_median, type = 'l',
-       xlab = xlab, ylab = ylab, ylim = ylim, xaxt = 'n')
-  polygon(c(tauc_time, rev(tauc_time)), c(tauc_q25, rev(tauc_q75)),
-          col = 'grey85', border = FALSE)
-  lines(tauc_time, tauc_median, lty = 5, lwd = 2)
-  lines(tauc_time, tauc_mean, lty = 1, lwd = 2)
-  lines(tauc_time, tauc_q75, lty = 3, lwd = 1)
-  lines(tauc_time, tauc_q25, lty = 3, lwd = 1)
-  for (i in seq(0.1, 1, 0.1)) abline(h = i, lty = 3)
-
-  if (is.null(xaxt.label)) {
-    xaxt.label = as.character(tauc_time)
-    axis(1, at = tauc_time, labels = xaxt.label)
-  } else {
-    axis(1, at = tauc_time, labels = xaxt.label)
-  }
-
-  par(mar = c(0, 0, 0, 0))
-  plot.new()
-  legend('center', 'groups',
-         c('Median', 'Mean', '25th/75th Quantiles'),
-         lwd = c(2, 2, 1), lty = c(5, 1, 3),
-         bty = 'n', horiz = TRUE, text.width = c(0.1, 0.1, 0.1))
-
-  # reset to original par setting
-  par(def_par)
+  ggplot(data = df, aes_string(x = 'Time', y = 'Mean')) +
+    geom_point() +
+    geom_line() +
+    geom_point(data = df, aes_string(x = 'Time', y = 'Median')) +
+    geom_line(data = df, aes_string(x = 'Time', y = 'Median'),
+              linetype = 'dashed') +
+    geom_ribbon(data = df, aes_string(ymin = 'Qt25', ymax = 'Qt75'),
+                linetype = 0, alpha = 0.2) +
+    geom_ribbon(data = df, aes_string(ymin = 'Min', ymax = 'Max'),
+                linetype = 0, alpha = 0.1) +
+    scale_x_continuous(breaks = df$'Time') +
+    scale_fill_manual(values = col) +
+    scale_colour_manual(values = col) +
+    theme_bw() +
+    theme(legend.position = 'none') +
+    ylab('Area under ROC')
 
 }

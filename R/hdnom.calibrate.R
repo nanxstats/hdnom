@@ -1,6 +1,6 @@
-#' Calibrate High-Dimensional Cox models
+#' Calibrate High-Dimensional Cox Models
 #'
-#' Calibrate High-Dimensional Cox models
+#' Calibrate High-Dimensional Cox Models
 #'
 #' @param x Matrix of training data used for fitting the model;
 #' on which to run the calibration.
@@ -13,6 +13,8 @@
 #' \code{"mcp"}, \code{"mnet"}, \code{"scad"}, or \code{"snet"}.
 #' @param alpha Value of the elastic-net mixing parameter alpha for
 #' \code{enet}, \code{aenet}, \code{mnet}, and \code{snet} models.
+#' For \code{lasso}, \code{alasso}, \code{mcp}, and \code{scad} models,
+#' please set \code{alpha = 1}.
 #' \code{alpha=1}: lasso (l1) penalty; \code{alpha=0}: ridge (l2) penalty.
 #' Note that for \code{mnet} and \code{snet} models,
 #' \code{alpha} can be set to very close to 0 but not 0 exactly.
@@ -55,7 +57,7 @@
 #' cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 5)
 #'
 #' # Model calibration by fitting the original data directly
-#' cal.fitting = hdnom.calibrate(x, time, event, model.type = 'lasso',
+#' cal.fitting = hdnom.calibrate(x, time, event, model.type = "lasso",
 #'                               alpha = 1, lambda = cvfit$lambda.1se,
 #'                               method = "fitting",
 #'                               pred.at = 365 * 9, ngroup = 5)
@@ -63,19 +65,19 @@
 #' # Model calibration by bootstrap
 #' # Normally boot.times should be set to 200 or more,
 #' # we set it to 3 here only to save example running time.
-#' cal.boot = hdnom.calibrate(x, time, event, model.type = 'lasso',
+#' cal.boot = hdnom.calibrate(x, time, event, model.type = "lasso",
 #'                            alpha = 1, lambda = cvfit$lambda.1se,
 #'                            method = "bootstrap", boot.times = 3,
 #'                            pred.at = 365 * 9, ngroup = 5)
 #'
-#' # Model calibration by 10-fold cross-validation
-#' cal.cv = hdnom.calibrate(x, time, event, model.type = 'lasso',
+#' # Model calibration by 5-fold cross-validation
+#' cal.cv = hdnom.calibrate(x, time, event, model.type = "lasso",
 #'                          alpha = 1, lambda = cvfit$lambda.1se,
 #'                          method = "cv", nfolds = 5,
 #'                          pred.at = 365 * 9, ngroup = 5)
 #'
 #' # Model calibration by repeated cross-validation
-#' cal.repcv = hdnom.calibrate(x, time, event, model.type = 'lasso',
+#' cal.repcv = hdnom.calibrate(x, time, event, model.type = "lasso",
 #'                             alpha = 1, lambda = cvfit$lambda.1se,
 #'                             method = "repeated.cv", nfolds = 5, rep.times = 3,
 #'                             pred.at = 365 * 9, ngroup = 5)
@@ -107,22 +109,22 @@
 # y = Surv(time, event)
 #
 # set.seed(1010)
-# cal.fitting = hdnom.calibrate(x, time, event, model.type = 'flasso',
+# cal.fitting = hdnom.calibrate(x, time, event, model.type = "flasso",
 #                               lambda = 60,
 #                               method = "fitting",
 #                               pred.at = 365 * 9, ngroup = 5)
 #
-# cal.boot = hdnom.calibrate(x, time, event, model.type = 'scad',
+# cal.boot = hdnom.calibrate(x, time, event, model.type = "scad",
 #                            gamma = 3.7, alpha = 1, lambda = 0.03,
 #                            method = "bootstrap", boot.times = 10,
 #                            pred.at = 365 * 9, ngroup = 5)
 #
-# cal.cv = hdnom.calibrate(x, time, event, model.type = 'mnet',
+# cal.cv = hdnom.calibrate(x, time, event, model.type = "mnet",
 #                          gamma = 3, alpha = 0.3, lambda = 0.03,
 #                          method = "cv", nfolds = 5,
 #                          pred.at = 365 * 9, ngroup = 5)
 #
-# cal.repcv = hdnom.calibrate(x, time, event, model.type = 'flasso',
+# cal.repcv = hdnom.calibrate(x, time, event, model.type = "flasso",
 #                             lambda = 60,
 #                             method = "repeated.cv", nfolds = 5, rep.times = 3,
 #                             pred.at = 365 * 9, ngroup = 5)
@@ -220,7 +222,7 @@ hdnom.calibrate = function(x, time, event,
       if (trace) cat('Start bootstrap sample', i, '\n')
 
       samp_idx = samp_mat[, i]
-      x_tr = x[samp_idx, ]
+      x_tr = x[samp_idx, , drop = FALSE]
       time_tr = time[samp_idx]
       event_tr = event[samp_idx]
       y_tr = Surv(time_tr, event_tr)
@@ -290,11 +292,11 @@ hdnom.calibrate = function(x, time, event,
 
       if (trace) cat('Start fold', i, '\n')
 
-      x_tr = x[samp_idx != i, ]
+      x_tr = x[samp_idx != i, , drop = FALSE]
       time_tr = time[samp_idx != i]
       event_tr = event[samp_idx != i]
       y_tr = Surv(time_tr, event_tr)
-      x_te  = x[samp_idx == i, ]
+      x_te  = x[samp_idx == i, , drop = FALSE]
       time_te = time[samp_idx == i]
       event_te = event[samp_idx == i]
       y_te = Surv(time_te, event_te)
@@ -371,11 +373,11 @@ hdnom.calibrate = function(x, time, event,
 
         if (trace) cat('Start repeat round', j, 'fold', i, '\n')
 
-        x_tr = x[samp_idx[[j]] != i, ]
+        x_tr = x[samp_idx[[j]] != i, , drop = FALSE]
         time_tr = time[samp_idx[[j]] != i]
         event_tr = event[samp_idx[[j]] != i]
         y_tr = Surv(time_tr, event_tr)
-        x_te  = x[samp_idx[[j]] == i, ]
+        x_te  = x[samp_idx[[j]] == i, , drop = FALSE]
         time_te = time[samp_idx[[j]] == i]
         event_te = event[samp_idx[[j]] == i]
         y_te = Surv(time_te, event_te)
@@ -607,7 +609,7 @@ hdnom.calibrate = function(x, time, event,
 
 }
 
-#' Compute glmnet predicted survival probabilities for calibration
+#' Compute glmnet Predicted Survival Probabilities for Calibration
 #'
 #' @importFrom glmnet glmnet
 #' @importFrom stats predict
@@ -781,9 +783,9 @@ hdnom.calibrate.internal.true = function(pred_prob, grp,
 
 }
 
-#' Print calibration result generated by hdnom.calibrate
+#' Print Calibration Results Generated by hdnom.calibrate
 #'
-#' Print calibration result generated by hdnom.calibrate
+#' Print Calibration Results Generated by hdnom.calibrate
 #'
 #' @param x an object returned by \code{\link{hdnom.calibrate}}.
 #' @param ... other parameters (not used).
@@ -794,7 +796,7 @@ hdnom.calibrate.internal.true = function(pred_prob, grp,
 #'
 #' @examples
 #' NULL
-print.hdnom.calibrate = function (x, ...) {
+print.hdnom.calibrate = function(x, ...) {
 
   if (!('hdnom.calibrate' %in% class(x)))
     stop('object class must be "hdnom.calibrate"')
@@ -959,9 +961,9 @@ print.hdnom.calibrate = function (x, ...) {
 
 }
 
-#' Summary calibration result generated by hdnom.calibrate
+#' Summary of Calibration Results Generated by hdnom.calibrate
 #'
-#' Summary calibration result generated by hdnom.calibrate
+#' Summary of Calibration Results Generated by hdnom.calibrate
 #'
 #' @param object an object returned by \code{\link{hdnom.calibrate}}.
 #' @param ... other parameters (not used).
@@ -1101,9 +1103,9 @@ summary.hdnom.calibrate = function(object, ...) {
 
 }
 
-#' Plot calibration curves
+#' Plot Calibration Results
 #'
-#' Plot calibration curves
+#' Plot Calibration Results
 #'
 #' @param x an object returned by \code{\link{hdnom.calibrate}}.
 #' @param xlim x axis limits of the plot.
@@ -1114,7 +1116,8 @@ summary.hdnom.calibrate = function(object, ...) {
 #'
 #' @export
 #'
-#' @importFrom graphics arrows abline
+#' @importFrom ggplot2 ggplot aes_string geom_errorbar
+#' geom_line geom_point geom_abline xlab ylab theme_bw
 #'
 #' @examples
 #' NULL
@@ -1123,17 +1126,18 @@ plot.hdnom.calibrate = function(x, xlim = c(0, 1), ylim = c(0, 1), ...) {
   if (!('hdnom.calibrate' %in% class(x)))
     stop('object class must be "hdnom.calibrate"')
 
-  pre = x[, 'Predicted']
-  obs = x[, 'Observed']
-  ll  = x[, 'Lower 95%']
-  ul  = x[, 'Upper 95%']
+  df = data.frame('pre' = x[, 'Predicted'], 'obs' = x[, 'Observed'],
+                  'll' = x[, 'Lower 95%'], 'ul' = x[, 'Upper 95%'])
 
-  plot(pre, obs, xlim = xlim, ylim = ylim,
-       xlab = 'Predicted Survival Probability',
-       ylab = 'Observed Survival Probability',
-       pch = 16, type = 'b', ...)
-  arrows(x0 = pre, y0 = ll, y1 = ul,
-         angle = 90, code = 3, length = 0.05, lwd = 1)
-  abline(a = 0, b = 1, lty = 2)
+  ggplot(df, aes_string(x = 'pre', y = 'obs',
+                        xmin = xlim[1L], xmax = xlim[2L],
+                        ymin = ylim[1L], ymax = ylim[2L])) +
+    geom_errorbar(aes_string(ymin = 'll', ymax = 'ul')) +
+    geom_line() +
+    geom_point(size = 3) +
+    geom_abline(slope = 1, intercept = 0, colour = 'grey') +
+    xlab('Predicted Survival Probability') +
+    ylab('Observed Survival Probability') +
+    theme_bw()
 
 }

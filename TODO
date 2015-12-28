@@ -1,4 +1,19 @@
 
 # TODO
 
- * Add more model types if possible
+ * Direct prediction function
+ * External validation / external calibration?
+ * Kaplan-Meier curve for risk groups (use the calibration result?)
+ * Record random seed used in web app report (need modify package functions?)
+
+ * Allow users to download model from web app, to further play with in R package
+ * Add above to vignette
+ * Incorporate above into web app
+
+# RESEARCH ON THIS
+
+ * investigate calibration: glmnet.calibrate.internal.pred used x_te and y_te, but maybe should use x_tr and y_tr? Be consistent with predict.hdcox.
+
+# DONE
+
+ * Model comparison - validation/calibration
