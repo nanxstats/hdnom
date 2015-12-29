@@ -1,45 +1,22 @@
-#' Validate High-Dimensional Cox Models with Time-Dependent AUC
+#' Externally Validate High-Dimensional Cox Models with Time-Dependent AUC
 #'
-#' Validate High-Dimensional Cox Models with Time-Dependent AUC
+#' Externally Validate High-Dimensional Cox Models with Time-Dependent AUC
 #'
-#' @param x Matrix of training data used for fitting the model;
-#' on which to run the validation.
-#' @param time Survival time.
-#' Must be of the same length with the number of rows as \code{x}.
-#' @param event Status indicator, normally 0 = alive, 1 = dead.
-#' Must be of the same length with the number of rows as \code{x}.
-#' @param model.type Model type to validate. Could be one of \code{"lasso"},
-#' \code{"alasso"}, \code{"flasso"}, \code{"enet"}, \code{"aenet"},
-#' \code{"mcp"}, \code{"mnet"}, \code{"scad"}, or \code{"snet"}.
-#' @param alpha Value of the elastic-net mixing parameter alpha for
-#' \code{enet}, \code{aenet}, \code{mnet}, and \code{snet} models.
-#' For \code{lasso}, \code{alasso}, \code{mcp}, and \code{scad} models,
-#' please set \code{alpha = 1}.
-#' \code{alpha=1}: lasso (l1) penalty; \code{alpha=0}: ridge (l2) penalty.
-#' Note that for \code{mnet} and \code{snet} models,
-#' \code{alpha} can be set to very close to 0 but not 0 exactly.
-#' @param lambda Value of the penalty parameter lambda to use in the
-#' model fits on the resampled data. From the built Cox model.
-#' @param pen.factor Penalty factors to apply to each coefficient.
-#' From the built \emph{adaptive lasso} or \emph{adaptive elastic-net} model.
-#' @param gamma Value of the model parameter gamma for
-#' MCP/SCAD/Mnet/Snet models.
-#' @param method Validation method.
-#' Could be \code{"bootstrap"}, \code{"cv"}, or \code{"repeated.cv"}.
-#' @param boot.times Number of repetitions for bootstrap.
-#' @param nfolds Number of folds for cross-validation and
-#' repeated cross-validation.
-#' @param rep.times Number of repeated times for repeated cross-validation.
+#' @param object Model object fitted by \code{hdcox.*()} functions.
+#' @param x_new Matrix of predictors for the external validation data.
+#' @param time_new Survival time of the external validation data.
+#' Must be of the same length with the number of rows as \code{x_new}.
+#' @param event_new Status indicator of the external validation data,
+#' normally 0 = alive, 1 = dead.
+#' Must be of the same length with the number of rows as \code{x_new}.
 #' @param tauc.type Type of time-dependent AUC.
 #' Including \code{"CD"} proposed by Chambless and Diao (2006).,
 #' \code{"SZ"} proposed by Song and Zhou (2008).,
 #' \code{"UNO"} proposed by Uno et al. (2007).
 #' @param tauc.time Numeric vector. Time points at which to evaluate
 #' the time-dependent AUC.
-#' @param trace Logical. Output the validation progress or not.
-#' Default is \code{TRUE}.
 #'
-#' @export hdnom.validate
+#' @export hdnom.external.validate
 #'
 #' @references
 #' Chambless, L. E. and G. Diao (2006).
@@ -60,7 +37,6 @@
 #' @examples
 #' library("glmnet")
 #' library("survival")
-#' library("rms")
 #'
 #' # Load imputed SMART data
 #' data(smart)
@@ -110,7 +86,6 @@
 #'
 # ### Testing fused lasso, SCAD, and Mnet models ###
 # library("survival")
-# library("rms")
 #
 # # Load imputed SMART data
 # data(smart)
@@ -146,77 +121,15 @@
 # print(val.repcv)
 # summary(val.repcv)
 # plot(val.repcv)
-hdnom.validate = function(x, time, event,
-                          model.type = c('lasso', 'alasso', 'flasso',
-                                         'enet', 'aenet',
-                                         'mcp', 'mnet',
-                                         'scad', 'snet'),
-                          alpha, lambda, pen.factor = NULL, gamma,
-                          method = c('bootstrap', 'cv', 'repeated.cv'),
-                          boot.times = NULL, nfolds = NULL, rep.times = NULL,
-                          tauc.type = c("CD", "SZ", "UNO"), tauc.time,
-                          trace = TRUE) {
+hdnom.external.validate = function(object, x_new, time_new, event_new,
+                                   tauc.type = c("CD", "SZ", "UNO"), tauc.time,
+                                   trace = TRUE) {
 
   model.type = match.arg(model.type)
   method = match.arg(method)
   tauc.type = match.arg(tauc.type)
 
-  if (method == 'bootstrap') {
-
-    if (!is.null(nfolds) || !is.null(rep.times))
-      stop('nfolds and rep.times must be NULL when method = "bootstrap"')
-
-    if (is.null(boot.times)) stop('please specify boot.times')
-
-    # generate bootstrap sample index
-    samp_mat = matrix(NA, nrow(x), boot.times)
-    for(i in 1L:boot.times) samp_mat[, i] = sample(1L:nrow(x), replace = TRUE)
-
-    # bootstrap validation main loop
-    tauc = vector('list', boot.times)
-    for (i in 1L:ncol(samp_mat)) {
-
-      if (trace) cat('Start bootstrap sample', i, '\n')
-
-      samp_idx = samp_mat[, i]
-      x_tr = x[samp_idx, , drop = FALSE]
-      time_tr = time[samp_idx]
-      event_tr = event[samp_idx]
-      y_tr = Surv(time_tr, event_tr)
-      x_te = x  # use original dataset as test set
-      y_te = Surv(time, event)  # use original dataset as test set
-
-      if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
-        tauc[[i]] =
-          glmnet.validate.internal(
-            x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
-            alpha = alpha, lambda = lambda, pen.factor = pen.factor,
-            tauc.type = tauc.type, tauc.time = tauc.time
-          )
-      }
-
-      if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
-        tauc[[i]] =
-          ncvreg.validate.internal(
-            x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
-            model.type = model.type,
-            gamma = gamma, alpha = alpha, lambda = lambda,
-            tauc.type = tauc.type, tauc.time = tauc.time
-          )
-      }
-
-      if (model.type %in% c('flasso')) {
-        tauc[[i]] =
-          penalized.validate.internal(
-            x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
-            lambda = lambda,
-            tauc.type = tauc.type, tauc.time = tauc.time
-          )
-      }
-
-    }
-
-  } else if (method == 'cv') {
+  if (method == 'cv') {
 
     if (!is.null(boot.times) || !is.null(rep.times))
       stop('boot.times and rep.times must be NULL when method = "cv"')
@@ -272,110 +185,9 @@ hdnom.validate = function(x, time, event,
 
     }
 
-  } else if (method == 'repeated.cv') {
-
-    if (!is.null(boot.times))
-      stop('boot.times must be NULL when method = "repeated.cv"')
-
-    if (is.null(nfolds) || is.null(rep.times))
-      stop('please specify nfolds and rep.times')
-
-    # generate repeated cross-validation sample index list
-    row_x = nrow(x)
-    samp_idx = vector('list', rep.times)
-    for (k in 1L:rep.times) samp_idx[[k]] = sample(rep_len(1L:nfolds, row_x))
-
-    # repeated cross-validation main loop
-    tauc = vector('list', rep.times)
-    for (k in 1L:rep.times) tauc[[k]] = vector('list', nfolds)
-
-    for (j in 1L:rep.times) {
-      for (i in 1L:nfolds) {
-
-        if (trace) cat('Start repeat round', j, 'fold', i, '\n')
-
-        x_tr = x[samp_idx[[j]] != i, , drop = FALSE]
-        time_tr = time[samp_idx[[j]] != i]
-        event_tr = event[samp_idx[[j]] != i]
-        y_tr = Surv(time_tr, event_tr)
-        x_te  = x[samp_idx[[j]] == i, , drop = FALSE]
-        time_te = time[samp_idx[[j]] == i]
-        event_te = event[samp_idx[[j]] == i]
-        y_te = Surv(time_te, event_te)
-
-        if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
-          tauc[[j]][[i]] =
-            glmnet.validate.internal(
-              x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
-              alpha = alpha, lambda = lambda, pen.factor = pen.factor,
-              tauc.type = tauc.type, tauc.time = tauc.time
-            )
-        }
-
-        if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
-          tauc[[j]][[i]] =
-            ncvreg.validate.internal(
-              x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
-              model.type = model.type,
-              gamma = gamma, alpha = alpha, lambda = lambda,
-              tauc.type = tauc.type, tauc.time = tauc.time
-            )
-        }
-
-        if (model.type %in% c('flasso')) {
-          tauc[[j]][[i]] =
-            penalized.validate.internal(
-              x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
-              lambda = lambda,
-              tauc.type = tauc.type, tauc.time = tauc.time
-            )
-        }
-
-      }
-    }
-
-  } else {
-    stop('method must be one of "bootstrap", cv", or "repeated.cv"')
   }
 
   switch(method,
-         bootstrap = {
-
-           if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
-             class(tauc) = c('hdnom.validate',
-                             'glmnet.validate.bootstrap')
-             attr(tauc, 'model.type') = model.type
-             attr(tauc, 'alpha')      = alpha
-             attr(tauc, 'lambda')     = lambda
-             attr(tauc, 'pen.factor') = pen.factor
-             attr(tauc, 'boot.times') = boot.times
-             attr(tauc, 'tauc.type')  = tauc.type
-             attr(tauc, 'tauc.time')  = tauc.time
-           }
-
-           if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
-             class(tauc) = c('hdnom.validate',
-                             'ncvreg.validate.bootstrap')
-             attr(tauc, 'model.type') = model.type
-             attr(tauc, 'gamma')      = gamma
-             attr(tauc, 'alpha')      = alpha
-             attr(tauc, 'lambda')     = lambda
-             attr(tauc, 'boot.times') = boot.times
-             attr(tauc, 'tauc.type')  = tauc.type
-             attr(tauc, 'tauc.time')  = tauc.time
-           }
-
-           if (model.type %in% c('flasso')) {
-             class(tauc) = c('hdnom.validate',
-                             'penalized.validate.bootstrap')
-             attr(tauc, 'model.type') = model.type
-             attr(tauc, 'lambda')     = lambda
-             attr(tauc, 'boot.times') = boot.times
-             attr(tauc, 'tauc.type')  = tauc.type
-             attr(tauc, 'tauc.time')  = tauc.time
-           }
-
-         },
 
          cv = {
 
@@ -413,47 +225,6 @@ hdnom.validate = function(x, time, event,
              attr(tauc, 'tauc.time')  = tauc.time
            }
 
-         },
-
-         repeated.cv = {
-
-           if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
-             class(tauc) = c('hdnom.validate',
-                             'glmnet.validate.repeated.cv')
-             attr(tauc, 'model.type') = model.type
-             attr(tauc, 'alpha')      = alpha
-             attr(tauc, 'lambda')     = lambda
-             attr(tauc, 'pen.factor') = pen.factor
-             attr(tauc, 'nfolds')     = nfolds
-             attr(tauc, 'rep.times')  = rep.times
-             attr(tauc, 'tauc.type')  = tauc.type
-             attr(tauc, 'tauc.time')  = tauc.time
-           }
-
-           if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
-             class(tauc) = c('hdnom.validate',
-                             'ncvreg.validate.repeated.cv')
-             attr(tauc, 'model.type') = model.type
-             attr(tauc, 'gamma')      = gamma
-             attr(tauc, 'alpha')      = alpha
-             attr(tauc, 'lambda')     = lambda
-             attr(tauc, 'nfolds')     = nfolds
-             attr(tauc, 'rep.times')  = rep.times
-             attr(tauc, 'tauc.type')  = tauc.type
-             attr(tauc, 'tauc.time')  = tauc.time
-           }
-
-           if (model.type %in% c('flasso')) {
-             class(tauc) = c('hdnom.validate',
-                             'penalized.validate.repeated.cv')
-             attr(tauc, 'model.type') = model.type
-             attr(tauc, 'lambda')     = lambda
-             attr(tauc, 'nfolds')     = nfolds
-             attr(tauc, 'rep.times')  = rep.times
-             attr(tauc, 'tauc.type')  = tauc.type
-             attr(tauc, 'tauc.time')  = tauc.time
-           }
-
          }
 
   )
@@ -462,7 +233,7 @@ hdnom.validate = function(x, time, event,
 
 }
 
-#' Compute Validation Measures for glmnet Objects
+#' Compute External Validation Measures for glmnet Objects
 #'
 #' @importFrom survAUC AUC.cd AUC.sh AUC.uno
 #' @importFrom glmnet glmnet
@@ -471,9 +242,9 @@ hdnom.validate = function(x, time, event,
 #' @return time-dependent AUC (tAUC) value
 #'
 #' @keywords internal
-glmnet.validate.internal = function(x_tr, x_te, y_tr, y_te,
-                                    alpha, lambda, pen.factor,
-                                    tauc.type, tauc.time) {
+glmnet.external.validate.internal = function(x_tr, x_te, y_tr, y_te,
+                                             alpha, lambda, pen.factor,
+                                             tauc.type, tauc.time) {
 
   if (is.null(pen.factor)) {
     samp_fit = glmnet(x = x_tr, y = y_tr, family = 'cox',
@@ -509,7 +280,7 @@ glmnet.validate.internal = function(x_tr, x_te, y_tr, y_te,
 
 }
 
-#' Compute validation measures for ncvreg model objects
+#' Compute External Validation Measures for ncvreg Model Objects
 #'
 #' @importFrom survAUC AUC.cd AUC.sh AUC.uno
 #' @importFrom ncvreg ncvsurv
@@ -518,9 +289,9 @@ glmnet.validate.internal = function(x_tr, x_te, y_tr, y_te,
 #' @return time-dependent AUC (tAUC) value
 #'
 #' @keywords internal
-ncvreg.validate.internal = function(x_tr, x_te, y_tr, y_te, model.type,
-                                    gamma, alpha, lambda,
-                                    tauc.type, tauc.time) {
+ncvreg.external.validate.internal = function(x_tr, x_te, y_tr, y_te, model.type,
+                                             gamma, alpha, lambda,
+                                             tauc.type, tauc.time) {
 
   if (model.type == 'mcp') {
     samp_fit = ncvsurv(X = x_tr, y = y_tr, model = 'cox',
@@ -571,7 +342,7 @@ ncvreg.validate.internal = function(x_tr, x_te, y_tr, y_te, model.type,
 
 }
 
-#' Compute Validation Measures for "penalized" Model Objects
+#' Compute External Validation Measures for "penalized" Model Objects
 #'
 #' @importFrom survAUC AUC.cd AUC.sh AUC.uno
 #' @importFrom penalized penalized
@@ -580,9 +351,9 @@ ncvreg.validate.internal = function(x_tr, x_te, y_tr, y_te, model.type,
 #' @return time-dependent AUC (tAUC) value
 #'
 #' @keywords internal
-penalized.validate.internal = function(x_tr, x_te, y_tr, y_te,
-                                       lambda,
-                                       tauc.type, tauc.time) {
+penalized.external.validate.internal = function(x_tr, x_te, y_tr, y_te,
+                                                lambda,
+                                                tauc.type, tauc.time) {
 
   samp_fit = penalized(response = y_tr, penalized = x_tr,
                        lambda1 = lambda, lambda2 = 0,
@@ -613,20 +384,20 @@ penalized.validate.internal = function(x_tr, x_te, y_tr, y_te,
 
 }
 
-#' Print Validation Results Generated by hdnom.validate
+#' Print External Validation Results Generated by hdnom.external.validate
 #'
-#' Print Validation Results Generated by hdnom.validate
+#' Print External Validation Results Generated by hdnom.external.validate
 #'
-#' @param x An object returned by \code{\link{hdnom.validate}}.
+#' @param x An object returned by \code{\link{hdnom.external.validate}}.
 #' @param ... Other parameters (not used).
 #'
-#' @method print hdnom.validate
+#' @method print hdnom.external.validate
 #'
 #' @export
 #'
 #' @examples
 #' NULL
-print.hdnom.validate = function(x, ...) {
+print.hdnom.external.validate = function(x, ...) {
 
   if (!('hdnom.validate' %in% class(x)))
     stop('object class must be "hdnom.validate"')
@@ -756,22 +527,22 @@ print.hdnom.validate = function(x, ...) {
 
 }
 
-#' Summary of Validation Results Generated by hdnom.validate
+#' Summary of External Validation Results Generated by hdnom.external.validate
 #'
-#' Summary of Validation Results Generated by hdnom.validate
+#' Summary of External Validation Results Generated by hdnom.external.validate
 #'
-#' @param object An object \code{\link{hdnom.validate}}.
+#' @param object An object \code{\link{hdnom.external.validate}}.
 #' @param silent Print summary table header or not,
 #' default is \code{FALSE}.
 #' @param ... Other parameters (not used).
 #'
-#' @method summary hdnom.validate
+#' @method summary hdnom.external.validate
 #'
 #' @export
 #'
 #' @examples
 #' NULL
-summary.hdnom.validate = function(object, silent = FALSE, ...) {
+summary.hdnom.external.validate = function(object, silent = FALSE, ...) {
 
   if (!('hdnom.validate' %in% class(object)))
     stop('object class must be "hdnom.validate"')
@@ -843,15 +614,15 @@ summary.hdnom.validate = function(object, silent = FALSE, ...) {
 
 }
 
-#' Plot Optimism-Corrected Time-Dependent Discrimination Curves
+#' Plot Optimism-Corrected Time-Dependent Discrimination Curves for External Validation
 #'
-#' Plot Optimism-Corrected Time-Dependent Discrimination Curves
+#' Plot Optimism-Corrected Time-Dependent Discrimination Curves for External Validation
 #'
-#' @param x An object returned by \code{\link{hdnom.validate}}.
+#' @param x An object returned by \code{\link{hdnom.external.validate}}.
 #' @param col The color for the points, lines, and the ribbons.
 #' @param ... Other parameters (not used).
 #'
-#' @method plot hdnom.validate
+#' @method plot hdnom.external.validate
 #'
 #' @export
 #'
@@ -861,7 +632,7 @@ summary.hdnom.validate = function(object, silent = FALSE, ...) {
 #'
 #' @examples
 #' NULL
-plot.hdnom.validate = function(x, col = 'darkgrey', ...) {
+plot.hdnom.external.validate = function(x, col = 'darkgrey', ...) {
 
   if (!('hdnom.validate' %in% class(x)))
     stop('object class must be "hdnom.validate"')

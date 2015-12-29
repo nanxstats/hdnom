@@ -49,10 +49,6 @@
 #' \emph{Journal of the American Statistical Association} 102, 527--537.
 #'
 #' @examples
-#' library("glmnet")
-#' library("survival")
-#' library("rms")
-#'
 #' # Load imputed SMART data
 #' data(smart)
 #' x = as.matrix(smart[, -c(1, 2)])[1:1000, ]

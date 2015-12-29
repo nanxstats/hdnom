@@ -1,50 +1,26 @@
-#' Calibrate High-Dimensional Cox Models
+#' Externally Calibrate High-Dimensional Cox Models
 #'
-#' Calibrate High-Dimensional Cox Models
+#' Externally Calibrate High-Dimensional Cox Models
 #'
-#' @param x Matrix of training data used for fitting the model;
-#' on which to run the calibration.
-#' @param time Survival time.
-#' Must be of the same length with the number of rows as \code{x}.
-#' @param event Status indicator, normally 0 = alive, 1 = dead.
-#' Must be of the same length with the number of rows as \code{x}.
-#' @param model.type Model type to calibrate. Could be one of \code{"lasso"},
-#' \code{"alasso"}, \code{"flasso"}, \code{"enet"}, \code{"aenet"},
-#' \code{"mcp"}, \code{"mnet"}, \code{"scad"}, or \code{"snet"}.
-#' @param alpha Value of the elastic-net mixing parameter alpha for
-#' \code{enet}, \code{aenet}, \code{mnet}, and \code{snet} models.
-#' For \code{lasso}, \code{alasso}, \code{mcp}, and \code{scad} models,
-#' please set \code{alpha = 1}.
-#' \code{alpha=1}: lasso (l1) penalty; \code{alpha=0}: ridge (l2) penalty.
-#' Note that for \code{mnet} and \code{snet} models,
-#' \code{alpha} can be set to very close to 0 but not 0 exactly.
-#' @param lambda Value of the penalty parameter lambda to use in the
-#' model fits on the resampled data. From the Cox model you have built.
-#' @param pen.factor Penalty factors to apply to each coefficient.
-#' From the built \emph{adaptive lasso} or \emph{adaptive elastic-net} model.
-#' @param gamma Value of the model parameter gamma for MCP/SCAD/Mnet/Snet models.
-#' @param method Calibration method.
-#' Options including \code{"fitting"}, \code{"bootstrap"}, \code{"cv"},
-#' and \code{"repeated.cv"}.
-#' @param boot.times Number of repetitions for bootstrap.
-#' @param nfolds Number of folds for cross-validation and
-#' repeated cross-validation.
-#' @param rep.times Number of repeated times for repeated cross-validation.
-#' @param pred.at Time point at which calibration should take place.
-#' @param ngroup Number of groups to be formed for calibration.
-#' @param trace Logical. Output the calibration progress or not.
-#' Default is \code{TRUE}.
+#' @param object Model object fitted by \code{hdcox.*()} functions.
+#' @param x_new Matrix of predictors for the external validation data.
+#' @param time_new Survival time of the external validation data.
+#' Must be of the same length with the number of rows as \code{x_new}.
+#' @param event_new Status indicator of the external validation data,
+#' normally 0 = alive, 1 = dead.
+#' Must be of the same length with the number of rows as \code{x_new}.
+#' @param pred.at Time point at which external calibration should take place.
+#' @param ngroup Number of groups to be formed for external calibration.
 #'
 #' @importFrom survival Surv
 #' @importFrom stats quantile
 #' @importFrom stats median
 #'
-#' @export hdnom.calibrate
+#' @export hdnom.external.calibrate
 #'
 #' @examples
 #' library("glmnet")
 #' library("survival")
-#' library("rms")
 #'
 #' # Load imputed SMART data
 #' data(smart)
@@ -99,7 +75,6 @@
 #' plot(cal.repcv)
 # ### Testing fused lasso, SCAD, and Mnet models ###
 # library("survival")
-# library("rms")
 #
 # # Load imputed SMART data
 # data(smart)
@@ -144,16 +119,8 @@
 # print(cal.repcv)
 # summary(cal.repcv)
 # plot(cal.repcv)
-hdnom.calibrate = function(x, time, event,
-                           model.type = c('lasso', 'alasso', 'flasso',
-                                          'enet', 'aenet',
-                                          'mcp', 'mnet',
-                                          'scad', 'snet'),
-                           alpha, lambda, pen.factor = NULL, gamma,
-                           method = c('fitting', 'bootstrap', 'cv', 'repeated.cv'),
-                           boot.times = NULL, nfolds = NULL, rep.times = NULL,
-                           pred.at, ngroup = 5,
-                           trace = TRUE) {
+hdnom.external.calibrate = function(object, x_new, time_new, event_new,
+                                    pred.at, ngroup = 5) {
 
   model.type = match.arg(model.type)
   method = match.arg(method)
@@ -609,7 +576,7 @@ hdnom.calibrate = function(x, time, event,
 
 }
 
-#' Compute glmnet Predicted Survival Probabilities for Calibration
+#' Compute glmnet Predicted Survival Probabilities for External Calibration
 #'
 #' @importFrom glmnet glmnet
 #' @importFrom stats predict
@@ -617,9 +584,9 @@ hdnom.calibrate = function(x, time, event,
 #' @return list containing predicted survival probability
 #'
 #' @keywords internal
-glmnet.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
-                                          alpha, lambda, pen.factor,
-                                          pred.at) {
+glmnet.external.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
+                                                   alpha, lambda, pen.factor,
+                                                   pred.at) {
 
   if (is.null(pen.factor)) {
     object = glmnet(x = x_tr, y = y_tr, family = 'cox',
@@ -654,7 +621,7 @@ glmnet.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
 
 }
 
-#' Compute ncvreg predicted survival probabilities for calibration
+#' Compute ncvreg Predicted Survival Probabilities for External Calibration
 #'
 #' @importFrom ncvreg ncvsurv
 #' @importFrom stats predict
@@ -662,10 +629,10 @@ glmnet.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
 #' @return list containing predicted survival probability
 #'
 #' @keywords internal
-ncvreg.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
-                                          model.type,
-                                          alpha, lambda, gamma,
-                                          pred.at) {
+ncvreg.external.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
+                                                   model.type,
+                                                   alpha, lambda, gamma,
+                                                   pred.at) {
 
   if (model.type == 'mcp') {
     object = ncvsurv(X = x_tr, y = y_tr, model = 'cox',
@@ -714,7 +681,7 @@ ncvreg.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
 
 }
 
-#' Compute "penalized" predicted survival probabilities for calibration
+#' Compute "penalized" Predicted Survival Probabilities for External Calibration
 #'
 #' @importFrom penalized penalized
 #' @importFrom stats predict
@@ -722,9 +689,9 @@ ncvreg.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
 #' @return list containing predicted survival probability
 #'
 #' @keywords internal
-penalized.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
-                                             lambda,
-                                             pred.at) {
+penalized.external.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
+                                                      lambda,
+                                                      pred.at) {
 
   object = penalized(response = y_tr, penalized = x_tr,
                      lambda1 = lambda, lambda2 = 0,
@@ -753,7 +720,7 @@ penalized.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
 
 }
 
-#' Compute Kaplan-Meier estimated survival probabilities for calibration
+#' Compute Kaplan-Meier Estimated Survival Probabilities for External Calibration
 #'
 #' @importFrom survival survfit
 #' @importFrom survival Surv
@@ -761,9 +728,9 @@ penalized.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
 #' @return list
 #'
 #' @keywords internal
-hdnom.calibrate.internal.true = function(pred_prob, grp,
-                                         time, event,
-                                         pred.at, ngroup) {
+hdnom.external.calibrate.internal.true = function(pred_prob, grp,
+                                                  time, event,
+                                                  pred.at, ngroup) {
 
   true_prob = matrix(NA, ncol = 3L, nrow = ngroup)
   colnames(true_prob) = c("Observed", "Lower 95%", "Upper 95%")
@@ -783,20 +750,20 @@ hdnom.calibrate.internal.true = function(pred_prob, grp,
 
 }
 
-#' Print Calibration Results Generated by hdnom.calibrate
+#' Print External Calibration Results Generated by hdnom.external.calibrate
 #'
-#' Print Calibration Results Generated by hdnom.calibrate
+#' Print External Calibration Results Generated by hdnom.external.calibrate
 #'
-#' @param x an object returned by \code{\link{hdnom.calibrate}}.
+#' @param x an object returned by \code{\link{hdnom.external.calibrate}}.
 #' @param ... other parameters (not used).
 #'
-#' @method print hdnom.calibrate
+#' @method print hdnom.external.calibrate
 #'
 #' @export
 #'
 #' @examples
 #' NULL
-print.hdnom.calibrate = function(x, ...) {
+print.hdnom.external.calibrate = function(x, ...) {
 
   if (!('hdnom.calibrate' %in% class(x)))
     stop('object class must be "hdnom.calibrate"')
@@ -961,20 +928,20 @@ print.hdnom.calibrate = function(x, ...) {
 
 }
 
-#' Summary of Calibration Results Generated by hdnom.calibrate
+#' Summary of External Calibration Results Generated by hdnom.external.calibrate
 #'
-#' Summary of Calibration Results Generated by hdnom.calibrate
+#' Summary of External Calibration Results Generated by hdnom.external.calibrate
 #'
-#' @param object an object returned by \code{\link{hdnom.calibrate}}.
+#' @param object an object returned by \code{\link{hdnom.external.calibrate}}.
 #' @param ... other parameters (not used).
 #'
-#' @method summary hdnom.calibrate
+#' @method summary hdnom.external.calibrate
 #'
 #' @export
 #'
 #' @examples
 #' NULL
-summary.hdnom.calibrate = function(object, ...) {
+summary.hdnom.external.calibrate = function(object, ...) {
 
   if (!('hdnom.calibrate' %in% class(object)))
     stop('object class must be "hdnom.calibrate"')
@@ -1103,16 +1070,16 @@ summary.hdnom.calibrate = function(object, ...) {
 
 }
 
-#' Plot Calibration Results
+#' Plot External Calibration Results
 #'
-#' Plot Calibration Results
+#' Plot External Calibration Results
 #'
-#' @param x an object returned by \code{\link{hdnom.calibrate}}.
+#' @param x an object returned by \code{\link{hdnom.external.calibrate}}.
 #' @param xlim x axis limits of the plot.
 #' @param ylim y axis limits of the plot.
 #' @param ... other parameters for \code{plot}.
 #'
-#' @method plot hdnom.calibrate
+#' @method plot hdnom.external.calibrate
 #'
 #' @export
 #'
@@ -1121,7 +1088,7 @@ summary.hdnom.calibrate = function(object, ...) {
 #'
 #' @examples
 #' NULL
-plot.hdnom.calibrate = function(x, xlim = c(0, 1), ylim = c(0, 1), ...) {
+plot.hdnom.external.calibrate = function(x, xlim = c(0, 1), ylim = c(0, 1), ...) {
 
   if (!('hdnom.calibrate' %in% class(x)))
     stop('object class must be "hdnom.calibrate"')

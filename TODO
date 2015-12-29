@@ -1,19 +1,19 @@
-
 # TODO
 
- * Direct prediction function
- * External validation / external calibration?
- * Kaplan-Meier curve for risk groups (use the calibration result?)
- * Record random seed used in web app report (need modify package functions?)
+## PACKAGE
 
- * Allow users to download model from web app, to further play with in R package
- * Add above to vignette
- * Incorporate above into web app
+  * FIX THIS: investigate calibration: glmnet.calibrate.internal.pred used x_te and y_te, but maybe should use x_tr and y_tr? Be consistent with predict.hdcox.model and hdnom.external.calibrate.
+  * External validation / external calibration?
+  * Kaplan-Meier curve for risk groups (use the calibration result?)
+  * Add above to vignette
 
-# RESEARCH ON THIS
+## WEB APP
 
- * investigate calibration: glmnet.calibrate.internal.pred used x_te and y_te, but maybe should use x_tr and y_tr? Be consistent with predict.hdcox.
+  * Incorporate the above changes into web app
+  * Allow users to download model from web app, to further play with in R package
+  * Record the random seed used in web app report (need modify package functions?) - hdnom app used a single seed from the beginning through-out, 1. make sure it is fully used in server.R logic in every computation module, 2. record it and put it into the report.
 
 # DONE
 
- * Model comparison - validation/calibration
+  * Model comparison - validation/calibration
+  * Direct prediction function
