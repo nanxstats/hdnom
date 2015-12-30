@@ -149,29 +149,21 @@ hdnom.external.calibrate = function(object, x, time, event,
   prob = cbind(pred_prob_median, true_prob)
   colnames(prob)[1L] = 'Predicted'
 
-  if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
-    class(prob) = c('hdnom.external.calibrate',
-                    'glmnet.external.calibrate')
-    attr(prob, 'model.type') = model.type
-    attr(prob, 'pred.at')    = pred.at
-    attr(prob, 'ngroup')     = ngroup
-  }
+  if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet'))
+    class(prob) = c('hdnom.external.calibrate', 'glmnet.external.calibrate')
 
-  if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
-    class(prob) = c('hdnom.external.calibrate',
-                    'ncvreg.external.calibrate')
-    attr(prob, 'model.type') = model.type
-    attr(prob, 'pred.at')    = pred.at
-    attr(prob, 'ngroup')     = ngroup
-  }
+  if (model.type %in% c('mcp', 'mnet', 'scad', 'snet'))
+    class(prob) = c('hdnom.external.calibrate', 'ncvreg.external.calibrate')
 
-  if (model.type %in% c('flasso')) {
-    class(prob) = c('hdnom.external.calibrate',
-                    'penalized.external.calibrate')
-    attr(prob, 'model.type') = model.type
-    attr(prob, 'pred.at')    = pred.at
-    attr(prob, 'ngroup')     = ngroup
-  }
+  if (model.type %in% c('flasso'))
+    class(prob) = c('hdnom.external.calibrate', 'penalized.external.calibrate')
+
+  attr(prob, 'model.type') = model.type
+  attr(prob, 'pred.at')    = pred.at
+  attr(prob, 'ngroup')     = ngroup
+  attr(prob, 'risk.group') = grp
+  attr(prob, 'surv.time') = time_new
+  attr(prob, 'surv.event') = event_new
 
   prob
 
@@ -363,6 +355,9 @@ summary.hdnom.external.calibrate = function(object, ...) {
   attr(object, 'model.type') = NULL
   attr(object, 'pred.at')    = NULL
   attr(object, 'ngroup')     = NULL
+  attr(object, 'risk.group') = NULL
+  attr(object, 'surv.time')  = NULL
+  attr(object, 'surv.event') = NULL
 
   cat('  External Calibration Summary Table\n')
   class(object) = 'matrix'

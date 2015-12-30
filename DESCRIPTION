@@ -22,7 +22,8 @@ Imports:
     rms,
     foreach,
     survAUC,
-    ggplot2
+    ggplot2,
+    gridExtra
 Suggests:
     knitr,
     doParallel,

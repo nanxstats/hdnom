@@ -456,32 +456,23 @@ hdnom.calibrate = function(x, time, event,
            if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
              class(prob) = c('hdnom.calibrate',
                              'glmnet.calibrate.fitting')
-             attr(prob, 'model.type') = model.type
              attr(prob, 'alpha') = alpha
              attr(prob, 'lambda') = lambda
              attr(prob, 'pen.factor') = pen.factor
-             attr(prob, 'pred.at') = pred.at
-             attr(prob, 'ngroup') = ngroup
            }
 
            if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
              class(prob) = c('hdnom.calibrate',
                              'ncvreg.calibrate.fitting')
-             attr(prob, 'model.type') = model.type
              attr(prob, 'alpha') = alpha
              attr(prob, 'lambda') = lambda
              attr(prob, 'gamma') = gamma
-             attr(prob, 'pred.at') = pred.at
-             attr(prob, 'ngroup') = ngroup
            }
 
            if (model.type %in% c('flasso')) {
              class(prob) = c('hdnom.calibrate',
                              'penalized.calibrate.fitting')
-             attr(prob, 'model.type') = model.type
              attr(prob, 'lambda') = lambda
-             attr(prob, 'pred.at') = pred.at
-             attr(prob, 'ngroup') = ngroup
            }
 
          },
@@ -491,34 +482,25 @@ hdnom.calibrate = function(x, time, event,
            if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
              class(prob) = c('hdnom.calibrate',
                              'glmnet.calibrate.bootstrap')
-             attr(prob, 'model.type') = model.type
              attr(prob, 'alpha')      = alpha
              attr(prob, 'lambda')     = lambda
              attr(prob, 'pen.factor') = pen.factor
-             attr(prob, 'pred.at')    = pred.at
-             attr(prob, 'ngroup')     = ngroup
              attr(prob, 'boot.times') = boot.times
            }
 
            if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
              class(prob) = c('hdnom.calibrate',
                              'ncvreg.calibrate.bootstrap')
-             attr(prob, 'model.type') = model.type
              attr(prob, 'alpha')      = alpha
              attr(prob, 'lambda')     = lambda
              attr(prob, 'gamma')      = gamma
-             attr(prob, 'pred.at')    = pred.at
-             attr(prob, 'ngroup')     = ngroup
              attr(prob, 'boot.times') = boot.times
            }
 
            if (model.type %in% c('flasso')) {
              class(prob) = c('hdnom.calibrate',
                              'penalized.calibrate.bootstrap')
-             attr(prob, 'model.type') = model.type
              attr(prob, 'lambda')     = lambda
-             attr(prob, 'pred.at')    = pred.at
-             attr(prob, 'ngroup')     = ngroup
              attr(prob, 'boot.times') = boot.times
            }
 
@@ -529,34 +511,25 @@ hdnom.calibrate = function(x, time, event,
            if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
              class(prob) = c('hdnom.calibrate',
                              'glmnet.calibrate.cv')
-             attr(prob, 'model.type') = model.type
              attr(prob, 'alpha')      = alpha
              attr(prob, 'lambda')     = lambda
              attr(prob, 'pen.factor') = pen.factor
-             attr(prob, 'pred.at')    = pred.at
-             attr(prob, 'ngroup')     = ngroup
              attr(prob, 'nfolds')     = nfolds
            }
 
            if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
              class(prob) = c('hdnom.calibrate',
                              'ncvreg.calibrate.cv')
-             attr(prob, 'model.type') = model.type
              attr(prob, 'alpha')      = alpha
              attr(prob, 'lambda')     = lambda
              attr(prob, 'gamma')      = gamma
-             attr(prob, 'pred.at')    = pred.at
-             attr(prob, 'ngroup')     = ngroup
              attr(prob, 'nfolds')     = nfolds
            }
 
            if (model.type %in% c('flasso')) {
              class(prob) = c('hdnom.calibrate',
                              'penalized.calibrate.cv')
-             attr(prob, 'model.type') = model.type
              attr(prob, 'lambda')     = lambda
-             attr(prob, 'pred.at')    = pred.at
-             attr(prob, 'ngroup')     = ngroup
              attr(prob, 'nfolds')     = nfolds
            }
 
@@ -567,12 +540,9 @@ hdnom.calibrate = function(x, time, event,
            if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
              class(prob) = c('hdnom.calibrate',
                              'glmnet.calibrate.repeated.cv')
-             attr(prob, 'model.type') = model.type
              attr(prob, 'alpha')      = alpha
              attr(prob, 'lambda')     = lambda
              attr(prob, 'pen.factor') = pen.factor
-             attr(prob, 'pred.at')    = pred.at
-             attr(prob, 'ngroup')     = ngroup
              attr(prob, 'nfolds')     = nfolds
              attr(prob, 'rep.times')  = rep.times
            }
@@ -580,12 +550,9 @@ hdnom.calibrate = function(x, time, event,
            if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
              class(prob) = c('hdnom.calibrate',
                              'ncvreg.calibrate.repeated.cv')
-             attr(prob, 'model.type') = model.type
              attr(prob, 'alpha')      = alpha
              attr(prob, 'lambda')     = lambda
              attr(prob, 'gamma')      = gamma
-             attr(prob, 'pred.at')    = pred.at
-             attr(prob, 'ngroup')     = ngroup
              attr(prob, 'nfolds')     = nfolds
              attr(prob, 'rep.times')  = rep.times
            }
@@ -593,16 +560,20 @@ hdnom.calibrate = function(x, time, event,
            if (model.type %in% c('flasso')) {
              class(prob) = c('hdnom.calibrate',
                              'penalized.calibrate.repeated.cv')
-             attr(prob, 'model.type') = model.type
              attr(prob, 'lambda')     = lambda
-             attr(prob, 'pred.at')    = pred.at
-             attr(prob, 'ngroup')     = ngroup
              attr(prob, 'nfolds')     = nfolds
              attr(prob, 'rep.times')  = rep.times
            }
 
          }
   )
+
+  attr(prob, 'model.type') = model.type
+  attr(prob, 'pred.at')    = pred.at
+  attr(prob, 'ngroup')     = ngroup
+  attr(prob, 'risk.group') = grp
+  attr(prob, 'surv.time')  = time
+  attr(prob, 'surv.event') = event
 
   prob
 
@@ -985,118 +956,90 @@ summary.hdnom.calibrate = function(object, ...) {
   switch(method,
 
          glmnet.calibrate.fitting = {
-           attr(object, 'model.type') = NULL
            attr(object, 'alpha')      = NULL
            attr(object, 'lambda')     = NULL
            attr(object, 'pen.factor') = NULL
-           attr(object, 'pred.at')    = NULL
-           attr(object, 'ngroup')     = NULL
          },
 
          glmnet.calibrate.bootstrap = {
-           attr(object, 'model.type') = NULL
            attr(object, 'boot.times') = NULL
            attr(object, 'alpha')      = NULL
            attr(object, 'lambda')     = NULL
            attr(object, 'pen.factor') = NULL
-           attr(object, 'pred.at')    = NULL
-           attr(object, 'ngroup')     = NULL
+
          },
 
          glmnet.calibrate.cv = {
-           attr(object, 'model.type') = NULL
            attr(object, 'nfolds')     = NULL
            attr(object, 'alpha')      = NULL
            attr(object, 'lambda')     = NULL
            attr(object, 'pen.factor') = NULL
-           attr(object, 'pred.at')    = NULL
-           attr(object, 'ngroup')     = NULL
          },
 
          glmnet.calibrate.repeated.cv = {
-           attr(object, 'model.type') = NULL
            attr(object, 'nfolds')     = NULL
            attr(object, 'rep.times')  = NULL
            attr(object, 'alpha')      = NULL
            attr(object, 'lambda')     = NULL
            attr(object, 'pen.factor') = NULL
-           attr(object, 'pred.at')    = NULL
-           attr(object, 'ngroup')     = NULL
          },
 
          ncvreg.calibrate.fitting = {
-           attr(object, 'model.type') = NULL
            attr(object, 'alpha')      = NULL
            attr(object, 'lambda')     = NULL
            attr(object, 'gamma')      = NULL
-           attr(object, 'pred.at')    = NULL
-           attr(object, 'ngroup')     = NULL
          },
 
          ncvreg.calibrate.bootstrap = {
-           attr(object, 'model.type') = NULL
            attr(object, 'alpha')      = NULL
            attr(object, 'lambda')     = NULL
            attr(object, 'gamma')      = NULL
-           attr(object, 'pred.at')    = NULL
-           attr(object, 'ngroup')     = NULL
            attr(object, 'boot.times') = NULL
          },
 
          ncvreg.calibrate.cv = {
-           attr(object, 'model.type') = NULL
            attr(object, 'alpha')      = NULL
            attr(object, 'lambda')     = NULL
            attr(object, 'gamma')      = NULL
-           attr(object, 'pred.at')    = NULL
-           attr(object, 'ngroup')     = NULL
            attr(object, 'nfolds')     = NULL
          },
 
          ncvreg.calibrate.repeated.cv = {
-           attr(object, 'model.type') = NULL
            attr(object, 'alpha')      = NULL
            attr(object, 'lambda')     = NULL
            attr(object, 'gamma')      = NULL
-           attr(object, 'pred.at')    = NULL
-           attr(object, 'ngroup')     = NULL
            attr(object, 'nfolds')     = NULL
            attr(object, 'rep.times')  = NULL
          },
 
          penalized.calibrate.fitting = {
-           attr(object, 'model.type') = NULL
            attr(object, 'lambda')     = NULL
-           attr(object, 'pred.at')    = NULL
-           attr(object, 'ngroup')     = NULL
          },
 
          penalized.calibrate.bootstrap = {
-           attr(object, 'model.type') = NULL
            attr(object, 'lambda')     = NULL
-           attr(object, 'pred.at')    = NULL
-           attr(object, 'ngroup')     = NULL
            attr(object, 'boot.times') = NULL
          },
 
          penalized.calibrate.cv = {
-           attr(object, 'model.type') = NULL
            attr(object, 'lambda')     = NULL
-           attr(object, 'pred.at')    = NULL
-           attr(object, 'ngroup')     = NULL
            attr(object, 'nfolds')     = NULL
          },
 
          penalized.calibrate.repeated.cv = {
-           attr(object, 'model.type') = NULL
            attr(object, 'lambda')     = NULL
-           attr(object, 'pred.at')    = NULL
-           attr(object, 'ngroup')     = NULL
            attr(object, 'nfolds')     = NULL
            attr(object, 'rep.times')  = NULL
          }
 
   )
+
+  attr(object, 'model.type') = NULL
+  attr(object, 'pred.at')    = NULL
+  attr(object, 'ngroup')     = NULL
+  attr(object, 'risk.group') = NULL
+  attr(object, 'surv.time')  = NULL
+  attr(object, 'surv.event') = NULL
 
   cat('  Calibration Summary Table\n')
   class(object) = 'matrix'

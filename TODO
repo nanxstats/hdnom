@@ -2,13 +2,11 @@
 
 ## PACKAGE
 
-  * Kaplan-Meier curve for risk groups (use the [internal]/[external] calibration result)
-  * log-rank test for risk groups (use the [internal]/[external] calibration result)
-  * Add above to vignette
+  * Add above changes to vignette
 
 ## WEB APP
 
-  * Incorporate the above changes into web app
+  * Incorporate above changes into web app
   * Allow users to download model from web app, to further play with in R package
   * Record the random seed used in web app report (need modify package functions?) - hdnom app used a single seed from the beginning through-out, 1. make sure it is fully used in server.R logic in every computation module, 2. record it and put it into the report.
 
@@ -20,5 +18,7 @@
   * Direct prediction function
   * FIX THIS: investigate calibration: glmnet.calibrate.internal.pred used x_te and y_te, but maybe should use x_tr and y_tr? Be consistent with predict.hdcox.model and hdnom.external.calibrate.
   * External validation / external calibration
+  * Kaplan-Meier curve for risk groups (use the [internal]/[external] calibration result)
+  * log-rank test for risk groups (use the [internal]/[external] calibration result)
 
 ## WEB APP
