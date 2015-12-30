@@ -4,8 +4,8 @@
 \alias{ncvreg.calibrate.internal.pred}
 \title{Compute ncvreg Predicted Survival Probabilities for Calibration}
 \usage{
-ncvreg.calibrate.internal.pred(x_tr, x_te, y_tr, y_te, model.type, alpha,
-  lambda, gamma, pred.at)
+ncvreg.calibrate.internal.pred(x_tr, x_te, y_tr, model.type, alpha, lambda,
+  gamma, pred.at)
 }
 \value{
 list containing predicted survival probability

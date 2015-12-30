@@ -65,9 +65,8 @@ predict.hdcox.model = function(object, x, y, newx, pred.at, ...) {
            basesurv = ncvreg.basesurv(time, event, lp, pred.at)
            lpnew = predict(object[[paste0(model.type, '_model')]], newx, type = 'link')
            p = exp(exp(lpnew) %*% -t(basesurv$'cumulative_base_hazard'))
-
            # # alternative method using ncvreg built-in prediction directly
-           # # almost identical results, but sometimes produces NAs in prediction
+           # # almost identical results, but sometimes produces NAs in practice
            # # e.g. pred.at = 1:10 * 365
            # survfun = predict(object[[paste0(model.type, '_model')]], newx, type = 'survival')
            # p = matrix(NA, nrow = nrow(newx), ncol = length(pred.at))

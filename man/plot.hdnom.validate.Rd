@@ -4,12 +4,10 @@
 \alias{plot.hdnom.validate}
 \title{Plot Optimism-Corrected Time-Dependent Discrimination Curves for Validation}
 \usage{
-\method{plot}{hdnom.validate}(x, col = "darkgrey", ...)
+\method{plot}{hdnom.validate}(x, ...)
 }
 \arguments{
 \item{x}{An object returned by \code{\link{hdnom.validate}}.}
-
-\item{col}{The color for the points, lines, and the ribbons.}
 
 \item{...}{Other parameters (not used).}
 }

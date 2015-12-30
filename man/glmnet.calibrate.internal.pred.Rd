@@ -4,8 +4,8 @@
 \alias{glmnet.calibrate.internal.pred}
 \title{Compute glmnet Predicted Survival Probabilities for Calibration}
 \usage{
-glmnet.calibrate.internal.pred(x_tr, x_te, y_tr, y_te, alpha, lambda,
-  pen.factor, pred.at)
+glmnet.calibrate.internal.pred(x_tr, x_te, y_tr, alpha, lambda, pen.factor,
+  pred.at)
 }
 \value{
 list containing predicted survival probability

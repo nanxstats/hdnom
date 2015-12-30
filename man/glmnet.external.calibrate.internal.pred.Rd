@@ -4,7 +4,7 @@
 \alias{glmnet.external.calibrate.internal.pred}
 \title{Compute glmnet Predicted Survival Probabilities for External Calibration}
 \usage{
-glmnet.external.calibrate.internal.pred(x_tr, x_te, y_tr, y_te, alpha, lambda,
+glmnet.external.calibrate.internal.pred(object, x_tr, x_te, y_tr, alpha, lambda,
   pen.factor, pred.at)
 }
 \value{

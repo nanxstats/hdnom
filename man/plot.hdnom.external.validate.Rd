@@ -2,19 +2,17 @@
 % Please edit documentation in R/8.hdnom.external.validate.R
 \name{plot.hdnom.external.validate}
 \alias{plot.hdnom.external.validate}
-\title{Plot Optimism-Corrected Time-Dependent Discrimination Curves for External Validation}
+\title{Plot Time-Dependent Discrimination Curves for External Validation}
 \usage{
-\method{plot}{hdnom.external.validate}(x, col = "darkgrey", ...)
+\method{plot}{hdnom.external.validate}(x, ...)
 }
 \arguments{
 \item{x}{An object returned by \code{\link{hdnom.external.validate}}.}
 
-\item{col}{The color for the points, lines, and the ribbons.}
-
 \item{...}{Other parameters (not used).}
 }
 \description{
-Plot Optimism-Corrected Time-Dependent Discrimination Curves for External Validation
+Plot Time-Dependent Discrimination Curves for External Validation
 }
 \examples{
 NULL

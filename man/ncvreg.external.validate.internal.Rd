@@ -4,8 +4,8 @@
 \alias{ncvreg.external.validate.internal}
 \title{Compute External Validation Measures for ncvreg Model Objects}
 \usage{
-ncvreg.external.validate.internal(x_tr, x_te, y_tr, y_te, model.type, gamma,
-  alpha, lambda, tauc.type, tauc.time)
+ncvreg.external.validate.internal(object, x_tr, x_te, y_tr, y_te, tauc.type,
+  tauc.time)
 }
 \value{
 time-dependent AUC (tAUC) value

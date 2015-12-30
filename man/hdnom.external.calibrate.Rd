@@ -4,11 +4,20 @@
 \alias{hdnom.external.calibrate}
 \title{Externally Calibrate High-Dimensional Cox Models}
 \usage{
-hdnom.external.calibrate(object, x_new, time_new, event_new, pred.at,
-  ngroup = 5)
+hdnom.external.calibrate(object, x, time, event, x_new, time_new, event_new,
+  pred.at, ngroup = 5)
 }
 \arguments{
 \item{object}{Model object fitted by \code{hdcox.*()} functions.}
+
+\item{x}{Matrix of training data used for fitting the model.}
+
+\item{time}{Survival time of the training data.
+Must be of the same length with the number of rows as \code{x}.}
+
+\item{event}{Status indicator of the training data,
+normally 0 = alive, 1 = dead.
+Must be of the same length with the number of rows as \code{x}.}
 
 \item{x_new}{Matrix of predictors for the external validation data.}
 
@@ -27,59 +36,34 @@ Must be of the same length with the number of rows as \code{x_new}.}
 Externally Calibrate High-Dimensional Cox Models
 }
 \examples{
-library("glmnet")
 library("survival")
 
 # Load imputed SMART data
 data(smart)
-x = as.matrix(smart[, -c(1, 2)])
-time = smart$TEVENT
-event = smart$EVENT
+# Use first 1000 samples as training data
+# (the data used for internal validation)
+x = as.matrix(smart[, -c(1, 2)])[1:1000, ]
+time = smart$TEVENT[1:1000]
+event = smart$EVENT[1:1000]
 
-# Fit penalized Cox model (lasso penalty) with glmnet
-set.seed(1010)
-cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 5)
+# Take 1000 samples as external validation data.
+# In practice, usually use data collected in other studies.
+x_new = as.matrix(smart[, -c(1, 2)])[1001:2000, ]
+time_new = smart$TEVENT[1001:2000]
+event_new = smart$EVENT[1001:2000]
 
-# Model calibration by fitting the original data directly
-cal.fitting = hdnom.calibrate(x, time, event, model.type = "lasso",
-                              alpha = 1, lambda = cvfit$lambda.1se,
-                              method = "fitting",
-                              pred.at = 365 * 9, ngroup = 5)
+# Fit Cox model by lasso penalization
+lassofit = hdcox.lasso(x, Surv(time, event), nfolds = 5, rule = "lambda.1se", seed = 11)
 
-# Model calibration by bootstrap
-# Normally boot.times should be set to 200 or more,
-# we set it to 3 here only to save example running time.
-cal.boot = hdnom.calibrate(x, time, event, model.type = "lasso",
-                           alpha = 1, lambda = cvfit$lambda.1se,
-                           method = "bootstrap", boot.times = 3,
-                           pred.at = 365 * 9, ngroup = 5)
+# External calibration
+ext.cal =
+  hdnom.external.calibrate(lassofit, x, time, event,
+                           x_new, time_new, event_new,
+                           pred.at = 365 * 5, ngroup = 5)
 
-# Model calibration by 5-fold cross-validation
-cal.cv = hdnom.calibrate(x, time, event, model.type = "lasso",
-                         alpha = 1, lambda = cvfit$lambda.1se,
-                         method = "cv", nfolds = 5,
-                         pred.at = 365 * 9, ngroup = 5)
+print(ext.cal)
+summary(ext.cal)
+plot(ext.cal, xlim = c(0.5, 1), ylim = c(0.5, 1))
 
-# Model calibration by repeated cross-validation
-cal.repcv = hdnom.calibrate(x, time, event, model.type = "lasso",
-                            alpha = 1, lambda = cvfit$lambda.1se,
-                            method = "repeated.cv", nfolds = 5, rep.times = 3,
-                            pred.at = 365 * 9, ngroup = 5)
-
-print(cal.fitting)
-summary(cal.fitting)
-plot(cal.fitting)
-
-print(cal.boot)
-summary(cal.boot)
-plot(cal.boot)
-
-print(cal.cv)
-summary(cal.cv)
-plot(cal.cv)
-
-print(cal.repcv)
-summary(cal.repcv)
-plot(cal.repcv)
 }
 

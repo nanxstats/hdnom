@@ -2,9 +2,8 @@
 
 ## PACKAGE
 
-  * FIX THIS: investigate calibration: glmnet.calibrate.internal.pred used x_te and y_te, but maybe should use x_tr and y_tr? Be consistent with predict.hdcox.model and hdnom.external.calibrate.
-  * External validation / external calibration?
-  * Kaplan-Meier curve for risk groups (use the calibration result?)
+  * Kaplan-Meier curve for risk groups (use the [internal]/[external] calibration result)
+  * log-rank test for risk groups (use the [internal]/[external] calibration result)
   * Add above to vignette
 
 ## WEB APP
@@ -15,5 +14,11 @@
 
 # DONE
 
+## PACKAGE
+
   * Model comparison - validation/calibration
   * Direct prediction function
+  * FIX THIS: investigate calibration: glmnet.calibrate.internal.pred used x_te and y_te, but maybe should use x_tr and y_tr? Be consistent with predict.hdcox.model and hdnom.external.calibrate.
+  * External validation / external calibration
+
+## WEB APP

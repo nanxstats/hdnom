@@ -4,11 +4,20 @@
 \alias{hdnom.external.validate}
 \title{Externally Validate High-Dimensional Cox Models with Time-Dependent AUC}
 \usage{
-hdnom.external.validate(object, x_new, time_new, event_new,
-  tauc.type = c("CD", "SZ", "UNO"), tauc.time, trace = TRUE)
+hdnom.external.validate(object, x, time, event, x_new, time_new, event_new,
+  tauc.type = c("CD", "SZ", "UNO"), tauc.time)
 }
 \arguments{
 \item{object}{Model object fitted by \code{hdcox.*()} functions.}
+
+\item{x}{Matrix of training data used for fitting the model.}
+
+\item{time}{Survival time of the training data.
+Must be of the same length with the number of rows as \code{x}.}
+
+\item{event}{Status indicator of the training data,
+normally 0 = alive, 1 = dead.
+Must be of the same length with the number of rows as \code{x}.}
 
 \item{x_new}{Matrix of predictors for the external validation data.}
 
@@ -31,54 +40,35 @@ the time-dependent AUC.}
 Externally Validate High-Dimensional Cox Models with Time-Dependent AUC
 }
 \examples{
-library("glmnet")
 library("survival")
 
 # Load imputed SMART data
 data(smart)
-x = as.matrix(smart[, -c(1, 2)])[1:500, ]
-time = smart$TEVENT[1:500]
-event = smart$EVENT[1:500]
+# Use first 1000 samples as training data
+# (the data used for internal validation)
+x = as.matrix(smart[, -c(1, 2)])[1:1000, ]
+time = smart$TEVENT[1:1000]
+event = smart$EVENT[1:1000]
 
-# Fit penalized Cox model (lasso penalty) with glmnet
-set.seed(1010)
-cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 5)
+# Take 500 samples as external validation data.
+# In practice, usually use data collected in other studies.
+x_new = as.matrix(smart[, -c(1, 2)])[1001:1500, ]
+time_new = smart$TEVENT[1001:1500]
+event_new = smart$EVENT[1001:1500]
 
-# Model validation by bootstrap with time-dependent AUC
-# Normally boot.times should be set to 200 or more,
-# we set it to 3 here only to save example running time.
-val.boot = hdnom.validate(x, time, event, model.type = "lasso",
-                          alpha = 1, lambda = cvfit$lambda.1se,
-                          method = "bootstrap", boot.times = 3,
-                          tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
+# Fit Cox model by lasso penalization
+lassofit = hdcox.lasso(x, Surv(time, event), nfolds = 5, rule = "lambda.1se", seed = 11)
 
-# Model validation by 5-fold cross-validation with time-dependent AUC
-val.cv = hdnom.validate(x, time, event, model.type = "lasso",
-                        alpha = 1, lambda = cvfit$lambda.1se,
-                        method = "cv", nfolds = 5,
-                        tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
+# External validation with time-dependent AUC
+ext.val =
+  hdnom.external.validate(lassofit, x, time, event,
+                          x_new, time_new, event_new,
+                          tauc.type = "UNO",
+                          tauc.time = seq(0.25, 2, 0.25) * 365)
 
-# Model validation by repeated cross-validation with time-dependent AUC
-val.repcv = hdnom.validate(x, time, event, model.type = "lasso",
-                           alpha = 1, lambda = cvfit$lambda.1se,
-                           method = "repeated.cv", nfolds = 5, rep.times = 3,
-                           tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
-
-# bootstrap-based discrimination curves has a very narrow band
-print(val.boot)
-summary(val.boot)
-plot(val.boot)
-
-# k-fold cv provides a more strict evaluation than bootstrap
-print(val.cv)
-summary(val.cv)
-plot(val.cv)
-
-# repeated cv provides similar results as k-fold cv
-# but more robust than k-fold cv
-print(val.repcv)
-summary(val.repcv)
-plot(val.repcv)
+print(ext.val)
+summary(ext.val)
+plot(ext.val)
 
 }
 \references{

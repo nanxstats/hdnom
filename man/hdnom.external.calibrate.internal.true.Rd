@@ -4,8 +4,8 @@
 \alias{hdnom.external.calibrate.internal.true}
 \title{Compute Kaplan-Meier Estimated Survival Probabilities for External Calibration}
 \usage{
-hdnom.external.calibrate.internal.true(pred_prob, grp, time, event, pred.at,
-  ngroup)
+hdnom.external.calibrate.internal.true(pred_prob, grp, time_new, event_new,
+  pred.at, ngroup)
 }
 \value{
 list

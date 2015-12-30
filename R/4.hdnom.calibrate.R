@@ -167,7 +167,7 @@ hdnom.calibrate = function(x, time, event,
 
     if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
       pred_list = glmnet.calibrate.internal.pred(
-        x_tr = x, x_te = x, y_tr = Surv(time, event), y_te = Surv(time, event),
+        x_tr = x, x_te = x, y_tr = Surv(time, event),
         alpha = alpha, lambda = lambda, pen.factor = pen.factor,
         pred.at = pred.at
       )
@@ -175,7 +175,7 @@ hdnom.calibrate = function(x, time, event,
 
     if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
       pred_list = ncvreg.calibrate.internal.pred(
-        x_tr = x, x_te = x, y_tr = Surv(time, event), y_te = Surv(time, event),
+        x_tr = x, x_te = x, y_tr = Surv(time, event),
         model.type = model.type,
         gamma = gamma, alpha = alpha, lambda = lambda,
         pred.at = pred.at
@@ -184,7 +184,7 @@ hdnom.calibrate = function(x, time, event,
 
     if (model.type %in% c('flasso')) {
       pred_list = penalized.calibrate.internal.pred(
-        x_tr = x, x_te = x, y_tr = Surv(time, event), y_te = Surv(time, event),
+        x_tr = x, x_te = x, y_tr = Surv(time, event),
         lambda = lambda,
         pred.at = pred.at
       )
@@ -230,7 +230,7 @@ hdnom.calibrate = function(x, time, event,
 
       if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
         pred_list_list[[i]] = glmnet.calibrate.internal.pred(
-          x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
+          x_tr = x_tr, x_te = x_te, y_tr = y_tr,
           alpha = alpha, lambda = lambda, pen.factor = pen.factor,
           pred.at = pred.at
         )
@@ -238,7 +238,7 @@ hdnom.calibrate = function(x, time, event,
 
       if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
         pred_list_list[[i]] = ncvreg.calibrate.internal.pred(
-          x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
+          x_tr = x_tr, x_te = x_te, y_tr = y_tr,
           model.type = model.type,
           alpha = alpha, lambda = lambda, gamma = gamma,
           pred.at = pred.at
@@ -247,7 +247,7 @@ hdnom.calibrate = function(x, time, event,
 
       if (model.type %in% c('flasso')) {
         pred_list_list[[i]] = penalized.calibrate.internal.pred(
-          x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
+          x_tr = x_tr, x_te = x_te, y_tr = y_tr,
           lambda = lambda,
           pred.at = pred.at
         )
@@ -303,7 +303,7 @@ hdnom.calibrate = function(x, time, event,
 
       if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
         pred_list_list[[i]] = glmnet.calibrate.internal.pred(
-          x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
+          x_tr = x_tr, x_te = x_te, y_tr = y_tr,
           alpha = alpha, lambda = lambda, pen.factor = pen.factor,
           pred.at = pred.at
         )
@@ -311,7 +311,7 @@ hdnom.calibrate = function(x, time, event,
 
       if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
         pred_list_list[[i]] = ncvreg.calibrate.internal.pred(
-          x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
+          x_tr = x_tr, x_te = x_te, y_tr = y_tr,
           model.type = model.type,
           alpha = alpha, lambda = lambda, gamma = gamma,
           pred.at = pred.at
@@ -320,7 +320,7 @@ hdnom.calibrate = function(x, time, event,
 
       if (model.type %in% c('flasso')) {
         pred_list_list[[i]] = penalized.calibrate.internal.pred(
-          x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
+          x_tr = x_tr, x_te = x_te, y_tr = y_tr,
           lambda = lambda,
           pred.at = pred.at
         )
@@ -384,7 +384,7 @@ hdnom.calibrate = function(x, time, event,
 
         if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
           pred_list_list[[j]][[i]] = glmnet.calibrate.internal.pred(
-            x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
+            x_tr = x_tr, x_te = x_te, y_tr = y_tr,
             alpha = alpha, lambda = lambda, pen.factor = pen.factor,
             pred.at = pred.at
           )
@@ -392,7 +392,7 @@ hdnom.calibrate = function(x, time, event,
 
         if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
           pred_list_list[[j]][[i]] = ncvreg.calibrate.internal.pred(
-            x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
+            x_tr = x_tr, x_te = x_te, y_tr = y_tr,
             model.type = model.type,
             alpha = alpha, lambda = lambda, gamma = gamma,
             pred.at = pred.at
@@ -401,7 +401,7 @@ hdnom.calibrate = function(x, time, event,
 
         if (model.type %in% c('flasso')) {
           pred_list_list[[j]][[i]] = penalized.calibrate.internal.pred(
-            x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
+            x_tr = x_tr, x_te = x_te, y_tr = y_tr,
             lambda = lambda,
             pred.at = pred.at
           )
@@ -616,7 +616,7 @@ hdnom.calibrate = function(x, time, event,
 #' @return list containing predicted survival probability
 #'
 #' @keywords internal
-glmnet.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
+glmnet.calibrate.internal.pred = function(x_tr, x_te, y_tr,
                                           alpha, lambda, pen.factor,
                                           pred.at) {
 
@@ -629,20 +629,20 @@ glmnet.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
                     penalty.factor = pen.factor)
   }
 
-  lp = as.numeric(predict(object, newx = data.matrix(x_te),
-                          s = lambda, type = 'link'))
+  lp = as.numeric(predict(object, newx = data.matrix(x_tr), s = lambda, type = 'link'))
+  lpnew = as.numeric(predict(object, newx = data.matrix(x_te), s = lambda, type = 'link'))
 
-  time_te = y_te[, 1L]
-  event_te = y_te[, 2L]
-  idx_ones = which(event_te == 1L)
+  time_tr = y_tr[, 1L]
+  event_tr = y_tr[, 2L]
+  idx_ones = which(event_tr == 1L)
   if (length(idx_ones) == 0L)
-    stop('No 1 events in the testing fold, please set another random seed.')
-  survtime_ones = time_te[idx_ones]
+    stop('No 1 events in the training fold, please try other random seeds')
+  survtime_ones = time_tr[idx_ones]
   names(survtime_ones) = idx_ones
   survtime_ones = sort(survtime_ones)
 
-  basesurv = glmnet.basesurv(time_te, event_te, lp, survtime_ones)
-  p = exp(exp(lp) %*% (-t(basesurv$cumulative_base_hazard)))
+  basesurv = glmnet.basesurv(time_tr, event_tr, lp, survtime_ones)
+  p = exp(exp(lpnew) %*% (-t(basesurv$cumulative_base_hazard)))
 
   if (nrow(p) != nrow(x_te) || ncol(p) != length(survtime_ones))
     stop('Prediction error when estimating baseline hazard')
@@ -661,7 +661,7 @@ glmnet.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
 #' @return list containing predicted survival probability
 #'
 #' @keywords internal
-ncvreg.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
+ncvreg.calibrate.internal.pred = function(x_tr, x_te, y_tr,
                                           model.type,
                                           alpha, lambda, gamma,
                                           pred.at) {
@@ -690,19 +690,20 @@ ncvreg.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
                      alpha = alpha, lambda = lambda)
   }
 
-  lp = as.numeric(predict(object, X = data.matrix(x_te), type = 'link'))
+  lp = as.numeric(predict(object, X = data.matrix(x_tr), type = 'link'))
+  lpnew = as.numeric(predict(object, X = data.matrix(x_te), type = 'link'))
 
-  time_te = y_te[, 1L]
-  event_te = y_te[, 2L]
-  idx_ones = which(event_te == 1L)
+  time_tr = y_tr[, 1L]
+  event_tr = y_tr[, 2L]
+  idx_ones = which(event_tr == 1L)
   if (length(idx_ones) == 0L)
-    stop('No 1 events in the testing fold, please set another random seed.')
-  survtime_ones = time_te[idx_ones]
+    stop('No 1 events in the training fold, please try other random seeds')
+  survtime_ones = time_tr[idx_ones]
   names(survtime_ones) = idx_ones
   survtime_ones = sort(survtime_ones)
 
-  basesurv = ncvreg.basesurv(time_te, event_te, lp, survtime_ones)
-  p = exp(exp(lp) %*% (-t(basesurv$cumulative_base_hazard)))
+  basesurv = ncvreg.basesurv(time_tr, event_tr, lp, survtime_ones)
+  p = exp(exp(lpnew) %*% (-t(basesurv$cumulative_base_hazard)))
 
   if (nrow(p) != nrow(x_te) || ncol(p) != length(survtime_ones))
     stop('Prediction error when estimating baseline hazard')
@@ -721,7 +722,7 @@ ncvreg.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
 #' @return list containing predicted survival probability
 #'
 #' @keywords internal
-penalized.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
+penalized.calibrate.internal.pred = function(x_tr, x_te, y_tr,
                                              lambda,
                                              pred.at) {
 
@@ -729,19 +730,20 @@ penalized.calibrate.internal.pred = function(x_tr, x_te, y_tr, y_te,
                      lambda1 = lambda, lambda2 = 0,
                      fusedl = TRUE, standardize = TRUE, model = 'cox')
 
-  lp = as.vector(data.matrix(x_te) %*% as.matrix(object@penalized))
+  lp = as.vector(data.matrix(x_tr) %*% as.matrix(object@penalized))
+  lpnew = as.vector(data.matrix(x_te) %*% as.matrix(object@penalized))
 
-  time_te = y_te[, 1L]
-  event_te = y_te[, 2L]
-  idx_ones = which(event_te == 1L)
+  time_tr = y_tr[, 1L]
+  event_tr = y_tr[, 2L]
+  idx_ones = which(event_tr == 1L)
   if (length(idx_ones) == 0L)
-    stop('No 1 events in the testing fold, please set another random seed.')
-  survtime_ones = time_te[idx_ones]
+    stop('No 1 events in the training fold, please try other random seeds')
+  survtime_ones = time_tr[idx_ones]
   names(survtime_ones) = idx_ones
   survtime_ones = sort(survtime_ones)
 
-  basesurv = penalized.basesurv(time_te, event_te, lp, survtime_ones)
-  p = exp(exp(lp) %*% (-t(basesurv$cumulative_base_hazard)))
+  basesurv = penalized.basesurv(time_tr, event_tr, lp, survtime_ones)
+  p = exp(exp(lpnew) %*% (-t(basesurv$cumulative_base_hazard)))
 
   if (nrow(p) != nrow(x_te) || ncol(p) != length(survtime_ones))
     stop('Prediction error when estimating baseline hazard')
@@ -782,9 +784,9 @@ hdnom.calibrate.internal.true = function(pred_prob, grp,
 
 }
 
-#' Print Calibration Results Generated by hdnom.calibrate
+#' Print Calibration Results
 #'
-#' Print Calibration Results Generated by hdnom.calibrate
+#' Print Calibration Results
 #'
 #' @param x an object returned by \code{\link{hdnom.calibrate}}.
 #' @param ... other parameters (not used).
@@ -960,9 +962,9 @@ print.hdnom.calibrate = function(x, ...) {
 
 }
 
-#' Summary of Calibration Results Generated by hdnom.calibrate
+#' Summary of Calibration Results
 #'
-#' Summary of Calibration Results Generated by hdnom.calibrate
+#' Summary of Calibration Results
 #'
 #' @param object an object returned by \code{\link{hdnom.calibrate}}.
 #' @param ... other parameters (not used).
