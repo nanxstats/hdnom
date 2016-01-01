@@ -27,10 +27,6 @@
 #' @export hdnom.compare.calibrate
 #'
 #' @examples
-#' library("glmnet")
-#' library("survival")
-#' library("rms")
-#'
 #' # Load imputed SMART data
 #' data(smart)
 #' x = as.matrix(smart[, -c(1, 2)])
@@ -41,7 +37,7 @@
 #' cmp.cal.cv =
 #'   hdnom.compare.calibrate(x, time, event,
 #'                           model.type = c("lasso", "alasso"),
-#'                           method = "cv", nfolds = 5,
+#'                           method = "fitting",
 #'                           pred.at = 365 * 9, ngroup = 5, seed = 1001)
 #'
 #' print(cmp.cal.cv)
@@ -325,7 +321,8 @@ summary.hdnom.compare.calibrate = function(object, ...) {
 #' @export
 #'
 #' @importFrom ggplot2 ggplot aes_string geom_errorbar
-#' geom_line geom_point geom_abline xlab ylab theme_bw
+#' geom_line geom_point geom_abline scale_colour_brewer
+#' xlab ylab theme_bw
 #'
 #' @examples
 #' NULL
@@ -338,10 +335,11 @@ plot.hdnom.compare.calibrate = function(x, xlim = c(0, 1), ylim = c(0, 1), ...) 
   dflist = vector('list', n)
 
   for (i in 1L:n) {
-    dflist[[i]] = data.frame('pre' = x[[i]][, 'Predicted'],
-                             'obs' = x[[i]][, 'Observed'],
-                             'll'  = x[[i]][, 'Lower 95%'],
-                             'ul'  = x[[i]][, 'Upper 95%'])
+    dflist[[i]] =
+      data.frame('pre' = x[[i]][, 'Predicted'],
+                 'obs' = x[[i]][, 'Observed'],
+                 'll'  = x[[i]][, 'Lower 95%'],
+                 'ul'  = x[[i]][, 'Upper 95%'])
     dflist[[i]][, 'Model'] = names(x)[i]
   }
 
@@ -357,6 +355,7 @@ plot.hdnom.compare.calibrate = function(x, xlim = c(0, 1), ylim = c(0, 1), ...) 
     geom_abline(slope = 1, intercept = 0, colour = 'grey') +
     xlab('Predicted Survival Probability') +
     ylab('Observed Survival Probability') +
+    scale_colour_brewer(palette = 'Set1') +
     theme_bw()
 
 }

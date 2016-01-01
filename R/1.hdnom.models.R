@@ -62,7 +62,6 @@ glmnet.tune.alpha = function(..., alphas, seed, parallel) {
 #' @export hdcox.aenet
 #'
 #' @examples
-#' library("glmnet")
 #' library("survival")
 #' library("rms")
 #'
@@ -186,7 +185,6 @@ hdcox.aenet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
 #' @export hdcox.alasso
 #'
 #' @examples
-#' library("glmnet")
 #' library("survival")
 #' library("rms")
 #'
@@ -291,7 +289,6 @@ hdcox.alasso = function(x, y, nfolds = 5L,
 #' @export hdcox.enet
 #'
 #' @examples
-#' library("glmnet")
 #' library("survival")
 #' library("rms")
 #'
@@ -374,7 +371,6 @@ hdcox.enet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
 #' @export hdcox.lasso
 #'
 #' @examples
-#' library("glmnet")
 #' library("survival")
 #' library("rms")
 #'
@@ -454,15 +450,14 @@ hdcox.lasso = function(x, y, nfolds = 5L,
 #' @export hdcox.flasso
 #'
 #' @examples
-#' library("penalized")
 #' library("survival")
 #' library("rms")
 #'
 #' # Load imputed SMART data; only use the first 120 samples
 #' data("smart")
-#' x = as.matrix(smart[, -c(1, 2)])[1:120, ]
-#' time = smart$TEVENT[1:120]
-#' event = smart$EVENT[1:120]
+#' x = as.matrix(smart[, -c(1, 2)])[1:140, ]
+#' time = smart$TEVENT[1:140]
+#' event = smart$EVENT[1:140]
 #' y = Surv(time, event)
 #'
 #' # Fit Cox model by fused lasso penalization
@@ -556,7 +551,6 @@ ncvreg.tune.gamma = function(..., gammas, seed, parallel) {
 #' @export hdcox.mcp
 #'
 #' @examples
-#' library("ncvreg")
 #' library("survival")
 #' library("rms")
 #'
@@ -684,7 +678,6 @@ ncvreg.tune.gamma.alpha = function(..., gammas, alphas, seed, parallel) {
 #' @export hdcox.mnet
 #'
 #' @examples
-#' library("ncvreg")
 #' library("survival")
 #' library("rms")
 #'
@@ -769,7 +762,6 @@ hdcox.mnet = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
 #' @export hdcox.scad
 #'
 #' @examples
-#' library("ncvreg")
 #' library("survival")
 #' library("rms")
 #'
@@ -845,7 +837,6 @@ hdcox.scad = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
 #' @export hdcox.snet
 #'
 #' @examples
-#' library("ncvreg")
 #' library("survival")
 #' library("rms")
 #'

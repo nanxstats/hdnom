@@ -47,9 +47,9 @@
 #'
 #' # Load imputed SMART data
 #' data(smart)
-#' x = as.matrix(smart[, -c(1, 2)])
-#' time = smart$TEVENT
-#' event = smart$EVENT
+#' x = as.matrix(smart[, -c(1, 2)])[1:1000, ]
+#' time = smart$TEVENT[1:1000]
+#' event = smart$EVENT[1:1000]
 #'
 #' # Fit penalized Cox model (lasso penalty) with glmnet
 #' set.seed(1010)
@@ -78,7 +78,7 @@
 #' # Model calibration by repeated cross-validation
 #' cal.repcv = hdnom.calibrate(x, time, event, model.type = "lasso",
 #'                             alpha = 1, lambda = cvfit$lambda.1se,
-#'                             method = "repeated.cv", nfolds = 5, rep.times = 3,
+#'                             method = "repeated.cv", nfolds = 3, rep.times = 3,
 #'                             pred.at = 365 * 9, ngroup = 5)
 #'
 #' print(cal.fitting)
@@ -1076,10 +1076,10 @@ plot.hdnom.calibrate = function(x, xlim = c(0, 1), ylim = c(0, 1), ...) {
   ggplot(df, aes_string(x = 'pre', y = 'obs',
                         xmin = xlim[1L], xmax = xlim[2L],
                         ymin = ylim[1L], ymax = ylim[2L])) +
+    geom_abline(slope = 1, intercept = 0, colour = 'grey') +
     geom_errorbar(aes_string(ymin = 'll', ymax = 'ul')) +
     geom_line() +
     geom_point(size = 3) +
-    geom_abline(slope = 1, intercept = 0, colour = 'grey') +
     xlab('Predicted Survival Probability') +
     ylab('Observed Survival Probability') +
     theme_bw()

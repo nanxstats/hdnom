@@ -67,9 +67,9 @@ library("survival")
 
 # Load imputed SMART data
 data(smart)
-x = as.matrix(smart[, -c(1, 2)])
-time = smart$TEVENT
-event = smart$EVENT
+x = as.matrix(smart[, -c(1, 2)])[1:1000, ]
+time = smart$TEVENT[1:1000]
+event = smart$EVENT[1:1000]
 
 # Fit penalized Cox model (lasso penalty) with glmnet
 set.seed(1010)
@@ -98,7 +98,7 @@ cal.cv = hdnom.calibrate(x, time, event, model.type = "lasso",
 # Model calibration by repeated cross-validation
 cal.repcv = hdnom.calibrate(x, time, event, model.type = "lasso",
                             alpha = 1, lambda = cvfit$lambda.1se,
-                            method = "repeated.cv", nfolds = 5, rep.times = 3,
+                            method = "repeated.cv", nfolds = 3, rep.times = 3,
                             pred.at = 365 * 9, ngroup = 5)
 
 print(cal.fitting)

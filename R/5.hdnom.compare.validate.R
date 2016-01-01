@@ -339,7 +339,7 @@ summary.hdnom.compare.validate = function(object, silent = FALSE, ...) {
 #' @method plot hdnom.compare.validate
 #'
 #' @importFrom ggplot2 ggplot aes_string geom_point geom_line
-#' scale_x_continuous scale_fill_brewer theme_bw ylab
+#' scale_x_continuous scale_colour_brewer theme_bw ylab
 #'
 #' @export
 #'
@@ -381,7 +381,7 @@ plot.hdnom.compare.validate = function(x, interval = FALSE, ...) {
                                       colour = 'Model', fill = 'Model'),
                 linetype = 'dashed') +
       scale_x_continuous(breaks = df$'Time') +
-      scale_fill_brewer(palette = 'Set1') +
+      scale_colour_brewer(palette = 'Set1') +
       theme_bw() +
       ylab('Area under ROC')
 
@@ -403,7 +403,7 @@ plot.hdnom.compare.validate = function(x, interval = FALSE, ...) {
                                         colour = 'Model', fill = 'Model'),
                   linetype = 0, alpha = 0.05) +
       scale_x_continuous(breaks = df$'Time') +
-      scale_fill_brewer(palette = 'Set1') +
+      scale_colour_brewer(palette = 'Set1') +
       theme_bw() +
       ylab('Area under ROC')
 

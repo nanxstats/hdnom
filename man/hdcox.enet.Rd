@@ -32,7 +32,6 @@ Automatic elastic-net model selection for high-dimensional
 Cox models, evaluated by penalized partial-likelihood.
 }
 \examples{
-library("glmnet")
 library("survival")
 library("rms")
 

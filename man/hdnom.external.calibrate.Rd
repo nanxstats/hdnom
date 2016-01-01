@@ -40,14 +40,14 @@ library("survival")
 
 # Load imputed SMART data
 data(smart)
-# Use first 1000 samples as training data
+# Use the first 1000 samples as training data
 # (the data used for internal validation)
 x = as.matrix(smart[, -c(1, 2)])[1:1000, ]
 time = smart$TEVENT[1:1000]
 event = smart$EVENT[1:1000]
 
-# Take 1000 samples as external validation data.
-# In practice, usually use data collected in other studies.
+# Take the next 1000 samples as external calibration data
+# In practice, usually use data collected in other studies
 x_new = as.matrix(smart[, -c(1, 2)])[1001:2000, ]
 time_new = smart$TEVENT[1001:2000]
 event_new = smart$EVENT[1001:2000]
@@ -56,14 +56,14 @@ event_new = smart$EVENT[1001:2000]
 lassofit = hdcox.lasso(x, Surv(time, event), nfolds = 5, rule = "lambda.1se", seed = 11)
 
 # External calibration
-ext.cal =
+cal.ext =
   hdnom.external.calibrate(lassofit, x, time, event,
                            x_new, time_new, event_new,
                            pred.at = 365 * 5, ngroup = 5)
 
-print(ext.cal)
-summary(ext.cal)
-plot(ext.cal, xlim = c(0.5, 1), ylim = c(0.5, 1))
+print(cal.ext)
+summary(cal.ext)
+plot(cal.ext, xlim = c(0.6, 1), ylim = c(0.6, 1))
 
 }
 

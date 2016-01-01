@@ -48,10 +48,6 @@ Default is \code{TRUE}.}
 Compare High-Dimensional Cox Models by Model Calibration
 }
 \examples{
-library("glmnet")
-library("survival")
-library("rms")
-
 # Load imputed SMART data
 data(smart)
 x = as.matrix(smart[, -c(1, 2)])
@@ -62,7 +58,7 @@ event = smart$EVENT
 cmp.cal.cv =
   hdnom.compare.calibrate(x, time, event,
                           model.type = c("lasso", "alasso"),
-                          method = "cv", nfolds = 5,
+                          method = "fitting",
                           pred.at = 365 * 9, ngroup = 5, seed = 1001)
 
 print(cmp.cal.cv)

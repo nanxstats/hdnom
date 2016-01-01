@@ -34,7 +34,6 @@ Automatic Mnet model selection for high-dimensional
 Cox models, evaluated by penalized partial-likelihood.
 }
 \examples{
-library("ncvreg")
 library("survival")
 library("rms")
 

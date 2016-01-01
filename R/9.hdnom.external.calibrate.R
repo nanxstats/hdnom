@@ -29,14 +29,14 @@
 #'
 #' # Load imputed SMART data
 #' data(smart)
-#' # Use first 1000 samples as training data
+#' # Use the first 1000 samples as training data
 #' # (the data used for internal validation)
 #' x = as.matrix(smart[, -c(1, 2)])[1:1000, ]
 #' time = smart$TEVENT[1:1000]
 #' event = smart$EVENT[1:1000]
 #'
-#' # Take 1000 samples as external validation data.
-#' # In practice, usually use data collected in other studies.
+#' # Take the next 1000 samples as external calibration data
+#' # In practice, usually use data collected in other studies
 #' x_new = as.matrix(smart[, -c(1, 2)])[1001:2000, ]
 #' time_new = smart$TEVENT[1001:2000]
 #' event_new = smart$EVENT[1001:2000]
@@ -45,14 +45,14 @@
 #' lassofit = hdcox.lasso(x, Surv(time, event), nfolds = 5, rule = "lambda.1se", seed = 11)
 #'
 #' # External calibration
-#' ext.cal =
+#' cal.ext =
 #'   hdnom.external.calibrate(lassofit, x, time, event,
 #'                            x_new, time_new, event_new,
 #'                            pred.at = 365 * 5, ngroup = 5)
 #'
-#' print(ext.cal)
-#' summary(ext.cal)
-#' plot(ext.cal, xlim = c(0.5, 1), ylim = c(0.5, 1))
+#' print(cal.ext)
+#' summary(cal.ext)
+#' plot(cal.ext, xlim = c(0.6, 1), ylim = c(0.6, 1))
 #'
 # ### Testing fused lasso, MCP, and Snet models ###
 # library("survival")
@@ -75,32 +75,32 @@
 # scadfit = hdcox.mcp(x, Surv(time, event), nfolds = 5, seed = 11)
 # mnetfit = hdcox.snet(x, Surv(time, event), nfolds = 5, seed = 11)
 #
-# ext.cal1 =
+# cal.ext1 =
 #   hdnom.external.calibrate(flassofit, x, time, event,
 #                            x_new, time_new, event_new,
 #                            pred.at = 365 * 5, ngroup = 5)
 #
-# ext.cal2 =
+# cal.ext2 =
 #   hdnom.external.calibrate(scadfit, x, time, event,
 #                            x_new, time_new, event_new,
 #                            pred.at = 365 * 5, ngroup = 5)
 #
-# ext.cal3 =
+# cal.ext3 =
 #   hdnom.external.calibrate(mnetfit, x, time, event,
 #                            x_new, time_new, event_new,
 #                            pred.at = 365 * 5, ngroup = 5)
 #
-# print(ext.cal1)
-# summary(ext.cal1)
-# plot(ext.cal1)
+# print(cal.ext1)
+# summary(cal.ext1)
+# plot(cal.ext1)
 #
-# print(ext.cal2)
-# summary(ext.cal2)
-# plot(ext.cal2)
+# print(cal.ext2)
+# summary(cal.ext2)
+# plot(cal.ext2)
 #
-# print(ext.cal3)
-# summary(ext.cal3)
-# plot(ext.cal3)
+# print(cal.ext3)
+# summary(cal.ext3)
+# plot(cal.ext3)
 hdnom.external.calibrate = function(object, x, time, event,
                                     x_new, time_new, event_new,
                                     pred.at, ngroup = 5) {
@@ -394,10 +394,10 @@ plot.hdnom.external.calibrate = function(x, xlim = c(0, 1), ylim = c(0, 1), ...)
   ggplot(df, aes_string(x = 'pre', y = 'obs',
                         xmin = xlim[1L], xmax = xlim[2L],
                         ymin = ylim[1L], ymax = ylim[2L])) +
+    geom_abline(slope = 1, intercept = 0, colour = 'grey') +
     geom_errorbar(aes_string(ymin = 'll', ymax = 'ul')) +
     geom_line() +
     geom_point(size = 3) +
-    geom_abline(slope = 1, intercept = 0, colour = 'grey') +
     xlab('Predicted Survival Probability') +
     ylab('Observed Survival Probability') +
     theme_bw()

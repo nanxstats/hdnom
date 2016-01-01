@@ -31,15 +31,14 @@ is more suitable for datasets with larger number of observations,
 and a higher number of cross-validation folds.
 }
 \examples{
-library("penalized")
 library("survival")
 library("rms")
 
 # Load imputed SMART data; only use the first 120 samples
 data("smart")
-x = as.matrix(smart[, -c(1, 2)])[1:120, ]
-time = smart$TEVENT[1:120]
-event = smart$EVENT[1:120]
+x = as.matrix(smart[, -c(1, 2)])[1:140, ]
+time = smart$TEVENT[1:140]
+event = smart$EVENT[1:140]
 y = Surv(time, event)
 
 # Fit Cox model by fused lasso penalization
