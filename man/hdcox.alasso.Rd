@@ -5,7 +5,7 @@
 \title{Adaptive Lasso Model Selection for High-Dimensional Cox Models}
 \usage{
 hdcox.alasso(x, y, nfolds = 5L, rule = c("lambda.min", "lambda.1se"),
-  seeds = c(1001, 1002))
+  seed = c(1001, 1002))
 }
 \arguments{
 \item{x}{Data matrix.}
@@ -18,7 +18,7 @@ hdcox.alasso(x, y, nfolds = 5L, rule = c("lambda.min", "lambda.1se"),
 \code{"lambda.1se"}. See \code{\link[glmnet]{cv.glmnet}}
 for details.}
 
-\item{seeds}{Two random seeds for cross-validation fold division
+\item{seed}{Two random seeds for cross-validation fold division
 in two estimation steps.}
 }
 \description{
@@ -37,7 +37,7 @@ event = smart$EVENT
 y = Surv(time, event)
 
 # Fit Cox model by adaptive lasso penalization
-alassofit = hdcox.alasso(x, y, nfolds = 3, rule = "lambda.1se", seeds = c(7, 11))
+alassofit = hdcox.alasso(x, y, nfolds = 3, rule = "lambda.1se", seed = c(7, 11))
 
 # Prepare data for hdnom.nomogram
 x.df = as.data.frame(x)

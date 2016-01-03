@@ -30,6 +30,7 @@ and you are all set. See [the vignette](https://cran.r-project.org/web/packages/
 
 ## Links
 
-* hdnom website: [http://hdnom.org](http://hdnom.org)
+* hdnom project: [http://hdnom.org](http://hdnom.org)
+* hdnom web app: [http://hdnom.io](http://hdnom.io)
 * hdnom on CRAN: [https://cran.r-project.org/package=hdnom](https://cran.r-project.org/package=hdnom)
-* hdnom on GitHub: [https://github.com/road2stat/hdnom/](https://github.com/road2stat/hdnom/)
+* hdnom on GitHub: [https://github.com/road2stat/hdnom](https://github.com/road2stat/hdnom)

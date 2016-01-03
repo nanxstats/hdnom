@@ -36,6 +36,7 @@
 #' \code{"UNO"} proposed by Uno et al. (2007).
 #' @param tauc.time Numeric vector. Time points at which to evaluate
 #' the time-dependent AUC.
+#' @param seed A random seed for resampling.
 #' @param trace Logical. Output the validation progress or not.
 #' Default is \code{TRUE}.
 #'
@@ -77,19 +78,22 @@
 #' val.boot = hdnom.validate(x, time, event, model.type = "lasso",
 #'                           alpha = 1, lambda = cvfit$lambda.1se,
 #'                           method = "bootstrap", boot.times = 3,
-#'                           tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
+#'                           tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
+#'                           seed = 1010)
 #'
 #' # Model validation by 5-fold cross-validation with time-dependent AUC
 #' val.cv = hdnom.validate(x, time, event, model.type = "lasso",
 #'                         alpha = 1, lambda = cvfit$lambda.1se,
 #'                         method = "cv", nfolds = 5,
-#'                         tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
+#'                         tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
+#'                         seed = 1010)
 #'
 #' # Model validation by repeated cross-validation with time-dependent AUC
 #' val.repcv = hdnom.validate(x, time, event, model.type = "lasso",
 #'                            alpha = 1, lambda = cvfit$lambda.1se,
 #'                            method = "repeated.cv", nfolds = 5, rep.times = 3,
-#'                            tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
+#'                            tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
+#'                            seed = 1010)
 #'
 #' # bootstrap-based discrimination curves has a very narrow band
 #' print(val.boot)
@@ -122,17 +126,20 @@
 # val.boot = hdnom.validate(x, time, event, model.type = "flasso",
 #                           lambda = 60,
 #                           method = "bootstrap", boot.times = 10,
-#                           tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
+#                           tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
+#                           seed = 1010)
 #
 # val.cv = hdnom.validate(x, time, event, model.type = "scad",
 #                         gamma = 3.7, alpha = 1, lambda = 0.05,
 #                         method = "cv", nfolds = 5,
-#                         tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
+#                         tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
+#                         seed = 1010)
 #
 # val.repcv = hdnom.validate(x, time, event, model.type = "mnet",
 #                            gamma = 3, alpha = 0.3, lambda = 0.05,
 #                            method = "repeated.cv", nfolds = 5, rep.times = 3,
-#                            tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
+#                            tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
+#                            seed = 1010)
 #
 # print(val.boot)
 # summary(val.boot)
@@ -154,11 +161,13 @@ hdnom.validate = function(x, time, event,
                           method = c('bootstrap', 'cv', 'repeated.cv'),
                           boot.times = NULL, nfolds = NULL, rep.times = NULL,
                           tauc.type = c("CD", "SZ", "UNO"), tauc.time,
-                          trace = TRUE) {
+                          seed = 1001, trace = TRUE) {
 
   model.type = match.arg(model.type)
   method = match.arg(method)
   tauc.type = match.arg(tauc.type)
+
+  set.seed(seed)
 
   if (method == 'bootstrap') {
 
@@ -350,6 +359,7 @@ hdnom.validate = function(x, time, event,
              attr(tauc, 'boot.times') = boot.times
              attr(tauc, 'tauc.type')  = tauc.type
              attr(tauc, 'tauc.time')  = tauc.time
+             attr(tauc, 'seed')       = seed
            }
 
            if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
@@ -362,6 +372,7 @@ hdnom.validate = function(x, time, event,
              attr(tauc, 'boot.times') = boot.times
              attr(tauc, 'tauc.type')  = tauc.type
              attr(tauc, 'tauc.time')  = tauc.time
+             attr(tauc, 'seed')       = seed
            }
 
            if (model.type %in% c('flasso')) {
@@ -372,6 +383,7 @@ hdnom.validate = function(x, time, event,
              attr(tauc, 'boot.times') = boot.times
              attr(tauc, 'tauc.type')  = tauc.type
              attr(tauc, 'tauc.time')  = tauc.time
+             attr(tauc, 'seed')       = seed
            }
 
          },
@@ -388,6 +400,7 @@ hdnom.validate = function(x, time, event,
              attr(tauc, 'nfolds')     = nfolds
              attr(tauc, 'tauc.type')  = tauc.type
              attr(tauc, 'tauc.time')  = tauc.time
+             attr(tauc, 'seed')       = seed
            }
 
            if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
@@ -400,6 +413,7 @@ hdnom.validate = function(x, time, event,
              attr(tauc, 'nfolds')     = nfolds
              attr(tauc, 'tauc.type')  = tauc.type
              attr(tauc, 'tauc.time')  = tauc.time
+             attr(tauc, 'seed')       = seed
            }
 
            if (model.type %in% c('flasso')) {
@@ -410,6 +424,7 @@ hdnom.validate = function(x, time, event,
              attr(tauc, 'nfolds')     = nfolds
              attr(tauc, 'tauc.type')  = tauc.type
              attr(tauc, 'tauc.time')  = tauc.time
+             attr(tauc, 'seed')       = seed
            }
 
          },
@@ -427,6 +442,7 @@ hdnom.validate = function(x, time, event,
              attr(tauc, 'rep.times')  = rep.times
              attr(tauc, 'tauc.type')  = tauc.type
              attr(tauc, 'tauc.time')  = tauc.time
+             attr(tauc, 'seed')       = seed
            }
 
            if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
@@ -440,6 +456,7 @@ hdnom.validate = function(x, time, event,
              attr(tauc, 'rep.times')  = rep.times
              attr(tauc, 'tauc.type')  = tauc.type
              attr(tauc, 'tauc.time')  = tauc.time
+             attr(tauc, 'seed')       = seed
            }
 
            if (model.type %in% c('flasso')) {
@@ -451,6 +468,7 @@ hdnom.validate = function(x, time, event,
              attr(tauc, 'rep.times')  = rep.times
              attr(tauc, 'tauc.type')  = tauc.type
              attr(tauc, 'tauc.time')  = tauc.time
+             attr(tauc, 'seed')       = seed
            }
 
          }
@@ -636,9 +654,10 @@ print.hdnom.validate = function(x, ...) {
 
          glmnet.validate.bootstrap = {
            cat('High-Dimensional Cox Model Validation Object\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
+           cat('Random seed:', attr(x, 'seed'), '\n')
            cat('Validation method: bootstrap\n')
            cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
+           cat('Model type:', attr(x, 'model.type'), '\n')
            cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
            cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
            if (is.null(attr(x, 'pen.factor'))) {
@@ -652,9 +671,10 @@ print.hdnom.validate = function(x, ...) {
 
          glmnet.validate.cv = {
            cat('High-Dimensional Cox Model Validation Object\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
+           cat('Random seed:', attr(x, 'seed'), '\n')
            cat('Validation method: k-fold cross-validation\n')
            cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
+           cat('Model type:', attr(x, 'model.type'), '\n')
            cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
            cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
            if (is.null(attr(x, 'pen.factor'))) {
@@ -668,10 +688,11 @@ print.hdnom.validate = function(x, ...) {
 
          glmnet.validate.repeated.cv = {
            cat('High-Dimensional Cox Model Validation Object\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
+           cat('Random seed:', attr(x, 'seed'), '\n')
            cat('Validation method: repeated cross-validation\n')
            cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
            cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
+           cat('Model type:', attr(x, 'model.type'), '\n')
            cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
            cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
            if (is.null(attr(x, 'pen.factor'))) {
@@ -685,9 +706,10 @@ print.hdnom.validate = function(x, ...) {
 
          ncvreg.validate.bootstrap = {
            cat('High-Dimensional Cox Model Validation Object\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
+           cat('Random seed:', attr(x, 'seed'), '\n')
            cat('Validation method: bootstrap\n')
            cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
+           cat('Model type:', attr(x, 'model.type'), '\n')
            cat('ncvreg model gamma:', attr(x, 'gamma'), '\n')
            cat('ncvreg model alpha:', attr(x, 'alpha'), '\n')
            cat('ncvreg model lambda:', attr(x, 'lambda'), '\n')
@@ -697,9 +719,10 @@ print.hdnom.validate = function(x, ...) {
 
          ncvreg.validate.cv = {
            cat('High-Dimensional Cox Model Validation Object\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
+           cat('Random seed:', attr(x, 'seed'), '\n')
            cat('Validation method: k-fold cross-validation\n')
            cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
+           cat('Model type:', attr(x, 'model.type'), '\n')
            cat('ncvreg model gamma:', attr(x, 'gamma'), '\n')
            cat('ncvreg model alpha:', attr(x, 'alpha'), '\n')
            cat('ncvreg model lambda:', attr(x, 'lambda'), '\n')
@@ -709,10 +732,11 @@ print.hdnom.validate = function(x, ...) {
 
          ncvreg.validate.repeated.cv = {
            cat('High-Dimensional Cox Model Validation Object\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
+           cat('Random seed:', attr(x, 'seed'), '\n')
            cat('Validation method: repeated cross-validation\n')
            cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
            cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
+           cat('Model type:', attr(x, 'model.type'), '\n')
            cat('ncvreg model gamma:', attr(x, 'gamma'), '\n')
            cat('ncvreg model alpha:', attr(x, 'alpha'), '\n')
            cat('ncvreg model lambda:', attr(x, 'lambda'), '\n')
@@ -722,9 +746,10 @@ print.hdnom.validate = function(x, ...) {
 
          penalized.validate.bootstrap = {
            cat('High-Dimensional Cox Model Validation Object\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
+           cat('Random seed:', attr(x, 'seed'), '\n')
            cat('Validation method: bootstrap\n')
            cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
+           cat('Model type:', attr(x, 'model.type'), '\n')
            cat('Fused lasso model lambda:', attr(x, 'lambda'), '\n')
            cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
            cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
@@ -732,9 +757,10 @@ print.hdnom.validate = function(x, ...) {
 
          penalized.validate.cv = {
            cat('High-Dimensional Cox Model Validation Object\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
+           cat('Random seed:', attr(x, 'seed'), '\n')
            cat('Validation method: k-fold cross-validation\n')
            cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
+           cat('Model type:', attr(x, 'model.type'), '\n')
            cat('Fused lasso model lambda:', attr(x, 'lambda'), '\n')
            cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
            cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
@@ -742,10 +768,11 @@ print.hdnom.validate = function(x, ...) {
 
          penalized.validate.repeated.cv = {
            cat('High-Dimensional Cox Model Validation Object\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
+           cat('Random seed:', attr(x, 'seed'), '\n')
            cat('Validation method: repeated cross-validation\n')
            cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
            cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
+           cat('Model type:', attr(x, 'model.type'), '\n')
            cat('Fused lasso model lambda:', attr(x, 'lambda'), '\n')
            cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
            cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))

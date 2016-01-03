@@ -8,7 +8,7 @@ hdnom.validate(x, time, event, model.type = c("lasso", "alasso", "flasso",
   "enet", "aenet", "mcp", "mnet", "scad", "snet"), alpha, lambda,
   pen.factor = NULL, gamma, method = c("bootstrap", "cv", "repeated.cv"),
   boot.times = NULL, nfolds = NULL, rep.times = NULL,
-  tauc.type = c("CD", "SZ", "UNO"), tauc.time, trace = TRUE)
+  tauc.type = c("CD", "SZ", "UNO"), tauc.time, seed = 1001, trace = TRUE)
 }
 \arguments{
 \item{x}{Matrix of training data used for fitting the model;
@@ -59,6 +59,8 @@ Including \code{"CD"} proposed by Chambless and Diao (2006).,
 \item{tauc.time}{Numeric vector. Time points at which to evaluate
 the time-dependent AUC.}
 
+\item{seed}{A random seed for resampling.}
+
 \item{trace}{Logical. Output the validation progress or not.
 Default is \code{TRUE}.}
 }
@@ -85,19 +87,22 @@ cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 5)
 val.boot = hdnom.validate(x, time, event, model.type = "lasso",
                           alpha = 1, lambda = cvfit$lambda.1se,
                           method = "bootstrap", boot.times = 3,
-                          tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
+                          tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
+                          seed = 1010)
 
 # Model validation by 5-fold cross-validation with time-dependent AUC
 val.cv = hdnom.validate(x, time, event, model.type = "lasso",
                         alpha = 1, lambda = cvfit$lambda.1se,
                         method = "cv", nfolds = 5,
-                        tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
+                        tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
+                        seed = 1010)
 
 # Model validation by repeated cross-validation with time-dependent AUC
 val.repcv = hdnom.validate(x, time, event, model.type = "lasso",
                            alpha = 1, lambda = cvfit$lambda.1se,
                            method = "repeated.cv", nfolds = 5, rep.times = 3,
-                           tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365)
+                           tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
+                           seed = 1010)
 
 # bootstrap-based discrimination curves has a very narrow band
 print(val.boot)

@@ -1,24 +1,45 @@
-# CHANGES IN hdnom VERSION 3.0 (2015-12-15)
+# CHANGES IN hdnom VERSION 3.0 (2016-01-03)
 
 ## NEW FEATURES
 
-* Model comparison via validation and calibration is now supported both in the hdnom R package and web application.
-* External validation is now supported both in the hdnom R package and web application.
+### Package
+
+* New function `hdnom.compare.validate()` for model comparison by validation
+* New function `hdnom.compare.calibrate()` for model comparison by calibration
+* New function `hdnom.external.validate()` for external validation
+* New function `hdnom.external.calibrate()` for external calibration
+* New `predict` and `print` methods for `hdcox.model` objects
+* New function `hdnom.kmplot()`: Kaplan-Meier analysis for risk groups using
+  internal/external calibration results
+* New function `hdnom.logrank()`: Log-rank test for risk groups using
+  internal/external calibration results
+
+### Web App
+
+* The web app is substantially improved to reflect the new features
+* Record random seeds in the generated reports to improve reproducibility
+* Allow users to download the model objects for further exploration in `R`
 
 ## IMPROVEMENTS
 
-* Documentation (function documentation and vignette) improvements.
+* Improvements on random seed handling for internal validation and calibration
+* The vignette is extended to reflect the new features
+
+## BUG FIXES
+
+* Fixed an error in internal calibration which mistakenly used
+  testing data when should use training data in computation
 
 # CHANGES IN hdnom VERSION 2.1 (2015-10-26)
 
 ## NEW FEATURES
 
-* New website: hdnom.org
-* Shiny-based web application (hdnom.io) shipped.
+* New website: http://hdnom.org
+* Shiny-based web application (http://hdnom.io) shipped.
 
 ## IMPROVEMENTS
 
-* Added exception handling for null models in all hdcox.* functions.
+* Added exception handling for null models in all `hdcox.*()` functions.
   Make examples compatible with ncvreg 3.5-0, which refined CV
   implementation for survival models and improved computation speed.
 

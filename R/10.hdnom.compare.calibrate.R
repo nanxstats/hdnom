@@ -101,30 +101,28 @@ hdnom.compare.calibrate =
                cvfit = hdcox.lasso(x, Surv(time, event), nfolds = 5L,
                                    rule = 'lambda.1se', seed = seed)
 
-               set.seed(seed)
                problist[[i]] =
                  hdnom.calibrate(
                    x, time, event, model.type = 'lasso',
                    alpha = 1, lambda = cvfit$'lasso_best_lambda',
                    method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
                    pred.at = pred.at, ngroup = ngroup,
-                   trace = trace)
+                   seed = seed, trace = trace)
 
              },
 
              alasso = {
 
                cvfit = hdcox.alasso(x, Surv(time, event), nfolds = 5L,
-                                    rule = 'lambda.1se', seeds = rep(seed, 2))
+                                    rule = 'lambda.1se', seed = rep(seed, 2))
 
-               set.seed(seed)
                problist[[i]] =
                  hdnom.calibrate(
                    x, time, event, model.type = 'alasso',
                    alpha = 1, lambda = cvfit$'alasso_best_lambda', pen.factor = cvfit$'pen_factor',
                    method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
                    pred.at = pred.at, ngroup = ngroup,
-                   trace = trace)
+                   seed = seed, trace = trace)
 
              },
 
@@ -132,14 +130,13 @@ hdnom.compare.calibrate =
 
                cvfit = hdcox.flasso(x, Surv(time, event), nfolds = 5L, seed = seed)
 
-               set.seed(seed)
                problist[[i]] =
                  hdnom.calibrate(
                    x, time, event, model.type = 'flasso',
                    alpha = 1, lambda = cvfit$'flasso_best_lambda',
                    method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
                    pred.at = pred.at, ngroup = ngroup,
-                   trace = trace)
+                   seed = seed, trace = trace)
 
              },
 
@@ -150,14 +147,13 @@ hdnom.compare.calibrate =
                  alphas = c(0.1, 0.25, 0.5, 0.75, 0.9),  # to reduce computation time
                  rule = 'lambda.1se', seed = seed)
 
-               set.seed(seed)
                problist[[i]] =
                  hdnom.calibrate(
                    x, time, event, model.type = 'enet',
                    alpha = cvfit$'enet_best_alpha', lambda = cvfit$'enet_best_lambda',
                    method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
                    pred.at = pred.at, ngroup = ngroup,
-                   trace = trace)
+                   seed = seed, trace = trace)
 
              },
 
@@ -166,16 +162,15 @@ hdnom.compare.calibrate =
                cvfit = hdcox.aenet(
                  x, Surv(time, event), nfolds = 5L,
                  alphas = c(0.1, 0.25, 0.5, 0.75, 0.9),  # to reduce computation time
-                 rule = 'lambda.1se', seeds = rep(seed, 2))
+                 rule = 'lambda.1se', seed = rep(seed, 2))
 
-               set.seed(seed)
                problist[[i]] =
                  hdnom.calibrate(
                    x, time, event, model.type = 'aenet',
                    alpha = cvfit$'aenet_best_alpha', lambda = cvfit$'aenet_best_lambda', pen.factor = cvfit$'pen_factor',
                    method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
                    pred.at = pred.at, ngroup = ngroup,
-                   trace = trace)
+                   seed = seed, trace = trace)
 
              },
 
@@ -183,14 +178,13 @@ hdnom.compare.calibrate =
 
                cvfit = hdcox.mcp(x, Surv(time, event), nfolds = 5L, seed = seed)
 
-               set.seed(seed)
                problist[[i]] =
                  hdnom.calibrate(
                    x, time, event, model.type = 'mcp',
                    alpha = 1, gamma = cvfit$'mcp_best_gamma', lambda = cvfit$'mcp_best_lambda',
                    method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
                    pred.at = pred.at, ngroup = ngroup,
-                   trace = trace)
+                   seed = seed, trace = trace)
 
              },
 
@@ -201,14 +195,13 @@ hdnom.compare.calibrate =
                  alphas = c(0.1, 0.25, 0.5, 0.75, 0.9), # to reduce computation time
                  seed = seed)
 
-               set.seed(seed)
                problist[[i]] =
                  hdnom.calibrate(
                    x, time, event, model.type = 'mnet',
                    alpha = cvfit$'mnet_best_alpha', gamma = cvfit$'mnet_best_gamma', lambda = cvfit$'mnet_best_lambda',
                    method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
                    pred.at = pred.at, ngroup = ngroup,
-                   trace = trace)
+                   seed = seed, trace = trace)
 
              },
 
@@ -216,14 +209,13 @@ hdnom.compare.calibrate =
 
                cvfit = hdcox.scad(x, Surv(time, event), nfolds = 5L, seed = seed)
 
-               set.seed(seed)
                problist[[i]] =
                  hdnom.calibrate(
                    x, time, event, model.type = 'scad',
                    alpha = 1, gamma = cvfit$'scad_best_gamma', lambda = cvfit$'scad_best_lambda',
                    method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
                    pred.at = pred.at, ngroup = ngroup,
-                   trace = trace)
+                   seed = seed, trace = trace)
 
              },
 
@@ -234,14 +226,13 @@ hdnom.compare.calibrate =
                  alphas = c(0.1, 0.25, 0.5, 0.75, 0.9), # to reduce computation time
                  seed = seed)
 
-               set.seed(seed)
                problist[[i]] =
                  hdnom.calibrate(
                    x, time, event, model.type = 'snet',
                    alpha = cvfit$'snet_best_alpha', gamma = cvfit$'snet_best_gamma', lambda = cvfit$'snet_best_lambda',
                    method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
                    pred.at = pred.at, ngroup = ngroup,
-                   trace = trace)
+                   seed = seed, trace = trace)
 
              }
 

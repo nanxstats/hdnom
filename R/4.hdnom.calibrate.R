@@ -32,6 +32,7 @@
 #' @param rep.times Number of repeated times for repeated cross-validation.
 #' @param pred.at Time point at which calibration should take place.
 #' @param ngroup Number of groups to be formed for calibration.
+#' @param seed A random seed for resampling.
 #' @param trace Logical. Output the calibration progress or not.
 #' Default is \code{TRUE}.
 #'
@@ -59,7 +60,8 @@
 #' cal.fitting = hdnom.calibrate(x, time, event, model.type = "lasso",
 #'                               alpha = 1, lambda = cvfit$lambda.1se,
 #'                               method = "fitting",
-#'                               pred.at = 365 * 9, ngroup = 5)
+#'                               pred.at = 365 * 9, ngroup = 5,
+#'                               seed = 1010)
 #'
 #' # Model calibration by bootstrap
 #' # Normally boot.times should be set to 200 or more,
@@ -67,19 +69,22 @@
 #' cal.boot = hdnom.calibrate(x, time, event, model.type = "lasso",
 #'                            alpha = 1, lambda = cvfit$lambda.1se,
 #'                            method = "bootstrap", boot.times = 3,
-#'                            pred.at = 365 * 9, ngroup = 5)
+#'                            pred.at = 365 * 9, ngroup = 5,
+#'                            seed = 1010)
 #'
 #' # Model calibration by 5-fold cross-validation
 #' cal.cv = hdnom.calibrate(x, time, event, model.type = "lasso",
 #'                          alpha = 1, lambda = cvfit$lambda.1se,
 #'                          method = "cv", nfolds = 5,
-#'                          pred.at = 365 * 9, ngroup = 5)
+#'                          pred.at = 365 * 9, ngroup = 5,
+#'                          seed = 1010)
 #'
 #' # Model calibration by repeated cross-validation
 #' cal.repcv = hdnom.calibrate(x, time, event, model.type = "lasso",
 #'                             alpha = 1, lambda = cvfit$lambda.1se,
 #'                             method = "repeated.cv", nfolds = 3, rep.times = 3,
-#'                             pred.at = 365 * 9, ngroup = 5)
+#'                             pred.at = 365 * 9, ngroup = 5,
+#'                             seed = 1010)
 #'
 #' print(cal.fitting)
 #' summary(cal.fitting)
@@ -111,22 +116,26 @@
 # cal.fitting = hdnom.calibrate(x, time, event, model.type = "flasso",
 #                               lambda = 60,
 #                               method = "fitting",
-#                               pred.at = 365 * 9, ngroup = 5)
+#                               pred.at = 365 * 9, ngroup = 5,
+#                               seed = 1010)
 #
 # cal.boot = hdnom.calibrate(x, time, event, model.type = "scad",
 #                            gamma = 3.7, alpha = 1, lambda = 0.03,
 #                            method = "bootstrap", boot.times = 10,
-#                            pred.at = 365 * 9, ngroup = 5)
+#                            pred.at = 365 * 9, ngroup = 5,
+#                            seed = 1010)
 #
 # cal.cv = hdnom.calibrate(x, time, event, model.type = "mnet",
 #                          gamma = 3, alpha = 0.3, lambda = 0.03,
 #                          method = "cv", nfolds = 5,
-#                          pred.at = 365 * 9, ngroup = 5)
+#                          pred.at = 365 * 9, ngroup = 5,
+#                          seed = 1010)
 #
 # cal.repcv = hdnom.calibrate(x, time, event, model.type = "flasso",
 #                             lambda = 60,
 #                             method = "repeated.cv", nfolds = 5, rep.times = 3,
-#                             pred.at = 365 * 9, ngroup = 5)
+#                             pred.at = 365 * 9, ngroup = 5,
+#                             seed = 1010)
 #
 # print(cal.fitting)
 # summary(cal.fitting)
@@ -152,11 +161,13 @@ hdnom.calibrate = function(x, time, event,
                            method = c('fitting', 'bootstrap', 'cv', 'repeated.cv'),
                            boot.times = NULL, nfolds = NULL, rep.times = NULL,
                            pred.at, ngroup = 5,
-                           trace = TRUE) {
+                           seed = 1001, trace = TRUE) {
 
   model.type = match.arg(model.type)
   method = match.arg(method)
   if (length(pred.at) != 1L) stop('pred.at should only contain 1 time point')
+
+  set.seed(seed)
 
   if (method == 'fitting') {
 
@@ -574,6 +585,7 @@ hdnom.calibrate = function(x, time, event,
   attr(prob, 'risk.group') = grp
   attr(prob, 'surv.time')  = time
   attr(prob, 'surv.event') = event
+  attr(prob, 'seed')       = seed
 
   prob
 
@@ -779,6 +791,7 @@ print.hdnom.calibrate = function(x, ...) {
 
          glmnet.calibrate.fitting = {
            cat('High-Dimensional Cox Model Calibration Object\n')
+           cat('Random seed:', attr(x, 'seed'), '\n')
            cat('Calibration method: fitting\n')
            cat('Model type:', attr(x, 'model.type'), '\n')
            cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
@@ -794,6 +807,7 @@ print.hdnom.calibrate = function(x, ...) {
 
          glmnet.calibrate.bootstrap = {
            cat('High-Dimensional Cox Model Calibration Object\n')
+           cat('Random seed:', attr(x, 'seed'), '\n')
            cat('Calibration method: bootstrap\n')
            cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
            cat('Model type:', attr(x, 'model.type'), '\n')
@@ -810,6 +824,7 @@ print.hdnom.calibrate = function(x, ...) {
 
          glmnet.calibrate.cv = {
            cat('High-Dimensional Cox Model Calibration Object\n')
+           cat('Random seed:', attr(x, 'seed'), '\n')
            cat('Calibration method: k-fold cross-validation\n')
            cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
            cat('Model type:', attr(x, 'model.type'), '\n')
@@ -826,6 +841,7 @@ print.hdnom.calibrate = function(x, ...) {
 
          glmnet.calibrate.repeated.cv = {
            cat('High-Dimensional Cox Model Calibration Object\n')
+           cat('Random seed:', attr(x, 'seed'), '\n')
            cat('Calibration method: repeated cross-validation\n')
            cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
            cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
@@ -843,6 +859,7 @@ print.hdnom.calibrate = function(x, ...) {
 
          ncvreg.calibrate.fitting = {
            cat('High-Dimensional Cox Model Calibration Object\n')
+           cat('Random seed:', attr(x, 'seed'), '\n')
            cat('Calibration method: fitting\n')
            cat('Model type:', attr(x, 'model.type'), '\n')
            cat('ncvreg model gamma:', attr(x, 'gamma'), '\n')
@@ -854,6 +871,7 @@ print.hdnom.calibrate = function(x, ...) {
 
          ncvreg.calibrate.bootstrap = {
            cat('High-Dimensional Cox Model Calibration Object\n')
+           cat('Random seed:', attr(x, 'seed'), '\n')
            cat('Calibration method: bootstrap\n')
            cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
            cat('Model type:', attr(x, 'model.type'), '\n')
@@ -866,6 +884,7 @@ print.hdnom.calibrate = function(x, ...) {
 
          ncvreg.calibrate.cv = {
            cat('High-Dimensional Cox Model Calibration Object\n')
+           cat('Random seed:', attr(x, 'seed'), '\n')
            cat('Calibration method: k-fold cross-validation\n')
            cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
            cat('Model type:', attr(x, 'model.type'), '\n')
@@ -878,6 +897,7 @@ print.hdnom.calibrate = function(x, ...) {
 
          ncvreg.calibrate.repeated.cv = {
            cat('High-Dimensional Cox Model Calibration Object\n')
+           cat('Random seed:', attr(x, 'seed'), '\n')
            cat('Calibration method: repeated cross-validation\n')
            cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
            cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
@@ -891,6 +911,7 @@ print.hdnom.calibrate = function(x, ...) {
 
          penalized.calibrate.fitting = {
            cat('High-Dimensional Cox Model Calibration Object\n')
+           cat('Random seed:', attr(x, 'seed'), '\n')
            cat('Calibration method: fitting\n')
            cat('Model type:', attr(x, 'model.type'), '\n')
            cat('Fused lasso model lambda:', attr(x, 'lambda'), '\n')
@@ -900,6 +921,7 @@ print.hdnom.calibrate = function(x, ...) {
 
          penalized.calibrate.bootstrap = {
            cat('High-Dimensional Cox Model Calibration Object\n')
+           cat('Random seed:', attr(x, 'seed'), '\n')
            cat('Calibration method: bootstrap\n')
            cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
            cat('Model type:', attr(x, 'model.type'), '\n')
@@ -910,6 +932,7 @@ print.hdnom.calibrate = function(x, ...) {
 
          penalized.calibrate.cv = {
            cat('High-Dimensional Cox Model Calibration Object\n')
+           cat('Random seed:', attr(x, 'seed'), '\n')
            cat('Calibration method: k-fold cross-validation\n')
            cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
            cat('Model type:', attr(x, 'model.type'), '\n')
@@ -920,6 +943,7 @@ print.hdnom.calibrate = function(x, ...) {
 
          penalized.calibrate.repeated.cv = {
            cat('High-Dimensional Cox Model Calibration Object\n')
+           cat('Random seed:', attr(x, 'seed'), '\n')
            cat('Calibration method: repeated cross-validation\n')
            cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
            cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
@@ -1040,6 +1064,7 @@ summary.hdnom.calibrate = function(object, ...) {
   attr(object, 'risk.group') = NULL
   attr(object, 'surv.time')  = NULL
   attr(object, 'surv.event') = NULL
+  attr(object, 'seed')       = NULL
 
   cat('  Calibration Summary Table\n')
   class(object) = 'matrix'

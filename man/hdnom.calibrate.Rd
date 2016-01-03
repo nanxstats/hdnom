@@ -8,7 +8,7 @@ hdnom.calibrate(x, time, event, model.type = c("lasso", "alasso", "flasso",
   "enet", "aenet", "mcp", "mnet", "scad", "snet"), alpha, lambda,
   pen.factor = NULL, gamma, method = c("fitting", "bootstrap", "cv",
   "repeated.cv"), boot.times = NULL, nfolds = NULL, rep.times = NULL,
-  pred.at, ngroup = 5, trace = TRUE)
+  pred.at, ngroup = 5, seed = 1001, trace = TRUE)
 }
 \arguments{
 \item{x}{Matrix of training data used for fitting the model;
@@ -55,6 +55,8 @@ repeated cross-validation.}
 
 \item{ngroup}{Number of groups to be formed for calibration.}
 
+\item{seed}{A random seed for resampling.}
+
 \item{trace}{Logical. Output the calibration progress or not.
 Default is \code{TRUE}.}
 }
@@ -79,7 +81,8 @@ cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 5)
 cal.fitting = hdnom.calibrate(x, time, event, model.type = "lasso",
                               alpha = 1, lambda = cvfit$lambda.1se,
                               method = "fitting",
-                              pred.at = 365 * 9, ngroup = 5)
+                              pred.at = 365 * 9, ngroup = 5,
+                              seed = 1010)
 
 # Model calibration by bootstrap
 # Normally boot.times should be set to 200 or more,
@@ -87,19 +90,22 @@ cal.fitting = hdnom.calibrate(x, time, event, model.type = "lasso",
 cal.boot = hdnom.calibrate(x, time, event, model.type = "lasso",
                            alpha = 1, lambda = cvfit$lambda.1se,
                            method = "bootstrap", boot.times = 3,
-                           pred.at = 365 * 9, ngroup = 5)
+                           pred.at = 365 * 9, ngroup = 5,
+                           seed = 1010)
 
 # Model calibration by 5-fold cross-validation
 cal.cv = hdnom.calibrate(x, time, event, model.type = "lasso",
                          alpha = 1, lambda = cvfit$lambda.1se,
                          method = "cv", nfolds = 5,
-                         pred.at = 365 * 9, ngroup = 5)
+                         pred.at = 365 * 9, ngroup = 5,
+                         seed = 1010)
 
 # Model calibration by repeated cross-validation
 cal.repcv = hdnom.calibrate(x, time, event, model.type = "lasso",
                             alpha = 1, lambda = cvfit$lambda.1se,
                             method = "repeated.cv", nfolds = 3, rep.times = 3,
-                            pred.at = 365 * 9, ngroup = 5)
+                            pred.at = 365 * 9, ngroup = 5,
+                            seed = 1010)
 
 print(cal.fitting)
 summary(cal.fitting)

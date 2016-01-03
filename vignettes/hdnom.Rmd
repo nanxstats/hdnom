@@ -21,7 +21,7 @@ For its simplicity and efficiency, penalized Cox models are significantly
 useful for accomplishing such tasks.
 
 `hdnom` streamlines the workflow of high-dimensional Cox model building,
-nomogram plotting, model validation, model calibration, and model comparison.
+nomogram plotting, model validation, calibration, and comparison.
 To load the package in R, simply type:
 
 ```{r}
@@ -64,7 +64,7 @@ model selection, including the following model types:
 
 In the next, we will use the imputed SMART study data [@steyerberg2008clinical]
 to demonstrate a complete process of model building, nomogram plotting,
-model validation, model calibration, and model comparison with `hdnom`.
+model validation, calibration, and comparison with `hdnom`.
 
 Load the `smart` dataset:
 
@@ -91,30 +91,30 @@ suppressMessages(library("doParallel"))
 registerDoParallel(detectCores())
 
 aenetfit = hdcox.aenet(x, y, nfolds = 10, rule = "lambda.1se",
-                       seeds = c(5, 7), parallel = TRUE)
+                       seed = c(5, 7), parallel = TRUE)
 names(aenetfit)
 ```
 
 ```
-## [1] "enet_best_alpha"   "enet_best_lambda"  "enet_model"
-## [4] "aenet_best_alpha"  "aenet_best_lambda" "aenet_model"
-## [7] "pen_factor"
+## [1] "seed"              "enet_best_alpha"   "enet_best_lambda"
+## [4] "enet_model"        "aenet_best_alpha"  "aenet_best_lambda"
+## [7] "aenet_model"       "pen_factor"
 ```
 
 ```{r, echo = FALSE}
 aenetfit = readRDS("aenetfit.rds")
 ```
 
-The adaptive elastic-net model includes two estimation steps.
-The selected best $\alpha$, the selected best $\lambda$,
-the model fitted for each estimation step, and the penalty factor
-for the model coefficients in the second estimation step
-are all stored in the `aenetfit` list object.
+Adaptive elastic-net includes two estimation steps. The random seed used
+for parameter tuning, the selected best $\alpha$, the selected best $\lambda$,
+the model fitted for each estimation step, and the penalty factor for the model
+coefficients in the second estimation step are all stored in the model object
+`aenetfit`.
 
 # Nomogram Plotting
 
 Before plotting the nomogram, we need to extract some necessary information
-about the model, namely, the model object and model parameters,
+about the model, namely, the model object and parameters,
 from the result of the last step:
 
 ```{r}
@@ -151,7 +151,7 @@ by printing the `nom` object directly.
 
 It is a common practice to utilize resampling-based methods to validate the
 predictive performance of a penalized Cox model.
-Bootstrap, k-fold cross-validation, and repeated k-fold cross-validation
+Bootstrap, $k$-fold cross-validation, and repeated $k$-fold cross-validation
 are the most employed methods for such purpose.
 
 `hdnom` supports both internal model validation and external model validation.
@@ -172,12 +172,11 @@ with bootstrap resampling, at every half year from the first year
 to the fifth year:
 
 ```{r}
-set.seed(11)
 val.int = hdnom.validate(x, time, event, model.type = "aenet",
                          alpha = alpha, lambda = lambda, pen.factor = adapen,
                          method = "bootstrap", boot.times = 10,
                          tauc.type = "UNO", tauc.time = seq(1, 5, 0.5) * 365,
-                         trace = FALSE)
+                         seed = 42, trace = FALSE)
 val.int
 summary(val.int)
 ```
@@ -202,9 +201,13 @@ It seems that the bootstrap-based validation result is stable:
 the median and the mean value at each evaluation time point are close;
 the 25% and 75% quantiles are also close to the median at each time point.
 
-Cross-validation and repeated cross-validation will usually yield results
-with different patterns. Check `?hdnom.validate` for more examples about
-internal model validation.
+Bootstrap-based validation often gives relatively stable results.
+Many of the established nomograms in clinical oncology research are
+validated by bootstrap methods. $K$-fold cross-validation provides a more
+strict evaluation scheme than bootstrap. Repeated cross-validation gives
+similar results as $k$-fold cross-validation, and usually more robust.
+These two methods are more applied by the machine learning community.
+Check `?hdnom.validate` for more examples about internal model validation.
 
 ## External Validation
 
@@ -215,7 +218,7 @@ For penalized Cox models, the external dataset should have at least
 the same variables that have been selected in the model.
 
 For demonstration purposes, here we draw 1000 samples from the `smart` data
-and _pretend_ that they form an external validation dataset, then
+and _assume_ that they form an external validation dataset, then
 use `hdnom.external.validate()` to perform external validation:
 
 ```{r, fig.width = 8, fig.height = 8, out.width = 600, out.height = 600}
@@ -249,7 +252,7 @@ external model calibration are supported in `hdnom`.
 
 `hdnom.calibrate()` provides non-resampling and resampling
 methods for internal model calibration, including direct fitting,
-bootstrap resampling, k-fold cross-validation, and repeated cross-validation.
+bootstrap resampling, $k$-fold cross-validation, and repeated cross-validation.
 
 For example, to calibrate the model internally with the bootstrap method:
 
@@ -257,15 +260,18 @@ For example, to calibrate the model internally with the bootstrap method:
 cal.int = hdnom.calibrate(x, time, event, model.type = "aenet",
                           alpha = alpha, lambda = lambda, pen.factor = adapen,
                           method = "bootstrap", boot.times = 10,
-                          pred.at = 365 * 5, ngroup = 3,
-                          trace = FALSE)
+                          pred.at = 365 * 5, ngroup = 5,
+                          seed = 42, trace = FALSE)
 cal.int
 summary(cal.int)
 ```
 
+We split the samples into five risk groups. In practice, the number of
+risk groups is decided by the users according to their needs.
+
 The model calibration results (the median of the predicted survival probability;
-the median of the observed survival probability estimated by Kaplan-Meier method
-with 95% CI) are summarized above.
+the median of the observed survival probability estimated by Kaplan-Meier
+method with 95% CI) are summarized as above.
 
 Plot the calibration result:
 
@@ -284,7 +290,7 @@ use `hdnom.external.calibrate()`:
 cal.ext =
   hdnom.external.calibrate(aenetfit, x, time, event,
                            x_new, time_new, event_new,
-                           pred.at = 365 * 5, ngroup = 3)
+                           pred.at = 365 * 5, ngroup = 5)
 
 cal.ext
 summary(cal.ext)
@@ -305,14 +311,16 @@ calibration, the testing set means the samples from the external dataset.
 We can further analyze the differences in survival time for different risk
 groups with Kaplan-Meier survival curves and a number at risk table.
 For example, here we plot the Kaplan-Meier survival curves and evaluate
-the number at risk from one year to six years for the three risk groups,
+the number at risk from one year to six years for the five risk groups,
 with the function `hdnom.kmplot()`:
 
 ```{r, fig.width = 8, fig.height = 8, out.width = 600, out.height = 600}
-hdnom.kmplot(cal.int, group.name = c('High risk', 'Medium risk', 'Low risk'),
+hdnom.kmplot(cal.int, group.name = c('Highest risk', 'High risk',
+                                     'Medium risk', 'Low risk', 'Lowest risk'),
              time.at = 1:6 * 365)
 
-hdnom.kmplot(cal.ext, group.name = c('High risk','Medium risk', 'Low risk'),
+hdnom.kmplot(cal.ext, group.name = c('Highest risk', 'High risk',
+                                     'Medium risk', 'Low risk', 'Lowest risk'),
              time.at = 1:6 * 365)
 ```
 
@@ -333,8 +341,9 @@ cal.ext.logrank
 cal.ext.logrank$pval
 ```
 
-The exact $p$-values are stored as `cal.int.logrank$pval` and
-`cal.ext.logrank$pval`.
+The exact $p$-values for log-rank tests are stored as `cal.int.logrank$pval`
+and `cal.ext.logrank$pval`. Here $p < 0.001$ indicates significant differences
+between the survival curves for different risk groups.
 
 # Model Comparison
 
@@ -354,8 +363,8 @@ cmp.val =
   hdnom.compare.validate(x, time, event,
                          model.type = c("lasso", "alasso"),
                          method = "cv", nfolds = 5, tauc.type = "UNO",
-                         tauc.time = seq(0.25, 2, 0.25) * 365, seed = 1001,
-                         trace = FALSE)
+                         tauc.time = seq(0.25, 2, 0.25) * 365,
+                         seed = 42, trace = FALSE)
 
 cmp.val
 summary(cmp.val)
@@ -364,7 +373,13 @@ plot(cmp.val, interval = TRUE)
 ```
 
 The solid line, dashed line and intervals have the same interpretation
-as above. The model comparison functions in `hdnom` have a minimal input
+as above. For this comparison, there seems to be no substantial difference
+(AUC difference $< 5\%$) between lasso and adaptive lasso in predictive
+performance, although lasso performs slightly better than adaptive lasso
+for the first three time points, adaptive lasso performs slightly better
+than lasso for the last few time points.
+
+The model comparison functions in `hdnom` have a minimal input
 design so you do not have to set the parameters for each model type manually.
 The functions will try to determine the best parameter settings
 automatically for each model type to achieve the best performance.
@@ -380,16 +395,18 @@ cmp.cal =
   hdnom.compare.calibrate(x, time, event,
                           model.type = c("lasso", "alasso"),
                           method = "cv", nfolds = 5,
-                          pred.at = 365 * 9, ngroup = 3, seed = 1001,
-                          trace = FALSE)
+                          pred.at = 365 * 9, ngroup = 5,
+                          seed = 42, trace = FALSE)
 
 cmp.cal
 summary(cmp.cal)
-plot(cmp.cal, xlim = c(0.4, 1), ylim = c(0.4, 1))
+plot(cmp.cal, xlim = c(0.3, 1), ylim = c(0.3, 1))
 ```
 
-The summary output and the plot show the calibration result for each model
-type we want to compare.
+The summary output and the plot show the calibration results for each model
+type we want to compare. Adaptive lasso has slightly better performance
+than lasso in this case, since its predicted overall survival
+probabilities are generally closer to the observed survival probabilities.
 
 # Prediction on New Data
 
@@ -407,13 +424,9 @@ predict(aenetfit, x, y, newx = x[101:105, ], pred.at = 1:10 * 365)
 
 # Acknowledgements
 
-We thank Prof. Matthew Stephens and Dr. Samuel Volchenboum for their
-great suggestions that helped us improve the package quality.
-
-For further information about the project, please visit:
-[http://hdnom.org](http://hdnom.org).
-
-The hdnom web application:
-[http://hdnom.io](http://hdnom.io).
+We thank Prof. Matthew Stephens, Dr. Samuel Volchenboum, and Dr. Jorge Andrade
+for their great suggestions. For further information about the project,
+please visit: [http://hdnom.org](http://hdnom.org).
+The hdnom web application: [http://hdnom.io](http://hdnom.io).
 
 # References

@@ -5,7 +5,7 @@
 \title{Adaptive Elastic-Net Model Selection for High-Dimensional Cox Models}
 \usage{
 hdcox.aenet(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
-  rule = c("lambda.min", "lambda.1se"), seeds = c(1001, 1002),
+  rule = c("lambda.min", "lambda.1se"), seed = c(1001, 1002),
   parallel = FALSE)
 }
 \arguments{
@@ -21,7 +21,7 @@ hdcox.aenet(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
 \code{"lambda.1se"}. See \code{\link[glmnet]{cv.glmnet}}
 for details.}
 
-\item{seeds}{Two random seeds for cross-validation fold division
+\item{seed}{Two random seeds for cross-validation fold division
 in two estimation steps.}
 
 \item{parallel}{Logical. Enable parallel parameter tuning or not,
@@ -51,7 +51,7 @@ y = Surv(time, event)
 
 # Fit Cox model by adaptive elastic-net penalization
 aenetfit = hdcox.aenet(x, y, nfolds = 3, alphas = c(0.3, 0.7),
-                       rule = "lambda.1se", seeds = c(5, 7))
+                       rule = "lambda.1se", seed = c(5, 7))
 
 # Prepare data for hdnom.nomogram
 x.df = as.data.frame(x)
