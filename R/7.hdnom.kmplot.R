@@ -76,6 +76,7 @@ hdnom.kmplot = function(object, group.name = NULL, time.at = NULL) {
 #' @param surv.df Data frame containing survival time, event and risk group
 #' for log-rank test.
 #'
+#' @importFrom stats pchisq
 #' @importFrom survival survdiff
 #' @importFrom gridExtra grid.arrange arrangeGrob
 #' @importFrom ggplot2 geom_step geom_blank geom_text element_blank
