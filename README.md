@@ -32,5 +32,6 @@ and you are all set. See [the vignette](https://cran.r-project.org/web/packages/
 
 * hdnom project: [http://hdnom.org](http://hdnom.org)
 * hdnom web app: [http://hdnom.io](http://hdnom.io)
+* hdnom appmaker: [https://github.com/road2stat/hdnom-appmaker](https://github.com/road2stat/hdnom-appmaker)
 * hdnom on CRAN: [https://cran.r-project.org/package=hdnom](https://cran.r-project.org/package=hdnom)
 * hdnom on GitHub: [https://github.com/road2stat/hdnom](https://github.com/road2stat/hdnom)
