@@ -260,13 +260,13 @@ For example, to calibrate the model internally with the bootstrap method:
 cal.int = hdnom.calibrate(x, time, event, model.type = "aenet",
                           alpha = alpha, lambda = lambda, pen.factor = adapen,
                           method = "bootstrap", boot.times = 10,
-                          pred.at = 365 * 5, ngroup = 5,
+                          pred.at = 365 * 5, ngroup = 3,
                           seed = 42, trace = FALSE)
 cal.int
 summary(cal.int)
 ```
 
-We split the samples into five risk groups. In practice, the number of
+We split the samples into three risk groups. In practice, the number of
 risk groups is decided by the users according to their needs.
 
 The model calibration results (the median of the predicted survival probability;
@@ -279,6 +279,8 @@ Plot the calibration result:
 plot(cal.int, xlim = c(0.5, 1), ylim = c(0.5, 1))
 ```
 
+In practice, you may want to perform calibration for multiple time points
+separately, and put the plots together in one figure.
 See `?hdnom.calibrate` for more examples about internal model calibration.
 
 ## External Calibration
@@ -290,7 +292,7 @@ use `hdnom.external.calibrate()`:
 cal.ext =
   hdnom.external.calibrate(aenetfit, x, time, event,
                            x_new, time_new, event_new,
-                           pred.at = 365 * 5, ngroup = 5)
+                           pred.at = 365 * 5, ngroup = 3)
 
 cal.ext
 summary(cal.ext)
@@ -311,16 +313,14 @@ calibration, the testing set means the samples from the external dataset.
 We can further analyze the differences in survival time for different risk
 groups with Kaplan-Meier survival curves and a number at risk table.
 For example, here we plot the Kaplan-Meier survival curves and evaluate
-the number at risk from one year to six years for the five risk groups,
+the number at risk from one year to six years for the three risk groups,
 with the function `hdnom.kmplot()`:
 
 ```{r, fig.width = 8, fig.height = 8, out.width = 600, out.height = 600}
-hdnom.kmplot(cal.int, group.name = c('Highest risk', 'High risk',
-                                     'Medium risk', 'Low risk', 'Lowest risk'),
+hdnom.kmplot(cal.int, group.name = c('High risk', 'Medium risk', 'Low risk'),
              time.at = 1:6 * 365)
 
-hdnom.kmplot(cal.ext, group.name = c('Highest risk', 'High risk',
-                                     'Medium risk', 'Low risk', 'Lowest risk'),
+hdnom.kmplot(cal.ext, group.name = c('High risk', 'Medium risk', 'Low risk'),
              time.at = 1:6 * 365)
 ```
 
@@ -387,8 +387,8 @@ automatically for each model type to achieve the best performance.
 ## Model Comparison by Calibration
 
 We can compare the models by comparing their (internal) model calibration
-performance. To continue the example, we still compare lasso and
-adaptive lasso via calibration:
+performance. To continue the example, we split the samples into five risk 
+groups, and compare lasso to adaptive lasso via calibration:
 
 ```{r, fig.width = 8, fig.height = 6.4, out.width = 600, out.height = 480}
 cmp.cal =
@@ -404,9 +404,10 @@ plot(cmp.cal, xlim = c(0.3, 1), ylim = c(0.3, 1))
 ```
 
 The summary output and the plot show the calibration results for each model
-type we want to compare. Adaptive lasso has slightly better performance
-than lasso in this case, since its predicted overall survival
-probabilities are generally closer to the observed survival probabilities.
+type we want to compare. Lasso and adaptive lasso have comparable performance
+in this case, since their predicted overall survival probabilities are
+both close to the observed survival probabilities in a similar degree.
+Adaptive lasso seems to be slightly more stable than lasso in calibration.
 
 # Prediction on New Data
 
