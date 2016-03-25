@@ -372,6 +372,9 @@ summary.hdnom.external.calibrate = function(object, ...) {
 #' @param x an object returned by \code{\link{hdnom.external.calibrate}}.
 #' @param xlim x axis limits of the plot.
 #' @param ylim y axis limits of the plot.
+#' @param col.pal Color palette to use. Possible values are
+#' \code{"JCO"}, \code{"Lancet"}, \code{"NPG"}, and \code{"AAAS"}.
+#' Default is \code{"JCO"}.
 #' @param ... other parameters for \code{plot}.
 #'
 #' @method plot hdnom.external.calibrate
@@ -383,23 +386,31 @@ summary.hdnom.external.calibrate = function(object, ...) {
 #'
 #' @examples
 #' NULL
-plot.hdnom.external.calibrate = function(x, xlim = c(0, 1), ylim = c(0, 1), ...) {
+plot.hdnom.external.calibrate =
+  function(x, xlim = c(0, 1), ylim = c(0, 1),
+           col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS'), ...) {
 
-  if (!('hdnom.external.calibrate' %in% class(x)))
-    stop('object class must be "hdnom.external.calibrate"')
+    if (!('hdnom.external.calibrate' %in% class(x)))
+      stop('object class must be "hdnom.external.calibrate"')
 
-  df = data.frame('pre' = x[, 'Predicted'], 'obs' = x[, 'Observed'],
-                  'll' = x[, 'Lower 95%'], 'ul' = x[, 'Upper 95%'])
+    df = data.frame('pre' = x[, 'Predicted'], 'obs' = x[, 'Observed'],
+                    'll' = x[, 'Lower 95%'], 'ul' = x[, 'Upper 95%'])
 
-  ggplot(df, aes_string(x = 'pre', y = 'obs',
-                        xmin = xlim[1L], xmax = xlim[2L],
-                        ymin = ylim[1L], ymax = ylim[2L])) +
-    geom_abline(slope = 1, intercept = 0, colour = 'grey') +
-    geom_errorbar(aes_string(ymin = 'll', ymax = 'ul')) +
-    geom_line() +
-    geom_point(size = 3) +
-    xlab('Predicted Survival Probability') +
-    ylab('Observed Survival Probability') +
-    theme_bw()
+    col.pal = match.arg(col.pal)
+    col_pal = switch (
+      col.pal,
+      JCO   = palette.jco()[1], Lancet = palette.lancet()[1],
+      NPG   = palette.npg()[1], AAAS   = palette.aaas()[1])
 
-}
+    ggplot(df, aes_string(x = 'pre', y = 'obs',
+                          xmin = xlim[1L], xmax = xlim[2L],
+                          ymin = ylim[1L], ymax = ylim[2L])) +
+      geom_abline(slope = 1, intercept = 0, colour = 'grey') +
+      geom_errorbar(aes_string(ymin = 'll', ymax = 'ul'), colour = col_pal) +
+      geom_line(colour = col_pal) +
+      geom_point(size = 3, colour = col_pal) +
+      xlab('Predicted Survival Probability') +
+      ylab('Observed Survival Probability') +
+      theme_bw()
+
+  }

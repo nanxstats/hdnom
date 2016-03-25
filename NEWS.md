@@ -1,3 +1,18 @@
+# CHANGES IN hdnom VERSION 3.6 (2016-03-24)
+
+## NEW FEATURES
+
+* Added 4 new color palettes (JCO, Lancet, NPG, AAAS) for all plots.
+  See the vignette for details.
+
+## BUG FIXES
+
+* Fixed no axis problem in Kaplan-Meier plot due to ggplot2 2.1.0 update
+
+## IMPROVEMENTS
+
+* New CSS style for the HTML vignette
+
 # CHANGES IN hdnom VERSION 3.0 (2016-01-03)
 
 ## NEW FEATURES

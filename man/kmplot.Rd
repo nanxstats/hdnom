@@ -4,7 +4,8 @@
 \alias{kmplot}
 \title{Kaplan-Meier Plot with Number at Risk Table}
 \usage{
-kmplot(fit, group.name = NULL, time.at = NULL, surv.df = NULL)
+kmplot(fit, group.name = NULL, time.at = NULL, surv.df = NULL,
+  col.pal = NULL)
 }
 \arguments{
 \item{fit}{a \code{\link[survival]{survfit}} object}
@@ -15,6 +16,8 @@ kmplot(fit, group.name = NULL, time.at = NULL, surv.df = NULL)
 
 \item{surv.df}{Data frame containing survival time, event and risk group
 for log-rank test.}
+
+\item{col.pal}{color palette to use}
 }
 \description{
 Kaplan-Meier Plot with Number at Risk Table

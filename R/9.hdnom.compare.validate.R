@@ -325,79 +325,91 @@ summary.hdnom.compare.validate = function(object, silent = FALSE, ...) {
 #' @param x An object returned by \code{\link{hdnom.compare.validate}}.
 #' @param interval Show maximum, minimum, 0.25, and 0.75 quantiles of
 #' time-dependent AUC as ribbons? Default is \code{FALSE}.
+#' @param col.pal Color palette to use. Possible values are
+#' \code{"JCO"}, \code{"Lancet"}, \code{"NPG"}, and \code{"AAAS"}.
+#' Default is \code{"JCO"}.
 #' @param ... Other parameters (not used).
 #'
 #' @method plot hdnom.compare.validate
 #'
 #' @importFrom ggplot2 ggplot aes_string geom_point geom_line
-#' scale_x_continuous scale_colour_brewer theme_bw ylab
+#' scale_x_continuous scale_colour_manual theme_bw ylab
 #'
 #' @export
 #'
 #' @examples
 #' NULL
-plot.hdnom.compare.validate = function(x, interval = FALSE, ...) {
+plot.hdnom.compare.validate =
+  function(x, interval = FALSE,
+           col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS'), ...) {
 
-  if (!('hdnom.compare.validate' %in% class(x)))
-    stop('object class must be "hdnom.compare.validate"')
+    if (!('hdnom.compare.validate' %in% class(x)))
+      stop('object class must be "hdnom.compare.validate"')
 
-  n = length(x)
-  dflist = vector('list', n)
+    n = length(x)
+    dflist = vector('list', n)
 
-  for (i in 1L:n) {
-    dflist[[i]] = as.data.frame(t(summary(x[[i]], silent = TRUE)))
-    tauc_time = attr(x[[i]], 'tauc.time')
+    for (i in 1L:n) {
+      dflist[[i]] = as.data.frame(t(summary(x[[i]], silent = TRUE)))
+      tauc_time = attr(x[[i]], 'tauc.time')
 
-    # special processing for repeated cv
-    if (any(grepl(pattern = 'validate.repeated.cv', class(x[[i]]))))
-      names(dflist[[i]]) = sapply(strsplit(names(dflist[[i]]), 'Mean of '), '[', 2L)
+      # special processing for repeated cv
+      if (any(grepl(pattern = 'validate.repeated.cv', class(x[[i]]))))
+        names(dflist[[i]]) = sapply(strsplit(names(dflist[[i]]), 'Mean of '), '[', 2L)
 
-    dflist[[i]][, 'Time'] = tauc_time
-    dflist[[i]][, 'Model'] = names(x)[i]
-    names(dflist[[i]])[which(names(dflist[[i]]) == '0.25 Qt.')] = 'Qt25'
-    names(dflist[[i]])[which(names(dflist[[i]]) == '0.75 Qt.')] = 'Qt75'
-  }
+      dflist[[i]][, 'Time'] = tauc_time
+      dflist[[i]][, 'Model'] = names(x)[i]
+      names(dflist[[i]])[which(names(dflist[[i]]) == '0.25 Qt.')] = 'Qt25'
+      names(dflist[[i]])[which(names(dflist[[i]]) == '0.75 Qt.')] = 'Qt75'
+    }
 
-  df = Reduce('rbind', dflist)
+    df = Reduce('rbind', dflist)
 
-  if (!interval) {
+    col.pal = match.arg(col.pal)
+    col_pal = switch (
+      col.pal,
+      JCO   = palette.jco(), Lancet = palette.lancet(),
+      NPG   = palette.npg(), AAAS   = palette.aaas())
 
-    ggplot(data = df, aes_string(x = 'Time', y = 'Mean',
-                                 colour = 'Model', fill = 'Model')) +
-      geom_point() +
-      geom_line() +
-      geom_point(data = df, aes_string(x = 'Time', y = 'Median',
-                                       colour = 'Model', fill = 'Model')) +
-      geom_line(data = df, aes_string(x = 'Time', y = 'Median',
-                                      colour = 'Model', fill = 'Model'),
-                linetype = 'dashed') +
-      scale_x_continuous(breaks = df$'Time') +
-      scale_colour_brewer(palette = 'Set1') +
-      theme_bw() +
-      ylab('Area under ROC')
+    if (!interval) {
 
-  } else {
-
-    ggplot(data = df, aes_string(x = 'Time', y = 'Mean',
-                                 colour = 'Model', fill = 'Model')) +
-      geom_point() +
-      geom_line() +
-      geom_point(data = df, aes_string(x = 'Time', y = 'Median',
-                                       colour = 'Model', fill = 'Model')) +
-      geom_line(data = df, aes_string(x = 'Time', y = 'Median',
-                                      colour = 'Model', fill = 'Model'),
-                linetype = 'dashed') +
-      geom_ribbon(data = df, aes_string(ymin = 'Qt25', ymax = 'Qt75',
+      ggplot(data = df, aes_string(x = 'Time', y = 'Mean',
+                                   colour = 'Model', fill = 'Model')) +
+        geom_point() +
+        geom_line() +
+        geom_point(data = df, aes_string(x = 'Time', y = 'Median',
+                                         colour = 'Model', fill = 'Model')) +
+        geom_line(data = df, aes_string(x = 'Time', y = 'Median',
                                         colour = 'Model', fill = 'Model'),
-                  linetype = 0, alpha = 0.1) +
-      geom_ribbon(data = df, aes_string(ymin = 'Min', ymax = 'Max',
+                  linetype = 'dashed') +
+        scale_x_continuous(breaks = df$'Time') +
+        scale_colour_manual(values = col_pal) +
+        theme_bw() +
+        ylab('Area under ROC')
+
+    } else {
+
+      ggplot(data = df, aes_string(x = 'Time', y = 'Mean',
+                                   colour = 'Model', fill = 'Model')) +
+        geom_point() +
+        geom_line() +
+        geom_point(data = df, aes_string(x = 'Time', y = 'Median',
+                                         colour = 'Model', fill = 'Model')) +
+        geom_line(data = df, aes_string(x = 'Time', y = 'Median',
                                         colour = 'Model', fill = 'Model'),
-                  linetype = 0, alpha = 0.05) +
-      scale_x_continuous(breaks = df$'Time') +
-      scale_colour_brewer(palette = 'Set1') +
-      theme_bw() +
-      ylab('Area under ROC')
+                  linetype = 'dashed') +
+        geom_ribbon(data = df, aes_string(ymin = 'Qt25', ymax = 'Qt75',
+                                          colour = 'Model', fill = 'Model'),
+                    linetype = 0, alpha = 0.1) +
+        geom_ribbon(data = df, aes_string(ymin = 'Min', ymax = 'Max',
+                                          colour = 'Model', fill = 'Model'),
+                    linetype = 0, alpha = 0.05) +
+        scale_x_continuous(breaks = df$'Time') +
+        scale_colour_manual(values = col_pal) +
+        scale_fill_manual(values = col_pal) +
+        theme_bw() +
+        ylab('Area under ROC')
+
+    }
 
   }
-
-}

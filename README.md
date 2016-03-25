@@ -1,7 +1,7 @@
 # hdnom
 
 [![Build Status](https://travis-ci.org/road2stat/hdnom.png?branch=master)](https://travis-ci.org/road2stat/hdnom)
-[![Downloads from the RStudio CRAN mirror](http://cranlogs.r-pkg.org/badges/hdnom)](http://cran.rstudio.com/package=hdnom)
+[![Downloads from the RStudio CRAN mirror](http://cranlogs.r-pkg.org/badges/hdnom)](https://cran.r-project.org/package=hdnom)
 
 `hdnom` builds nomograms for high-dimensional data with penalized Cox models.
 
@@ -13,7 +13,7 @@ To download and install `hdnom` from CRAN:
 install.packages("hdnom")
 ```
 
-Or, you can try the development version on GitHub:
+Or try the development version on GitHub:
 
 ```r
 # install.packages("devtools")

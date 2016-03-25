@@ -9,6 +9,9 @@
 #' @param group.name Risk group labels. Default is
 #' Group 1, Group 2, ..., Group k.
 #' @param time.at Time points to evaluate the number at risk.
+#' @param col.pal Color palette to use. Possible values are
+#' \code{"JCO"}, \code{"Lancet"}, \code{"NPG"}, and \code{"AAAS"}.
+#' Default is \code{"JCO"}.
 #'
 #' @importFrom survival survfit
 #' @importFrom survival Surv
@@ -54,17 +57,20 @@
 #'
 #' hdnom.kmplot(cal.ext, group.name = c('High risk','Medium risk', 'Low risk'),
 #'              time.at = 1:6 * 365)
-hdnom.kmplot = function(object, group.name = NULL, time.at = NULL) {
+hdnom.kmplot = function(object, group.name = NULL, time.at = NULL,
+                        col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS')) {
 
   if (!(any(c('hdnom.calibrate', 'hdnom.external.calibrate') %in% class(object))))
     stop('object class must be "hdnom.calibrate" or "hdnom.external.calibrate"')
 
-    time = attr(object, 'surv.time')
-    event = attr(object, 'surv.event')
-    grp = attr(object, 'risk.group')
-    df = data.frame(time, event, grp)
-    fit = survfit(formula('Surv(time, event) ~ grp'))
-    kmplot(fit = fit, group.name = group.name, time.at = time.at, surv.df = df)
+  time = attr(object, 'surv.time')
+  event = attr(object, 'surv.event')
+  grp = attr(object, 'risk.group')
+  df = data.frame(time, event, grp)
+  fit = survfit(formula('Surv(time, event) ~ grp'))
+  col.pal = match.arg(col.pal)
+  kmplot(fit = fit, group.name = group.name,
+         time.at = time.at, surv.df = df, col.pal = col.pal)
 
 }
 
@@ -75,16 +81,18 @@ hdnom.kmplot = function(object, group.name = NULL, time.at = NULL) {
 #' @param time.at Time points to evaluate the number at risk.
 #' @param surv.df Data frame containing survival time, event and risk group
 #' for log-rank test.
+#' @param col.pal color palette to use
 #'
 #' @importFrom stats pchisq
 #' @importFrom survival survdiff
 #' @importFrom gridExtra grid.arrange arrangeGrob
 #' @importFrom ggplot2 geom_step geom_blank geom_text element_blank
-#' element_line element_text element_rect scale_colour_brewer
+#' element_line element_text element_rect scale_colour_manual
 #' scale_y_discrete unit annotate
 #'
 #' @keywords internal
-kmplot = function(fit, group.name = NULL, time.at = NULL, surv.df = NULL) {
+kmplot = function(fit, group.name = NULL, time.at = NULL,
+                  surv.df = NULL, col.pal = NULL) {
 
   if (is.null(group.name))
     group.name = paste('Group', gsub('grp=', '', levels(summary(fit)$'strata')))
@@ -105,18 +113,30 @@ kmplot = function(fit, group.name = NULL, time.at = NULL, surv.df = NULL) {
                risk.group = factor(group.name, levels = levels(km_df$'risk.group')))
   km_df = rbind(zero_df, km_df)
 
+  if (is.null(col.pal)) stop('col.pal must be specified')
+
+  col_pal = switch (
+    col.pal,
+    JCO   = palette.jco(), Lancet = palette.lancet(),
+    NPG   = palette.npg(), AAAS   = palette.aaas())
+
   # kaplan-meier plot
   k = max(nchar(group.name))
-  km_plot = ggplot(km_df, aes_string(x = 'time', y = 'surv', group = 'risk.group')) +
+  km_plot = ggplot(km_df,
+                   aes_string(x = 'time', y = 'surv', group = 'risk.group')) +
     geom_step(aes_string(colour = 'risk.group'), size = 0.7) +
     scale_x_continuous(breaks = time.at) +
-    scale_colour_brewer(palette = 'Set1') +
+    scale_colour_manual(values = col_pal) +
     theme_bw() +
     theme(panel.grid.major = element_blank(),  # remove grid lines + half-open frame
           panel.grid.minor = element_blank(),
           panel.background = element_blank(),
           panel.border = element_blank(),
-          axis.line = element_line(colour = 'black')) +
+          # axis.line = element_line(colour = 'black')
+          # no axis shown due to a bug introduced in ggplot2 2.1.0
+          # workaround: replaced by the two lines below
+          axis.line.x = element_line(colour = 'black'),
+          axis.line.y = element_line(colour = 'black')) +
     theme(axis.title.x = element_text(vjust = 0.5)) +
     theme(legend.key = element_rect(colour = NA),
           legend.title = element_blank()) +
@@ -146,8 +166,9 @@ kmplot = function(fit, group.name = NULL, time.at = NULL, surv.df = NULL) {
                n.risk = summary(fit, times = time.at, extend = TRUE)$'n.risk')
 
   # number at risk plot
-  table_plot = ggplot(table_df, aes_string(x = 'time', y = 'risk.group',
-                                           label = format('n.risk', nsmall = 0))) +
+  table_plot = ggplot(table_df,
+                      aes_string(x = 'time', y = 'risk.group',
+                                 label = format('n.risk', nsmall = 0))) +
     geom_text(size = 4) +
     scale_y_discrete(breaks = as.character(levels(table_df$'risk.group')),
                      labels = group.name) +

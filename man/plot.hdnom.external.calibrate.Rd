@@ -5,7 +5,7 @@
 \title{Plot External Calibration Results}
 \usage{
 \method{plot}{hdnom.external.calibrate}(x, xlim = c(0, 1), ylim = c(0, 1),
-  ...)
+  col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ...)
 }
 \arguments{
 \item{x}{an object returned by \code{\link{hdnom.external.calibrate}}.}
@@ -13,6 +13,10 @@
 \item{xlim}{x axis limits of the plot.}
 
 \item{ylim}{y axis limits of the plot.}
+
+\item{col.pal}{Color palette to use. Possible values are
+\code{"JCO"}, \code{"Lancet"}, \code{"NPG"}, and \code{"AAAS"}.
+Default is \code{"JCO"}.}
 
 \item{...}{other parameters for \code{plot}.}
 }

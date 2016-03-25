@@ -5,7 +5,8 @@
 \title{Kaplan-Meier Plot with Number at Risk Table for Internal Calibration and
 External Calibration Results}
 \usage{
-hdnom.kmplot(object, group.name = NULL, time.at = NULL)
+hdnom.kmplot(object, group.name = NULL, time.at = NULL, col.pal = c("JCO",
+  "Lancet", "NPG", "AAAS"))
 }
 \arguments{
 \item{object}{An object returned by \code{\link{hdnom.calibrate}} or
@@ -15,6 +16,10 @@ hdnom.kmplot(object, group.name = NULL, time.at = NULL)
 Group 1, Group 2, ..., Group k.}
 
 \item{time.at}{Time points to evaluate the number at risk.}
+
+\item{col.pal}{Color palette to use. Possible values are
+\code{"JCO"}, \code{"Lancet"}, \code{"NPG"}, and \code{"AAAS"}.
+Default is \code{"JCO"}.}
 }
 \description{
 Kaplan-Meier Plot with Number at Risk Table for Internal Calibration and

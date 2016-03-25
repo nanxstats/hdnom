@@ -389,6 +389,9 @@ summary.hdnom.external.validate = function(object, silent = FALSE, ...) {
 #' Plot Time-Dependent Discrimination Curves for External Validation
 #'
 #' @param x An object returned by \code{\link{hdnom.external.validate}}.
+#' @param col.pal Color palette to use. Possible values are
+#' \code{"JCO"}, \code{"Lancet"}, \code{"NPG"}, and \code{"AAAS"}.
+#' Default is \code{"JCO"}.
 #' @param ... Other parameters (not used).
 #'
 #' @method plot hdnom.external.validate
@@ -401,7 +404,8 @@ summary.hdnom.external.validate = function(object, silent = FALSE, ...) {
 #'
 #' @examples
 #' NULL
-plot.hdnom.external.validate = function(x, ...) {
+plot.hdnom.external.validate =
+  function(x, col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS'), ...) {
 
   if (!('hdnom.external.validate' %in% class(x)))
     stop('object class must be "hdnom.external.validate"')
@@ -411,9 +415,15 @@ plot.hdnom.external.validate = function(x, ...) {
 
   df[, 'Time'] = tauc_time
 
+  col.pal = match.arg(col.pal)
+  col_pal = switch (
+    col.pal,
+    JCO   = palette.jco()[1], Lancet = palette.lancet()[1],
+    NPG   = palette.npg()[1], AAAS   = palette.aaas()[1])
+
   ggplot(data = df, aes_string(x = 'Time', y = 'AUC')) +
-    geom_point() +
-    geom_line() +
+    geom_point(colour = col_pal) +
+    geom_line(colour = col_pal) +
     scale_x_continuous(breaks = df$'Time') +
     theme_bw() +
     theme(legend.position = 'none') +

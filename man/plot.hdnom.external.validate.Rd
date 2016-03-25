@@ -4,10 +4,15 @@
 \alias{plot.hdnom.external.validate}
 \title{Plot Time-Dependent Discrimination Curves for External Validation}
 \usage{
-\method{plot}{hdnom.external.validate}(x, ...)
+\method{plot}{hdnom.external.validate}(x, col.pal = c("JCO", "Lancet", "NPG",
+  "AAAS"), ...)
 }
 \arguments{
 \item{x}{An object returned by \code{\link{hdnom.external.validate}}.}
+
+\item{col.pal}{Color palette to use. Possible values are
+\code{"JCO"}, \code{"Lancet"}, \code{"NPG"}, and \code{"AAAS"}.
+Default is \code{"JCO"}.}
 
 \item{...}{Other parameters (not used).}
 }

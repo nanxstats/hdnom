@@ -874,6 +874,9 @@ summary.hdnom.validate = function(object, silent = FALSE, ...) {
 #' Plot Optimism-Corrected Time-Dependent Discrimination Curves for Validation
 #'
 #' @param x An object returned by \code{\link{hdnom.validate}}.
+#' @param col.pal Color palette to use. Possible values are
+#' \code{"JCO"}, \code{"Lancet"}, \code{"NPG"}, and \code{"AAAS"}.
+#' Default is \code{"JCO"}.
 #' @param ... Other parameters (not used).
 #'
 #' @method plot hdnom.validate
@@ -886,35 +889,44 @@ summary.hdnom.validate = function(object, silent = FALSE, ...) {
 #'
 #' @examples
 #' NULL
-plot.hdnom.validate = function(x, ...) {
+plot.hdnom.validate =
+  function(x, col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS'),
+           ...) {
 
-  if (!('hdnom.validate' %in% class(x)))
-    stop('object class must be "hdnom.validate"')
+    if (!('hdnom.validate' %in% class(x)))
+      stop('object class must be "hdnom.validate"')
 
-  df = as.data.frame(t(summary(x, silent = TRUE)))
-  tauc_time = attr(x, 'tauc.time')
+    df = as.data.frame(t(summary(x, silent = TRUE)))
+    tauc_time = attr(x, 'tauc.time')
 
-  # special processing for repeated cv
-  if (any(grepl(pattern = 'validate.repeated.cv', class(x))))
-    names(df) = sapply(strsplit(names(df), 'Mean of '), '[', 2L)
+    # special processing for repeated cv
+    if (any(grepl(pattern = 'validate.repeated.cv', class(x))))
+      names(df) = sapply(strsplit(names(df), 'Mean of '), '[', 2L)
 
-  df[, 'Time'] = tauc_time
-  names(df)[which(names(df) == '0.25 Qt.')] = 'Qt25'
-  names(df)[which(names(df) == '0.75 Qt.')] = 'Qt75'
+    df[, 'Time'] = tauc_time
+    names(df)[which(names(df) == '0.25 Qt.')] = 'Qt25'
+    names(df)[which(names(df) == '0.75 Qt.')] = 'Qt75'
 
-  ggplot(data = df, aes_string(x = 'Time', y = 'Mean')) +
-    geom_point() +
-    geom_line() +
-    geom_point(data = df, aes_string(x = 'Time', y = 'Median')) +
-    geom_line(data = df, aes_string(x = 'Time', y = 'Median'),
-              linetype = 'dashed') +
-    geom_ribbon(data = df, aes_string(ymin = 'Qt25', ymax = 'Qt75'),
-                linetype = 0, alpha = 0.2) +
-    geom_ribbon(data = df, aes_string(ymin = 'Min', ymax = 'Max'),
-                linetype = 0, alpha = 0.1) +
-    scale_x_continuous(breaks = df$'Time') +
-    theme_bw() +
-    theme(legend.position = 'none') +
-    ylab('Area under ROC')
+    col.pal = match.arg(col.pal)
+    col_pal = switch (
+      col.pal,
+      JCO   = palette.jco()[1], Lancet = palette.lancet()[1],
+      NPG   = palette.npg()[1], AAAS   = palette.aaas()[1])
 
-}
+    ggplot(data = df, aes_string(x = 'Time', y = 'Mean')) +
+      geom_point(colour = col_pal) +
+      geom_line(colour = col_pal) +
+      geom_point(data = df, aes_string(x = 'Time', y = 'Median'),
+                 colour = col_pal) +
+      geom_line(data = df, aes_string(x = 'Time', y = 'Median'),
+                colour = col_pal, linetype = 'dashed') +
+      geom_ribbon(data = df, aes_string(ymin = 'Qt25', ymax = 'Qt75'),
+                  linetype = 0, alpha = 0.2) +
+      geom_ribbon(data = df, aes_string(ymin = 'Min', ymax = 'Max'),
+                  linetype = 0, alpha = 0.1) +
+      scale_x_continuous(breaks = df$'Time') +
+      theme_bw() +
+      theme(legend.position = 'none') +
+      ylab('Area under ROC')
+
+  }

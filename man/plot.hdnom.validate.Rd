@@ -4,10 +4,15 @@
 \alias{plot.hdnom.validate}
 \title{Plot Optimism-Corrected Time-Dependent Discrimination Curves for Validation}
 \usage{
-\method{plot}{hdnom.validate}(x, ...)
+\method{plot}{hdnom.validate}(x, col.pal = c("JCO", "Lancet", "NPG", "AAAS"),
+  ...)
 }
 \arguments{
 \item{x}{An object returned by \code{\link{hdnom.validate}}.}
+
+\item{col.pal}{Color palette to use. Possible values are
+\code{"JCO"}, \code{"Lancet"}, \code{"NPG"}, and \code{"AAAS"}.
+Default is \code{"JCO"}.}
 
 \item{...}{Other parameters (not used).}
 }

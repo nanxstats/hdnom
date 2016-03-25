@@ -305,6 +305,9 @@ summary.hdnom.compare.calibrate = function(object, ...) {
 #' @param x an object returned by \code{\link{hdnom.compare.calibrate}}.
 #' @param xlim x axis limits of the plot.
 #' @param ylim y axis limits of the plot.
+#' @param col.pal Color palette to use. Possible values are
+#' \code{"JCO"}, \code{"Lancet"}, \code{"NPG"}, and \code{"AAAS"}.
+#' Default is \code{"JCO"}.
 #' @param ... other parameters (not used).
 #'
 #' @method plot hdnom.compare.calibrate
@@ -312,41 +315,49 @@ summary.hdnom.compare.calibrate = function(object, ...) {
 #' @export
 #'
 #' @importFrom ggplot2 ggplot aes_string geom_errorbar
-#' geom_line geom_point geom_abline scale_colour_brewer
+#' geom_line geom_point geom_abline scale_colour_manual
 #' xlab ylab theme_bw
 #'
 #' @examples
 #' NULL
-plot.hdnom.compare.calibrate = function(x, xlim = c(0, 1), ylim = c(0, 1), ...) {
+plot.hdnom.compare.calibrate =
+  function(x, xlim = c(0, 1), ylim = c(0, 1),
+           col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS'), ...) {
 
-  if (!('hdnom.compare.calibrate' %in% class(x)))
-    stop('object class must be "hdnom.compare.calibrate"')
+    if (!('hdnom.compare.calibrate' %in% class(x)))
+      stop('object class must be "hdnom.compare.calibrate"')
 
-  n = length(x)
-  dflist = vector('list', n)
+    n = length(x)
+    dflist = vector('list', n)
 
-  for (i in 1L:n) {
-    dflist[[i]] =
-      data.frame('pre' = x[[i]][, 'Predicted'],
-                 'obs' = x[[i]][, 'Observed'],
-                 'll'  = x[[i]][, 'Lower 95%'],
-                 'ul'  = x[[i]][, 'Upper 95%'])
-    dflist[[i]][, 'Model'] = names(x)[i]
+    for (i in 1L:n) {
+      dflist[[i]] =
+        data.frame('pre' = x[[i]][, 'Predicted'],
+                   'obs' = x[[i]][, 'Observed'],
+                   'll'  = x[[i]][, 'Lower 95%'],
+                   'ul'  = x[[i]][, 'Upper 95%'])
+      dflist[[i]][, 'Model'] = names(x)[i]
+    }
+
+    df = Reduce('rbind', dflist)
+
+    col.pal = match.arg(col.pal)
+    col_pal = switch (
+      col.pal,
+      JCO   = palette.jco(), Lancet = palette.lancet(),
+      NPG   = palette.npg(), AAAS   = palette.aaas())
+
+    ggplot(df, aes_string(x = 'pre', y = 'obs',
+                          xmin = xlim[1L], xmax = xlim[2L],
+                          ymin = ylim[1L], ymax = ylim[2L],
+                          colour = 'Model')) +
+      geom_errorbar(aes_string(ymin = 'll', ymax = 'ul'), width = 0.02) +
+      geom_line() +
+      geom_point(size = 2) +
+      geom_abline(slope = 1, intercept = 0, colour = 'grey') +
+      xlab('Predicted Survival Probability') +
+      ylab('Observed Survival Probability') +
+      scale_colour_manual(values = col_pal) +
+      theme_bw()
+
   }
-
-  df = Reduce('rbind', dflist)
-
-  ggplot(df, aes_string(x = 'pre', y = 'obs',
-                        xmin = xlim[1L], xmax = xlim[2L],
-                        ymin = ylim[1L], ymax = ylim[2L],
-                        colour = 'Model')) +
-    geom_errorbar(aes_string(ymin = 'll', ymax = 'ul'), width = 0.02) +
-    geom_line() +
-    geom_point(size = 2) +
-    geom_abline(slope = 1, intercept = 0, colour = 'grey') +
-    xlab('Predicted Survival Probability') +
-    ylab('Observed Survival Probability') +
-    scale_colour_brewer(palette = 'Set1') +
-    theme_bw()
-
-}

@@ -8,6 +8,7 @@ output:
   rmarkdown::html_vignette:
     toc: true
     number_sections: true
+    css: hdnom.css
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Nomograms for High-Dimensional Data}
@@ -28,10 +29,10 @@ To load the package in R, simply type:
 library("hdnom")
 ```
 
-# Model Building
+# Build Survival Models
 
 To build a penalized Cox model with good predictive performance,
-parameter tuning is usually needed.
+some parameter tuning is usually needed.
 For example, the elastic-net model requires to tune the $\ell_1$-$\ell_2$
 penalty trade-off parameter $\alpha$, and the regularization parameter
 $\lambda$.
@@ -423,11 +424,35 @@ survival probability from one year to ten years:
 predict(aenetfit, x, y, newx = x[101:105, ], pred.at = 1:10 * 365)
 ```
 
+# Customize Color Palette
+
+The `hdnom` package has 4 unique built-in color palettes available for
+all above plots, inspired by the colors commonly used by scientific journals.
+Users can use the `col.pal` argument to select the color palette.
+Possible values for this argument are listed in the table below:
+
++----------+-------------------------------------------------+
+| Value    | Color Palette Related Journals                  |
++==========+=================================================+
+| `"JCO"`    | _Journal of Clinical Oncology_                |
++----------+-------------------------------------------------+
+| `"Lancet"` | Lancet journals, such as _Lancet Oncology_    |
++----------+-------------------------------------------------+
+| `"NPG"`    | NPG journals, such as _Nature Reviews Cancer_ |
++----------+-------------------------------------------------+
+| `"AAAS"`   | AAAS Journals, such as _Science_              |
++----------+-------------------------------------------------+
+
+By default, `hdnom` will use the JCO color palette (`col.pal = "JCO"`).
+
 # Acknowledgements
 
 We thank Prof. Matthew Stephens, Dr. Samuel Volchenboum, and Dr. Jorge Andrade
 for their great suggestions. For further information about the project,
-please visit: [http://hdnom.org](http://hdnom.org).
-The hdnom web application: [http://hdnom.io](http://hdnom.io).
+please visit:
+
+  * The hdnom project: [http://hdnom.org](http://hdnom.org)
+  * The hdnom web application: [http://hdnom.io](http://hdnom.io)
+  * The hdnom appmaker: [https://github.com/road2stat/hdnom-appmaker](https://github.com/road2stat/hdnom-appmaker)
 
 # References
