@@ -1,8 +1,8 @@
 Package: hdnom
 Type: Package
 Title: Nomograms for High-Dimensional Cox Models
-Version: 3.6
-Date: 2016-03-24
+Version: 3.7
+Date: 2016-03-25
 Author: Miaozhu Li <miaozhu.li@duke.edu>, Nan Xiao <nanx@uchicago.edu>
 Maintainer: Nan Xiao <nanx@uchicago.edu>
 Description: Build nomograms for high-dimensional Cox models, with support for
@@ -26,6 +26,7 @@ Imports:
     gridExtra
 Suggests:
     knitr,
+    rmarkdown,
     doParallel,
     Hmisc,
     mice
