@@ -203,3 +203,9 @@ code > span.ot { color: #4d4d4c; } /* OtherToken */
 code > span.al { color: #ff0000; } /* AlertToken */
 code > span.fu { color: #4271ae; } /* Function calls */ 
 code > span.er { color: #a61717; } /* ErrorTok */
+
+/* centering images */
+img {
+    display: block;
+    margin: 0 auto;
+}
