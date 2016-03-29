@@ -12,13 +12,13 @@ palette.jco = function() {
 
 #' Color Palette for Lancet Journals
 #'
-#' A 10-color discrete color palette based on the colors
+#' A 9-color discrete color palette based on the colors
 #' used in figures in Lancet Oncology.
 #'
 #' @keywords internal
 palette.lancet = function() {
   palette = c('#00468B', '#ED0000', '#42B540', '#0099B4', '#925E9F',
-              '#FDAF91', '#AD002A', '#0099B4', '#ADB6B6', '#1B1919')
+              '#FDAF91', '#AD002A', '#ADB6B6', '#1B1919')
   return(palette)
 }
 

@@ -1,3 +1,9 @@
+# CHANGES IN hdnom VERSION 3.7 (2016-03-25)
+
+## BUG FIXES
+
+* Removed one redundant color from the lancet color palette
+
 # CHANGES IN hdnom VERSION 3.6 (2016-03-24)
 
 ## NEW FEATURES
