@@ -1,7 +1,7 @@
 ---
 title: "Nomograms for High-Dimensional Data"
-author: "Miaozhu Li <<miaozhu.li@duke.edu>> <br>
-         Nan Xiao <<nanx@uchicago.edu>>"
+author: "Miaozhu Li <<http://miaozhu.li>> <br>
+         Nan Xiao <<http://nanx.me>>"
 date: "`r Sys.Date()`"
 bibliography: hdnom.bib
 output:
@@ -9,6 +9,8 @@ output:
     toc: true
     number_sections: true
     css: hdnom.css
+    includes:
+      in_header: header.html
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Nomograms for High-Dimensional Data}
