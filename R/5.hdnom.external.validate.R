@@ -392,6 +392,7 @@ summary.hdnom.external.validate = function(object, silent = FALSE, ...) {
 #' @param col.pal Color palette to use. Possible values are
 #' \code{"JCO"}, \code{"Lancet"}, \code{"NPG"}, and \code{"AAAS"}.
 #' Default is \code{"JCO"}.
+#' @param ylim Range of y coordinates. For example, \code{c(0.5, 1)}.
 #' @param ... Other parameters (not used).
 #'
 #' @method plot hdnom.external.validate
@@ -400,33 +401,35 @@ summary.hdnom.external.validate = function(object, silent = FALSE, ...) {
 #'
 #' @importFrom ggplot2 ggplot aes_string geom_point geom_line geom_point
 #' geom_ribbon scale_x_continuous scale_fill_manual scale_colour_manual
-#' theme_bw theme ylab
+#' theme_bw theme ylab coord_cartesian
 #'
 #' @examples
 #' NULL
 plot.hdnom.external.validate =
-  function(x, col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS'), ...) {
+  function(x, col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS'),
+           ylim = NULL, ...) {
 
-  if (!('hdnom.external.validate' %in% class(x)))
-    stop('object class must be "hdnom.external.validate"')
+    if (!('hdnom.external.validate' %in% class(x)))
+      stop('object class must be "hdnom.external.validate"')
 
-  df = as.data.frame(t(summary(x, silent = TRUE)))
-  tauc_time = attr(x, 'tauc.time')
+    df = as.data.frame(t(summary(x, silent = TRUE)))
+    tauc_time = attr(x, 'tauc.time')
 
-  df[, 'Time'] = tauc_time
+    df[, 'Time'] = tauc_time
 
-  col.pal = match.arg(col.pal)
-  col_pal = switch (
-    col.pal,
-    JCO   = palette.jco()[1], Lancet = palette.lancet()[1],
-    NPG   = palette.npg()[1], AAAS   = palette.aaas()[1])
+    col.pal = match.arg(col.pal)
+    col_pal = switch (
+      col.pal,
+      JCO   = palette.jco()[1], Lancet = palette.lancet()[1],
+      NPG   = palette.npg()[1], AAAS   = palette.aaas()[1])
 
-  ggplot(data = df, aes_string(x = 'Time', y = 'AUC')) +
-    geom_point(colour = col_pal) +
-    geom_line(colour = col_pal) +
-    scale_x_continuous(breaks = df$'Time') +
-    theme_bw() +
-    theme(legend.position = 'none') +
-    ylab('Area under ROC')
+    ggplot(data = df, aes_string(x = 'Time', y = 'AUC')) +
+      geom_point(colour = col_pal) +
+      geom_line(colour = col_pal) +
+      scale_x_continuous(breaks = df$'Time') +
+      coord_cartesian(ylim = ylim) +
+      theme_bw() +
+      theme(legend.position = 'none') +
+      ylab('Area under ROC')
 
-}
+  }

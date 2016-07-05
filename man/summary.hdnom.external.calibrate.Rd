@@ -7,9 +7,9 @@
 \method{summary}{hdnom.external.calibrate}(object, ...)
 }
 \arguments{
-\item{object}{an object returned by \code{\link{hdnom.external.calibrate}}.}
+\item{object}{An object returned by \code{\link{hdnom.external.calibrate}}.}
 
-\item{...}{other parameters (not used).}
+\item{...}{Other parameters (not used).}
 }
 \description{
 Summary of External Calibration Results

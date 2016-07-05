@@ -8,7 +8,7 @@
   col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ...)
 }
 \arguments{
-\item{x}{an object returned by \code{\link{hdnom.external.calibrate}}.}
+\item{x}{An object returned by \code{\link{hdnom.external.calibrate}}.}
 
 \item{xlim}{x axis limits of the plot.}
 
@@ -18,7 +18,7 @@
 \code{"JCO"}, \code{"Lancet"}, \code{"NPG"}, and \code{"AAAS"}.
 Default is \code{"JCO"}.}
 
-\item{...}{other parameters for \code{plot}.}
+\item{...}{Other parameters for \code{plot}.}
 }
 \description{
 Plot External Calibration Results

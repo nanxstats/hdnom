@@ -251,8 +251,8 @@ hdnom.compare.calibrate =
 #'
 #' Print Model Comparison by Calibration Results
 #'
-#' @param x an object returned by \code{\link{hdnom.compare.calibrate}}.
-#' @param ... other parameters (not used).
+#' @param x An object returned by \code{\link{hdnom.compare.calibrate}}.
+#' @param ... Other parameters (not used).
 #'
 #' @method print hdnom.compare.calibrate
 #'
@@ -276,8 +276,8 @@ print.hdnom.compare.calibrate = function(x, ...) {
 #'
 #' Summary of Model Comparison by Calibration Results
 #'
-#' @param object an object returned by \code{\link{hdnom.compare.calibrate}}.
-#' @param ... other parameters (not used).
+#' @param object An object returned by \code{\link{hdnom.compare.calibrate}}.
+#' @param ... Other parameters (not used).
 #'
 #' @method summary hdnom.compare.calibrate
 #'
@@ -302,13 +302,13 @@ summary.hdnom.compare.calibrate = function(object, ...) {
 #'
 #' Plot Model Comparison by Calibration Results
 #'
-#' @param x an object returned by \code{\link{hdnom.compare.calibrate}}.
+#' @param x An object returned by \code{\link{hdnom.compare.calibrate}}.
 #' @param xlim x axis limits of the plot.
 #' @param ylim y axis limits of the plot.
 #' @param col.pal Color palette to use. Possible values are
 #' \code{"JCO"}, \code{"Lancet"}, \code{"NPG"}, and \code{"AAAS"}.
 #' Default is \code{"JCO"}.
-#' @param ... other parameters (not used).
+#' @param ... Other parameters (not used).
 #'
 #' @method plot hdnom.compare.calibrate
 #'

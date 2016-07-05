@@ -309,8 +309,8 @@ hdnom.external.calibrate.internal.true = function(pred_prob, grp,
 #'
 #' Print External Calibration Results
 #'
-#' @param x an object returned by \code{\link{hdnom.external.calibrate}}.
-#' @param ... other parameters (not used).
+#' @param x An object returned by \code{\link{hdnom.external.calibrate}}.
+#' @param ... Other parameters (not used).
 #'
 #' @method print hdnom.external.calibrate
 #'
@@ -336,8 +336,8 @@ print.hdnom.external.calibrate = function(x, ...) {
 #'
 #' Summary of External Calibration Results
 #'
-#' @param object an object returned by \code{\link{hdnom.external.calibrate}}.
-#' @param ... other parameters (not used).
+#' @param object An object returned by \code{\link{hdnom.external.calibrate}}.
+#' @param ... Other parameters (not used).
 #'
 #' @method summary hdnom.external.calibrate
 #'
@@ -369,13 +369,13 @@ summary.hdnom.external.calibrate = function(object, ...) {
 #'
 #' Plot External Calibration Results
 #'
-#' @param x an object returned by \code{\link{hdnom.external.calibrate}}.
+#' @param x An object returned by \code{\link{hdnom.external.calibrate}}.
 #' @param xlim x axis limits of the plot.
 #' @param ylim y axis limits of the plot.
 #' @param col.pal Color palette to use. Possible values are
 #' \code{"JCO"}, \code{"Lancet"}, \code{"NPG"}, and \code{"AAAS"}.
 #' Default is \code{"JCO"}.
-#' @param ... other parameters for \code{plot}.
+#' @param ... Other parameters for \code{plot}.
 #'
 #' @method plot hdnom.external.calibrate
 #'

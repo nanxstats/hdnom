@@ -59,7 +59,6 @@
 #' \emph{Journal of the American Statistical Association} 102, 527--537.
 #'
 #' @examples
-#' library("glmnet")
 #' library("survival")
 #'
 #' # Load imputed SMART data
@@ -67,30 +66,30 @@
 #' x = as.matrix(smart[, -c(1, 2)])[1:500, ]
 #' time = smart$TEVENT[1:500]
 #' event = smart$EVENT[1:500]
+#' y = Surv(time, event)
 #'
-#' # Fit penalized Cox model (lasso penalty) with glmnet
-#' set.seed(1010)
-#' cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 5)
+#' # Fit penalized Cox model with lasso penalty
+#' lassofit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 #'
 #' # Model validation by bootstrap with time-dependent AUC
 #' # Normally boot.times should be set to 200 or more,
 #' # we set it to 3 here only to save example running time.
 #' val.boot = hdnom.validate(x, time, event, model.type = "lasso",
-#'                           alpha = 1, lambda = cvfit$lambda.1se,
+#'                           alpha = 1, lambda = lassofit$lasso_best_lambda,
 #'                           method = "bootstrap", boot.times = 3,
 #'                           tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
 #'                           seed = 1010)
 #'
 #' # Model validation by 5-fold cross-validation with time-dependent AUC
 #' val.cv = hdnom.validate(x, time, event, model.type = "lasso",
-#'                         alpha = 1, lambda = cvfit$lambda.1se,
+#'                         alpha = 1, lambda = lassofit$lasso_best_lambda,
 #'                         method = "cv", nfolds = 5,
 #'                         tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
 #'                         seed = 1010)
 #'
 #' # Model validation by repeated cross-validation with time-dependent AUC
 #' val.repcv = hdnom.validate(x, time, event, model.type = "lasso",
-#'                            alpha = 1, lambda = cvfit$lambda.1se,
+#'                            alpha = 1, lambda = lassofit$lasso_best_lambda,
 #'                            method = "repeated.cv", nfolds = 5, rep.times = 3,
 #'                            tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
 #'                            seed = 1010)
@@ -110,7 +109,6 @@
 #' print(val.repcv)
 #' summary(val.repcv)
 #' plot(val.repcv)
-#'
 # ### Testing fused lasso, SCAD, and Mnet models ###
 # library("survival")
 # library("rms")
@@ -877,6 +875,7 @@ summary.hdnom.validate = function(object, silent = FALSE, ...) {
 #' @param col.pal Color palette to use. Possible values are
 #' \code{"JCO"}, \code{"Lancet"}, \code{"NPG"}, and \code{"AAAS"}.
 #' Default is \code{"JCO"}.
+#' @param ylim Range of y coordinates. For example, \code{c(0.5, 1)}.
 #' @param ... Other parameters (not used).
 #'
 #' @method plot hdnom.validate
@@ -885,13 +884,13 @@ summary.hdnom.validate = function(object, silent = FALSE, ...) {
 #'
 #' @importFrom ggplot2 ggplot aes_string geom_point geom_line geom_point
 #' geom_ribbon scale_x_continuous scale_fill_manual scale_colour_manual
-#' theme_bw theme ylab
+#' theme_bw theme ylab coord_cartesian
 #'
 #' @examples
 #' NULL
 plot.hdnom.validate =
   function(x, col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS'),
-           ...) {
+           ylim = NULL, ...) {
 
     if (!('hdnom.validate' %in% class(x)))
       stop('object class must be "hdnom.validate"')
@@ -925,6 +924,7 @@ plot.hdnom.validate =
       geom_ribbon(data = df, aes_string(ymin = 'Min', ymax = 'Max'),
                   linetype = 0, alpha = 0.1) +
       scale_x_continuous(breaks = df$'Time') +
+      coord_cartesian(ylim = ylim) +
       theme_bw() +
       theme(legend.position = 'none') +
       ylab('Area under ROC')

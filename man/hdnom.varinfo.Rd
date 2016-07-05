@@ -20,7 +20,6 @@ Extract the names and type of selected variables from established
 high-dimensional Cox models.
 }
 \examples{
-library("glmnet")
 library("survival")
 
 # Load imputed SMART data

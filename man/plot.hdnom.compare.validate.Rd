@@ -5,7 +5,7 @@
 \title{Plot Model Comparison by Validation Results}
 \usage{
 \method{plot}{hdnom.compare.validate}(x, interval = FALSE,
-  col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ...)
+  col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ylim = NULL, ...)
 }
 \arguments{
 \item{x}{An object returned by \code{\link{hdnom.compare.validate}}.}
@@ -16,6 +16,8 @@ time-dependent AUC as ribbons? Default is \code{FALSE}.}
 \item{col.pal}{Color palette to use. Possible values are
 \code{"JCO"}, \code{"Lancet"}, \code{"NPG"}, and \code{"AAAS"}.
 Default is \code{"JCO"}.}
+
+\item{ylim}{Range of y coordinates. For example, \code{c(0.5, 1)}.}
 
 \item{...}{Other parameters (not used).}
 }

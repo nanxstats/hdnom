@@ -1010,7 +1010,6 @@ predict.hdcox.model = function(object, x, y, newx, pred.at, ...) {
 #' selected variables.
 #'
 #' @examples
-#' library("glmnet")
 #' library("survival")
 #'
 #' # Load imputed SMART data

@@ -1,3 +1,12 @@
+# CHANGES IN hdnom VERSION 4.0 (2016-07-05)
+
+## IMPROVEMENTS
+
+* More concrete examples for several functions
+* Introduce argument `ylim` for `plot.hdnom.validate()`,
+  `plot.hdnom.external.validate()`, and `plot.hdnom.compare.validate()`
+  (https://github.com/road2stat/hdnom/issues/4).
+
 # CHANGES IN hdnom VERSION 3.7 (2016-03-25)
 
 ## BUG FIXES

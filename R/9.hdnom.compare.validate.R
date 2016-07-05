@@ -328,12 +328,13 @@ summary.hdnom.compare.validate = function(object, silent = FALSE, ...) {
 #' @param col.pal Color palette to use. Possible values are
 #' \code{"JCO"}, \code{"Lancet"}, \code{"NPG"}, and \code{"AAAS"}.
 #' Default is \code{"JCO"}.
+#' @param ylim Range of y coordinates. For example, \code{c(0.5, 1)}.
 #' @param ... Other parameters (not used).
 #'
 #' @method plot hdnom.compare.validate
 #'
 #' @importFrom ggplot2 ggplot aes_string geom_point geom_line
-#' scale_x_continuous scale_colour_manual theme_bw ylab
+#' scale_x_continuous scale_colour_manual theme_bw ylab coord_cartesian
 #'
 #' @export
 #'
@@ -341,7 +342,8 @@ summary.hdnom.compare.validate = function(object, silent = FALSE, ...) {
 #' NULL
 plot.hdnom.compare.validate =
   function(x, interval = FALSE,
-           col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS'), ...) {
+           col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS'),
+           ylim = NULL, ...) {
 
     if (!('hdnom.compare.validate' %in% class(x)))
       stop('object class must be "hdnom.compare.validate"')
@@ -384,6 +386,7 @@ plot.hdnom.compare.validate =
                   linetype = 'dashed') +
         scale_x_continuous(breaks = df$'Time') +
         scale_colour_manual(values = col_pal) +
+        coord_cartesian(ylim = ylim) +
         theme_bw() +
         ylab('Area under ROC')
 
@@ -407,6 +410,7 @@ plot.hdnom.compare.validate =
         scale_x_continuous(breaks = df$'Time') +
         scale_colour_manual(values = col_pal) +
         scale_fill_manual(values = col_pal) +
+        coord_cartesian(ylim = ylim) +
         theme_bw() +
         ylab('Area under ROC')
 

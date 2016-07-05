@@ -7,9 +7,9 @@
 \method{print}{hdnom.compare.calibrate}(x, ...)
 }
 \arguments{
-\item{x}{an object returned by \code{\link{hdnom.compare.calibrate}}.}
+\item{x}{An object returned by \code{\link{hdnom.compare.calibrate}}.}
 
-\item{...}{other parameters (not used).}
+\item{...}{Other parameters (not used).}
 }
 \description{
 Print Model Comparison by Calibration Results

@@ -43,22 +43,21 @@
 #' @export hdnom.calibrate
 #'
 #' @examples
-#' library("glmnet")
 #' library("survival")
 #'
 #' # Load imputed SMART data
-#' data(smart)
-#' x = as.matrix(smart[, -c(1, 2)])[1:1000, ]
-#' time = smart$TEVENT[1:1000]
-#' event = smart$EVENT[1:1000]
+#' data("smart")
+#' x = as.matrix(smart[, -c(1, 2)])
+#' time = smart$TEVENT
+#' event = smart$EVENT
+#' y = Surv(time, event)
 #'
-#' # Fit penalized Cox model (lasso penalty) with glmnet
-#' set.seed(1010)
-#' cvfit = cv.glmnet(x, Surv(time, event), family = "cox", nfolds = 5)
+#' # Fit Cox model with lasso penalty
+#' lassofit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 #'
 #' # Model calibration by fitting the original data directly
 #' cal.fitting = hdnom.calibrate(x, time, event, model.type = "lasso",
-#'                               alpha = 1, lambda = cvfit$lambda.1se,
+#'                               alpha = 1, lambda = lassofit$lasso_best_lambda,
 #'                               method = "fitting",
 #'                               pred.at = 365 * 9, ngroup = 5,
 #'                               seed = 1010)
@@ -67,21 +66,21 @@
 #' # Normally boot.times should be set to 200 or more,
 #' # we set it to 3 here only to save example running time.
 #' cal.boot = hdnom.calibrate(x, time, event, model.type = "lasso",
-#'                            alpha = 1, lambda = cvfit$lambda.1se,
+#'                            alpha = 1, lambda = lassofit$lasso_best_lambda,
 #'                            method = "bootstrap", boot.times = 3,
 #'                            pred.at = 365 * 9, ngroup = 5,
 #'                            seed = 1010)
 #'
 #' # Model calibration by 5-fold cross-validation
 #' cal.cv = hdnom.calibrate(x, time, event, model.type = "lasso",
-#'                          alpha = 1, lambda = cvfit$lambda.1se,
+#'                          alpha = 1, lambda = lassofit$lasso_best_lambda,
 #'                          method = "cv", nfolds = 5,
 #'                          pred.at = 365 * 9, ngroup = 5,
 #'                          seed = 1010)
 #'
 #' # Model calibration by repeated cross-validation
 #' cal.repcv = hdnom.calibrate(x, time, event, model.type = "lasso",
-#'                             alpha = 1, lambda = cvfit$lambda.1se,
+#'                             alpha = 1, lambda = lassofit$lasso_best_lambda,
 #'                             method = "repeated.cv", nfolds = 3, rep.times = 3,
 #'                             pred.at = 365 * 9, ngroup = 5,
 #'                             seed = 1010)
@@ -771,8 +770,8 @@ hdnom.calibrate.internal.true = function(pred_prob, grp,
 #'
 #' Print Calibration Results
 #'
-#' @param x an object returned by \code{\link{hdnom.calibrate}}.
-#' @param ... other parameters (not used).
+#' @param x An object returned by \code{\link{hdnom.calibrate}}.
+#' @param ... Other parameters (not used).
 #'
 #' @method print hdnom.calibrate
 #'
@@ -961,8 +960,8 @@ print.hdnom.calibrate = function(x, ...) {
 #'
 #' Summary of Calibration Results
 #'
-#' @param object an object returned by \code{\link{hdnom.calibrate}}.
-#' @param ... other parameters (not used).
+#' @param object An object returned by \code{\link{hdnom.calibrate}}.
+#' @param ... Other parameters (not used).
 #'
 #' @method summary hdnom.calibrate
 #'
@@ -1076,13 +1075,13 @@ summary.hdnom.calibrate = function(object, ...) {
 #'
 #' Plot Calibration Results
 #'
-#' @param x an object returned by \code{\link{hdnom.calibrate}}.
+#' @param x An object returned by \code{\link{hdnom.calibrate}}.
 #' @param xlim x axis limits of the plot.
 #' @param ylim y axis limits of the plot.
 #' @param col.pal Color palette to use. Possible values are
 #' \code{"JCO"}, \code{"Lancet"}, \code{"NPG"}, and \code{"AAAS"}.
 #' Default is \code{"JCO"}.
-#' @param ... other parameters for \code{plot}.
+#' @param ... Other parameters for \code{plot}.
 #'
 #' @method plot hdnom.calibrate
 #'
