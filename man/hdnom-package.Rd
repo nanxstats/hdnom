@@ -16,6 +16,6 @@ License: \tab GPL\cr }
 }
 \author{
 Miaozhu Li <\email{miaozhu.li@duke.edu}>
-        Nan Xiao <\email{nanx@uchicago.edu}>
+        Nan Xiao <\email{me@nanx.me}>
 }
 

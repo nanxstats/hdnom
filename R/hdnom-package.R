@@ -11,6 +11,6 @@
 #' @name hdnom-package
 #' @docType package
 #' @author Miaozhu Li <\email{miaozhu.li@@duke.edu}>
-#'         Nan Xiao <\email{nanx@@uchicago.edu}>
+#'         Nan Xiao <\email{me@@nanx.me}>
 #'
 NULL

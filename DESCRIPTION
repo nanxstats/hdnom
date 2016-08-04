@@ -1,9 +1,9 @@
 Package: hdnom
 Type: Package
 Title: Nomograms for High-Dimensional Cox Models
-Version: 4.0
-Author: Miaozhu Li <miaozhu.li@duke.edu>, Nan Xiao <nanx@uchicago.edu>
-Maintainer: Nan Xiao <nanx@uchicago.edu>
+Version: 4.1
+Author: Miaozhu Li <miaozhu.li@duke.edu>, Nan Xiao <me@nanx.me>
+Maintainer: Nan Xiao <me@nanx.me>
 Description: Build nomograms for high-dimensional Cox models, with support for
     reproducible model validation, calibration, and comparison.
 License: GPL
