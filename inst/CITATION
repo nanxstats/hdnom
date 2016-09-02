@@ -1,0 +1,14 @@
+citHeader("To cite the hdnom package in publications, please use:")
+
+citEntry(
+entry = "Article",
+title = "hdnom: Building Nomograms for Penalized Cox Models with High-Dimensional Survival Data",
+journal = "bioRxiv",
+year = "2016",
+author = "Nan Xiao and Qing-Song Xu and Miao-Zhu Li",
+doi = "10.1101/065524",
+publisher = "Cold Spring Harbor Labs Journals",
+URL = "http://biorxiv.org/content/early/2016/08/23/065524",
+eprint = "http://biorxiv.org/content/early/2016/08/23/065524.full.pdf",
+textVersion = "Nan Xiao, Qing-Song Xu, and Miao-Zhu Li. (2016). hdnom: Building Nomograms for Penalized Cox Models with High-Dimensional Survival Data. bioRxiv, 065524."
+)
