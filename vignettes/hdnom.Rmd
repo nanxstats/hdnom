@@ -450,11 +450,12 @@ By default, `hdnom` will use the JCO color palette (`col.pal = "JCO"`).
 # Acknowledgements
 
 We thank Prof. Matthew Stephens, Dr. Samuel Volchenboum, and Dr. Jorge Andrade
-for their great suggestions. For further information about the project,
+for their great suggestions. To cite our paper (preprint), please use
+[@hdnompreprint2016]. For further information about the hdnom project,
 please visit:
 
-  * The hdnom project: [http://hdnom.org](http://hdnom.org)
-  * The hdnom web application: [http://hdnom.io](http://hdnom.io)
-  * The hdnom appmaker: [https://github.com/road2stat/hdnom-appmaker](https://github.com/road2stat/hdnom-appmaker)
+  * hdnom project website: [http://hdnom.org](http://hdnom.org)
+  * hdnom web application: [http://hdnom.io](http://hdnom.io)
+  * hdnom appmaker: [http://hdnom.org/appmaker](http://hdnom.org/appmaker)
 
 # References

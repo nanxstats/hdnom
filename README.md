@@ -27,11 +27,11 @@ To load the package in R, simply use
 library("hdnom")
 ```
 
-and you are all set. See [the vignette](https://cran.r-project.org/web/packages/hdnom/vignettes/hdnom.html) (can also be opened with `vignette("hdnom")` in R) for a quick-start guide.
+and you are all set. See [the vignette](http://hdnom.org/doc/) (can also be opened with `vignette("hdnom")` in R) for a quick-start guide.
 
 ## Paper Citation
 
-Formatted citation:
+Formatted citation for [the preprint](http://dx.doi.org/10.1101/065524):
 
 Nan Xiao, Qing-Song Xu, and Miao-Zhu Li. "hdnom: Building Nomograms for Penalized Cox Models with High-Dimensional Survival Data." bioRxiv (2016): 065524; doi: http://dx.doi.org/10.1101/065524
 
@@ -54,6 +54,6 @@ BibTeX entry:
 
 * hdnom project: [http://hdnom.org](http://hdnom.org)
 * hdnom web app: [http://hdnom.io](http://hdnom.io)
-* hdnom appmaker: [https://github.com/road2stat/hdnom-appmaker](https://github.com/road2stat/hdnom-appmaker)
+* hdnom appmaker: [http://hdnom.org/appmaker](http://hdnom.org/appmaker)
 * hdnom on CRAN: [https://cran.r-project.org/package=hdnom](https://cran.r-project.org/package=hdnom)
 * hdnom on GitHub: [https://github.com/road2stat/hdnom](https://github.com/road2stat/hdnom)
