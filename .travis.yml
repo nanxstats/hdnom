@@ -1,2 +1,7 @@
 language: r
 sudo: required
+
+# workaround for keeping
+# `survival` updated
+before_install:
+  Rscript -e 'update.packages(ask = FALSE)'
