@@ -132,11 +132,8 @@ kmplot = function(fit, group.name = NULL, time.at = NULL,
           panel.grid.minor = element_blank(),
           panel.background = element_blank(),
           panel.border = element_blank(),
-          # axis.line = element_line(colour = 'black')
-          # no axis shown due to a bug introduced in ggplot2 2.1.0
-          # workaround: replaced by the two lines below
-          axis.line.x = element_line(colour = 'black'),
-          axis.line.y = element_line(colour = 'black')) +
+          # the axis will show properly for ggplot2 >= 2.2.0
+          axis.line = element_line(colour = 'black')) +
     theme(axis.title.x = element_text(vjust = 0.5)) +
     theme(legend.key = element_rect(colour = NA),
           legend.title = element_blank()) +

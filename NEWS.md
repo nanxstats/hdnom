@@ -1,3 +1,13 @@
+# CHANGES IN hdnom VERSION 5.0 (2016-12-21)
+
+## NEW FEATURES
+
+## IMPROVEMENTS
+
+## BUG FIXES
+
+* Fixed vanishing axis problem in Kaplan-Meier plot under the latest ggplot2 2.2.0, due to a previous workaround for a bug in ggplot2 2.1.0
+
 # CHANGES IN hdnom VERSION 4.0 (2016-07-05)
 
 ## IMPROVEMENTS
@@ -22,7 +32,7 @@
 
 ## BUG FIXES
 
-* Fixed no axis problem in Kaplan-Meier plot due to ggplot2 2.1.0 update
+* Fixed vanishing axis problem in Kaplan-Meier plot due to ggplot2 2.1.0 update
 
 ## IMPROVEMENTS
 
