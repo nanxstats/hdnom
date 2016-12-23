@@ -1,4 +1,4 @@
-# hdnom
+# hdnom  <a href="http://hdnom.org"><img src="http://nanx.me/images/project-hdnom.png" align="right" alt="logo" height="128" width="128" /></a>
 
 [![Build Status](https://travis-ci.org/road2stat/hdnom.svg?branch=master)](https://travis-ci.org/road2stat/hdnom)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/road2stat/hdnom?branch=master&svg=true)](https://ci.appveyor.com/project/road2stat/hdnom)
