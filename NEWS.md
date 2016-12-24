@@ -2,11 +2,16 @@
 
 ## NEW FEATURES
 
+
+
 ## IMPROVEMENTS
+
+
 
 ## BUG FIXES
 
 * Fixed vanishing axis problem in Kaplan-Meier plot under the latest ggplot2 2.2.0, due to a previous workaround for a bug in ggplot2 2.1.0
+* Fixed convergence issues for examples under ncvreg >= 3.7-1
 
 # CHANGES IN hdnom VERSION 4.0 (2016-07-05)
 

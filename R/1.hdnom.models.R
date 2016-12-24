@@ -582,16 +582,18 @@ ncvreg.tune.gamma = function(..., gammas, seed, parallel) {
 hdcox.mcp = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
                      seed = 1001, trace = FALSE, parallel = FALSE) {
 
-  mcp_y = ncvreg.tune.gamma(x, y, model = 'cox', penalty = 'MCP', alpha = 1,
+  mcp_y = ncvreg.tune.gamma(x, y, penalty = 'MCP', alpha = 1,
                             nfolds = nfolds, gammas = gammas, seed = seed,
-                            trace = trace, parallel = parallel)
+                            trace = trace, parallel = parallel,
+                            max.iter = 5000)  # hotfix for example convergence under ncvreg >= 3.7-1
 
   mcp_best_gamma  = mcp_y$best.gamma
   mcp_best_lambda = mcp_y$best.model$lambda.min
 
   # fit the model on all the data use the parameters got by CV
-  mcp_all = ncvsurv(x, y, model = 'cox', penalty = 'MCP', alpha = 1,
-                    gamma = mcp_best_gamma, lambda = mcp_best_lambda)
+  mcp_all = ncvsurv(x, y, penalty = 'MCP', alpha = 1,
+                    gamma = mcp_best_gamma, lambda = mcp_best_lambda,
+                    max.iter = 5000)  # hotfix
 
   # deal with null models, thanks for the suggestion from Patrick Breheny
   if (all(abs(mcp_all$beta[-1L, ]) < .Machine$double.eps))
@@ -715,21 +717,23 @@ hdcox.mnet = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
                       alphas = seq(0.05, 0.95, 0.05),
                       seed = 1001, trace = FALSE, parallel = FALSE) {
 
-  mnet_y = ncvreg.tune.gamma.alpha(x, y, model = 'cox', penalty = 'MCP',
+  mnet_y = ncvreg.tune.gamma.alpha(x, y, penalty = 'MCP',
                                    nfolds = nfolds,
                                    gammas = gammas, alphas = alphas,
                                    seed = seed, trace = trace,
-                                   parallel = parallel)
+                                   parallel = parallel,
+                                   max.iter = 5000)  # hotfix
 
   mnet_best_gamma  = mnet_y$best.gamma
   mnet_best_alpha  = mnet_y$best.alpha
   mnet_best_lambda = mnet_y$best.model$lambda.min
 
   # fit the model on all the data use the parameters got by CV
-  mnet_all = ncvsurv(x, y, model = 'cox', penalty = 'MCP',
+  mnet_all = ncvsurv(x, y, penalty = 'MCP',
                      gamma = mnet_best_gamma,
                      alpha = mnet_best_alpha,
-                     lambda = mnet_best_lambda)
+                     lambda = mnet_best_lambda,
+                     max.iter = 5000)  # hotfix
 
   if (all(abs(mnet_all$beta[-1L, ]) < .Machine$double.eps))
     stop('Null model produced by the full fit (all coefficients are zero).
@@ -796,16 +800,18 @@ hdcox.mnet = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
 hdcox.scad = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
                       seed = 1001, trace = FALSE, parallel = FALSE) {
 
-  scad_y = ncvreg.tune.gamma(x, y, model = 'cox', penalty = 'SCAD', alpha = 1,
+  scad_y = ncvreg.tune.gamma(x, y, penalty = 'SCAD', alpha = 1,
                              nfolds = nfolds, gammas = gammas, seed = seed,
-                             trace = trace, parallel = parallel)
+                             trace = trace, parallel = parallel,
+                             max.iter = 5000)  # hotfix
 
   scad_best_gamma  = scad_y$best.gamma
   scad_best_lambda = scad_y$best.model$lambda.min
 
   # fit the model on all the data use the parameters got by CV
-  scad_all = ncvsurv(x, y, model = 'cox', penalty = 'SCAD', alpha = 1,
-                     gamma = scad_best_gamma, lambda = scad_best_lambda)
+  scad_all = ncvsurv(x, y, penalty = 'SCAD', alpha = 1,
+                     gamma = scad_best_gamma, lambda = scad_best_lambda,
+                     max.iter = 5000)  # hotfix
 
   if (all(abs(scad_all$beta[-1L, ]) < .Machine$double.eps))
     stop('Null model produced by the full fit (all coefficients are zero).
@@ -876,21 +882,23 @@ hdcox.snet = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
                       alphas = seq(0.05, 0.95, 0.05),
                       seed = 1001, trace = FALSE, parallel = FALSE) {
 
-  snet_y = ncvreg.tune.gamma.alpha(x, y, model = 'cox', penalty = 'SCAD',
+  snet_y = ncvreg.tune.gamma.alpha(x, y, penalty = 'SCAD',
                                    nfolds = nfolds,
                                    gammas = gammas, alphas = alphas,
                                    seed = seed, trace = trace,
-                                   parallel = parallel)
+                                   parallel = parallel,
+                                   max.iter = 5000)  # hotfix
 
   snet_best_gamma  = snet_y$best.gamma
   snet_best_alpha  = snet_y$best.alpha
   snet_best_lambda = snet_y$best.model$lambda.min
 
   # fit the model on all the data use the parameters got by CV
-  snet_all = ncvsurv(x, y, model = 'cox', penalty = 'SCAD',
+  snet_all = ncvsurv(x, y, penalty = 'SCAD',
                      gamma = snet_best_gamma,
                      alpha = snet_best_alpha,
-                     lambda = snet_best_lambda)
+                     lambda = snet_best_lambda,
+                     max.iter = 5000)  # hotfix
 
   if (all(abs(snet_all$beta[-1L, ]) < .Machine$double.eps))
     stop('Null model produced by the full fit (all coefficients are zero).
