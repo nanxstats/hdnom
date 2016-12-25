@@ -1,8 +1,12 @@
 Package: hdnom
 Type: Package
 Title: Nomograms for High-Dimensional Cox Models
-Version: 5.0
-Author: Miaozhu Li <miaozhu.li@duke.edu>, Nan Xiao <me@nanx.me>
+Version: 4.5
+Authors@R: c(
+    person("Nan", "Xiao", email = "me@nanx.me", role = c("aut", "cre")),
+    person("Qingsong", "Xu", email = "qsxu@csu.edu.cn", role = c("aut")),
+    person("Miaozhu", "Li", email = "miaozhu.li@duke.edu", role = c("aut"))
+    )
 Maintainer: Nan Xiao <me@nanx.me>
 Description: Build nomograms for high-dimensional Cox models, with support for
     reproducible model validation, calibration, and comparison.
@@ -17,7 +21,7 @@ Imports:
     survival,
     glmnet,
     penalized,
-    ncvreg (>= 3.7-1),
+    ncvreg (>= 3.7-0),
     rms,
     foreach,
     survAUC,

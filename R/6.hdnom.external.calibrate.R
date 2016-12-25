@@ -207,7 +207,6 @@ glmnet.external.calibrate.internal.pred = function(object, x_tr, x_te, y_tr,
 
 #' Compute ncvreg Predicted Survival Probabilities for External Calibration
 #'
-#' @importFrom ncvreg ncvsurv
 #' @importFrom stats predict
 #'
 #' @return list containing predicted survival probability

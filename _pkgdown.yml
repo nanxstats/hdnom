@@ -1,0 +1,69 @@
+templates:
+  params:
+    bootswatch: spacelab
+
+reference:
+  - title: "Building Cox Models"
+    desc: "Functions for building penalized Cox models."
+    contents:
+      - starts_with("hdcox.")
+      - print.hdcox.model
+      - predict.hdcox.model
+      - hdnom.varinfo
+  - title: "Nomogram Visualization"
+    desc: >
+      Functions for nomogram visualization of the penalized
+      Cox models
+    contents:
+      - hdnom.nomogram
+      - plot.hdnom.nomogram
+      - print.hdnom.nomogram
+  - title: "Model Validation"
+    desc: >
+      Functions for model validation using bootstrap,
+      k-fold cross-validation, and repeated k-fold cross-validation.
+      Model performance is assessed by time-dependent AUC (tAUC).
+    contents:
+      - hdnom.validate
+      - hdnom.external.validate
+      - print.hdnom.validate
+      - print.hdnom.external.validate
+      - summary.hdnom.validate
+      - summary.hdnom.external.validate
+      - plot.hdnom.validate
+      - plot.hdnom.external.validate
+  - title: "Model Calibration"
+    desc: >
+      Functions for model calibration using direct fitting,
+      bootstrap resampling, k-fold cross-validation, and
+      repeated cross-validation.
+    contents:
+      - hdnom.calibrate
+      - hdnom.external.calibrate
+      - print.hdnom.calibrate
+      - print.hdnom.external.calibrate
+      - summary.hdnom.calibrate
+      - summary.hdnom.external.calibrate
+      - plot.hdnom.calibrate
+      - plot.hdnom.external.calibrate
+      - hdnom.kmplot
+      - hdnom.logrank
+  - title: "Model Comparison"
+    desc: >
+      Functions for model comparison in terms of validation and
+      calibration performance.
+    contents:
+      - hdnom.compare.validate
+      - hdnom.compare.calibrate
+      - print.hdnom.compare.validate
+      - print.hdnom.compare.calibrate
+      - summary.hdnom.compare.validate
+      - summary.hdnom.compare.calibrate
+      - plot.hdnom.compare.validate
+      - plot.hdnom.compare.calibrate
+  - title: "Datasets"
+    desc: >
+      Example datasets
+    contents:
+      - smart
+      - smarto

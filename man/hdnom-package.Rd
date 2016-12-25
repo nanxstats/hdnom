@@ -12,10 +12,11 @@ The vignette can be opened with \code{vignette('hdnom')}.
 
 \tabular{ll}{ Package: \tab hdnom\cr
 Type: \tab Package\cr
-License: \tab GPL\cr }
+License: \tab GPL-3\cr }
 }
 \author{
-Miaozhu Li <\email{miaozhu.li@duke.edu}>
-        Nan Xiao <\email{me@nanx.me}>
+Nan Xiao <\email{me@nanx.me}>
+        Qingsong Xu <\email{qsxu@csu.edu.cn}>
+        Miaozhu Li <\email{miaozhu.li@duke.edu}>
 }
 

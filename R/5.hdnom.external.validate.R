@@ -233,7 +233,6 @@ glmnet.external.validate.internal = function(object, x_tr, x_te, y_tr, y_te,
 #' Compute External Validation Measures for ncvreg Model Objects
 #'
 #' @importFrom survAUC AUC.cd AUC.sh AUC.uno
-#' @importFrom ncvreg ncvsurv
 #' @importFrom survival Surv
 #'
 #' @return time-dependent AUC (tAUC) value

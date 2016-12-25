@@ -538,27 +538,27 @@ ncvreg.validate.internal = function(x_tr, x_te, y_tr, y_te, model.type,
                                     tauc.type, tauc.time) {
 
   if (model.type == 'mcp') {
-    samp_fit = ncvsurv(X = x_tr, y = y_tr, model = 'cox',
-                       penalty = 'MCP', gamma = gamma,
-                       alpha = 1, lambda = lambda)
+    samp_fit = .ncvsurv_one_lambda(X = x_tr, y = y_tr,
+                                   penalty = 'MCP', gamma = gamma,
+                                   alpha = 1, lambda = lambda)
   }
 
   if (model.type == 'mnet') {
-    samp_fit = ncvsurv(X = x_tr, y = y_tr, model = 'cox',
-                       penalty = 'MCP', gamma = gamma,
-                       alpha = alpha, lambda = lambda)
+    samp_fit = .ncvsurv_one_lambda(X = x_tr, y = y_tr,
+                                   penalty = 'MCP', gamma = gamma,
+                                   alpha = alpha, lambda = lambda)
   }
 
   if (model.type == 'scad') {
-    samp_fit = ncvsurv(X = x_tr, y = y_tr, model = 'cox',
-                       penalty = 'SCAD', gamma = gamma,
-                       alpha = 1, lambda = lambda)
+    samp_fit = .ncvsurv_one_lambda(X = x_tr, y = y_tr,
+                                   penalty = 'SCAD', gamma = gamma,
+                                   alpha = 1, lambda = lambda)
   }
 
   if (model.type == 'snet') {
-    samp_fit = ncvsurv(X = x_tr, y = y_tr, model = 'cox',
-                       penalty = 'SCAD', gamma = gamma,
-                       alpha = alpha, lambda = lambda)
+    samp_fit = .ncvsurv_one_lambda(X = x_tr, y = y_tr,
+                                   penalty = 'SCAD', gamma = gamma,
+                                   alpha = alpha, lambda = lambda)
   }
 
   lp_tr = as.vector(predict(samp_fit, X = x_tr, type = 'link'))
