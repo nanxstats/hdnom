@@ -1,5 +1,5 @@
 ---
-title: "Nomograms for High-Dimensional Data"
+title: "An Introduction to hdnom"
 author: "Miaozhu Li <<http://miaozhu.li>> <br>
          Nan Xiao <<http://nanx.me>>"
 date: "`r Sys.Date()`"
@@ -13,7 +13,7 @@ output:
       in_header: header.html
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Nomograms for High-Dimensional Data}
+  %\VignetteIndexEntry{An Introduction to hdnom}
 ---
 
 # Introduction

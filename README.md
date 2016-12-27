@@ -49,7 +49,7 @@ To load the package in R, simply use
 library("hdnom")
 ```
 
-and you are all set. See [the vignette](http://hdnom.org/doc/) (can also be opened with `vignette("hdnom")` in R) for a quick-start guide.
+and you are all set. Browse [the vignettes](http://hdnom.org/articles/) to start.
 
 ## Links
 
