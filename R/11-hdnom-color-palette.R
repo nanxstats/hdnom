@@ -1,7 +1,7 @@
 #' Color Palette for Journal of Clinical Oncology (JCO)
 #'
 #' A 10-color discrete color palette based on the colors
-#' used in figures in Journal of Clinical Oncology.
+#' used in figures in \emph{Journal of Clinical Oncology}.
 #'
 #' @keywords internal
 palette.jco = function() {
@@ -13,7 +13,7 @@ palette.jco = function() {
 #' Color Palette for Lancet Journals
 #'
 #' A 9-color discrete color palette based on the colors
-#' used in figures in Lancet Oncology.
+#' used in figures in \emph{Lancet Oncology}.
 #'
 #' @keywords internal
 palette.lancet = function() {
@@ -25,7 +25,7 @@ palette.lancet = function() {
 #' Color Palette for NPG Journals
 #'
 #' A 10-color discrete color palette based on the colors
-#' used in figures in NPG journals such as Nature Reviews Cancer.
+#' used in figures in NPG journals such as \emph{Nature Reviews Cancer}.
 #'
 #' @keywords internal
 palette.npg = function() {
@@ -37,7 +37,7 @@ palette.npg = function() {
 #' Color Palette for AAAS Journals
 #'
 #' A 10-color discrete color palette based on the colors
-#' used in figures in AAAS journals such as Science.
+#' used in figures in AAAS journals such as \emph{Science}.
 #'
 #' @keywords internal
 palette.aaas = function() {
