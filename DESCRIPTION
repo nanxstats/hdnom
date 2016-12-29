@@ -1,19 +1,21 @@
 Package: hdnom
 Type: Package
-Title: Nomograms for High-Dimensional Cox Models
-Version: 4.5
+Title: Benchmarking and Visualization Toolkit for Penalized Cox Models
+Version: 4.6
 Authors@R: c(
     person("Nan", "Xiao", email = "me@nanx.me", role = c("aut", "cre")),
     person("Qingsong", "Xu", email = "qsxu@csu.edu.cn", role = c("aut")),
     person("Miaozhu", "Li", email = "miaozhu.li@duke.edu", role = c("aut"))
     )
 Maintainer: Nan Xiao <me@nanx.me>
-Description: Build nomograms for high-dimensional Cox models, with support for
-    reproducible model validation, calibration, and comparison.
+Description: Creates nomogram visualizations for penalized Cox regression
+    models, with the support of reproducible survival model building,
+    validation, calibration, and comparison for high-dimensional data
+    with survival outcomes.
 License: GPL-3 | file LICENSE
 LazyData: TRUE
 VignetteBuilder: knitr
-URL: http://hdnom.org
+URL: http://hdnom.org, https://github.com/road2stat/hdnom
 BugReports: https://github.com/road2stat/hdnom/issues
 Depends:
     R (>= 3.0.2)

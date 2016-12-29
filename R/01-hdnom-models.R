@@ -17,23 +17,23 @@
 glmnet.tune.alpha = function(..., alphas, seed, parallel) {
 
   if (!parallel) {
-    modelList = vector('list', length(alphas))
+    model_list = vector('list', length(alphas))
     for (i in 1L:length(alphas)) {
       set.seed(seed)
-      modelList[[i]] = cv.glmnet(..., alpha = alphas[i])
+      model_list[[i]] = cv.glmnet(..., alpha = alphas[i])
     }
   } else {
-    modelList <- foreach(alphas = alphas) %dopar% {
+    model_list <- foreach(alphas = alphas) %dopar% {
       set.seed(seed)
       cv.glmnet(..., alpha = alphas)
     }
   }
 
-  # Choose model for best lambda first (then alpha)
-  # Criterion: penalized partial likelihood
-  errors = unlist(lapply(modelList, function(x) min(sqrt(x$cvm))))
+  # select model for best lambda first (then alpha)
+  # criterion: penalized partial likelihood
+  errors = unlist(lapply(model_list, function(x) min(sqrt(x$cvm))))
 
-  return(list('best.model' = modelList[[which.min(errors)]],
+  return(list('best.model' = model_list[[which.min(errors)]],
               'best.alpha' = alphas[which.min(errors)]))
 
 }
@@ -532,23 +532,23 @@ hdcox.flasso = function(x, y, nfolds = 5L,
 ncvreg.tune.gamma = function(..., gammas, seed, parallel) {
 
   if (!parallel) {
-    modelList = vector('list', length(gammas))
+    model_list = vector('list', length(gammas))
     for (i in 1L:length(gammas)) {
       set.seed(seed)
-      modelList[[i]] = cv.ncvsurv(..., gamma = gammas[i])
+      model_list[[i]] = cv.ncvsurv(..., gamma = gammas[i])
     }
   } else {
-    modelList <- foreach(gammas = gammas) %dopar% {
+    model_list <- foreach(gammas = gammas) %dopar% {
       set.seed(seed)
       cv.ncvsurv(..., gamma = gammas)
     }
   }
 
-  # Choose model for best lambda first (then gamma)
-  # Criterion: penalized partial likelihood
-  errors = unlist(lapply(modelList, function(x) min(sqrt(x$cve))))
+  # select model for best lambda first (then gamma)
+  # criterion: penalized partial likelihood
+  errors = unlist(lapply(model_list, function(x) min(sqrt(x$cve))))
 
-  return(list('best.model' = modelList[[which.min(errors)]],
+  return(list('best.model' = model_list[[which.min(errors)]],
               'best.gamma' = gammas[which.min(errors)]))
 
 }
@@ -645,41 +645,41 @@ ncvreg.tune.gamma.alpha = function(..., gammas, alphas, seed, parallel) {
 
   if (!parallel) {
 
-    modelList = vector('list', length(gammas))
-    for (k in 1L:length(modelList)) {
-      modelList[[k]] = vector('list', length(alphas))
+    model_list = vector('list', length(gammas))
+    for (k in 1L:length(model_list)) {
+      model_list[[k]] = vector('list', length(alphas))
     }
 
     for (i in 1L:length(gammas)) {
       for (j in 1L:length(alphas)) {
         set.seed(seed)
-        modelList[[i]][[j]] =
+        model_list[[i]][[j]] =
           cv.ncvsurv(..., gamma = gammas[i], alpha = alphas[j])
       }
     }
 
-    simplemodelList = unlist(modelList, recursive = FALSE)
+    simple_model_list = unlist(model_list, recursive = FALSE)
 
   } else {
 
-    modelList <- foreach(gammas = gammas) %:%
+    model_list <- foreach(gammas = gammas) %:%
       foreach(alphas = alphas) %dopar% {
         set.seed(seed)
         cv.ncvsurv(..., gamma = gammas, alpha = alphas)
       }
 
-    simplemodelList = unlist(modelList, recursive = FALSE)
+    simple_model_list = unlist(model_list, recursive = FALSE)
 
   }
 
-  # Choose model for best lambda first (then gamma/alpha)
-  # Criterion: penalized partial likelihood
-  errors = unlist(lapply(simplemodelList,
+  # select model for best lambda first (then gamma/alpha)
+  # criterion: penalized partial likelihood
+  errors = unlist(lapply(simple_model_list,
                          function(x) min(sqrt(x$cve))))
 
-  return(list('best.model' = simplemodelList[[which.min(errors)]],
-              'best.gamma' = simplemodelList[[which.min(errors)]]$fit$gamma,
-              'best.alpha' = simplemodelList[[which.min(errors)]]$fit$alpha))
+  return(list('best.model' = simple_model_list[[which.min(errors)]],
+              'best.gamma' = simple_model_list[[which.min(errors)]]$fit$gamma,
+              'best.alpha' = simple_model_list[[which.min(errors)]]$fit$alpha))
 
 }
 
