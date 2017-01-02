@@ -21,8 +21,8 @@ at which predictions are to be made.}
 \item{...}{Other parameters (not used).}
 }
 \value{
-A \code{nrow(newx) x length(pred.at)} matrix containing overall
-survival probablity.
+A \code{nrow(newx) x length(pred.at)} matrix containing
+overall survival probablity.
 }
 \description{
 Predict overall survival probability at certain time points
@@ -38,7 +38,7 @@ time = smart$TEVENT
 event = smart$EVENT
 y = Surv(time, event)
 
-lassofit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
-predict(lassofit, x, y, newx = x[101:105, ], pred.at = 1:10 * 365)
+fit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+predict(fit, x, y, newx = x[101:105, ], pred.at = 1:10 * 365)
 }
 

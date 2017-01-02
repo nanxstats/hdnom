@@ -89,13 +89,13 @@ Fit a penalized Cox model by adaptive elastic-net regularization,
 with `hdcox.aenet`:
 
 ```{r, eval = FALSE}
-# Enable parallel parameter tuning
+# enable parallel parameter tuning
 suppressMessages(library("doParallel"))
 registerDoParallel(detectCores())
 
-aenetfit = hdcox.aenet(x, y, nfolds = 10, rule = "lambda.1se",
-                       seed = c(5, 7), parallel = TRUE)
-names(aenetfit)
+fit = hdcox.aenet(x, y, nfolds = 10, rule = "lambda.1se",
+                  seed = c(5, 7), parallel = TRUE)
+names(fit)
 ```
 
 ```
@@ -105,14 +105,14 @@ names(aenetfit)
 ```
 
 ```{r, echo = FALSE}
-aenetfit = readRDS("aenetfit.rds")
+fit = readRDS("fit.rds")
 ```
 
 Adaptive elastic-net includes two estimation steps. The random seed used
 for parameter tuning, the selected best $\alpha$, the selected best $\lambda$,
 the model fitted for each estimation step, and the penalty factor for the model
 coefficients in the second estimation step are all stored in the model object
-`aenetfit`.
+`fit`.
 
 # Nomogram Plotting
 
@@ -121,10 +121,10 @@ about the model, namely, the model object and parameters,
 from the result of the last step:
 
 ```{r}
-fit    = aenetfit$aenet_model
-alpha  = aenetfit$aenet_best_alpha
-lambda = aenetfit$aenet_best_lambda
-adapen = aenetfit$pen_factor
+model  = fit$aenet_model
+alpha  = fit$aenet_best_alpha
+lambda = fit$aenet_best_lambda
+adapen = fit$pen_factor
 ```
 
 To plot the nomogram, first we make `x` available as a `datadist` object
@@ -137,8 +137,8 @@ x.df = as.data.frame(x)
 dd = datadist(x.df)
 options(datadist = "dd")
 
-nom = hdnom.nomogram(fit, model.type = "aenet", x, time, event, x.df,
-                     lambda = lambda, pred.at = 365 * 2,
+nom = hdnom.nomogram(model, model.type = "aenet",
+                     x, time, event, x.df, pred.at = 365 * 2,
                      funlabel = "2-Year Overall Survival Probability")
 plot(nom)
 ```
@@ -231,7 +231,7 @@ event_new = smart$EVENT[1001:2000]
 
 # External validation with time-dependent AUC
 val.ext =
-  hdnom.external.validate(aenetfit, x, time, event,
+  hdnom.external.validate(fit, x, time, event,
                           x_new, time_new, event_new,
                           tauc.type = "UNO",
                           tauc.time = seq(0.25, 2, 0.25) * 365)
@@ -293,7 +293,7 @@ use `hdnom.external.calibrate()`:
 
 ```{r, fig.width = 8, fig.height = 8, out.width = 600, out.height = 600}
 cal.ext =
-  hdnom.external.calibrate(aenetfit, x, time, event,
+  hdnom.external.calibrate(fit, x, time, event,
                            x_new, time_new, event_new,
                            pred.at = 365 * 5, ngroup = 3)
 
@@ -423,7 +423,7 @@ the `smart` dataset as the new samples, and predict their overall
 survival probability from one year to ten years:
 
 ```{r}
-predict(aenetfit, x, y, newx = x[101:105, ], pred.at = 1:10 * 365)
+predict(fit, x, y, newx = x[101:105, ], pred.at = 1:10 * 365)
 ```
 
 # Customize Color Palette

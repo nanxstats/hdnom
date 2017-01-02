@@ -4,7 +4,7 @@
 \alias{glmnet.survcurve}
 \title{Survival Curve Prediction for glmnet Objects}
 \usage{
-glmnet.survcurve(object, time, event, x, survtime, lambda)
+glmnet.survcurve(object, time, event, x, survtime)
 }
 \value{
 list containing predicted survival probabilities and

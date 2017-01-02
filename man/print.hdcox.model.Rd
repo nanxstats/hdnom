@@ -24,7 +24,7 @@ time = smart$TEVENT
 event = smart$EVENT
 y = Surv(time, event)
 
-lassofit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
-print(lassofit)
+fit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+print(fit)
 }
 

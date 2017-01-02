@@ -4,7 +4,7 @@
 \alias{penalized.validate.internal}
 \title{Compute Validation Measures for "penalized" Model Objects}
 \usage{
-penalized.validate.internal(x_tr, x_te, y_tr, y_te, lambda, tauc.type,
+penalized.validate.internal(x_tr, x_te, y_tr, y_te, lambda1, lambda2, tauc.type,
   tauc.time)
 }
 \value{

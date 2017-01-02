@@ -6,7 +6,7 @@
 \usage{
 hdnom.nomogram(object, model.type = c("lasso", "alasso", "flasso", "enet",
   "aenet", "mcp", "mnet", "scad", "snet"), x, time, event, ddist,
-  lambda = NULL, pred.at = NULL, fun.at = NULL, funlabel = NULL)
+  pred.at = NULL, fun.at = NULL, funlabel = NULL)
 }
 \arguments{
 \item{object}{Fitted model object.}
@@ -25,14 +25,6 @@ Must be of the same length with the number of rows as \code{x}.}
 
 \item{ddist}{Data frame version of x, made by \code{\link[rms]{datadist}}.}
 
-\item{lambda}{Value of the penalty parameter lambda in
-\code{\link[glmnet]{glmnet}} or \code{\link[ncvreg]{ncvsurv}}.
-Required except when \code{model.type == "flasso"}.
-We will use the selected variables at the provided \code{lambda} to
-build the nomogram, and make predictions.
-See the example for choosing a proper lambda value extracted
-from cross-validation results.}
-
 \item{pred.at}{Time point at which to plot nomogram prediction axis.}
 
 \item{fun.at}{Function values to label on axis.}
@@ -41,6 +33,18 @@ from cross-validation results.}
 }
 \description{
 Nomograms for High-Dimensional Cox Models
+}
+\note{
+We will try to use the value of the selected penalty
+parameter (e.g. lambda, alpha) in the model object fitted by
+\code{\link[glmnet]{glmnet}}, \code{\link[ncvreg]{ncvsurv}}, or
+\code{\link[penalized]{penalized}}. The selected variables under
+the penalty parameter will be used to build the nomogram
+and make predictions. This means, if you use routines other
+than \code{hdcox.*} functions to fit the model, please
+make sure that there is only one set of necessary parameters
+(e.g. only a single lambda should be in glmnet objects intead
+of a vector of multiple lambdas) in the fitted model object.
 }
 \examples{
 library("rms")
@@ -53,7 +57,7 @@ event = smart$EVENT
 y = Surv(time, event)
 
 # Fit penalized Cox model with lasso penalty
-lassofit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+fit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 
 # Prepare data needed for plotting nomogram
 x.df = as.data.frame(x)
@@ -61,9 +65,8 @@ dd = datadist(x.df)
 options(datadist = "dd")
 
 # Generate hdnom.nomogram objects and plot nomogram
-nom = hdnom.nomogram(lassofit$lasso_model, model.type = "lasso",
-                     x, time, event, x.df,
-                     lambda = lassofit$lasso_best_lambda, pred.at = 365 * 2,
+nom = hdnom.nomogram(fit$lasso_model, model.type = "lasso",
+                     x, time, event, x.df, pred.at = 365 * 2,
                      funlabel = "2-Year Overall Survival Probability")
 
 print(nom)

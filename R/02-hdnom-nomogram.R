@@ -12,16 +12,20 @@
 #' @param event Status indicator, normally 0 = alive, 1 = dead.
 #' Must be of the same length with the number of rows as \code{x}.
 #' @param ddist Data frame version of x, made by \code{\link[rms]{datadist}}.
-#' @param lambda Value of the penalty parameter lambda in
-#' \code{\link[glmnet]{glmnet}} or \code{\link[ncvreg]{ncvsurv}}.
-#' Required except when \code{model.type == "flasso"}.
-#' We will use the selected variables at the provided \code{lambda} to
-#' build the nomogram, and make predictions.
-#' See the example for choosing a proper lambda value extracted
-#' from cross-validation results.
 #' @param pred.at Time point at which to plot nomogram prediction axis.
 #' @param fun.at Function values to label on axis.
 #' @param funlabel Label for \code{fun} axis.
+#'
+#' @note We will try to use the value of the selected penalty
+#' parameter (e.g. lambda, alpha) in the model object fitted by
+#' \code{\link[glmnet]{glmnet}}, \code{\link[ncvreg]{ncvsurv}}, or
+#' \code{\link[penalized]{penalized}}. The selected variables under
+#' the penalty parameter will be used to build the nomogram
+#' and make predictions. This means, if you use routines other
+#' than \code{hdcox.*} functions to fit the model, please
+#' make sure that there is only one set of necessary parameters
+#' (e.g. only a single lambda should be in glmnet objects intead
+#' of a vector of multiple lambdas) in the fitted model object.
 #'
 #' @export hdnom.nomogram
 #'
@@ -39,7 +43,7 @@
 #' y = Surv(time, event)
 #'
 #' # Fit penalized Cox model with lasso penalty
-#' lassofit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+#' fit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 #'
 #' # Prepare data needed for plotting nomogram
 #' x.df = as.data.frame(x)
@@ -47,79 +51,19 @@
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(lassofit$lasso_model, model.type = "lasso",
-#'                      x, time, event, x.df,
-#'                      lambda = lassofit$lasso_best_lambda, pred.at = 365 * 2,
+#' nom = hdnom.nomogram(fit$lasso_model, model.type = "lasso",
+#'                      x, time, event, x.df, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
 #' print(nom)
 #' plot(nom)
-# ### Testing fused lasso models ###
-# library("penalized")
-# library("survival")
-# library("rms")
-#
-# # Load imputed SMART data
-# data(smart)
-# x = as.matrix(smart[, -c(1, 2)])
-# x = x[1:500, ]
-# time = smart$TEVENT[1:500]
-# event = smart$EVENT[1:500]
-# x.df = as.data.frame(x)
-# dd = datadist(x.df)
-# options(datadist = "dd")
-#
-# # Fit penalized Cox model (fused lasso penalty) with penalized package
-# set.seed(1010)
-# cvfit = optL1(response = Surv(time, event), penalized = x, fusedl = TRUE,
-#               standardize = TRUE, model = 'cox', fold = 3, trace = TRUE)
-#
-# # Generate hdnom.nomogram objects and plot nomogram
-# nom = hdnom.nomogram(cvfit$fullfit, model.type = "flasso",
-#                      x, time, event, x.df, pred.at = 365 * 2,
-#                      funlabel = "2-Year Overall Survival Probability")
-#
-# print(nom)
-# plot(nom)
-#
-# ### Testing SCAD models ###
-# library("ncvreg")
-#
-# cvfit = cv.ncvsurv(x, Surv(time, event),
-#                    model = 'cox', penalty = 'SCAD',
-#                    alpha = 1, nfolds = 5,
-#                    seed = 1010, trace = TRUE)
-# fit = ncvsurv(x, Surv(time, event), model = 'cox', penalty = 'SCAD', alpha = 1)
-#
-# nom = hdnom.nomogram(fit, model.type = "scad", x, time, event, x.df,
-#                      lambda = cvfit$lambda.min, pred.at = 365 * 2,
-#                      funlabel = "2-Year Overall Survival Probability")
-#
-# print(nom)
-# plot(nom)
-#
-# ### Testing Mnet models ###
-# cvfit = cv.ncvsurv(x, Surv(time, event),
-#                    model = 'cox', penalty = 'MCP',
-#                    alpha = 0.5, nfolds = 5,
-#                    seed = 1010, trace = TRUE)
-# fit = ncvsurv(x, Surv(time, event), model = 'cox', penalty = 'MCP', alpha = 0.5)
-#
-# # Generate hdnom.nomogram objects and plot nomogram
-# nom = hdnom.nomogram(fit, model.type = "mnet", x, time, event, x.df,
-#                      lambda = cvfit$lambda.min, pred.at = 365 * 2,
-#                      funlabel = "2-Year Overall Survival Probability")
-#
-# print(nom)
-# plot(nom)
 hdnom.nomogram = function(object,
                           model.type = c('lasso', 'alasso', 'flasso',
                                          'enet', 'aenet',
                                          'mcp', 'mnet',
                                          'scad', 'snet'),
                           x, time, event, ddist,
-                          lambda = NULL, pred.at = NULL,
-                          fun.at = NULL, funlabel = NULL) {
+                          pred.at = NULL, fun.at = NULL, funlabel = NULL) {
 
   model.type = match.arg(model.type)
 
@@ -133,13 +77,16 @@ hdnom.nomogram = function(object,
     if (!all(c('coxnet', 'glmnet') %in% class(object)))
       stop('object class must be "glmnet" and "coxnet"')
 
-    if (is.null(lambda)) stop('Missing argument lambda')
+    if (length(object$'lambda') != 1L)
+      stop('There should be one and only one lambda in the model object')
 
-    glmnet_pred_lp = as.vector(predict(object, newx = x, s = lambda, type = 'link'))
+    glmnet_pred_lp = as.vector(
+      predict(object, newx = x, s = object$'lambda', type = 'link'))
 
-    all_vars = rownames(object$beta)
+    all_vars = rownames(object$'beta')
     selected_vars =
-      all_vars[which(as.vector(abs(coef(object, s = lambda)) > .Machine$double.eps))]
+      all_vars[which(as.vector(
+        abs(coef(object, s = object$'lambda')) > .Machine$double.eps))]
     ols_formula = paste('glmnet_pred_lp ~',
                         paste(paste('`', selected_vars, '`', sep = ''),
                               collapse = ' + '))
@@ -154,7 +101,7 @@ hdnom.nomogram = function(object,
     survtime_at_idx = names(survtime_at)
 
     survcurve = glmnet.survcurve(object = object, time = time, event = event,
-                                 x = x, survtime = survtime_ones, lambda = lambda)
+                                 x = x, survtime = survtime_ones)
 
   }
 
@@ -163,11 +110,9 @@ hdnom.nomogram = function(object,
     if (!all(c('ncvsurv', 'ncvreg') %in% class(object)))
       stop('object class must be "ncvreg" and "ncvsurv"')
 
-    if (is.null(lambda)) stop('Missing argument lambda')
-
     ncvreg_pred_lp = predict(object, X = x, type = 'link')
 
-    all_vars = rownames(object$beta)
+    all_vars = rownames(object$'beta')
     selected_vars =
       all_vars[which(as.vector(abs(coef(object)) > .Machine$double.eps))]
     ols_formula = paste('ncvreg_pred_lp ~',
@@ -184,7 +129,7 @@ hdnom.nomogram = function(object,
     survtime_at_idx = names(survtime_at)
 
     survcurve = ncvreg.survcurve(object = object, time = time, event = event,
-                                 x = x, survtime = survtime_ones, lambda = lambda)
+                                 x = x, survtime = survtime_ones)
 
   }
 
@@ -193,7 +138,6 @@ hdnom.nomogram = function(object,
     if (!('penfit' %in% class(object)))
       stop('object class must be "penfit"')
 
-    lambda = object@lambda1
     penalized_pred_lp = as.numeric(object@lin.pred)
 
     all_vars = colnames(x)
@@ -228,9 +172,12 @@ hdnom.nomogram = function(object,
   if (is.null(funlabel))
     funlabel = paste('Overall Survival Probability at Time', pred.at)
 
-  nom = list('ols_fit' = ols_fit, 'lambda' = lambda, 'survcurve' = survcurve,
-             'bhfun' = bhfun, 'pred.at' = pred.at,
-             'fun.at' = fun.at, 'funlabel' = funlabel)
+  nom = list('ols_fit'   = ols_fit,
+             'survcurve' = survcurve,
+             'bhfun'     = bhfun,
+             'pred.at'   = pred.at,
+             'fun.at'    = fun.at,
+             'funlabel'  = funlabel)
 
   class(nom) = 'hdnom.nomogram'
 
@@ -246,10 +193,10 @@ hdnom.nomogram = function(object,
 #' linear predictors for all samples
 #'
 #' @keywords internal
-glmnet.survcurve = function(object, time, event, x, survtime, lambda) {
+glmnet.survcurve = function(object, time, event, x, survtime) {
 
   lp = as.numeric(predict(object, newx = data.matrix(x),
-                          s = lambda, type = 'link'))
+                          s = object$'lambda', type = 'link'))
   basesurv = glmnet.basesurv(time, event, lp, sort(survtime))
   p = exp(exp(lp) %*% (-t(basesurv$cumulative_base_hazard)))
   colnames(p) = names(sort(survtime))
@@ -302,7 +249,7 @@ glmnet.basesurv = function(time, event, lp,
 #' linear predictors for all samples
 #'
 #' @keywords internal
-ncvreg.survcurve = function(object, time, event, x, survtime, lambda) {
+ncvreg.survcurve = function(object, time, event, x, survtime) {
 
   lp = as.numeric(predict(object, X = data.matrix(x), type = 'link'))
   basesurv = ncvreg.basesurv(time, event, lp, sort(survtime))
@@ -422,8 +369,8 @@ print.hdnom.nomogram = function(x, ...) {
   if (class(x) != 'hdnom.nomogram')
     stop('object class must be "hdnom.nomogram"')
 
-  nom = nomogram(fit = x$ols_fit, fun = x$bhfun,
-                 fun.at = x$fun.at, funlabel = x$funlabel,
+  nom = nomogram(fit = x$'ols_fit', fun = x$'bhfun',
+                 fun.at = x$'fun.at', funlabel = x$'funlabel',
                  lp = TRUE, vnames = 'labels', ...)
 
   print(nom)
@@ -450,8 +397,8 @@ plot.hdnom.nomogram = function(x, ...) {
   if (class(x) != 'hdnom.nomogram')
     stop('object class must be "hdnom.nomogram"')
 
-  nom = nomogram(fit = x$ols_fit, fun = x$bhfun,
-                 fun.at = x$fun.at, funlabel = x$funlabel,
+  nom = nomogram(fit = x$'ols_fit', fun = x$'bhfun',
+                 fun.at = x$'fun.at', funlabel = x$'funlabel',
                  lp = TRUE, vnames = 'labels', ...)
 
   plot(nom)

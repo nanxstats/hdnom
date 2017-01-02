@@ -24,6 +24,8 @@
 #' From the built \emph{adaptive lasso} or \emph{adaptive elastic-net} model.
 #' @param gamma Value of the model parameter gamma for
 #' MCP/SCAD/Mnet/Snet models.
+#' @param lambda1 Value of the penalty parameter lambda1 for fused lasso model.
+#' @param lambda2 Value of the penalty parameter lambda2 for fused lasso model.
 #' @param method Validation method.
 #' Could be \code{"bootstrap"}, \code{"cv"}, or \code{"repeated.cv"}.
 #' @param boot.times Number of repetitions for bootstrap.
@@ -69,27 +71,27 @@
 #' y = Surv(time, event)
 #'
 #' # Fit penalized Cox model with lasso penalty
-#' lassofit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+#' fit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 #'
 #' # Model validation by bootstrap with time-dependent AUC
 #' # Normally boot.times should be set to 200 or more,
 #' # we set it to 3 here only to save example running time.
 #' val.boot = hdnom.validate(x, time, event, model.type = "lasso",
-#'                           alpha = 1, lambda = lassofit$lasso_best_lambda,
+#'                           alpha = 1, lambda = fit$lasso_best_lambda,
 #'                           method = "bootstrap", boot.times = 3,
 #'                           tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
 #'                           seed = 1010)
 #'
 #' # Model validation by 5-fold cross-validation with time-dependent AUC
 #' val.cv = hdnom.validate(x, time, event, model.type = "lasso",
-#'                         alpha = 1, lambda = lassofit$lasso_best_lambda,
+#'                         alpha = 1, lambda = fit$lasso_best_lambda,
 #'                         method = "cv", nfolds = 5,
 #'                         tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
 #'                         seed = 1010)
 #'
 #' # Model validation by repeated cross-validation with time-dependent AUC
 #' val.repcv = hdnom.validate(x, time, event, model.type = "lasso",
-#'                            alpha = 1, lambda = lassofit$lasso_best_lambda,
+#'                            alpha = 1, lambda = fit$lasso_best_lambda,
 #'                            method = "repeated.cv", nfolds = 5, rep.times = 3,
 #'                            tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
 #'                            seed = 1010)
@@ -122,7 +124,7 @@
 #
 # set.seed(1010)
 # val.boot = hdnom.validate(x, time, event, model.type = "flasso",
-#                           lambda = 60,
+#                           lambda1 = 5, lambda2 = 2,
 #                           method = "bootstrap", boot.times = 10,
 #                           tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
 #                           seed = 1010)
@@ -156,6 +158,7 @@ hdnom.validate = function(x, time, event,
                                          'mcp', 'mnet',
                                          'scad', 'snet'),
                           alpha, lambda, pen.factor = NULL, gamma,
+                          lambda1, lambda2,
                           method = c('bootstrap', 'cv', 'repeated.cv'),
                           boot.times = NULL, nfolds = NULL, rep.times = NULL,
                           tauc.type = c("CD", "SZ", "UNO"), tauc.time,
@@ -215,7 +218,7 @@ hdnom.validate = function(x, time, event,
         tauc[[i]] =
           penalized.validate.internal(
             x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
-            lambda = lambda,
+            lambda1 = lambda1, lambda2 = lambda2,
             tauc.type = tauc.type, tauc.time = tauc.time
           )
       }
@@ -271,7 +274,7 @@ hdnom.validate = function(x, time, event,
         tauc[[i]] =
           penalized.validate.internal(
             x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
-            lambda = lambda,
+            lambda1 = lambda1, lambda2 = lambda2,
             tauc.type = tauc.type, tauc.time = tauc.time
           )
       }
@@ -332,7 +335,7 @@ hdnom.validate = function(x, time, event,
           tauc[[j]][[i]] =
             penalized.validate.internal(
               x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
-              lambda = lambda,
+              lambda1 = lambda1, lambda2 = lambda2,
               tauc.type = tauc.type, tauc.time = tauc.time
             )
         }
@@ -377,7 +380,8 @@ hdnom.validate = function(x, time, event,
              class(tauc) = c('hdnom.validate',
                              'penalized.validate.bootstrap')
              attr(tauc, 'model.type') = model.type
-             attr(tauc, 'lambda')     = lambda
+             attr(tauc, 'lambda1')    = lambda1
+             attr(tauc, 'lambda2')    = lambda2
              attr(tauc, 'boot.times') = boot.times
              attr(tauc, 'tauc.type')  = tauc.type
              attr(tauc, 'tauc.time')  = tauc.time
@@ -418,7 +422,8 @@ hdnom.validate = function(x, time, event,
              class(tauc) = c('hdnom.validate',
                              'penalized.validate.cv')
              attr(tauc, 'model.type') = model.type
-             attr(tauc, 'lambda')     = lambda
+             attr(tauc, 'lambda1')    = lambda1
+             attr(tauc, 'lambda2')    = lambda2
              attr(tauc, 'nfolds')     = nfolds
              attr(tauc, 'tauc.type')  = tauc.type
              attr(tauc, 'tauc.time')  = tauc.time
@@ -461,7 +466,8 @@ hdnom.validate = function(x, time, event,
              class(tauc) = c('hdnom.validate',
                              'penalized.validate.repeated.cv')
              attr(tauc, 'model.type') = model.type
-             attr(tauc, 'lambda')     = lambda
+             attr(tauc, 'lambda1')    = lambda1
+             attr(tauc, 'lambda2')    = lambda2
              attr(tauc, 'nfolds')     = nfolds
              attr(tauc, 'rep.times')  = rep.times
              attr(tauc, 'tauc.type')  = tauc.type
@@ -596,11 +602,12 @@ ncvreg.validate.internal = function(x_tr, x_te, y_tr, y_te, model.type,
 #'
 #' @keywords internal
 penalized.validate.internal = function(x_tr, x_te, y_tr, y_te,
-                                       lambda,
+                                       lambda1, lambda2,
                                        tauc.type, tauc.time) {
 
   samp_fit = penalized(response = y_tr, penalized = x_tr,
-                       lambda1 = lambda, lambda2 = 0,
+                       lambda1 = lambda1, lambda2 = lambda2,
+                       maxiter = 25, epsilon = 1e-3,  # for faster convergence, consistent with `hdcox.flasso()`
                        fusedl = TRUE, standardize = TRUE, model = 'cox')
 
   lp_tr = as.vector(samp_fit@lin.pred)
@@ -748,7 +755,8 @@ print.hdnom.validate = function(x, ...) {
            cat('Validation method: bootstrap\n')
            cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
            cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('Fused lasso model lambda:', attr(x, 'lambda'), '\n')
+           cat('Fused lasso model lambda1:', attr(x, 'lambda1'), '\n')
+           cat('Fused lasso model lambda2:', attr(x, 'lambda2'), '\n')
            cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
            cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
          },
@@ -759,7 +767,8 @@ print.hdnom.validate = function(x, ...) {
            cat('Validation method: k-fold cross-validation\n')
            cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
            cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('Fused lasso model lambda:', attr(x, 'lambda'), '\n')
+           cat('Fused lasso model lambda1:', attr(x, 'lambda1'), '\n')
+           cat('Fused lasso model lambda2:', attr(x, 'lambda2'), '\n')
            cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
            cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
          },
@@ -771,7 +780,8 @@ print.hdnom.validate = function(x, ...) {
            cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
            cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
            cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('Fused lasso model lambda:', attr(x, 'lambda'), '\n')
+           cat('Fused lasso model lambda1:', attr(x, 'lambda1'), '\n')
+           cat('Fused lasso model lambda2:', attr(x, 'lambda2'), '\n')
            cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
            cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
          }

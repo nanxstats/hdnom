@@ -44,9 +44,9 @@ time = smart$TEVENT[1:120]
 event = smart$EVENT[1:120]
 y = Surv(time, event)
 
-# Fit Cox model by Mnet penalization
-mnetfit = hdcox.mnet(x, y, nfolds = 3, gammas = 3,
-                     alphas = c(0.3, 0.8), seed = 1010)
+# Fit Cox model with Mnet penalty
+fit = hdcox.mnet(x, y, nfolds = 3, gammas = 3,
+                 alphas = c(0.3, 0.8), seed = 1010)
 
 # Prepare data for hdnom.nomogram
 x.df = as.data.frame(x)
@@ -54,10 +54,8 @@ dd = datadist(x.df)
 options(datadist = "dd")
 
 # Generate hdnom.nomogram objects and plot nomogram
-nom = hdnom.nomogram(mnetfit$mnet_model, model.type = "mnet",
-                     x, time, event, x.df,
-                     lambda = mnetfit$mnet_best_lambda,
-                     pred.at = 365 * 2,
+nom = hdnom.nomogram(fit$mnet_model, model.type = "mnet",
+                     x, time, event, x.df, pred.at = 365 * 2,
                      funlabel = "2-Year Overall Survival Probability")
 
 plot(nom)

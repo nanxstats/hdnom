@@ -29,8 +29,8 @@ time = smart$TEVENT
 event = smart$EVENT
 y = Surv(time, event)
 
-# Fit Cox model by lasso penalization
-lassofit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
-hdnom.varinfo(lassofit, x)
+# Fit Cox model with lasso penalty
+fit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+hdnom.varinfo(fit, x)
 }
 

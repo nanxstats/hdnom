@@ -4,7 +4,7 @@
 \alias{ncvreg.survcurve}
 \title{Survival Curve Prediction for ncvreg Objects}
 \usage{
-ncvreg.survcurve(object, time, event, x, survtime, lambda)
+ncvreg.survcurve(object, time, event, x, survtime)
 }
 \value{
 list containing predicted survival probabilities and

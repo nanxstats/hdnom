@@ -1,8 +1,8 @@
-#' Nomograms for High-Dimensional Data with Penalized Cox Models
+#' Benchmarking and Visualization Toolkit for Penalized Cox Models
 #'
-#' Nomograms for High-Dimensional Data with Penalized Cox Models
+#' Benchmarking and Visualization Toolkit for Penalized Cox Models
 #'
-#' The vignette can be opened with \code{vignette('hdnom')}.
+#' Browse vignettes with \code{browseVignettes(package = "hdnom")}.
 #'
 #' \tabular{ll}{ Package: \tab hdnom\cr
 #' Type: \tab Package\cr

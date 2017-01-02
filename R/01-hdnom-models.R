@@ -77,9 +77,9 @@ glmnet.tune.alpha = function(..., alphas, seed, parallel) {
 #' # registerDoParallel(detectCores())
 #' # then set hdcox.aenet(..., parallel = TRUE).
 #'
-#' # Fit Cox model by adaptive elastic-net penalization
-#' aenetfit = hdcox.aenet(x, y, nfolds = 3, alphas = c(0.3, 0.7),
-#'                        rule = "lambda.1se", seed = c(5, 7))
+#' # Fit Cox model with adaptive elastic-net penalty
+#' fit = hdcox.aenet(x, y, nfolds = 3, alphas = c(0.3, 0.7),
+#'                   rule = "lambda.1se", seed = c(5, 7))
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -87,9 +87,8 @@ glmnet.tune.alpha = function(..., alphas, seed, parallel) {
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(aenetfit$aenet_model, model.type = "aenet",
-#'                      x, time, event, x.df,
-#'                      lambda = aenetfit$aenet_best_lambda, pred.at = 365 * 2,
+#' nom = hdnom.nomogram(fit$aenet_model, model.type = "aenet",
+#'                      x, time, event, x.df, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
 #' plot(nom)
@@ -196,8 +195,8 @@ hdcox.aenet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
 #' event = smart$EVENT
 #' y = Surv(time, event)
 #'
-#' # Fit Cox model by adaptive lasso penalization
-#' alassofit = hdcox.alasso(x, y, nfolds = 3, rule = "lambda.1se", seed = c(7, 11))
+#' # Fit Cox model with adaptive lasso penalty
+#' fit = hdcox.alasso(x, y, nfolds = 3, rule = "lambda.1se", seed = c(7, 11))
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -205,9 +204,8 @@ hdcox.aenet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(alassofit$alasso_model, model.type = "alasso",
-#'                      x, time, event, x.df,
-#'                      lambda = alassofit$alasso_best_lambda, pred.at = 365 * 2,
+#' nom = hdnom.nomogram(fit$alasso_model, model.type = "alasso",
+#'                      x, time, event, x.df, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
 #' plot(nom)
@@ -306,9 +304,9 @@ hdcox.alasso = function(x, y, nfolds = 5L,
 #' # registerDoParallel(detectCores())
 #' # then set hdcox.enet(..., parallel = TRUE).
 #'
-#' # Fit Cox model by elastic-net penalization
-#' enetfit = hdcox.enet(x, y, nfolds = 3, alphas = c(0.3, 0.7),
-#'                      rule = "lambda.1se", seed = 11)
+#' # Fit Cox model with elastic-net penalty
+#' fit = hdcox.enet(x, y, nfolds = 3, alphas = c(0.3, 0.7),
+#'                  rule = "lambda.1se", seed = 11)
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -316,9 +314,8 @@ hdcox.alasso = function(x, y, nfolds = 5L,
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(enetfit$enet_model, model.type = "enet",
-#'                      x, time, event, x.df,
-#'                      lambda = enetfit$enet_best_lambda, pred.at = 365 * 2,
+#' nom = hdnom.nomogram(fit$enet_model, model.type = "enet",
+#'                      x, time, event, x.df, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
 #' plot(nom)
@@ -384,8 +381,8 @@ hdcox.enet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
 #' event = smart$EVENT
 #' y = Surv(time, event)
 #'
-#' # Fit Cox model by lasso penalization
-#' lassofit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+#' # Fit Cox model with lasso penalty
+#' fit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -393,9 +390,8 @@ hdcox.enet = function(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(lassofit$lasso_model, model.type = "lasso",
-#'                      x, time, event, x.df,
-#'                      lambda = lassofit$lasso_best_lambda, pred.at = 365 * 2,
+#' nom = hdnom.nomogram(fit$lasso_model, model.type = "lasso",
+#'                      x, time, event, x.df, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
 #' plot(nom)
@@ -430,26 +426,108 @@ hdcox.lasso = function(x, y, nfolds = 5L,
 
 }
 
+#' Automatic lambda tuning function for fused lasso by k-fold cross-validation
+#'
+#' @return best model object, best lambda1, and best lambda2
+#'
+#' @importFrom penalized cvl
+#' @importFrom foreach %dopar%
+#' @importFrom foreach foreach
+#'
+#' @keywords internal
+penalized.tune.lambda = function(..., lambda1, lambda2, seed, trace, parallel) {
+
+  nlambda1 = length(lambda1)
+  nlambda2 = length(lambda2)
+
+  if (!parallel) {
+
+    model_list = vector('list', nlambda1)
+    for (k in 1L:nlambda1) model_list[[k]] = vector('list', nlambda2)
+
+    for (i in 1L:nlambda1) {
+      for (j in 1L:nlambda2) {
+        set.seed(seed)
+        if (trace) cat('Starting: lambda1 =', lambda1[i], 'lambda2 =', lambda2[j], '\n')
+        model_list[[i]][[j]] =
+          penalized::cvl(..., lambda1 = lambda1[i], lambda2 = lambda2[j])
+      }
+    }
+
+    # store lambda combinations
+    for (i in 1L:nlambda1) {
+      for (j in 1L:nlambda2) {
+        model_list[[i]][[j]][['lambda']] =
+          c('lambda1' = lambda1[i], 'lambda2' = lambda2[j])
+      }
+    }
+
+    simple_model_list = unlist(model_list, recursive = FALSE)
+
+  } else {
+
+    model_list <- foreach(lambda1 = lambda1) %:%
+      foreach(lambda2 = lambda2) %dopar% {
+        set.seed(seed)
+        penalized::cvl(..., lambda1 = lambda1, lambda2 = lambda2)
+      }
+
+    # store lambda combinations
+    for (i in 1L:nlambda1) {
+      for (j in 1L:nlambda2) {
+        model_list[[i]][[j]][['lambda']] =
+          c('lambda1' = lambda1[i], 'lambda2' = lambda2[j])
+      }
+    }
+
+    simple_model_list = unlist(model_list, recursive = FALSE)
+
+  }
+
+  # choose model for best lambda combination
+  # criterion: cross-validated likelihood
+  max_cvl = which.max(unlist(sapply(simple_model_list, '[', 'cvl')))
+
+  return(list('best.model' = simple_model_list[[max_cvl]],
+              'best.lambda1' = simple_model_list[[max_cvl]][['lambda']]['lambda1'],
+              'best.lambda2' = simple_model_list[[max_cvl]][['lambda']]['lambda2']))
+
+}
+
 #' Fused Lasso Model Selection for High-Dimensional Cox Models
 #'
 #' Automatic fused lasso model selection for high-dimensional
-#' Cox models, evaluated by penalized partial-likelihood.
+#' Cox models, evaluated by cross-validated likelihood.
 #'
 #' @param x Data matrix.
 #' @param y Response matrix made by \code{\link[survival]{Surv}}.
 #' @param nfolds Fold numbers of cross-validation.
+#' @param lambda1 Vector of lambda1 candidates.
+#' Default is \code{0.001, 0.05, 0.5, 1, 5}.
+#' @param lambda2 Vector of lambda2 candidates.
+#' Default is \code{0.001, 0.01, 0.5}.
+#' @param maxiter The maximum number of iterations allowed.
+#' Default is \code{25}.
+#' @param epsilon The convergence criterion.
+#' Default is \code{1e-3}.
 #' @param seed A random seed for cross-validation fold division.
 #' @param trace Output the cross-validation parameter tuning
 #' progress or not. Default is \code{FALSE}.
+#' @param parallel Logical. Enable parallel parameter tuning or not,
+#' default is {FALSE}. To enable parallel tuning, load the
+#' \code{doParallel} package and run \code{registerDoParallel()}
+#' with the number of CPU cores before calling this function.
+#' @param ... other parameters to \code{\link[penalized]{cvl}}
+#' and \code{\link[penalized]{penalized}}.
 #'
 #' @note The cross-validation procedure used in this function is the
-#' so-called approximated cross-validation provided by the \code{penalized}
+#' \emph{approximated cross-validation} provided by the \code{penalized}
 #' package. Be careful dealing with the results since they might be more
-#' optimistic than fully fitting the model. This cross-validation method
-#' is more suitable for datasets with larger number of observations,
+#' optimistic than a traditional CV procedure. This cross-validation
+#' method is more suitable for datasets with larger number of observations,
 #' and a higher number of cross-validation folds.
 #'
-#' @importFrom penalized optL1
+#' @importFrom penalized penalized
 #'
 #' @export hdcox.flasso
 #'
@@ -459,13 +537,13 @@ hdcox.lasso = function(x, y, nfolds = 5L,
 #'
 #' # Load imputed SMART data; only use the first 120 samples
 #' data("smart")
-#' x = as.matrix(smart[, -c(1, 2)])[1:140, ]
-#' time = smart$TEVENT[1:140]
-#' event = smart$EVENT[1:140]
+#' x = as.matrix(smart[, -c(1, 2)])[1:120, ]
+#' time = smart$TEVENT[1:120]
+#' event = smart$EVENT[1:120]
 #' y = Surv(time, event)
 #'
-#' # Fit Cox model by fused lasso penalization
-#' flassofit = hdcox.flasso(x, y, nfolds = 3, seed = 11)
+#' # Fit Cox model with fused lasso penalty
+#' fit = hdcox.flasso(x, y, nfolds = 3, seed = 11)
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -473,27 +551,46 @@ hdcox.lasso = function(x, y, nfolds = 5L,
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(flassofit$flasso_model, model.type = "flasso",
-#'                      x, time, event, x.df,
-#'                      lambda = flassofit$flasso_best_lambda, pred.at = 365 * 2,
+#' nom = hdnom.nomogram(fit$flasso_model, model.type = "flasso",
+#'                      x, time, event, x.df, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
 #' plot(nom)
 hdcox.flasso = function(x, y, nfolds = 5L,
-                        seed = 1001, trace = FALSE) {
+                        lambda1 = c(0.001, 0.05, 0.5, 1, 5),
+                        lambda2 = c(0.001, 0.01, 0.5),
+                        maxiter = 25, epsilon = 1e-3,
+                        seed = 1001, trace = FALSE, parallel = FALSE, ...) {
 
-  set.seed(seed)
-  flasso_full = optL1(response = y, penalized = x, fusedl = TRUE,
-                      standardize = TRUE, model = 'cox', fold = nfolds,
-                      trace = trace)
+  if (trace) cat('Starting cross-validation...\n')
+  flasso_cv = penalized.tune.lambda(
+    response = y, penalized = x, fold = nfolds,
+    lambda1 = lambda1, lambda2 = lambda2,
+    maxiter = maxiter, epsilon = epsilon,
+    seed = seed, trace = trace, parallel = parallel,
+    fusedl = TRUE, standardize = TRUE, model = 'cox', ...)
 
-  if (all(abs(flasso_full$fullfit@penalized) < .Machine$double.eps))
+  flasso_best_lambda1  = flasso_cv$'best.lambda1'
+  flasso_best_lambda2  = flasso_cv$'best.lambda2'
+
+  # fit the model on all the data use the parameters got by CV
+  if (trace) cat('Fitting fused lasso model with full data...\n')
+  flasso_full = penalized(
+    response = y, penalized = x,
+    lambda1 = flasso_best_lambda1,
+    lambda2 = flasso_best_lambda2,
+    maxiter = maxiter, epsilon = epsilon,
+    trace = trace,
+    fusedl = TRUE, standardize = FALSE, model = 'cox', ...)
+
+  if (all(abs(flasso_full@penalized) < .Machine$double.eps))
     stop('Null model produced by the full fit (all coefficients are zero).
-         Please try to tune seed, nfolds, or increase sample size.')
+         Please try changing the seed, nfolds, or increase sample size.')
 
   coxflasso_model = list('seed' = seed,
-                         'flasso_best_lambda' = flasso_full$lambda,
-                         'flasso_model' = flasso_full$fullfit)
+                         'flasso_best_lambda1' = flasso_best_lambda1,
+                         'flasso_best_lambda2' = flasso_best_lambda2,
+                         'flasso_model' = flasso_full)
 
   class(coxflasso_model) = c('hdcox.model', 'hdcox.model.flasso')
 
@@ -585,8 +682,8 @@ ncvreg.tune.gamma = function(..., gammas, seed, parallel) {
 #' event = smart$EVENT[1:150]
 #' y = Surv(time, event)
 #'
-#' # Fit Cox model by MCP penalization
-#' mcpfit = hdcox.mcp(x, y, nfolds = 3, gammas = c(2.1, 3), seed = 1001)
+#' # Fit Cox model with MCP penalty
+#' fit = hdcox.mcp(x, y, nfolds = 3, gammas = c(2.1, 3), seed = 1001)
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -594,8 +691,8 @@ ncvreg.tune.gamma = function(..., gammas, seed, parallel) {
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(mcpfit$mcp_model, model.type = "mcp", x, time, event, x.df,
-#'                      lambda = mcpfit$mcp_best_lambda, pred.at = 365 * 2,
+#' nom = hdnom.nomogram(fit$mcp_model, model.type = "mcp",
+#'                      x, time, event, x.df, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #' plot(nom)
 hdcox.mcp = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
@@ -716,9 +813,9 @@ ncvreg.tune.gamma.alpha = function(..., gammas, alphas, seed, parallel) {
 #' event = smart$EVENT[1:120]
 #' y = Surv(time, event)
 #'
-#' # Fit Cox model by Mnet penalization
-#' mnetfit = hdcox.mnet(x, y, nfolds = 3, gammas = 3,
-#'                      alphas = c(0.3, 0.8), seed = 1010)
+#' # Fit Cox model with Mnet penalty
+#' fit = hdcox.mnet(x, y, nfolds = 3, gammas = 3,
+#'                  alphas = c(0.3, 0.8), seed = 1010)
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -726,10 +823,8 @@ ncvreg.tune.gamma.alpha = function(..., gammas, alphas, seed, parallel) {
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(mnetfit$mnet_model, model.type = "mnet",
-#'                      x, time, event, x.df,
-#'                      lambda = mnetfit$mnet_best_lambda,
-#'                      pred.at = 365 * 2,
+#' nom = hdnom.nomogram(fit$mnet_model, model.type = "mnet",
+#'                      x, time, event, x.df, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
 #' plot(nom)
@@ -804,8 +899,8 @@ hdcox.mnet = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
 #' event = smart$EVENT[1:120]
 #' y = Surv(time, event)
 #'
-#' # Fit Cox model by SCAD penalization
-#' scadfit = hdcox.scad(x, y, nfolds = 3, gammas = c(3.7, 5), seed = 1010)
+#' # Fit Cox model with SCAD penalty
+#' fit = hdcox.scad(x, y, nfolds = 3, gammas = c(3.7, 5), seed = 1010)
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -813,8 +908,8 @@ hdcox.mnet = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(scadfit$scad_model, model.type = "scad", x, time, event, x.df,
-#'                      lambda = scadfit$scad_best_lambda, pred.at = 365 * 2,
+#' nom = hdnom.nomogram(fit$scad_model, model.type = "scad",
+#'                      x, time, event, x.df, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
 #' plot(nom)
@@ -883,9 +978,9 @@ hdcox.scad = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
 #' event = smart$EVENT[1:120]
 #' y = Surv(time, event)
 #'
-#' # Fit Cox model by Snet penalization
-#' snetfit = hdcox.snet(x, y, nfolds = 3, gammas = 3.7,
-#'                      alphas = c(0.3, 0.8), seed = 1010)
+#' # Fit Cox model with Snet penalty
+#' fit = hdcox.snet(x, y, nfolds = 3, gammas = 3.7,
+#'                  alphas = c(0.3, 0.8), seed = 1010)
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -893,10 +988,8 @@ hdcox.scad = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(snetfit$snet_model, model.type = "snet",
-#'                      x, time, event, x.df,
-#'                      lambda = snetfit$snet_best_lambda,
-#'                      pred.at = 365 * 2,
+#' nom = hdnom.nomogram(fit$snet_model, model.type = "snet",
+#'                      x, time, event, x.df, pred.at = 365 * 2,
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
 #' plot(nom)
@@ -954,8 +1047,8 @@ hdcox.snet = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
 #' @param pred.at Time point at which prediction should take place.
 #' @param ... Other parameters (not used).
 #'
-#' @return A \code{nrow(newx) x length(pred.at)} matrix containing overall
-#' survival probablity.
+#' @return A \code{nrow(newx) x length(pred.at)} matrix containing
+#' overall survival probablity.
 #'
 #' @method predict hdcox.model
 #'
@@ -974,8 +1067,8 @@ hdcox.snet = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
 #' event = smart$EVENT
 #' y = Surv(time, event)
 #'
-#' lassofit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
-#' predict(lassofit, x, y, newx = x[101:105, ], pred.at = 1:10 * 365)
+#' fit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+#' predict(fit, x, y, newx = x[101:105, ], pred.at = 1:10 * 365)
 predict.hdcox.model = function(object, x, y, newx, pred.at, ...) {
 
   if (!('hdcox.model' %in% class(object)))
@@ -985,7 +1078,7 @@ predict.hdcox.model = function(object, x, y, newx, pred.at, ...) {
 
   if (!('matrix' %in% class(newx))) stop('newx must be a matrix')
 
-  time = y[, 1L]
+  time  = y[, 1L]
   event = y[, 2L]
 
   obj.type = switch(model.type,
@@ -1050,9 +1143,9 @@ predict.hdcox.model = function(object, x, y, newx, pred.at, ...) {
 #' event = smart$EVENT
 #' y = Surv(time, event)
 #'
-#' # Fit Cox model by lasso penalization
-#' lassofit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
-#' hdnom.varinfo(lassofit, x)
+#' # Fit Cox model with lasso penalty
+#' fit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+#' hdnom.varinfo(fit, x)
 hdnom.varinfo = function(object, x) {
 
   if (!('hdcox.model' %in% class(object)))
@@ -1134,8 +1227,8 @@ hdnom.varinfo = function(object, x) {
 #' event = smart$EVENT
 #' y = Surv(time, event)
 #'
-#' lassofit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
-#' print(lassofit)
+#' fit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+#' print(fit)
 print.hdcox.model = function(x, ...) {
 
   if (!('hdcox.model' %in% class(x)))
@@ -1208,7 +1301,8 @@ print.hdcox.model = function(x, ...) {
            cat('High-Dimensional Cox Model Object\n')
            cat('Random seed:', x$'seed', '\n')
            cat('Model type: fused lasso\n')
-           cat('Best lambda:', x$'flasso_best_lambda', '\n')
+           cat('Best lambda1:', x$'flasso_best_lambda1', '\n')
+           cat('Best lambda2:', x$'flasso_best_lambda2', '\n')
          }
   )
 

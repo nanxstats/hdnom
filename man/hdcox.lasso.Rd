@@ -35,8 +35,8 @@ time = smart$TEVENT
 event = smart$EVENT
 y = Surv(time, event)
 
-# Fit Cox model by lasso penalization
-lassofit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+# Fit Cox model with lasso penalty
+fit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 
 # Prepare data for hdnom.nomogram
 x.df = as.data.frame(x)
@@ -44,9 +44,8 @@ dd = datadist(x.df)
 options(datadist = "dd")
 
 # Generate hdnom.nomogram objects and plot nomogram
-nom = hdnom.nomogram(lassofit$lasso_model, model.type = "lasso",
-                     x, time, event, x.df,
-                     lambda = lassofit$lasso_best_lambda, pred.at = 365 * 2,
+nom = hdnom.nomogram(fit$lasso_model, model.type = "lasso",
+                     x, time, event, x.df, pred.at = 365 * 2,
                      funlabel = "2-Year Overall Survival Probability")
 
 plot(nom)

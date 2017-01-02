@@ -41,8 +41,8 @@ time = smart$TEVENT[1:120]
 event = smart$EVENT[1:120]
 y = Surv(time, event)
 
-# Fit Cox model by SCAD penalization
-scadfit = hdcox.scad(x, y, nfolds = 3, gammas = c(3.7, 5), seed = 1010)
+# Fit Cox model with SCAD penalty
+fit = hdcox.scad(x, y, nfolds = 3, gammas = c(3.7, 5), seed = 1010)
 
 # Prepare data for hdnom.nomogram
 x.df = as.data.frame(x)
@@ -50,8 +50,8 @@ dd = datadist(x.df)
 options(datadist = "dd")
 
 # Generate hdnom.nomogram objects and plot nomogram
-nom = hdnom.nomogram(scadfit$scad_model, model.type = "scad", x, time, event, x.df,
-                     lambda = scadfit$scad_best_lambda, pred.at = 365 * 2,
+nom = hdnom.nomogram(fit$scad_model, model.type = "scad",
+                     x, time, event, x.df, pred.at = 365 * 2,
                      funlabel = "2-Year Overall Survival Probability")
 
 plot(nom)

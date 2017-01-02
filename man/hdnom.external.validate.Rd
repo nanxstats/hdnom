@@ -56,12 +56,12 @@ x_new = as.matrix(smart[, -c(1, 2)])[1001:2000, ]
 time_new = smart$TEVENT[1001:2000]
 event_new = smart$EVENT[1001:2000]
 
-# Fit Cox model by lasso penalization
-lassofit = hdcox.lasso(x, Surv(time, event), nfolds = 5, rule = "lambda.1se", seed = 11)
+# Fit Cox model with lasso penalty
+fit = hdcox.lasso(x, Surv(time, event), nfolds = 5, rule = "lambda.1se", seed = 11)
 
 # External validation with time-dependent AUC
 val.ext =
-  hdnom.external.validate(lassofit, x, time, event,
+  hdnom.external.validate(fit, x, time, event,
                           x_new, time_new, event_new,
                           tauc.type = "UNO",
                           tauc.time = seq(0.25, 2, 0.25) * 365)

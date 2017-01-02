@@ -151,7 +151,8 @@ hdnom.compare.validate =
                tauclist[[i]] =
                  hdnom.validate(
                    x, time, event, model.type = 'flasso',
-                   alpha = 1, lambda = cvfit$'flasso_best_lambda',
+                   lambda1 = cvfit$'flasso_best_lambda1',
+                   lambda2 = cvfit$'flasso_best_lambda2',
                    method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
                    tauc.type = tauc.type, tauc.time = tauc.time,
                    seed = seed, trace = trace)
@@ -382,7 +383,7 @@ plot.hdnom.compare.validate =
         geom_point(data = df, aes_string(x = 'Time', y = 'Median',
                                          colour = 'Model', fill = 'Model')) +
         geom_line(data = df, aes_string(x = 'Time', y = 'Median',
-                                        colour = 'Model', fill = 'Model'),
+                                        colour = 'Model'),
                   linetype = 'dashed') +
         scale_x_continuous(breaks = df$'Time') +
         scale_colour_manual(values = col_pal) +
@@ -399,7 +400,7 @@ plot.hdnom.compare.validate =
         geom_point(data = df, aes_string(x = 'Time', y = 'Median',
                                          colour = 'Model', fill = 'Model')) +
         geom_line(data = df, aes_string(x = 'Time', y = 'Median',
-                                        colour = 'Model', fill = 'Model'),
+                                        colour = 'Model'),
                   linetype = 'dashed') +
         geom_ribbon(data = df, aes_string(ymin = 'Qt25', ymax = 'Qt75',
                                           colour = 'Model', fill = 'Model'),

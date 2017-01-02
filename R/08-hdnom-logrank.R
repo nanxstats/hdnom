@@ -29,20 +29,20 @@
 #' time_new = smart$TEVENT[1001:2000]
 #' event_new = smart$EVENT[1001:2000]
 #'
-#' # Fit Cox model by lasso penalization
-#' lassofit = hdcox.lasso(x, Surv(time, event), nfolds = 5, rule = "lambda.1se", seed = 11)
+#' # Fit Cox model with lasso penalty
+#' fit = hdcox.lasso(x, Surv(time, event), nfolds = 5, rule = "lambda.1se", seed = 11)
 #'
-#' ### Internal calibration
+#' # Internal calibration
 #' cal.int = hdnom.calibrate(x, time, event, model.type = "lasso",
-#'                           alpha = 1, lambda = lassofit$'lasso_best_lambda',
+#'                           alpha = 1, lambda = fit$lasso_best_lambda,
 #'                           method = "cv", nfolds = 5,
 #'                           pred.at = 365 * 9, ngroup = 3)
 #'
 #' hdnom.logrank(cal.int)
 #'
-#' ### External calibration
+#' # External calibration
 #' cal.ext =
-#'   hdnom.external.calibrate(lassofit, x, time, event,
+#'   hdnom.external.calibrate(fit, x, time, event,
 #'                            x_new, time_new, event_new,
 #'                            pred.at = 365 * 5, ngroup = 3)
 #'
@@ -52,12 +52,12 @@ hdnom.logrank = function(object) {
   if (!(any(c('hdnom.calibrate', 'hdnom.external.calibrate') %in% class(object))))
     stop('object class must be "hdnom.calibrate" or "hdnom.external.calibrate"')
 
-  time = attr(object, 'surv.time')
+  time  = attr(object, 'surv.time')
   event = attr(object, 'surv.event')
-  grp = attr(object, 'risk.group')
+  grp   = attr(object, 'risk.group')
 
   sdiff = survdiff(formula('Surv(time, event) ~ grp'))
-  pval = pchisq(sdiff$'chisq', length(sdiff$'n') - 1L, lower.tail = FALSE)
+  pval  = pchisq(sdiff$'chisq', length(sdiff$'n') - 1L, lower.tail = FALSE)
   sdiff$'pval' = pval
 
   return(sdiff)

@@ -6,9 +6,9 @@
 \usage{
 hdnom.calibrate(x, time, event, model.type = c("lasso", "alasso", "flasso",
   "enet", "aenet", "mcp", "mnet", "scad", "snet"), alpha, lambda,
-  pen.factor = NULL, gamma, method = c("fitting", "bootstrap", "cv",
-  "repeated.cv"), boot.times = NULL, nfolds = NULL, rep.times = NULL,
-  pred.at, ngroup = 5, seed = 1001, trace = TRUE)
+  pen.factor = NULL, gamma, lambda1, lambda2, method = c("fitting",
+  "bootstrap", "cv", "repeated.cv"), boot.times = NULL, nfolds = NULL,
+  rep.times = NULL, pred.at, ngroup = 5, seed = 1001, trace = TRUE)
 }
 \arguments{
 \item{x}{Matrix of training data used for fitting the model;
@@ -38,7 +38,12 @@ model fits on the resampled data. From the Cox model you have built.}
 \item{pen.factor}{Penalty factors to apply to each coefficient.
 From the built \emph{adaptive lasso} or \emph{adaptive elastic-net} model.}
 
-\item{gamma}{Value of the model parameter gamma for MCP/SCAD/Mnet/Snet models.}
+\item{gamma}{Value of the model parameter gamma for
+MCP/SCAD/Mnet/Snet models.}
+
+\item{lambda1}{Value of the penalty parameter lambda1 for fused lasso model.}
+
+\item{lambda2}{Value of the penalty parameter lambda2 for fused lasso model.}
 
 \item{method}{Calibration method.
 Options including \code{"fitting"}, \code{"bootstrap"}, \code{"cv"},
@@ -74,11 +79,11 @@ event = smart$EVENT
 y = Surv(time, event)
 
 # Fit Cox model with lasso penalty
-lassofit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+fit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 
 # Model calibration by fitting the original data directly
 cal.fitting = hdnom.calibrate(x, time, event, model.type = "lasso",
-                              alpha = 1, lambda = lassofit$lasso_best_lambda,
+                              alpha = 1, lambda = fit$lasso_best_lambda,
                               method = "fitting",
                               pred.at = 365 * 9, ngroup = 5,
                               seed = 1010)
@@ -87,21 +92,21 @@ cal.fitting = hdnom.calibrate(x, time, event, model.type = "lasso",
 # Normally boot.times should be set to 200 or more,
 # we set it to 3 here only to save example running time.
 cal.boot = hdnom.calibrate(x, time, event, model.type = "lasso",
-                           alpha = 1, lambda = lassofit$lasso_best_lambda,
+                           alpha = 1, lambda = fit$lasso_best_lambda,
                            method = "bootstrap", boot.times = 3,
                            pred.at = 365 * 9, ngroup = 5,
                            seed = 1010)
 
 # Model calibration by 5-fold cross-validation
 cal.cv = hdnom.calibrate(x, time, event, model.type = "lasso",
-                         alpha = 1, lambda = lassofit$lasso_best_lambda,
+                         alpha = 1, lambda = fit$lasso_best_lambda,
                          method = "cv", nfolds = 5,
                          pred.at = 365 * 9, ngroup = 5,
                          seed = 1010)
 
 # Model calibration by repeated cross-validation
 cal.repcv = hdnom.calibrate(x, time, event, model.type = "lasso",
-                            alpha = 1, lambda = lassofit$lasso_best_lambda,
+                            alpha = 1, lambda = fit$lasso_best_lambda,
                             method = "repeated.cv", nfolds = 3, rep.times = 3,
                             pred.at = 365 * 9, ngroup = 5,
                             seed = 1010)

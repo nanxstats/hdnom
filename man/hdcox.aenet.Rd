@@ -49,9 +49,9 @@ y = Surv(time, event)
 # registerDoParallel(detectCores())
 # then set hdcox.aenet(..., parallel = TRUE).
 
-# Fit Cox model by adaptive elastic-net penalization
-aenetfit = hdcox.aenet(x, y, nfolds = 3, alphas = c(0.3, 0.7),
-                       rule = "lambda.1se", seed = c(5, 7))
+# Fit Cox model with adaptive elastic-net penalty
+fit = hdcox.aenet(x, y, nfolds = 3, alphas = c(0.3, 0.7),
+                  rule = "lambda.1se", seed = c(5, 7))
 
 # Prepare data for hdnom.nomogram
 x.df = as.data.frame(x)
@@ -59,9 +59,8 @@ dd = datadist(x.df)
 options(datadist = "dd")
 
 # Generate hdnom.nomogram objects and plot nomogram
-nom = hdnom.nomogram(aenetfit$aenet_model, model.type = "aenet",
-                     x, time, event, x.df,
-                     lambda = aenetfit$aenet_best_lambda, pred.at = 365 * 2,
+nom = hdnom.nomogram(fit$aenet_model, model.type = "aenet",
+                     x, time, event, x.df, pred.at = 365 * 2,
                      funlabel = "2-Year Overall Survival Probability")
 
 plot(nom)

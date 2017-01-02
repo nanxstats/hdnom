@@ -1,9 +1,16 @@
-# hdnom 4.6 (2016-12-29)
+# hdnom 4.6 (2017-01-02)
 
 ## Bug Fixes
 
 - Fixed issues in parameter tuning and cross-validation procedures for
-fused lasso models.
+fused lasso models ([commit link](link)). The user visible change is that
+two parameters `lambda1` and `lambda2` instead of a single "lambda" are now
+required for fitting, validating, and calibrating fused lasso models.
+
+## Improvements
+
+- The argument `lambda` in `hdnom.nomogram` is no longer needed and has
+been deprecated.
 
 # hdnom 4.5 (2016-12-24)
 

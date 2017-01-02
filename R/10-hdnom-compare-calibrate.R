@@ -133,7 +133,8 @@ hdnom.compare.calibrate =
                problist[[i]] =
                  hdnom.calibrate(
                    x, time, event, model.type = 'flasso',
-                   alpha = 1, lambda = cvfit$'flasso_best_lambda',
+                   lambda1 = cvfit$'flasso_best_lambda1',
+                   lambda2 = cvfit$'flasso_best_lambda2',
                    method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
                    pred.at = pred.at, ngroup = ngroup,
                    seed = seed, trace = trace)

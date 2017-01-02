@@ -41,8 +41,8 @@ time = smart$TEVENT[1:150]
 event = smart$EVENT[1:150]
 y = Surv(time, event)
 
-# Fit Cox model by MCP penalization
-mcpfit = hdcox.mcp(x, y, nfolds = 3, gammas = c(2.1, 3), seed = 1001)
+# Fit Cox model with MCP penalty
+fit = hdcox.mcp(x, y, nfolds = 3, gammas = c(2.1, 3), seed = 1001)
 
 # Prepare data for hdnom.nomogram
 x.df = as.data.frame(x)
@@ -50,8 +50,8 @@ dd = datadist(x.df)
 options(datadist = "dd")
 
 # Generate hdnom.nomogram objects and plot nomogram
-nom = hdnom.nomogram(mcpfit$mcp_model, model.type = "mcp", x, time, event, x.df,
-                     lambda = mcpfit$mcp_best_lambda, pred.at = 365 * 2,
+nom = hdnom.nomogram(fit$mcp_model, model.type = "mcp",
+                     x, time, event, x.df, pred.at = 365 * 2,
                      funlabel = "2-Year Overall Survival Probability")
 plot(nom)
 }
