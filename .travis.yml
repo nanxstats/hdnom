@@ -1,7 +1,10 @@
 language: r
-sudo: required
 
-# workaround for keeping
-# `survival` updated
+# workaround for fixing colorspace missing issue
+r_packages:
+  colorspace
+  zoo
+
+# workaround for keeping `survival` updated
 before_install:
   Rscript -e 'update.packages(ask = FALSE)'
