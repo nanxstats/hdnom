@@ -51,10 +51,27 @@ library("hdnom")
 
 and you are all set. Browse [the vignettes](http://hdnom.org/articles/) to start.
 
+## Gallery
+
+### Nomogram Visualization / Kaplan-Meier Plot with Number at Risk Table
+
+<img src="http://hdnom.org/img/hdnom-nomogram.png" width="49%" alt="nomogram">
+<img src="http://hdnom.org/img/hdnom-kmplot.png" width="49%" alt="kmplot">
+
+### Model Validation / Model Calibration
+
+<img src="http://hdnom.org/img/hdnom-validate.png" width="49%" alt="validation">
+<img src="http://hdnom.org/img/hdnom-calibrate.png" width="49%" alt="calibration">
+
+### Model Comparison via Validation / Calibration
+
+<img src="http://hdnom.org/img/hdnom-compare-validate.png" width="49%" alt="compare-validation">
+<img src="http://hdnom.org/img/hdnom-compare-calibrate.png" width="49%" alt="compare-calibration">
+
 ## Links
 
 * hdnom project: [http://hdnom.org](http://hdnom.org)
-* hdnom web app: [http://hdnom.io](http://hdnom.io)
+* hdnom web application: [http://hdnom.io](http://hdnom.io)
 * hdnom appmaker: [http://hdnom.org/appmaker](http://hdnom.org/appmaker)
 * hdnom on CRAN: [https://cran.r-project.org/package=hdnom](https://cran.r-project.org/package=hdnom)
 * hdnom on GitHub: [https://github.com/road2stat/hdnom](https://github.com/road2stat/hdnom)
