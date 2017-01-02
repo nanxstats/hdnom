@@ -3,9 +3,10 @@
 ## Bug Fixes
 
 - Fixed issues in parameter tuning and cross-validation procedures for
-fused lasso models ([commit link](link)). The user visible change is that
-two parameters `lambda1` and `lambda2` instead of a single "lambda" are now
-required for fitting, validating, and calibrating fused lasso models.
+fused lasso models ([afc49c9](https://github.com/road2stat/hdnom/commit/afc49c9ad952edd5881a3e2f14a3503981d213c7)).
+The user visible change is that two parameters `lambda1` and `lambda2`
+instead of a single "lambda" are now required to fit, validate, and
+calibrate fused lasso models.
 
 ## Improvements
 
