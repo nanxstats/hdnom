@@ -10,8 +10,7 @@ Authors@R: c(
 Maintainer: Nan Xiao <me@nanx.me>
 Description: Creates nomogram visualizations for penalized Cox regression
     models, with the support of reproducible survival model building,
-    validation, calibration, and comparison for high-dimensional data
-    with survival outcomes.
+    validation, calibration, and comparison for high-dimensional data.
 License: GPL-3 | file LICENSE
 LazyData: TRUE
 VignetteBuilder: knitr

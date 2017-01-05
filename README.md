@@ -5,7 +5,7 @@
 [![CRAN Version](http://www.r-pkg.org/badges/version/hdnom)](https://cran.r-project.org/package=hdnom)
 [![Downloads from the RStudio CRAN mirror](http://cranlogs.r-pkg.org/badges/hdnom)](http://cranlogs.r-pkg.org/badges/hdnom)
 
-`hdnom` creates nomogram visualizations for penalized Cox regression models, with the support of reproducible survival model building, validation, calibration, and comparison for high-dimensional data with survival outcomes.
+`hdnom` creates nomogram visualizations for penalized Cox regression models, with the support of reproducible survival model building, validation, calibration, and comparison for high-dimensional data.
 
 ## Paper Citation
 
@@ -73,5 +73,5 @@ and you are all set. Browse [the vignettes](http://hdnom.org/articles/) to start
 * hdnom project: [http://hdnom.org](http://hdnom.org)
 * hdnom web application: [http://hdnom.io](http://hdnom.io)
 * hdnom appmaker: [http://hdnom.org/appmaker](http://hdnom.org/appmaker)
-* hdnom on CRAN: [https://cran.r-project.org/package=hdnom](https://cran.r-project.org/package=hdnom)
-* hdnom on GitHub: [https://github.com/road2stat/hdnom](https://github.com/road2stat/hdnom)
+* CRAN: [https://cran.r-project.org/package=hdnom](https://cran.r-project.org/package=hdnom)
+* GitHub: [https://github.com/road2stat/hdnom](https://github.com/road2stat/hdnom)
