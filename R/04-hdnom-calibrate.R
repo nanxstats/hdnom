@@ -657,27 +657,27 @@ ncvreg.calibrate.internal.pred = function(x_tr, x_te, y_tr,
                                           pred.at) {
 
   if (model.type == 'mcp') {
-    object = .ncvsurv_one_lambda(X = x_tr, y = y_tr,
-                                 penalty = 'MCP', gamma = gamma,
-                                 alpha = 1, lambda = lambda)
+    object = ncvreg::ncvsurv(X = x_tr, y = y_tr,
+                             penalty = 'MCP', gamma = gamma,
+                             alpha = 1, lambda = lambda)
   }
 
   if (model.type == 'mnet') {
-    object = .ncvsurv_one_lambda(X = x_tr, y = y_tr,
-                                 penalty = 'MCP', gamma = gamma,
-                                 alpha = alpha, lambda = lambda)
+    object = ncvreg::ncvsurv(X = x_tr, y = y_tr,
+                             penalty = 'MCP', gamma = gamma,
+                             alpha = alpha, lambda = lambda)
   }
 
   if (model.type == 'scad') {
-    object = .ncvsurv_one_lambda(X = x_tr, y = y_tr,
-                                 penalty = 'SCAD', gamma = gamma,
-                                 alpha = 1, lambda = lambda)
+    object = ncvreg::ncvsurv(X = x_tr, y = y_tr,
+                             penalty = 'SCAD', gamma = gamma,
+                             alpha = 1, lambda = lambda)
   }
 
   if (model.type == 'snet') {
-    object = .ncvsurv_one_lambda(X = x_tr, y = y_tr,
-                                 penalty = 'SCAD', gamma = gamma,
-                                 alpha = alpha, lambda = lambda)
+    object = ncvreg::ncvsurv(X = x_tr, y = y_tr,
+                             penalty = 'SCAD', gamma = gamma,
+                             alpha = alpha, lambda = lambda)
   }
 
   lp = as.numeric(predict(object, X = data.matrix(x_tr), type = 'link'))

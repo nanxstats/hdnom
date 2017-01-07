@@ -43,13 +43,7 @@ Or try the development version on GitHub:
 devtools::install_github("road2stat/hdnom")
 ```
 
-To load the package in R, simply use
-
-```r
-library("hdnom")
-```
-
-and you are all set. Browse [the vignettes](http://hdnom.org/articles/) to start.
+Browse [the vignettes](http://hdnom.org/articles/) to start.
 
 ## Gallery
 
@@ -60,8 +54,8 @@ and you are all set. Browse [the vignettes](http://hdnom.org/articles/) to start
 
 ### Model Validation / Model Calibration
 
-<img src="http://hdnom.org/img/hdnom-validate.png" width="49%" alt="validation">
-<img src="http://hdnom.org/img/hdnom-calibrate.png" width="49%" alt="calibration">
+<img src="http://hdnom.org/img/hdnom-validate.png" width="47%" alt="validation">
+<img src="http://hdnom.org/img/hdnom-calibrate.png" width="47%" alt="calibration">
 
 ### Model Comparison via Validation / Calibration
 

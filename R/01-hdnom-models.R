@@ -598,25 +598,6 @@ hdcox.flasso = function(x, y, nfolds = 5L,
 
 }
 
-# hotfix for ncvreg >= 3.7-0
-# support single lambda value as input
-.ncvsurv_one_lambda = function (..., lambda) {
-
-  # fit with an additional lambda: 0
-  fit = ncvreg::ncvsurv(..., lambda = c(lambda, 0L))
-
-  # remove the last lambda related values
-  len = length(fit$'lambda')
-  fit$'beta'   = fit$'beta'[, -len, drop = FALSE]
-  fit$'iter'   = fit$'iter'[-len]
-  fit$'lambda' = fit$'lambda'[-len]
-  fit$'loss'   = fit$'loss'[-len]
-  fit$'W'      = fit$'W'[, -len, drop = FALSE]
-
-  fit
-
-}
-
 #' Automatic MCP/SCAD gamma tuning function by k-fold cross-validation
 #'
 #' @return best model object and best gamma
@@ -626,18 +607,20 @@ hdcox.flasso = function(x, y, nfolds = 5L,
 #' @importFrom foreach foreach
 #'
 #' @keywords internal
-ncvreg.tune.gamma = function(..., gammas, seed, parallel) {
+ncvreg.tune.gamma = function(..., gammas, eps, max.iter, seed, parallel) {
 
   if (!parallel) {
     model_list = vector('list', length(gammas))
     for (i in 1L:length(gammas)) {
       set.seed(seed)
-      model_list[[i]] = cv.ncvsurv(..., gamma = gammas[i])
+      model_list[[i]] = cv.ncvsurv(..., gamma = gammas[i],
+                                   eps = eps, max.iter = max.iter)
     }
   } else {
     model_list <- foreach(gammas = gammas) %dopar% {
       set.seed(seed)
-      cv.ncvsurv(..., gamma = gammas)
+      cv.ncvsurv(..., gamma = gammas,
+                 eps = eps, max.iter = max.iter)
     }
   }
 
@@ -659,6 +642,8 @@ ncvreg.tune.gamma = function(..., gammas, seed, parallel) {
 #' @param y Response matrix made by \code{\link[survival]{Surv}}.
 #' @param nfolds Fold numbers of cross-validation.
 #' @param gammas Gammas to tune in \code{\link[ncvreg]{cv.ncvsurv}}.
+#' @param eps Convergence threshhold.
+#' @param max.iter Maximum number of iterations.
 #' @param seed A random seed for cross-validation fold division.
 #' @param trace Output the cross-validation parameter tuning
 #' progress or not. Default is \code{FALSE}.
@@ -696,21 +681,22 @@ ncvreg.tune.gamma = function(..., gammas, seed, parallel) {
 #'                      funlabel = "2-Year Overall Survival Probability")
 #' plot(nom)
 hdcox.mcp = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
+                     eps = 1e-4, max.iter = 10000L,
                      seed = 1001, trace = FALSE, parallel = FALSE) {
 
   mcp_cv = ncvreg.tune.gamma(x, y, penalty = 'MCP', alpha = 1,
-                             nfolds = nfolds, gammas = gammas, seed = seed,
-                             trace = trace, parallel = parallel,
-                             max.iter = 5e+4)  # hotfix for example convergence under ncvreg >= 3.7-0
+                             nfolds = nfolds, gammas = gammas,
+                             eps = eps, max.iter = max.iter,
+                             seed = seed, trace = trace, parallel = parallel)
 
   mcp_best_gamma  = mcp_cv$best.gamma
   mcp_best_lambda = mcp_cv$best.model$lambda.min
 
   # fit the model on all the data use the parameters got by CV
   mcp_full =
-    .ncvsurv_one_lambda(x, y, penalty = 'MCP', alpha = 1,
-                        gamma = mcp_best_gamma, lambda = mcp_best_lambda,
-                        max.iter = 5e+4)  # hotfix
+    ncvreg::ncvsurv(x, y, penalty = 'MCP', alpha = 1,
+                    gamma = mcp_best_gamma, lambda = mcp_best_lambda,
+                    eps = eps, max.iter = max.iter)
 
   # deal with null models, thanks for the suggestion from Patrick Breheny
   if (all(abs(mcp_full$beta[-1L, ]) < .Machine$double.eps))
@@ -738,7 +724,8 @@ hdcox.mcp = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
 #' @importFrom foreach foreach
 #'
 #' @keywords internal
-ncvreg.tune.gamma.alpha = function(..., gammas, alphas, seed, parallel) {
+ncvreg.tune.gamma.alpha = function(..., gammas, alphas, eps, max.iter,
+                                   seed, parallel) {
 
   if (!parallel) {
 
@@ -751,7 +738,8 @@ ncvreg.tune.gamma.alpha = function(..., gammas, alphas, seed, parallel) {
       for (j in 1L:length(alphas)) {
         set.seed(seed)
         model_list[[i]][[j]] =
-          cv.ncvsurv(..., gamma = gammas[i], alpha = alphas[j])
+          cv.ncvsurv(..., gamma = gammas[i], alpha = alphas[j],
+                     eps = eps, max.iter = max.iter)
       }
     }
 
@@ -762,7 +750,8 @@ ncvreg.tune.gamma.alpha = function(..., gammas, alphas, seed, parallel) {
     model_list <- foreach(gammas = gammas) %:%
       foreach(alphas = alphas) %dopar% {
         set.seed(seed)
-        cv.ncvsurv(..., gamma = gammas, alpha = alphas)
+        cv.ncvsurv(..., gamma = gammas, alpha = alphas,
+                   eps = eps, max.iter = max.iter)
       }
 
     simple_model_list = unlist(model_list, recursive = FALSE)
@@ -790,6 +779,8 @@ ncvreg.tune.gamma.alpha = function(..., gammas, alphas, seed, parallel) {
 #' @param nfolds Fold numbers of cross-validation.
 #' @param gammas Gammas to tune in \code{\link[ncvreg]{cv.ncvsurv}}.
 #' @param alphas Alphas to tune in \code{\link[ncvreg]{cv.ncvsurv}}.
+#' @param eps Convergence threshhold.
+#' @param max.iter Maximum number of iterations.
 #' @param seed A random seed for cross-validation fold division.
 #' @param trace Output the cross-validation parameter tuning
 #' progress or not. Default is \code{FALSE}.
@@ -814,8 +805,9 @@ ncvreg.tune.gamma.alpha = function(..., gammas, alphas, seed, parallel) {
 #' y = Surv(time, event)
 #'
 #' # Fit Cox model with Mnet penalty
-#' fit = hdcox.mnet(x, y, nfolds = 3, gammas = 3,
-#'                  alphas = c(0.3, 0.8), seed = 1010)
+#' fit = hdcox.mnet(x, y, nfolds = 3,
+#'                  gammas = 3, alphas = c(0.3, 0.8),
+#'                  max.iter = 15000, seed = 1010)
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -828,16 +820,18 @@ ncvreg.tune.gamma.alpha = function(..., gammas, alphas, seed, parallel) {
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
 #' plot(nom)
-hdcox.mnet = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
+hdcox.mnet = function(x, y, nfolds = 5L,
+                      gammas = c(1.01, 1.7, 3, 100),
                       alphas = seq(0.05, 0.95, 0.05),
+                      eps = 1e-4, max.iter = 10000L,
                       seed = 1001, trace = FALSE, parallel = FALSE) {
 
   mnet_cv = ncvreg.tune.gamma.alpha(x, y, penalty = 'MCP',
                                     nfolds = nfolds,
                                     gammas = gammas, alphas = alphas,
+                                    eps = eps, max.iter = max.iter,
                                     seed = seed, trace = trace,
-                                    parallel = parallel,
-                                    max.iter = 5e+4)  # hotfix
+                                    parallel = parallel)
 
   mnet_best_gamma  = mnet_cv$best.gamma
   mnet_best_alpha  = mnet_cv$best.alpha
@@ -845,11 +839,11 @@ hdcox.mnet = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
 
   # fit the model on all the data use the parameters got by CV
   mnet_full =
-    .ncvsurv_one_lambda(x, y, penalty = 'MCP',
-                        gamma = mnet_best_gamma,
-                        alpha = mnet_best_alpha,
-                        lambda = mnet_best_lambda,
-                        max.iter = 5e+4)  # hotfix
+    ncvreg::ncvsurv(x, y, penalty = 'MCP',
+                    gamma = mnet_best_gamma,
+                    alpha = mnet_best_alpha,
+                    lambda = mnet_best_lambda,
+                    eps = eps, max.iter = max.iter)
 
   if (all(abs(mnet_full$beta[-1L, ]) < .Machine$double.eps))
     stop('Null model produced by the full fit (all coefficients are zero).
@@ -876,6 +870,8 @@ hdcox.mnet = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
 #' @param y Response matrix made by \code{\link[survival]{Surv}}.
 #' @param nfolds Fold numbers of cross-validation.
 #' @param gammas Gammas to tune in \code{\link[ncvreg]{cv.ncvsurv}}.
+#' @param eps Convergence threshhold.
+#' @param max.iter Maximum number of iterations.
 #' @param seed A random seed for cross-validation fold division.
 #' @param trace Output the cross-validation parameter tuning
 #' progress or not. Default is \code{FALSE}.
@@ -900,7 +896,8 @@ hdcox.mnet = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
 #' y = Surv(time, event)
 #'
 #' # Fit Cox model with SCAD penalty
-#' fit = hdcox.scad(x, y, nfolds = 3, gammas = c(3.7, 5), seed = 1010)
+#' fit = hdcox.scad(x, y, nfolds = 3, gammas = c(3.7, 5),
+#'                  max.iter = 15000, seed = 1010)
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -913,22 +910,24 @@ hdcox.mnet = function(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
 #' plot(nom)
-hdcox.scad = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
+hdcox.scad = function(x, y, nfolds = 5L,
+                      gammas = c(2.01, 2.3, 3.7, 200),
+                      eps = 1e-4, max.iter = 10000L,
                       seed = 1001, trace = FALSE, parallel = FALSE) {
 
   scad_cv = ncvreg.tune.gamma(x, y, penalty = 'SCAD', alpha = 1,
-                              nfolds = nfolds, gammas = gammas, seed = seed,
-                              trace = trace, parallel = parallel,
-                              max.iter = 5e+4)  # hotfix
+                              nfolds = nfolds, gammas = gammas,
+                              eps = eps, max.iter = max.iter,
+                              seed = seed, trace = trace, parallel = parallel)
 
   scad_best_gamma  = scad_cv$best.gamma
   scad_best_lambda = scad_cv$best.model$lambda.min
 
   # fit the model on all the data use the parameters got by CV
   scad_full =
-    .ncvsurv_one_lambda(x, y, penalty = 'SCAD', alpha = 1,
-                        gamma = scad_best_gamma, lambda = scad_best_lambda,
-                        max.iter = 5e+4)  # hotfix
+    ncvreg::ncvsurv(x, y, penalty = 'SCAD', alpha = 1,
+                    gamma = scad_best_gamma, lambda = scad_best_lambda,
+                    eps = eps, max.iter = max.iter)
 
   if (all(abs(scad_full$beta[-1L, ]) < .Machine$double.eps))
     stop('Null model produced by the full fit (all coefficients are zero).
@@ -955,6 +954,8 @@ hdcox.scad = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
 #' @param nfolds Fold numbers of cross-validation.
 #' @param gammas Gammas to tune in \code{\link[ncvreg]{cv.ncvsurv}}.
 #' @param alphas Alphas to tune in \code{\link[ncvreg]{cv.ncvsurv}}.
+#' @param eps Convergence threshhold.
+#' @param max.iter Maximum number of iterations.
 #' @param seed A random seed for cross-validation fold division.
 #' @param trace Output the cross-validation parameter tuning
 #' progress or not. Default is \code{FALSE}.
@@ -979,8 +980,9 @@ hdcox.scad = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
 #' y = Surv(time, event)
 #'
 #' # Fit Cox model with Snet penalty
-#' fit = hdcox.snet(x, y, nfolds = 3, gammas = 3.7,
-#'                  alphas = c(0.3, 0.8), seed = 1010)
+#' fit = hdcox.snet(x, y, nfolds = 3,
+#'                  gammas = 3.7, alphas = c(0.3, 0.8),
+#'                  max.iter = 15000, seed = 1010)
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
@@ -993,16 +995,18 @@ hdcox.scad = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
 #'                      funlabel = "2-Year Overall Survival Probability")
 #'
 #' plot(nom)
-hdcox.snet = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
+hdcox.snet = function(x, y, nfolds = 5L,
+                      gammas = c(2.01, 2.3, 3.7, 200),
                       alphas = seq(0.05, 0.95, 0.05),
+                      eps = 1e-4, max.iter = 10000L,
                       seed = 1001, trace = FALSE, parallel = FALSE) {
 
   snet_cv = ncvreg.tune.gamma.alpha(x, y, penalty = 'SCAD',
                                     nfolds = nfolds,
                                     gammas = gammas, alphas = alphas,
+                                    eps = eps, max.iter = max.iter,
                                     seed = seed, trace = trace,
-                                    parallel = parallel,
-                                    max.iter = 5e+4)  # hotfix
+                                    parallel = parallel)
 
   snet_best_gamma  = snet_cv$best.gamma
   snet_best_alpha  = snet_cv$best.alpha
@@ -1010,11 +1014,11 @@ hdcox.snet = function(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
 
   # fit the model on all the data use the parameters got by CV
   snet_full =
-    .ncvsurv_one_lambda(x, y, penalty = 'SCAD',
-                        gamma = snet_best_gamma,
-                        alpha = snet_best_alpha,
-                        lambda = snet_best_lambda,
-                        max.iter = 5e+4)  # hotfix
+    ncvreg::ncvsurv(x, y, penalty = 'SCAD',
+                    gamma = snet_best_gamma,
+                    alpha = snet_best_alpha,
+                    lambda = snet_best_lambda,
+                    eps = eps, max.iter = max.iter)
 
   if (all(abs(snet_full$beta[-1L, ]) < .Machine$double.eps))
     stop('Null model produced by the full fit (all coefficients are zero).

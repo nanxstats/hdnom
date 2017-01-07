@@ -4,8 +4,8 @@
 \alias{hdcox.mcp}
 \title{MCP Model Selection for High-Dimensional Cox Models}
 \usage{
-hdcox.mcp(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100), seed = 1001,
-  trace = FALSE, parallel = FALSE)
+hdcox.mcp(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100), eps = 1e-04,
+  max.iter = 10000L, seed = 1001, trace = FALSE, parallel = FALSE)
 }
 \arguments{
 \item{x}{Data matrix.}
@@ -15,6 +15,10 @@ hdcox.mcp(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100), seed = 1001,
 \item{nfolds}{Fold numbers of cross-validation.}
 
 \item{gammas}{Gammas to tune in \code{\link[ncvreg]{cv.ncvsurv}}.}
+
+\item{eps}{Convergence threshhold.}
+
+\item{max.iter}{Maximum number of iterations.}
 
 \item{seed}{A random seed for cross-validation fold division.}
 

@@ -5,8 +5,8 @@
 \title{Mnet Model Selection for High-Dimensional Cox Models}
 \usage{
 hdcox.mnet(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
-  alphas = seq(0.05, 0.95, 0.05), seed = 1001, trace = FALSE,
-  parallel = FALSE)
+  alphas = seq(0.05, 0.95, 0.05), eps = 1e-04, max.iter = 10000L,
+  seed = 1001, trace = FALSE, parallel = FALSE)
 }
 \arguments{
 \item{x}{Data matrix.}
@@ -18,6 +18,10 @@ hdcox.mnet(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
 \item{gammas}{Gammas to tune in \code{\link[ncvreg]{cv.ncvsurv}}.}
 
 \item{alphas}{Alphas to tune in \code{\link[ncvreg]{cv.ncvsurv}}.}
+
+\item{eps}{Convergence threshhold.}
+
+\item{max.iter}{Maximum number of iterations.}
 
 \item{seed}{A random seed for cross-validation fold division.}
 
@@ -45,8 +49,9 @@ event = smart$EVENT[1:120]
 y = Surv(time, event)
 
 # Fit Cox model with Mnet penalty
-fit = hdcox.mnet(x, y, nfolds = 3, gammas = 3,
-                 alphas = c(0.3, 0.8), seed = 1010)
+fit = hdcox.mnet(x, y, nfolds = 3,
+                 gammas = 3, alphas = c(0.3, 0.8),
+                 max.iter = 15000, seed = 1010)
 
 # Prepare data for hdnom.nomogram
 x.df = as.data.frame(x)

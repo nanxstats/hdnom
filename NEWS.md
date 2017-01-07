@@ -1,10 +1,10 @@
-# hdnom 4.6 (2017-01-05)
+# hdnom 4.6 (2017-01-07)
 
 ## Bug Fixes
 
 - Fixed issues in parameter tuning and cross-validation procedures for
 fused lasso models ([afc49c9](https://github.com/road2stat/hdnom/commit/afc49c9ad952edd5881a3e2f14a3503981d213c7)).
-The user visible change is that two parameters `lambda1` and `lambda2`
+The user-visible change is that two parameters `lambda1` and `lambda2`
 instead of a single "lambda" are now required to fit, validate, and
 calibrate fused lasso models.
 
@@ -12,6 +12,9 @@ calibrate fused lasso models.
 
 - The argument `lambda` in `hdnom.nomogram` is no longer needed and has
 been deprecated.
+- Allow users to specify `eps` and `max.iter` for MCP and SCAD penalty
+related models. Setting the default values to be `1e-4` and `10000`,
+which is consistent with ncvreg 3.8-0.
 
 # hdnom 4.5 (2016-12-24)
 

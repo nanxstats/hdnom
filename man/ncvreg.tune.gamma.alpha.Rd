@@ -4,7 +4,7 @@
 \alias{ncvreg.tune.gamma.alpha}
 \title{Automatic Mnet/Snet gamma and alpha tuning function by k-fold cross-validation}
 \usage{
-ncvreg.tune.gamma.alpha(..., gammas, alphas, seed, parallel)
+ncvreg.tune.gamma.alpha(..., gammas, alphas, eps, max.iter, seed, parallel)
 }
 \value{
 best model object, best gamma, and best alpha

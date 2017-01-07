@@ -22,11 +22,11 @@ Imports:
     survival,
     glmnet,
     penalized,
-    ncvreg (>= 3.7-0),
+    ncvreg (>= 3.8-0),
     rms,
     foreach,
     survAUC,
-    ggplot2 (>= 2.2.0),
+    ggplot2 (>= 2.2.1),
     gridExtra
 Suggests:
     knitr,

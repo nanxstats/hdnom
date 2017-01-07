@@ -4,7 +4,7 @@
 \alias{ncvreg.tune.gamma}
 \title{Automatic MCP/SCAD gamma tuning function by k-fold cross-validation}
 \usage{
-ncvreg.tune.gamma(..., gammas, seed, parallel)
+ncvreg.tune.gamma(..., gammas, eps, max.iter, seed, parallel)
 }
 \value{
 best model object and best gamma

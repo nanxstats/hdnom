@@ -5,8 +5,8 @@
 \title{Snet Model Selection for High-Dimensional Cox Models}
 \usage{
 hdcox.snet(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
-  alphas = seq(0.05, 0.95, 0.05), seed = 1001, trace = FALSE,
-  parallel = FALSE)
+  alphas = seq(0.05, 0.95, 0.05), eps = 1e-04, max.iter = 10000L,
+  seed = 1001, trace = FALSE, parallel = FALSE)
 }
 \arguments{
 \item{x}{Data matrix.}
@@ -18,6 +18,10 @@ hdcox.snet(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
 \item{gammas}{Gammas to tune in \code{\link[ncvreg]{cv.ncvsurv}}.}
 
 \item{alphas}{Alphas to tune in \code{\link[ncvreg]{cv.ncvsurv}}.}
+
+\item{eps}{Convergence threshhold.}
+
+\item{max.iter}{Maximum number of iterations.}
 
 \item{seed}{A random seed for cross-validation fold division.}
 
@@ -45,8 +49,9 @@ event = smart$EVENT[1:120]
 y = Surv(time, event)
 
 # Fit Cox model with Snet penalty
-fit = hdcox.snet(x, y, nfolds = 3, gammas = 3.7,
-                 alphas = c(0.3, 0.8), seed = 1010)
+fit = hdcox.snet(x, y, nfolds = 3,
+                 gammas = 3.7, alphas = c(0.3, 0.8),
+                 max.iter = 15000, seed = 1010)
 
 # Prepare data for hdnom.nomogram
 x.df = as.data.frame(x)
