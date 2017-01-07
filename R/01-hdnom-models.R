@@ -543,7 +543,10 @@ penalized.tune.lambda = function(..., lambda1, lambda2, seed, trace, parallel) {
 #' y = Surv(time, event)
 #'
 #' # Fit Cox model with fused lasso penalty
-#' fit = hdcox.flasso(x, y, nfolds = 3, seed = 11)
+#' fit = hdcox.flasso(x, y,
+#'                    lambda1 = c(1, 10),
+#'                    lambda2 = c(0.01),
+#'                    nfolds = 3, seed = 11)
 #'
 #' # Prepare data for hdnom.nomogram
 #' x.df = as.data.frame(x)
