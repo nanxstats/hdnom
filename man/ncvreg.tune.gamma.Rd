@@ -13,4 +13,3 @@ best model object and best gamma
 Automatic MCP/SCAD gamma tuning function by k-fold cross-validation
 }
 \keyword{internal}
-

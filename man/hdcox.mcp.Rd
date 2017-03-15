@@ -59,4 +59,3 @@ nom = hdnom.nomogram(fit$mcp_model, model.type = "mcp",
                      funlabel = "2-Year Overall Survival Probability")
 plot(nom)
 }
-

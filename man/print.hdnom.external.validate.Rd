@@ -17,4 +17,3 @@ Print External Validation Results
 \examples{
 NULL
 }
-

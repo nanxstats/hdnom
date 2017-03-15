@@ -41,4 +41,3 @@ y = Surv(time, event)
 fit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 predict(fit, x, y, newx = x[101:105, ], pred.at = 1:10 * 365)
 }
-

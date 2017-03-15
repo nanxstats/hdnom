@@ -49,18 +49,15 @@ Browse [the vignettes](https://hdnom.org/articles/) to start.
 
 ### Nomogram Visualization / Kaplan-Meier Plot with Number at Risk Table
 
-<img src="https://hdnom.org/img/hdnom-nomogram.png" width="49%" alt="nomogram">
-<img src="https://hdnom.org/img/hdnom-kmplot.png" width="49%" alt="kmplot">
+<img src="https://hdnom.org/img/hdnom-nomogram-kmplot.png" width="100%" alt="hdnom-nomogram-kmplot">
 
 ### Model Validation / Model Calibration
 
-<img src="https://hdnom.org/img/hdnom-validate.png" width="47%" alt="validation">
-<img src="https://hdnom.org/img/hdnom-calibrate.png" width="47%" alt="calibration">
+<img src="https://hdnom.org/img/hdnom-validate-calibrate.png" width="100%" alt="hdnom-validation-calibration">
 
 ### Model Comparison via Validation / Calibration
 
-<img src="https://hdnom.org/img/hdnom-compare-validate.png" width="49%" alt="compare-validation">
-<img src="https://hdnom.org/img/hdnom-compare-calibrate.png" width="49%" alt="compare-calibration">
+<img src="https://hdnom.org/img/hdnom-compare.png" width="100%" alt="hdnom-compare">
 
 ## Links
 

@@ -65,4 +65,3 @@ nom = hdnom.nomogram(fit$snet_model, model.type = "snet",
 
 plot(nom)
 }
-

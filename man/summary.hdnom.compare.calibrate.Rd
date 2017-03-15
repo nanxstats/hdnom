@@ -17,4 +17,3 @@ Summary of Model Comparison by Calibration Results
 \examples{
 NULL
 }
-

@@ -86,4 +86,3 @@ Evaluating prediction rules for t-year survivors with censored
 regression models.
 \emph{Journal of the American Statistical Association} 102, 527--537.
 }
-

@@ -50,4 +50,3 @@ cal.ext =
 
 hdnom.logrank(cal.ext)
 }
-

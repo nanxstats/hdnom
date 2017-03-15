@@ -26,4 +26,3 @@ Plot Calibration Results
 \examples{
 NULL
 }
-

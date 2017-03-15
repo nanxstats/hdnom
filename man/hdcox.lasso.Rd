@@ -50,4 +50,3 @@ nom = hdnom.nomogram(fit$lasso_model, model.type = "lasso",
 
 plot(nom)
 }
-

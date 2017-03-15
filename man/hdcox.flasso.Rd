@@ -81,4 +81,3 @@ nom = hdnom.nomogram(fit$flasso_model, model.type = "flasso",
 
 plot(nom)
 }
-

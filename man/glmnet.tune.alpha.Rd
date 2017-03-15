@@ -13,4 +13,3 @@ best model object and best alpha
 Automatic alpha tuning function by k-fold cross-validation
 }
 \keyword{internal}
-

@@ -51,4 +51,3 @@ nom = hdnom.nomogram(fit$alasso_model, model.type = "alasso",
 
 plot(nom)
 }
-

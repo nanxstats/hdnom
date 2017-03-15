@@ -13,4 +13,3 @@ best model object, best lambda1, and best lambda2
 Automatic lambda tuning function for fused lasso by k-fold cross-validation
 }
 \keyword{internal}
-

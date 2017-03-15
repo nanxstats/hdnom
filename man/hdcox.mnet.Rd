@@ -65,4 +65,3 @@ nom = hdnom.nomogram(fit$mnet_model, model.type = "mnet",
 
 plot(nom)
 }
-

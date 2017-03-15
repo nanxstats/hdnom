@@ -11,4 +11,3 @@ A 9-color discrete color palette based on the colors
 used in figures in \emph{Lancet Oncology}.
 }
 \keyword{internal}
-

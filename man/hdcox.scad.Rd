@@ -62,4 +62,3 @@ nom = hdnom.nomogram(fit$scad_model, model.type = "scad",
 
 plot(nom)
 }
-

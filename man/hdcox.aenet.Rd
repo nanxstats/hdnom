@@ -65,4 +65,3 @@ nom = hdnom.nomogram(fit$aenet_model, model.type = "aenet",
 
 plot(nom)
 }
-

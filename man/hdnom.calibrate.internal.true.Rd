@@ -13,4 +13,3 @@ list
 Compute Kaplan-Meier Estimated Survival Probabilities for Calibration
 }
 \keyword{internal}
-
