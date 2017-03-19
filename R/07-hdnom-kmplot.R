@@ -41,24 +41,28 @@
 #' fit = hdcox.lasso(x, Surv(time, event), nfolds = 5, rule = "lambda.1se", seed = 11)
 #'
 #' # Internal calibration
-#' cal.int = hdnom.calibrate(x, time, event, model.type = "lasso",
-#'                           alpha = 1, lambda = fit$lasso_best_lambda,
-#'                           method = "cv", nfolds = 5,
-#'                           pred.at = 365 * 9, ngroup = 3)
+#' cal.int = hdnom.calibrate(
+#'   x, time, event, model.type = "lasso",
+#'   alpha = 1, lambda = fit$lasso_best_lambda,
+#'   method = "cv", nfolds = 5,
+#'   pred.at = 365 * 9, ngroup = 3)
 #'
-#' hdnom.kmplot(cal.int, group.name = c('High risk', 'Medium risk', 'Low risk'),
-#'              time.at = 1:6 * 365)
+#' hdnom.kmplot(
+#'   cal.int, group.name = c('High risk', 'Medium risk', 'Low risk'),
+#'   time.at = 1:6 * 365)
 #'
 #' # External calibration
-#' cal.ext =
-#'   hdnom.external.calibrate(fit, x, time, event,
-#'                            x_new, time_new, event_new,
-#'                            pred.at = 365 * 5, ngroup = 3)
+#' cal.ext = hdnom.external.calibrate(
+#'   fit, x, time, event,
+#'   x_new, time_new, event_new,
+#'   pred.at = 365 * 5, ngroup = 3)
 #'
-#' hdnom.kmplot(cal.ext, group.name = c('High risk','Medium risk', 'Low risk'),
-#'              time.at = 1:6 * 365)
-hdnom.kmplot = function(object, group.name = NULL, time.at = NULL,
-                        col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS')) {
+#' hdnom.kmplot(
+#'   cal.ext, group.name = c('High risk','Medium risk', 'Low risk'),
+#'   time.at = 1:6 * 365)
+hdnom.kmplot = function(
+  object, group.name = NULL, time.at = NULL,
+  col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS')) {
 
   if (!(any(c('hdnom.calibrate', 'hdnom.external.calibrate') %in% class(object))))
     stop('object class must be "hdnom.calibrate" or "hdnom.external.calibrate"')
@@ -91,8 +95,9 @@ hdnom.kmplot = function(object, group.name = NULL, time.at = NULL,
 #' scale_y_discrete unit annotate
 #'
 #' @keywords internal
-kmplot = function(fit, group.name = NULL, time.at = NULL,
-                  surv.df = NULL, col.pal = NULL) {
+kmplot = function(
+  fit, group.name = NULL, time.at = NULL,
+  surv.df = NULL, col.pal = NULL) {
 
   if (is.null(group.name))
     group.name = paste('Group', gsub('grp=', '', levels(summary(fit)$'strata')))
@@ -100,17 +105,17 @@ kmplot = function(fit, group.name = NULL, time.at = NULL,
   if (is.null(surv.df)) stop('surv.df must be specified')
 
   # kaplan-meier data
-  km_df =
-    data.frame(time = fit$'time', surv = fit$'surv',
-               upper = fit$'upper', lower = fit$'lower',
-               n.risk = fit$'n.risk', n.event = fit$'n.event',
-               risk.group = summary(fit, censored = TRUE)$'strata')
+  km_df = data.frame(
+    time = fit$'time', surv = fit$'surv',
+    upper = fit$'upper', lower = fit$'lower',
+    n.risk = fit$'n.risk', n.event = fit$'n.event',
+    risk.group = summary(fit, censored = TRUE)$'strata')
   levels(km_df$'risk.group') = group.name
-  zero_df =
-    data.frame(time = 0, surv = 1,
-               upper = 1, lower = 1,
-               n.risk = NA, n.event = NA,
-               risk.group = factor(group.name, levels = levels(km_df$'risk.group')))
+  zero_df = data.frame(
+    time = 0, surv = 1,
+    upper = 1, lower = 1,
+    n.risk = NA, n.event = NA,
+    risk.group = factor(group.name, levels = levels(km_df$'risk.group')))
   km_df = rbind(zero_df, km_df)
 
   if (is.null(col.pal)) stop('col.pal must be specified')
@@ -157,15 +162,16 @@ kmplot = function(fit, group.name = NULL, time.at = NULL,
           panel.border = element_blank())
 
   # number at risk data
-  table_df =
-    data.frame(time = summary(fit, times = time.at, extend = TRUE)$'time',
-               risk.group = summary(fit, times = time.at, extend = TRUE)$'strata',
-               n.risk = summary(fit, times = time.at, extend = TRUE)$'n.risk')
+  table_df = data.frame(
+    time = summary(fit, times = time.at, extend = TRUE)$'time',
+    risk.group = summary(fit, times = time.at, extend = TRUE)$'strata',
+    n.risk = summary(fit, times = time.at, extend = TRUE)$'n.risk')
 
   # number at risk plot
-  table_plot = ggplot(table_df,
-                      aes_string(x = 'time', y = 'risk.group',
-                                 label = format('n.risk', nsmall = 0))) +
+  table_plot = ggplot(
+    table_df,
+    aes_string(x = 'time', y = 'risk.group',
+               label = format('n.risk', nsmall = 0))) +
     geom_text(size = 4) +
     scale_y_discrete(breaks = as.character(levels(table_df$'risk.group')),
                      labels = group.name) +
@@ -178,17 +184,20 @@ kmplot = function(fit, group.name = NULL, time.at = NULL,
           panel.border = element_blank(),
           axis.text.x = element_blank(),
           axis.ticks = element_blank()) +
-    theme(plot.margin = unit(c(-1.5, 1, 0.1, ifelse(k < 10, 2.5, 3.5) - 0.28 * k), 'lines')) +
+    theme(plot.margin = unit(
+      c(-1.5, 1, 0.1, ifelse(k < 10, 2.5, 3.5) - 0.28 * k), 'lines')) +
     xlab(NULL) +
     ylab(NULL)
 
-  grid.arrange(km_plot, placeholder_plot, table_plot,
-               nrow = 3, ncol = 1, clip = FALSE,
-               heights = unit(c(2, 0.1, 0.25), c('null', 'null', 'null')))
+  grid.arrange(
+    km_plot, placeholder_plot, table_plot,
+    nrow = 3, ncol = 1, clip = FALSE,
+    heights = unit(c(2, 0.1, 0.25), c('null', 'null', 'null')))
 
-  p = arrangeGrob(km_plot, placeholder_plot, table_plot,
-                  nrow = 3, ncol = 1, clip = FALSE,
-                  heights = unit(c(2, 0.1, 0.25), c('null', 'null', 'null')))
+  p = arrangeGrob(
+    km_plot, placeholder_plot, table_plot,
+    nrow = 3, ncol = 1, clip = FALSE,
+    heights = unit(c(2, 0.1, 0.25), c('null', 'null', 'null')))
 
   invisible(p)
 

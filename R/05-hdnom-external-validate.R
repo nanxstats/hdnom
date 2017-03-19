@@ -58,14 +58,16 @@
 #' event_new = smart$EVENT[1001:2000]
 #'
 #' # Fit Cox model with lasso penalty
-#' fit = hdcox.lasso(x, Surv(time, event), nfolds = 5, rule = "lambda.1se", seed = 11)
+#' fit = hdcox.lasso(
+#'   x, Surv(time, event),
+#'   nfolds = 5, rule = "lambda.1se", seed = 11)
 #'
 #' # External validation with time-dependent AUC
-#' val.ext =
-#'   hdnom.external.validate(fit, x, time, event,
-#'                           x_new, time_new, event_new,
-#'                           tauc.type = "UNO",
-#'                           tauc.time = seq(0.25, 2, 0.25) * 365)
+#' val.ext = hdnom.external.validate(
+#'   fit, x, time, event,
+#'   x_new, time_new, event_new,
+#'   tauc.type = "UNO",
+#'   tauc.time = seq(0.25, 2, 0.25) * 365)
 #'
 #' print(val.ext)
 #' summary(val.ext)
@@ -92,20 +94,23 @@
 # scadfit = hdcox.mcp(x, Surv(time, event), nfolds = 5, seed = 11)
 # mnetfit = hdcox.snet(x, Surv(time, event), nfolds = 5, seed = 11)
 #
-# val.ext1 = hdnom.external.validate(flassofit, x, time, event,
-#                                    x_new, time_new, event_new,
-#                                    tauc.type = "UNO",
-#                                    tauc.time = seq(0.25, 2, 0.25) * 365)
+# val.ext1 = hdnom.external.validate(
+#   flassofit, x, time, event,
+#   x_new, time_new, event_new,
+#   tauc.type = "UNO",
+#   tauc.time = seq(0.25, 2, 0.25) * 365)
 #
-# val.ext2 = hdnom.external.validate(scadfit, x, time, event,
-#                                    x_new, time_new, event_new,
-#                                    tauc.type = "CD",
-#                                    tauc.time = seq(0.25, 2, 0.25) * 365)
+# val.ext2 = hdnom.external.validate(
+#   scadfit, x, time, event,
+#   x_new, time_new, event_new,
+#   tauc.type = "CD",
+#   tauc.time = seq(0.25, 2, 0.25) * 365)
 #
-# val.ext3 = hdnom.external.validate(mnetfit, x, time, event,
-#                                    x_new, time_new, event_new,
-#                                    tauc.type = "SZ",
-#                                    tauc.time = seq(0.25, 2, 0.25) * 365)
+# val.ext3 = hdnom.external.validate(
+#   mnetfit, x, time, event,
+#   x_new, time_new, event_new,
+#   tauc.type = "SZ",
+#   tauc.time = seq(0.25, 2, 0.25) * 365)
 #
 # print(val.ext1)
 # summary(val.ext1)
@@ -118,9 +123,10 @@
 # print(val.ext3)
 # summary(val.ext3)
 # plot(val.ext3)
-hdnom.external.validate = function(object, x, time, event,
-                                   x_new, time_new, event_new,
-                                   tauc.type = c("CD", "SZ", "UNO"), tauc.time) {
+hdnom.external.validate = function(
+  object, x, time, event,
+  x_new, time_new, event_new,
+  tauc.type = c("CD", "SZ", "UNO"), tauc.time) {
 
   if (!('hdcox.model' %in% class(object)))
     stop('object must be of class "hdcox.model" fitted by hdcox.* functions')
@@ -142,27 +148,24 @@ hdnom.external.validate = function(object, x, time, event,
   y_te = Surv(time_te, event_te)
 
   if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
-    tauc =
-      glmnet.external.validate.internal(
-        object = model_object, x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
-        tauc.type = tauc.type, tauc.time = tauc.time
-      )
+    tauc = glmnet.external.validate.internal(
+      object = model_object, x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
+      tauc.type = tauc.type, tauc.time = tauc.time
+    )
   }
 
   if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
-    tauc =
-      ncvreg.external.validate.internal(
-        object = model_object, x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
-        tauc.type = tauc.type, tauc.time = tauc.time
-      )
+    tauc = ncvreg.external.validate.internal(
+      object = model_object, x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
+      tauc.type = tauc.type, tauc.time = tauc.time
+    )
   }
 
   if (model.type %in% c('flasso')) {
-    tauc =
-      penalized.external.validate.internal(
-        object = model_object, x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
-        tauc.type = tauc.type, tauc.time = tauc.time
-      )
+    tauc = penalized.external.validate.internal(
+      object = model_object, x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
+      tauc.type = tauc.type, tauc.time = tauc.time
+    )
   }
 
   if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
@@ -202,28 +205,35 @@ hdnom.external.validate = function(object, x, time, event,
 #' @return time-dependent AUC (tAUC) value
 #'
 #' @keywords internal
-glmnet.external.validate.internal = function(object, x_tr, x_te, y_tr, y_te,
-                                             tauc.type, tauc.time) {
+glmnet.external.validate.internal = function(
+  object, x_tr, x_te, y_tr, y_te,
+  tauc.type, tauc.time) {
 
   lp_tr = as.vector(predict(object, newx = x_tr, type = 'link'))
   lp_te = as.vector(predict(object, newx = x_te, type = 'link'))
 
-  tauc_list = switch(tauc.type,
-                     CD = {
-                       AUC.cd(Surv.rsp = y_tr, Surv.rsp.new = y_te,
-                              lp = lp_tr, lpnew = lp_te,
-                              times = tauc.time)
-                     },
-                     SZ = {
-                       AUC.sh(Surv.rsp = y_tr, Surv.rsp.new = y_te,
-                              lp = lp_tr, lpnew = lp_te,
-                              times = tauc.time)
-                     },
-                     UNO = {
-                       AUC.uno(Surv.rsp = y_tr, Surv.rsp.new = y_te,
-                               lpnew = lp_te,
-                               times = tauc.time)
-                     }
+  tauc_list = switch(
+
+    tauc.type,
+
+    CD = {
+      AUC.cd(Surv.rsp = y_tr, Surv.rsp.new = y_te,
+             lp = lp_tr, lpnew = lp_te,
+             times = tauc.time)
+    },
+
+    SZ = {
+      AUC.sh(Surv.rsp = y_tr, Surv.rsp.new = y_te,
+             lp = lp_tr, lpnew = lp_te,
+             times = tauc.time)
+    },
+
+    UNO = {
+      AUC.uno(Surv.rsp = y_tr, Surv.rsp.new = y_te,
+              lpnew = lp_te,
+              times = tauc.time)
+    }
+
   )
 
   tauc_list
@@ -238,28 +248,35 @@ glmnet.external.validate.internal = function(object, x_tr, x_te, y_tr, y_te,
 #' @return time-dependent AUC (tAUC) value
 #'
 #' @keywords internal
-ncvreg.external.validate.internal = function(object, x_tr, x_te, y_tr, y_te,
-                                             tauc.type, tauc.time) {
+ncvreg.external.validate.internal = function(
+  object, x_tr, x_te, y_tr, y_te,
+  tauc.type, tauc.time) {
 
   lp_tr = as.vector(predict(object, X = x_tr, type = 'link'))
   lp_te = as.vector(predict(object, X = x_te, type = 'link'))
 
-  tauc_list = switch(tauc.type,
-                     CD = {
-                       AUC.cd(Surv.rsp = y_tr, Surv.rsp.new = y_te,
-                              lp = lp_tr, lpnew = lp_te,
-                              times = tauc.time)
-                     },
-                     SZ = {
-                       AUC.sh(Surv.rsp = y_tr, Surv.rsp.new = y_te,
-                              lp = lp_tr, lpnew = lp_te,
-                              times = tauc.time)
-                     },
-                     UNO = {
-                       AUC.uno(Surv.rsp = y_tr, Surv.rsp.new = y_te,
-                               lpnew = lp_te,
-                               times = tauc.time)
-                     }
+  tauc_list = switch(
+
+    tauc.type,
+
+    CD = {
+      AUC.cd(Surv.rsp = y_tr, Surv.rsp.new = y_te,
+             lp = lp_tr, lpnew = lp_te,
+             times = tauc.time)
+    },
+
+    SZ = {
+      AUC.sh(Surv.rsp = y_tr, Surv.rsp.new = y_te,
+             lp = lp_tr, lpnew = lp_te,
+             times = tauc.time)
+    },
+
+    UNO = {
+      AUC.uno(Surv.rsp = y_tr, Surv.rsp.new = y_te,
+              lpnew = lp_te,
+              times = tauc.time)
+    }
+
   )
 
   tauc_list
@@ -275,28 +292,35 @@ ncvreg.external.validate.internal = function(object, x_tr, x_te, y_tr, y_te,
 #' @return time-dependent AUC (tAUC) value
 #'
 #' @keywords internal
-penalized.external.validate.internal = function(object, x_tr, x_te, y_tr, y_te,
-                                                tauc.type, tauc.time) {
+penalized.external.validate.internal = function(
+  object, x_tr, x_te, y_tr, y_te,
+  tauc.type, tauc.time) {
 
   lp_tr = as.vector(object@'lin.pred')
   lp_te = as.vector(x_te %*% as.matrix(object@'penalized'))
 
-  tauc_list = switch(tauc.type,
-                     CD = {
-                       AUC.cd(Surv.rsp = y_tr, Surv.rsp.new = y_te,
-                              lp = lp_tr, lpnew = lp_te,
-                              times = tauc.time)
-                     },
-                     SZ = {
-                       AUC.sh(Surv.rsp = y_tr, Surv.rsp.new = y_te,
-                              lp = lp_tr, lpnew = lp_te,
-                              times = tauc.time)
-                     },
-                     UNO = {
-                       AUC.uno(Surv.rsp = y_tr, Surv.rsp.new = y_te,
-                               lpnew = lp_te,
-                               times = tauc.time)
-                     }
+  tauc_list = switch(
+
+    tauc.type,
+
+    CD = {
+      AUC.cd(Surv.rsp = y_tr, Surv.rsp.new = y_te,
+             lp = lp_tr, lpnew = lp_te,
+             times = tauc.time)
+    },
+
+    SZ = {
+      AUC.sh(Surv.rsp = y_tr, Surv.rsp.new = y_te,
+             lp = lp_tr, lpnew = lp_te,
+             times = tauc.time)
+    },
+
+    UNO = {
+      AUC.uno(Surv.rsp = y_tr, Surv.rsp.new = y_te,
+              lpnew = lp_te,
+              times = tauc.time)
+    }
+
   )
 
   tauc_list
@@ -323,28 +347,30 @@ print.hdnom.external.validate = function(x, ...) {
 
   method = setdiff(class(x), 'hdnom.external.validate')
 
-  switch(method,
+  switch(
 
-         glmnet.external.validate = {
-           cat('High-Dimensional Cox Model External Validation Object\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
-           cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
-         },
+    method,
 
-         ncvreg.external.validate = {
-           cat('High-Dimensional Cox Model External Validation Object\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
-           cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
-         },
+    glmnet.external.validate = {
+      cat('High-Dimensional Cox Model External Validation Object\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
+      cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
+    },
 
-         penalized.external.validate = {
-           cat('High-Dimensional Cox Model External Validation Object\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
-           cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
-         }
+    ncvreg.external.validate = {
+      cat('High-Dimensional Cox Model External Validation Object\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
+      cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
+    },
+
+    penalized.external.validate = {
+      cat('High-Dimensional Cox Model External Validation Object\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
+      cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
+    }
 
   )
 
@@ -404,31 +430,30 @@ summary.hdnom.external.validate = function(object, silent = FALSE, ...) {
 #'
 #' @examples
 #' NULL
-plot.hdnom.external.validate =
-  function(x, col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS'),
-           ylim = NULL, ...) {
+plot.hdnom.external.validate = function(
+  x, col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS'), ylim = NULL, ...) {
 
-    if (!('hdnom.external.validate' %in% class(x)))
-      stop('object class must be "hdnom.external.validate"')
+  if (!('hdnom.external.validate' %in% class(x)))
+    stop('object class must be "hdnom.external.validate"')
 
-    df = as.data.frame(t(summary(x, silent = TRUE)))
-    tauc_time = attr(x, 'tauc.time')
+  df = as.data.frame(t(summary(x, silent = TRUE)))
+  tauc_time = attr(x, 'tauc.time')
 
-    df[, 'Time'] = tauc_time
+  df[, 'Time'] = tauc_time
 
-    col.pal = match.arg(col.pal)
-    col_pal = switch (
-      col.pal,
-      JCO   = palette.jco()[1], Lancet = palette.lancet()[1],
-      NPG   = palette.npg()[1], AAAS   = palette.aaas()[1])
+  col.pal = match.arg(col.pal)
+  col_pal = switch (
+    col.pal,
+    JCO   = palette.jco()[1], Lancet = palette.lancet()[1],
+    NPG   = palette.npg()[1], AAAS   = palette.aaas()[1])
 
-    ggplot(data = df, aes_string(x = 'Time', y = 'AUC')) +
-      geom_point(colour = col_pal) +
-      geom_line(colour = col_pal) +
-      scale_x_continuous(breaks = df$'Time') +
-      coord_cartesian(ylim = ylim) +
-      theme_bw() +
-      theme(legend.position = 'none') +
-      ylab('Area under ROC')
+  ggplot(data = df, aes_string(x = 'Time', y = 'AUC')) +
+    geom_point(colour = col_pal) +
+    geom_line(colour = col_pal) +
+    scale_x_continuous(breaks = df$'Time') +
+    coord_cartesian(ylim = ylim) +
+    theme_bw() +
+    theme(legend.position = 'none') +
+    ylab('Area under ROC')
 
-  }
+}

@@ -59,34 +59,38 @@
 #' fit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 #'
 #' # Model calibration by fitting the original data directly
-#' cal.fitting = hdnom.calibrate(x, time, event, model.type = "lasso",
-#'                               alpha = 1, lambda = fit$lasso_best_lambda,
-#'                               method = "fitting",
-#'                               pred.at = 365 * 9, ngroup = 5,
-#'                               seed = 1010)
+#' cal.fitting = hdnom.calibrate(
+#'   x, time, event, model.type = "lasso",
+#'   alpha = 1, lambda = fit$lasso_best_lambda,
+#'   method = "fitting",
+#'   pred.at = 365 * 9, ngroup = 5,
+#'   seed = 1010)
 #'
 #' # Model calibration by bootstrap
 #' # Normally boot.times should be set to 200 or more,
 #' # we set it to 3 here only to save example running time.
-#' cal.boot = hdnom.calibrate(x, time, event, model.type = "lasso",
-#'                            alpha = 1, lambda = fit$lasso_best_lambda,
-#'                            method = "bootstrap", boot.times = 3,
-#'                            pred.at = 365 * 9, ngroup = 5,
-#'                            seed = 1010)
+#' cal.boot = hdnom.calibrate(
+#'   x, time, event, model.type = "lasso",
+#'   alpha = 1, lambda = fit$lasso_best_lambda,
+#'   method = "bootstrap", boot.times = 3,
+#'   pred.at = 365 * 9, ngroup = 5,
+#'   seed = 1010)
 #'
 #' # Model calibration by 5-fold cross-validation
-#' cal.cv = hdnom.calibrate(x, time, event, model.type = "lasso",
-#'                          alpha = 1, lambda = fit$lasso_best_lambda,
-#'                          method = "cv", nfolds = 5,
-#'                          pred.at = 365 * 9, ngroup = 5,
-#'                          seed = 1010)
+#' cal.cv = hdnom.calibrate(
+#'   x, time, event, model.type = "lasso",
+#'   alpha = 1, lambda = fit$lasso_best_lambda,
+#'   method = "cv", nfolds = 5,
+#'   pred.at = 365 * 9, ngroup = 5,
+#'   seed = 1010)
 #'
 #' # Model calibration by repeated cross-validation
-#' cal.repcv = hdnom.calibrate(x, time, event, model.type = "lasso",
-#'                             alpha = 1, lambda = fit$lasso_best_lambda,
-#'                             method = "repeated.cv", nfolds = 3, rep.times = 3,
-#'                             pred.at = 365 * 9, ngroup = 5,
-#'                             seed = 1010)
+#' cal.repcv = hdnom.calibrate(
+#'   x, time, event, model.type = "lasso",
+#'   alpha = 1, lambda = fit$lasso_best_lambda,
+#'   method = "repeated.cv", nfolds = 3, rep.times = 3,
+#'   pred.at = 365 * 9, ngroup = 5,
+#'   seed = 1010)
 #'
 #' print(cal.fitting)
 #' summary(cal.fitting)
@@ -115,29 +119,33 @@
 # y = Surv(time, event)
 #
 # set.seed(1010)
-# cal.fitting = hdnom.calibrate(x, time, event, model.type = "flasso",
-#                               lambda1 = 5, lambda2 = 2,
-#                               method = "fitting",
-#                               pred.at = 365 * 9, ngroup = 5,
-#                               seed = 1010)
+# cal.fitting = hdnom.calibrate(
+#   x, time, event, model.type = "flasso",
+#   lambda1 = 5, lambda2 = 2,
+#   method = "fitting",
+#   pred.at = 365 * 9, ngroup = 5,
+#   seed = 1010)
 #
-# cal.boot = hdnom.calibrate(x, time, event, model.type = "scad",
-#                            gamma = 3.7, alpha = 1, lambda = 0.03,
-#                            method = "bootstrap", boot.times = 10,
-#                            pred.at = 365 * 9, ngroup = 5,
-#                            seed = 1010)
+# cal.boot = hdnom.calibrate(
+#   x, time, event, model.type = "scad",
+#   gamma = 3.7, alpha = 1, lambda = 0.03,
+#   method = "bootstrap", boot.times = 10,
+#   pred.at = 365 * 9, ngroup = 5,
+#   seed = 1010)
 #
-# cal.cv = hdnom.calibrate(x, time, event, model.type = "mnet",
-#                          gamma = 3, alpha = 0.3, lambda = 0.03,
-#                          method = "cv", nfolds = 5,
-#                          pred.at = 365 * 9, ngroup = 5,
-#                          seed = 1010)
+# cal.cv = hdnom.calibrate(
+#   x, time, event, model.type = "mnet",
+#   gamma = 3, alpha = 0.3, lambda = 0.03,
+#   method = "cv", nfolds = 5,
+#   pred.at = 365 * 9, ngroup = 5,
+#   seed = 1010)
 #
-# cal.repcv = hdnom.calibrate(x, time, event, model.type = "flasso",
-#                             lambda1 = 5, lambda2 = 2,
-#                             method = "repeated.cv", nfolds = 5, rep.times = 3,
-#                             pred.at = 365 * 9, ngroup = 5,
-#                             seed = 1010)
+# cal.repcv = hdnom.calibrate(
+#   x, time, event, model.type = "flasso",
+#   lambda1 = 5, lambda2 = 2,
+#   method = "repeated.cv", nfolds = 5, rep.times = 3,
+#   pred.at = 365 * 9, ngroup = 5,
+#   seed = 1010)
 #
 # print(cal.fitting)
 # summary(cal.fitting)
@@ -154,17 +162,17 @@
 # print(cal.repcv)
 # summary(cal.repcv)
 # plot(cal.repcv)
-hdnom.calibrate = function(x, time, event,
-                           model.type = c('lasso', 'alasso', 'flasso',
-                                          'enet', 'aenet',
-                                          'mcp', 'mnet',
-                                          'scad', 'snet'),
-                           alpha, lambda, pen.factor = NULL, gamma,
-                           lambda1, lambda2,
-                           method = c('fitting', 'bootstrap', 'cv', 'repeated.cv'),
-                           boot.times = NULL, nfolds = NULL, rep.times = NULL,
-                           pred.at, ngroup = 5,
-                           seed = 1001, trace = TRUE) {
+hdnom.calibrate = function(
+  x, time, event,
+  model.type =
+    c('lasso', 'alasso', 'flasso', 'enet', 'aenet',
+      'mcp', 'mnet', 'scad', 'snet'),
+  alpha, lambda, pen.factor = NULL, gamma,
+  lambda1, lambda2,
+  method = c('fitting', 'bootstrap', 'cv', 'repeated.cv'),
+  boot.times = NULL, nfolds = NULL, rep.times = NULL,
+  pred.at, ngroup = 5,
+  seed = 1001, trace = TRUE) {
 
   model.type = match.arg(model.type)
   method = match.arg(method)
@@ -463,127 +471,129 @@ hdnom.calibrate = function(x, time, event,
     stop('method must be one of "fitting", "bootstrap", "cv", or "repeated.cv"')
   }
 
-  switch(method,
+  switch(
 
-         fitting = {
+    method,
 
-           if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
-             class(prob) = c('hdnom.calibrate',
-                             'glmnet.calibrate.fitting')
-             attr(prob, 'alpha')      = alpha
-             attr(prob, 'lambda')     = lambda
-             attr(prob, 'pen.factor') = pen.factor
-           }
+    fitting = {
 
-           if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
-             class(prob) = c('hdnom.calibrate',
-                             'ncvreg.calibrate.fitting')
-             attr(prob, 'alpha')  = alpha
-             attr(prob, 'lambda') = lambda
-             attr(prob, 'gamma')  = gamma
-           }
+      if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
+        class(prob) = c('hdnom.calibrate',
+                        'glmnet.calibrate.fitting')
+        attr(prob, 'alpha')      = alpha
+        attr(prob, 'lambda')     = lambda
+        attr(prob, 'pen.factor') = pen.factor
+      }
 
-           if (model.type %in% c('flasso')) {
-             class(prob) = c('hdnom.calibrate',
-                             'penalized.calibrate.fitting')
-             attr(prob, 'lambda1') = lambda1
-             attr(prob, 'lambda2') = lambda2
-           }
+      if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
+        class(prob) = c('hdnom.calibrate',
+                        'ncvreg.calibrate.fitting')
+        attr(prob, 'alpha')  = alpha
+        attr(prob, 'lambda') = lambda
+        attr(prob, 'gamma')  = gamma
+      }
 
-         },
+      if (model.type %in% c('flasso')) {
+        class(prob) = c('hdnom.calibrate',
+                        'penalized.calibrate.fitting')
+        attr(prob, 'lambda1') = lambda1
+        attr(prob, 'lambda2') = lambda2
+      }
 
-         bootstrap = {
+    },
 
-           if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
-             class(prob) = c('hdnom.calibrate',
-                             'glmnet.calibrate.bootstrap')
-             attr(prob, 'alpha')      = alpha
-             attr(prob, 'lambda')     = lambda
-             attr(prob, 'pen.factor') = pen.factor
-             attr(prob, 'boot.times') = boot.times
-           }
+    bootstrap = {
 
-           if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
-             class(prob) = c('hdnom.calibrate',
-                             'ncvreg.calibrate.bootstrap')
-             attr(prob, 'alpha')      = alpha
-             attr(prob, 'lambda')     = lambda
-             attr(prob, 'gamma')      = gamma
-             attr(prob, 'boot.times') = boot.times
-           }
+      if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
+        class(prob) = c('hdnom.calibrate',
+                        'glmnet.calibrate.bootstrap')
+        attr(prob, 'alpha')      = alpha
+        attr(prob, 'lambda')     = lambda
+        attr(prob, 'pen.factor') = pen.factor
+        attr(prob, 'boot.times') = boot.times
+      }
 
-           if (model.type %in% c('flasso')) {
-             class(prob) = c('hdnom.calibrate',
-                             'penalized.calibrate.bootstrap')
-             attr(prob, 'lambda1')    = lambda1
-             attr(prob, 'lambda2')    = lambda2
-             attr(prob, 'boot.times') = boot.times
-           }
+      if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
+        class(prob) = c('hdnom.calibrate',
+                        'ncvreg.calibrate.bootstrap')
+        attr(prob, 'alpha')      = alpha
+        attr(prob, 'lambda')     = lambda
+        attr(prob, 'gamma')      = gamma
+        attr(prob, 'boot.times') = boot.times
+      }
 
-         },
+      if (model.type %in% c('flasso')) {
+        class(prob) = c('hdnom.calibrate',
+                        'penalized.calibrate.bootstrap')
+        attr(prob, 'lambda1')    = lambda1
+        attr(prob, 'lambda2')    = lambda2
+        attr(prob, 'boot.times') = boot.times
+      }
 
-         cv = {
+    },
 
-           if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
-             class(prob) = c('hdnom.calibrate',
-                             'glmnet.calibrate.cv')
-             attr(prob, 'alpha')      = alpha
-             attr(prob, 'lambda')     = lambda
-             attr(prob, 'pen.factor') = pen.factor
-             attr(prob, 'nfolds')     = nfolds
-           }
+    cv = {
 
-           if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
-             class(prob) = c('hdnom.calibrate',
-                             'ncvreg.calibrate.cv')
-             attr(prob, 'alpha')      = alpha
-             attr(prob, 'lambda')     = lambda
-             attr(prob, 'gamma')      = gamma
-             attr(prob, 'nfolds')     = nfolds
-           }
+      if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
+        class(prob) = c('hdnom.calibrate',
+                        'glmnet.calibrate.cv')
+        attr(prob, 'alpha')      = alpha
+        attr(prob, 'lambda')     = lambda
+        attr(prob, 'pen.factor') = pen.factor
+        attr(prob, 'nfolds')     = nfolds
+      }
 
-           if (model.type %in% c('flasso')) {
-             class(prob) = c('hdnom.calibrate',
-                             'penalized.calibrate.cv')
-             attr(prob, 'lambda1')    = lambda1
-             attr(prob, 'lambda2')    = lambda2
-             attr(prob, 'nfolds')     = nfolds
-           }
+      if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
+        class(prob) = c('hdnom.calibrate',
+                        'ncvreg.calibrate.cv')
+        attr(prob, 'alpha')      = alpha
+        attr(prob, 'lambda')     = lambda
+        attr(prob, 'gamma')      = gamma
+        attr(prob, 'nfolds')     = nfolds
+      }
 
-         },
+      if (model.type %in% c('flasso')) {
+        class(prob) = c('hdnom.calibrate',
+                        'penalized.calibrate.cv')
+        attr(prob, 'lambda1')    = lambda1
+        attr(prob, 'lambda2')    = lambda2
+        attr(prob, 'nfolds')     = nfolds
+      }
 
-         repeated.cv = {
+    },
 
-           if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
-             class(prob) = c('hdnom.calibrate',
-                             'glmnet.calibrate.repeated.cv')
-             attr(prob, 'alpha')      = alpha
-             attr(prob, 'lambda')     = lambda
-             attr(prob, 'pen.factor') = pen.factor
-             attr(prob, 'nfolds')     = nfolds
-             attr(prob, 'rep.times')  = rep.times
-           }
+    repeated.cv = {
 
-           if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
-             class(prob) = c('hdnom.calibrate',
-                             'ncvreg.calibrate.repeated.cv')
-             attr(prob, 'alpha')      = alpha
-             attr(prob, 'lambda')     = lambda
-             attr(prob, 'gamma')      = gamma
-             attr(prob, 'nfolds')     = nfolds
-             attr(prob, 'rep.times')  = rep.times
-           }
+      if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
+        class(prob) = c('hdnom.calibrate',
+                        'glmnet.calibrate.repeated.cv')
+        attr(prob, 'alpha')      = alpha
+        attr(prob, 'lambda')     = lambda
+        attr(prob, 'pen.factor') = pen.factor
+        attr(prob, 'nfolds')     = nfolds
+        attr(prob, 'rep.times')  = rep.times
+      }
 
-           if (model.type %in% c('flasso')) {
-             class(prob) = c('hdnom.calibrate',
-                             'penalized.calibrate.repeated.cv')
-             attr(prob, 'lambda1')    = lambda1
-             attr(prob, 'lambda2')    = lambda2
-             attr(prob, 'nfolds')     = nfolds
-             attr(prob, 'rep.times')  = rep.times
-           }
+      if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
+        class(prob) = c('hdnom.calibrate',
+                        'ncvreg.calibrate.repeated.cv')
+        attr(prob, 'alpha')      = alpha
+        attr(prob, 'lambda')     = lambda
+        attr(prob, 'gamma')      = gamma
+        attr(prob, 'nfolds')     = nfolds
+        attr(prob, 'rep.times')  = rep.times
+      }
 
-         }
+      if (model.type %in% c('flasso')) {
+        class(prob) = c('hdnom.calibrate',
+                        'penalized.calibrate.repeated.cv')
+        attr(prob, 'lambda1')    = lambda1
+        attr(prob, 'lambda2')    = lambda2
+        attr(prob, 'nfolds')     = nfolds
+        attr(prob, 'rep.times')  = rep.times
+      }
+
+    }
   )
 
   attr(prob, 'model.type') = model.type
@@ -606,21 +616,26 @@ hdnom.calibrate = function(x, time, event,
 #' @return list containing predicted survival probability
 #'
 #' @keywords internal
-glmnet.calibrate.internal.pred = function(x_tr, x_te, y_tr,
-                                          alpha, lambda, pen.factor,
-                                          pred.at) {
+glmnet.calibrate.internal.pred = function(
+  x_tr, x_te, y_tr,
+  alpha, lambda, pen.factor,
+  pred.at) {
 
   if (is.null(pen.factor)) {
-    object = glmnet(x = x_tr, y = y_tr, family = 'cox',
-                    alpha = alpha, lambda = lambda)
+    object = glmnet(
+      x = x_tr, y = y_tr, family = 'cox',
+      alpha = alpha, lambda = lambda)
   } else {
-    object = glmnet(x = x_tr, y = y_tr, family = 'cox',
-                    alpha = alpha, lambda = lambda,
-                    penalty.factor = pen.factor)
+    object = glmnet(
+      x = x_tr, y = y_tr, family = 'cox',
+      alpha = alpha, lambda = lambda,
+      penalty.factor = pen.factor)
   }
 
-  lp = as.numeric(predict(object, newx = data.matrix(x_tr), s = lambda, type = 'link'))
-  lpnew = as.numeric(predict(object, newx = data.matrix(x_te), s = lambda, type = 'link'))
+  lp = as.numeric(
+    predict(object, newx = data.matrix(x_tr), s = lambda, type = 'link'))
+  lpnew = as.numeric(
+    predict(object, newx = data.matrix(x_te), s = lambda, type = 'link'))
 
   time_tr = y_tr[, 1L]
   event_tr = y_tr[, 2L]
@@ -651,33 +666,38 @@ glmnet.calibrate.internal.pred = function(x_tr, x_te, y_tr,
 #' @return list containing predicted survival probability
 #'
 #' @keywords internal
-ncvreg.calibrate.internal.pred = function(x_tr, x_te, y_tr,
-                                          model.type,
-                                          alpha, lambda, gamma,
-                                          pred.at) {
+ncvreg.calibrate.internal.pred = function(
+  x_tr, x_te, y_tr,
+  model.type,
+  alpha, lambda, gamma,
+  pred.at) {
 
   if (model.type == 'mcp') {
-    object = ncvreg::ncvsurv(X = x_tr, y = y_tr,
-                             penalty = 'MCP', gamma = gamma,
-                             alpha = 1, lambda = lambda)
+    object = ncvreg::ncvsurv(
+      X = x_tr, y = y_tr,
+      penalty = 'MCP', gamma = gamma,
+      alpha = 1, lambda = lambda)
   }
 
   if (model.type == 'mnet') {
-    object = ncvreg::ncvsurv(X = x_tr, y = y_tr,
-                             penalty = 'MCP', gamma = gamma,
-                             alpha = alpha, lambda = lambda)
+    object = ncvreg::ncvsurv(
+      X = x_tr, y = y_tr,
+      penalty = 'MCP', gamma = gamma,
+      alpha = alpha, lambda = lambda)
   }
 
   if (model.type == 'scad') {
-    object = ncvreg::ncvsurv(X = x_tr, y = y_tr,
-                             penalty = 'SCAD', gamma = gamma,
-                             alpha = 1, lambda = lambda)
+    object = ncvreg::ncvsurv(
+      X = x_tr, y = y_tr,
+      penalty = 'SCAD', gamma = gamma,
+      alpha = 1, lambda = lambda)
   }
 
   if (model.type == 'snet') {
-    object = ncvreg::ncvsurv(X = x_tr, y = y_tr,
-                             penalty = 'SCAD', gamma = gamma,
-                             alpha = alpha, lambda = lambda)
+    object = ncvreg::ncvsurv(
+      X = x_tr, y = y_tr,
+      penalty = 'SCAD', gamma = gamma,
+      alpha = alpha, lambda = lambda)
   }
 
   lp = as.numeric(predict(object, X = data.matrix(x_tr), type = 'link'))
@@ -712,14 +732,16 @@ ncvreg.calibrate.internal.pred = function(x_tr, x_te, y_tr,
 #' @return list containing predicted survival probability
 #'
 #' @keywords internal
-penalized.calibrate.internal.pred = function(x_tr, x_te, y_tr,
-                                             lambda1, lambda2,
-                                             pred.at) {
+penalized.calibrate.internal.pred = function(
+  x_tr, x_te, y_tr,
+  lambda1, lambda2,
+  pred.at) {
 
-  object = penalized(response = y_tr, penalized = x_tr,
-                     lambda1 = lambda1, lambda2 = lambda2,
-                     maxiter = 25, epsilon = 1e-3,  # for faster convergence, consistent with `hdcox.flasso()`
-                     fusedl = TRUE, standardize = TRUE, model = 'cox')
+  object = penalized(
+    response = y_tr, penalized = x_tr,
+    lambda1 = lambda1, lambda2 = lambda2,
+    maxiter = 25, epsilon = 1e-3,  # for faster convergence, consistent with `hdcox.flasso()`
+    fusedl = TRUE, standardize = TRUE, model = 'cox')
 
   lp = as.vector(data.matrix(x_tr) %*% as.matrix(object@penalized))
   lpnew = as.vector(data.matrix(x_te) %*% as.matrix(object@penalized))
@@ -753,9 +775,10 @@ penalized.calibrate.internal.pred = function(x_tr, x_te, y_tr,
 #' @return list
 #'
 #' @keywords internal
-hdnom.calibrate.internal.true = function(pred_prob, grp,
-                                         time, event,
-                                         pred.at, ngroup) {
+hdnom.calibrate.internal.true = function(
+  pred_prob, grp,
+  time, event,
+  pred.at, ngroup) {
 
   true_prob = matrix(NA, ncol = 3L, nrow = ngroup)
   colnames(true_prob) = c("Observed", "Lower 95%", "Upper 95%")
@@ -795,175 +818,177 @@ print.hdnom.calibrate = function(x, ...) {
 
   method = setdiff(class(x), 'hdnom.calibrate')
 
-  switch(method,
+  switch(
 
-         glmnet.calibrate.fitting = {
-           cat('High-Dimensional Cox Model Calibration Object\n')
-           cat('Random seed:', attr(x, 'seed'), '\n')
-           cat('Calibration method: fitting\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
-           cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
-           if (is.null(attr(x, 'pen.factor'))) {
-             cat('glmnet model penalty factor: not specified\n')
-           } else {
-             cat('glmnet model penalty factor: specified\n')
-           }
-           cat('Calibration time point:', attr(x, 'pred.at'), '\n')
-           cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
-         },
+    method,
 
-         glmnet.calibrate.bootstrap = {
-           cat('High-Dimensional Cox Model Calibration Object\n')
-           cat('Random seed:', attr(x, 'seed'), '\n')
-           cat('Calibration method: bootstrap\n')
-           cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
-           cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
-           if (is.null(attr(x, 'pen.factor'))) {
-             cat('glmnet model penalty factor: not specified\n')
-           } else {
-             cat('glmnet model penalty factor: specified\n')
-           }
-           cat('Calibration time point:', attr(x, 'pred.at'), '\n')
-           cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
-         },
+    glmnet.calibrate.fitting = {
+      cat('High-Dimensional Cox Model Calibration Object\n')
+      cat('Random seed:', attr(x, 'seed'), '\n')
+      cat('Calibration method: fitting\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
+      cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
+      if (is.null(attr(x, 'pen.factor'))) {
+        cat('glmnet model penalty factor: not specified\n')
+      } else {
+        cat('glmnet model penalty factor: specified\n')
+      }
+      cat('Calibration time point:', attr(x, 'pred.at'), '\n')
+      cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
+    },
 
-         glmnet.calibrate.cv = {
-           cat('High-Dimensional Cox Model Calibration Object\n')
-           cat('Random seed:', attr(x, 'seed'), '\n')
-           cat('Calibration method: k-fold cross-validation\n')
-           cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
-           cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
-           if (is.null(attr(x, 'pen.factor'))) {
-             cat('glmnet model penalty factor: not specified\n')
-           } else {
-             cat('glmnet model penalty factor: specified\n')
-           }
-           cat('Calibration time point:', attr(x, 'pred.at'), '\n')
-           cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
-         },
+    glmnet.calibrate.bootstrap = {
+      cat('High-Dimensional Cox Model Calibration Object\n')
+      cat('Random seed:', attr(x, 'seed'), '\n')
+      cat('Calibration method: bootstrap\n')
+      cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
+      cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
+      if (is.null(attr(x, 'pen.factor'))) {
+        cat('glmnet model penalty factor: not specified\n')
+      } else {
+        cat('glmnet model penalty factor: specified\n')
+      }
+      cat('Calibration time point:', attr(x, 'pred.at'), '\n')
+      cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
+    },
 
-         glmnet.calibrate.repeated.cv = {
-           cat('High-Dimensional Cox Model Calibration Object\n')
-           cat('Random seed:', attr(x, 'seed'), '\n')
-           cat('Calibration method: repeated cross-validation\n')
-           cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
-           cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
-           cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
-           if (is.null(attr(x, 'pen.factor'))) {
-             cat('glmnet model penalty factor: not specified\n')
-           } else {
-             cat('glmnet model penalty factor: specified\n')
-           }
-           cat('Calibration time point:', attr(x, 'pred.at'), '\n')
-           cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
-         },
+    glmnet.calibrate.cv = {
+      cat('High-Dimensional Cox Model Calibration Object\n')
+      cat('Random seed:', attr(x, 'seed'), '\n')
+      cat('Calibration method: k-fold cross-validation\n')
+      cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
+      cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
+      if (is.null(attr(x, 'pen.factor'))) {
+        cat('glmnet model penalty factor: not specified\n')
+      } else {
+        cat('glmnet model penalty factor: specified\n')
+      }
+      cat('Calibration time point:', attr(x, 'pred.at'), '\n')
+      cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
+    },
 
-         ncvreg.calibrate.fitting = {
-           cat('High-Dimensional Cox Model Calibration Object\n')
-           cat('Random seed:', attr(x, 'seed'), '\n')
-           cat('Calibration method: fitting\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('ncvreg model gamma:', attr(x, 'gamma'), '\n')
-           cat('ncvreg model alpha:', attr(x, 'alpha'), '\n')
-           cat('ncvreg model lambda:', attr(x, 'lambda'), '\n')
-           cat('Calibration time point:', attr(x, 'pred.at'), '\n')
-           cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
-         },
+    glmnet.calibrate.repeated.cv = {
+      cat('High-Dimensional Cox Model Calibration Object\n')
+      cat('Random seed:', attr(x, 'seed'), '\n')
+      cat('Calibration method: repeated cross-validation\n')
+      cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
+      cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
+      cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
+      if (is.null(attr(x, 'pen.factor'))) {
+        cat('glmnet model penalty factor: not specified\n')
+      } else {
+        cat('glmnet model penalty factor: specified\n')
+      }
+      cat('Calibration time point:', attr(x, 'pred.at'), '\n')
+      cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
+    },
 
-         ncvreg.calibrate.bootstrap = {
-           cat('High-Dimensional Cox Model Calibration Object\n')
-           cat('Random seed:', attr(x, 'seed'), '\n')
-           cat('Calibration method: bootstrap\n')
-           cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('ncvreg model gamma:', attr(x, 'gamma'), '\n')
-           cat('ncvreg model alpha:', attr(x, 'alpha'), '\n')
-           cat('ncvreg model lambda:', attr(x, 'lambda'), '\n')
-           cat('Calibration time point:', attr(x, 'pred.at'), '\n')
-           cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
-         },
+    ncvreg.calibrate.fitting = {
+      cat('High-Dimensional Cox Model Calibration Object\n')
+      cat('Random seed:', attr(x, 'seed'), '\n')
+      cat('Calibration method: fitting\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('ncvreg model gamma:', attr(x, 'gamma'), '\n')
+      cat('ncvreg model alpha:', attr(x, 'alpha'), '\n')
+      cat('ncvreg model lambda:', attr(x, 'lambda'), '\n')
+      cat('Calibration time point:', attr(x, 'pred.at'), '\n')
+      cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
+    },
 
-         ncvreg.calibrate.cv = {
-           cat('High-Dimensional Cox Model Calibration Object\n')
-           cat('Random seed:', attr(x, 'seed'), '\n')
-           cat('Calibration method: k-fold cross-validation\n')
-           cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('ncvreg model gamma:', attr(x, 'gamma'), '\n')
-           cat('ncvreg model alpha:', attr(x, 'alpha'), '\n')
-           cat('ncvreg model lambda:', attr(x, 'lambda'), '\n')
-           cat('Calibration time point:', attr(x, 'pred.at'), '\n')
-           cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
-         },
+    ncvreg.calibrate.bootstrap = {
+      cat('High-Dimensional Cox Model Calibration Object\n')
+      cat('Random seed:', attr(x, 'seed'), '\n')
+      cat('Calibration method: bootstrap\n')
+      cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('ncvreg model gamma:', attr(x, 'gamma'), '\n')
+      cat('ncvreg model alpha:', attr(x, 'alpha'), '\n')
+      cat('ncvreg model lambda:', attr(x, 'lambda'), '\n')
+      cat('Calibration time point:', attr(x, 'pred.at'), '\n')
+      cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
+    },
 
-         ncvreg.calibrate.repeated.cv = {
-           cat('High-Dimensional Cox Model Calibration Object\n')
-           cat('Random seed:', attr(x, 'seed'), '\n')
-           cat('Calibration method: repeated cross-validation\n')
-           cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
-           cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('ncvreg model alpha:', attr(x, 'gamma'), '\n')
-           cat('ncvreg model alpha:', attr(x, 'alpha'), '\n')
-           cat('ncvreg model lambda:', attr(x, 'lambda'), '\n')
-           cat('Calibration time point:', attr(x, 'pred.at'), '\n')
-           cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
-         },
+    ncvreg.calibrate.cv = {
+      cat('High-Dimensional Cox Model Calibration Object\n')
+      cat('Random seed:', attr(x, 'seed'), '\n')
+      cat('Calibration method: k-fold cross-validation\n')
+      cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('ncvreg model gamma:', attr(x, 'gamma'), '\n')
+      cat('ncvreg model alpha:', attr(x, 'alpha'), '\n')
+      cat('ncvreg model lambda:', attr(x, 'lambda'), '\n')
+      cat('Calibration time point:', attr(x, 'pred.at'), '\n')
+      cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
+    },
 
-         penalized.calibrate.fitting = {
-           cat('High-Dimensional Cox Model Calibration Object\n')
-           cat('Random seed:', attr(x, 'seed'), '\n')
-           cat('Calibration method: fitting\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('Fused lasso model lambda1:', attr(x, 'lambda1'), '\n')
-           cat('Fused lasso model lambda2:', attr(x, 'lambda2'), '\n')
-           cat('Calibration time point:', attr(x, 'pred.at'), '\n')
-           cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
-         },
+    ncvreg.calibrate.repeated.cv = {
+      cat('High-Dimensional Cox Model Calibration Object\n')
+      cat('Random seed:', attr(x, 'seed'), '\n')
+      cat('Calibration method: repeated cross-validation\n')
+      cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
+      cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('ncvreg model alpha:', attr(x, 'gamma'), '\n')
+      cat('ncvreg model alpha:', attr(x, 'alpha'), '\n')
+      cat('ncvreg model lambda:', attr(x, 'lambda'), '\n')
+      cat('Calibration time point:', attr(x, 'pred.at'), '\n')
+      cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
+    },
 
-         penalized.calibrate.bootstrap = {
-           cat('High-Dimensional Cox Model Calibration Object\n')
-           cat('Random seed:', attr(x, 'seed'), '\n')
-           cat('Calibration method: bootstrap\n')
-           cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('Fused lasso model lambda1:', attr(x, 'lambda1'), '\n')
-           cat('Fused lasso model lambda2:', attr(x, 'lambda2'), '\n')
-           cat('Calibration time point:', attr(x, 'pred.at'), '\n')
-           cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
-         },
+    penalized.calibrate.fitting = {
+      cat('High-Dimensional Cox Model Calibration Object\n')
+      cat('Random seed:', attr(x, 'seed'), '\n')
+      cat('Calibration method: fitting\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('Fused lasso model lambda1:', attr(x, 'lambda1'), '\n')
+      cat('Fused lasso model lambda2:', attr(x, 'lambda2'), '\n')
+      cat('Calibration time point:', attr(x, 'pred.at'), '\n')
+      cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
+    },
 
-         penalized.calibrate.cv = {
-           cat('High-Dimensional Cox Model Calibration Object\n')
-           cat('Random seed:', attr(x, 'seed'), '\n')
-           cat('Calibration method: k-fold cross-validation\n')
-           cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('Fused lasso model lambda1:', attr(x, 'lambda1'), '\n')
-           cat('Fused lasso model lambda2:', attr(x, 'lambda2'), '\n')
-           cat('Calibration time point:', attr(x, 'pred.at'), '\n')
-           cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
-         },
+    penalized.calibrate.bootstrap = {
+      cat('High-Dimensional Cox Model Calibration Object\n')
+      cat('Random seed:', attr(x, 'seed'), '\n')
+      cat('Calibration method: bootstrap\n')
+      cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('Fused lasso model lambda1:', attr(x, 'lambda1'), '\n')
+      cat('Fused lasso model lambda2:', attr(x, 'lambda2'), '\n')
+      cat('Calibration time point:', attr(x, 'pred.at'), '\n')
+      cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
+    },
 
-         penalized.calibrate.repeated.cv = {
-           cat('High-Dimensional Cox Model Calibration Object\n')
-           cat('Random seed:', attr(x, 'seed'), '\n')
-           cat('Calibration method: repeated cross-validation\n')
-           cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
-           cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('Fused lasso model lambda1:', attr(x, 'lambda1'), '\n')
-           cat('Fused lasso model lambda2:', attr(x, 'lambda2'), '\n')
-           cat('Calibration time point:', attr(x, 'pred.at'), '\n')
-           cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
-         }
+    penalized.calibrate.cv = {
+      cat('High-Dimensional Cox Model Calibration Object\n')
+      cat('Random seed:', attr(x, 'seed'), '\n')
+      cat('Calibration method: k-fold cross-validation\n')
+      cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('Fused lasso model lambda1:', attr(x, 'lambda1'), '\n')
+      cat('Fused lasso model lambda2:', attr(x, 'lambda2'), '\n')
+      cat('Calibration time point:', attr(x, 'pred.at'), '\n')
+      cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
+    },
+
+    penalized.calibrate.repeated.cv = {
+      cat('High-Dimensional Cox Model Calibration Object\n')
+      cat('Random seed:', attr(x, 'seed'), '\n')
+      cat('Calibration method: repeated cross-validation\n')
+      cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
+      cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('Fused lasso model lambda1:', attr(x, 'lambda1'), '\n')
+      cat('Fused lasso model lambda2:', attr(x, 'lambda2'), '\n')
+      cat('Calibration time point:', attr(x, 'pred.at'), '\n')
+      cat('Number of groups formed for calibration:', attr(x, 'ngroup'), '\n')
+    }
 
   )
 
@@ -989,88 +1014,90 @@ summary.hdnom.calibrate = function(object, ...) {
 
   method = setdiff(class(object), 'hdnom.calibrate')
 
-  switch(method,
+  switch(
 
-         glmnet.calibrate.fitting = {
-           attr(object, 'alpha')      = NULL
-           attr(object, 'lambda')     = NULL
-           attr(object, 'pen.factor') = NULL
-         },
+    method,
 
-         glmnet.calibrate.bootstrap = {
-           attr(object, 'boot.times') = NULL
-           attr(object, 'alpha')      = NULL
-           attr(object, 'lambda')     = NULL
-           attr(object, 'pen.factor') = NULL
+    glmnet.calibrate.fitting = {
+      attr(object, 'alpha')      = NULL
+      attr(object, 'lambda')     = NULL
+      attr(object, 'pen.factor') = NULL
+    },
 
-         },
+    glmnet.calibrate.bootstrap = {
+      attr(object, 'boot.times') = NULL
+      attr(object, 'alpha')      = NULL
+      attr(object, 'lambda')     = NULL
+      attr(object, 'pen.factor') = NULL
 
-         glmnet.calibrate.cv = {
-           attr(object, 'nfolds')     = NULL
-           attr(object, 'alpha')      = NULL
-           attr(object, 'lambda')     = NULL
-           attr(object, 'pen.factor') = NULL
-         },
+    },
 
-         glmnet.calibrate.repeated.cv = {
-           attr(object, 'nfolds')     = NULL
-           attr(object, 'rep.times')  = NULL
-           attr(object, 'alpha')      = NULL
-           attr(object, 'lambda')     = NULL
-           attr(object, 'pen.factor') = NULL
-         },
+    glmnet.calibrate.cv = {
+      attr(object, 'nfolds')     = NULL
+      attr(object, 'alpha')      = NULL
+      attr(object, 'lambda')     = NULL
+      attr(object, 'pen.factor') = NULL
+    },
 
-         ncvreg.calibrate.fitting = {
-           attr(object, 'alpha')      = NULL
-           attr(object, 'lambda')     = NULL
-           attr(object, 'gamma')      = NULL
-         },
+    glmnet.calibrate.repeated.cv = {
+      attr(object, 'nfolds')     = NULL
+      attr(object, 'rep.times')  = NULL
+      attr(object, 'alpha')      = NULL
+      attr(object, 'lambda')     = NULL
+      attr(object, 'pen.factor') = NULL
+    },
 
-         ncvreg.calibrate.bootstrap = {
-           attr(object, 'alpha')      = NULL
-           attr(object, 'lambda')     = NULL
-           attr(object, 'gamma')      = NULL
-           attr(object, 'boot.times') = NULL
-         },
+    ncvreg.calibrate.fitting = {
+      attr(object, 'alpha')      = NULL
+      attr(object, 'lambda')     = NULL
+      attr(object, 'gamma')      = NULL
+    },
 
-         ncvreg.calibrate.cv = {
-           attr(object, 'alpha')      = NULL
-           attr(object, 'lambda')     = NULL
-           attr(object, 'gamma')      = NULL
-           attr(object, 'nfolds')     = NULL
-         },
+    ncvreg.calibrate.bootstrap = {
+      attr(object, 'alpha')      = NULL
+      attr(object, 'lambda')     = NULL
+      attr(object, 'gamma')      = NULL
+      attr(object, 'boot.times') = NULL
+    },
 
-         ncvreg.calibrate.repeated.cv = {
-           attr(object, 'alpha')      = NULL
-           attr(object, 'lambda')     = NULL
-           attr(object, 'gamma')      = NULL
-           attr(object, 'nfolds')     = NULL
-           attr(object, 'rep.times')  = NULL
-         },
+    ncvreg.calibrate.cv = {
+      attr(object, 'alpha')      = NULL
+      attr(object, 'lambda')     = NULL
+      attr(object, 'gamma')      = NULL
+      attr(object, 'nfolds')     = NULL
+    },
 
-         penalized.calibrate.fitting = {
-           attr(object, 'lambda1')   = NULL
-           attr(object, 'lambda2')   = NULL
-         },
+    ncvreg.calibrate.repeated.cv = {
+      attr(object, 'alpha')      = NULL
+      attr(object, 'lambda')     = NULL
+      attr(object, 'gamma')      = NULL
+      attr(object, 'nfolds')     = NULL
+      attr(object, 'rep.times')  = NULL
+    },
 
-         penalized.calibrate.bootstrap = {
-           attr(object, 'lambda1')     = NULL
-           attr(object, 'lambda2')     = NULL
-           attr(object, 'boot.times')  = NULL
-         },
+    penalized.calibrate.fitting = {
+      attr(object, 'lambda1')   = NULL
+      attr(object, 'lambda2')   = NULL
+    },
 
-         penalized.calibrate.cv    = {
-           attr(object, 'lambda1') = NULL
-           attr(object, 'lambda2') = NULL
-           attr(object, 'nfolds')  = NULL
-         },
+    penalized.calibrate.bootstrap = {
+      attr(object, 'lambda1')     = NULL
+      attr(object, 'lambda2')     = NULL
+      attr(object, 'boot.times')  = NULL
+    },
 
-         penalized.calibrate.repeated.cv = {
-           attr(object, 'lambda1')       = NULL
-           attr(object, 'lambda2')       = NULL
-           attr(object, 'nfolds')        = NULL
-           attr(object, 'rep.times')     = NULL
-         }
+    penalized.calibrate.cv    = {
+      attr(object, 'lambda1') = NULL
+      attr(object, 'lambda2') = NULL
+      attr(object, 'nfolds')  = NULL
+    },
+
+    penalized.calibrate.repeated.cv = {
+      attr(object, 'lambda1')       = NULL
+      attr(object, 'lambda2')       = NULL
+      attr(object, 'nfolds')        = NULL
+      attr(object, 'rep.times')     = NULL
+    }
 
   )
 
@@ -1109,31 +1136,34 @@ summary.hdnom.calibrate = function(object, ...) {
 #'
 #' @examples
 #' NULL
-plot.hdnom.calibrate =
-  function(x, xlim = c(0, 1), ylim = c(0, 1),
-           col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS'), ...) {
+plot.hdnom.calibrate = function(
+  x, xlim = c(0, 1), ylim = c(0, 1),
+  col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS'), ...) {
 
-    if (!('hdnom.calibrate' %in% class(x)))
-      stop('object class must be "hdnom.calibrate"')
+  if (!('hdnom.calibrate' %in% class(x)))
+    stop('object class must be "hdnom.calibrate"')
 
-    df = data.frame('pre' = x[, 'Predicted'], 'obs' = x[, 'Observed'],
-                    'll' = x[, 'Lower 95%'], 'ul' = x[, 'Upper 95%'])
+  df = data.frame('pre' = x[, 'Predicted'], 'obs' = x[, 'Observed'],
+                  'll' = x[, 'Lower 95%'], 'ul' = x[, 'Upper 95%'])
 
-    col.pal = match.arg(col.pal)
-    col_pal = switch (
-      col.pal,
-      JCO   = palette.jco()[1], Lancet = palette.lancet()[1],
-      NPG   = palette.npg()[1], AAAS   = palette.aaas()[1])
+  col.pal = match.arg(col.pal)
+  col_pal = switch (
+    col.pal,
+    JCO   = palette.jco()[1], Lancet = palette.lancet()[1],
+    NPG   = palette.npg()[1], AAAS   = palette.aaas()[1])
 
-    ggplot(df, aes_string(x = 'pre', y = 'obs',
-                          xmin = xlim[1L], xmax = xlim[2L],
-                          ymin = ylim[1L], ymax = ylim[2L])) +
-      geom_abline(slope = 1, intercept = 0, colour = 'grey') +
-      geom_errorbar(aes_string(ymin = 'll', ymax = 'ul'), colour = col_pal) +
-      geom_line(colour = col_pal) +
-      geom_point(size = 3, colour = col_pal) +
-      xlab('Predicted Survival Probability') +
-      ylab('Observed Survival Probability') +
-      theme_bw()
+  ggplot(
+    df,
+    aes_string(
+      x = 'pre', y = 'obs',
+      xmin = xlim[1L], xmax = xlim[2L],
+      ymin = ylim[1L], ymax = ylim[2L])) +
+    geom_abline(slope = 1, intercept = 0, colour = 'grey') +
+    geom_errorbar(aes_string(ymin = 'll', ymax = 'ul'), colour = col_pal) +
+    geom_line(colour = col_pal) +
+    geom_point(size = 3, colour = col_pal) +
+    xlab('Predicted Survival Probability') +
+    ylab('Observed Survival Probability') +
+    theme_bw()
 
-  }
+}

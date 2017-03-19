@@ -54,8 +54,10 @@ dd = datadist(x.df)
 options(datadist = "dd")
 
 # Generate hdnom.nomogram objects and plot nomogram
-nom = hdnom.nomogram(fit$mcp_model, model.type = "mcp",
-                     x, time, event, x.df, pred.at = 365 * 2,
-                     funlabel = "2-Year Overall Survival Probability")
+nom = hdnom.nomogram(
+  fit$mcp_model, model.type = "mcp",
+  x, time, event, x.df, pred.at = 365 * 2,
+  funlabel = "2-Year Overall Survival Probability")
+
 plot(nom)
 }

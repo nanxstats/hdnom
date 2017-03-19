@@ -47,20 +47,23 @@ event_new = smart$EVENT[1001:2000]
 fit = hdcox.lasso(x, Surv(time, event), nfolds = 5, rule = "lambda.1se", seed = 11)
 
 # Internal calibration
-cal.int = hdnom.calibrate(x, time, event, model.type = "lasso",
-                          alpha = 1, lambda = fit$lasso_best_lambda,
-                          method = "cv", nfolds = 5,
-                          pred.at = 365 * 9, ngroup = 3)
+cal.int = hdnom.calibrate(
+  x, time, event, model.type = "lasso",
+  alpha = 1, lambda = fit$lasso_best_lambda,
+  method = "cv", nfolds = 5,
+  pred.at = 365 * 9, ngroup = 3)
 
-hdnom.kmplot(cal.int, group.name = c('High risk', 'Medium risk', 'Low risk'),
-             time.at = 1:6 * 365)
+hdnom.kmplot(
+  cal.int, group.name = c('High risk', 'Medium risk', 'Low risk'),
+  time.at = 1:6 * 365)
 
 # External calibration
-cal.ext =
-  hdnom.external.calibrate(fit, x, time, event,
-                           x_new, time_new, event_new,
-                           pred.at = 365 * 5, ngroup = 3)
+cal.ext = hdnom.external.calibrate(
+  fit, x, time, event,
+  x_new, time_new, event_new,
+  pred.at = 365 * 5, ngroup = 3)
 
-hdnom.kmplot(cal.ext, group.name = c('High risk','Medium risk', 'Low risk'),
-             time.at = 1:6 * 365)
+hdnom.kmplot(
+  cal.ext, group.name = c('High risk','Medium risk', 'Low risk'),
+  time.at = 1:6 * 365)
 }

@@ -56,215 +56,209 @@
 #' event = smart$EVENT[1:1000]
 #'
 #' # Compare lasso and adaptive lasso by 5-fold cross-validation
-#' cmp.val.cv =
-#'   hdnom.compare.validate(x, time, event,
-#'                          model.type = c("lasso", "alasso"),
-#'                          method = "cv", nfolds = 5, tauc.type = "UNO",
-#'                          tauc.time = seq(0.25, 2, 0.25) * 365, seed = 1001)
+#' cmp.val.cv = hdnom.compare.validate(
+#'   x, time, event, model.type = c("lasso", "alasso"),
+#'   method = "cv", nfolds = 5, tauc.type = "UNO",
+#'   tauc.time = seq(0.25, 2, 0.25) * 365, seed = 1001)
 #'
 #' print(cmp.val.cv)
 #' summary(cmp.val.cv)
 #' plot(cmp.val.cv)
 #' plot(cmp.val.cv, interval = TRUE)
-hdnom.compare.validate =
-  function(x, time, event,
-           model.type = c('lasso', 'alasso', 'flasso',
-                          'enet', 'aenet',
-                          'mcp', 'mnet',
-                          'scad', 'snet'),
-           method = c('bootstrap', 'cv', 'repeated.cv'),
-           boot.times = NULL, nfolds = NULL, rep.times = NULL,
-           tauc.type = c("CD", "SZ", "UNO"), tauc.time,
-           seed = 1001, trace = TRUE) {
+hdnom.compare.validate = function(
+  x, time, event,
+  model.type =
+    c('lasso', 'alasso', 'flasso', 'enet', 'aenet',
+      'mcp', 'mnet', 'scad', 'snet'),
+  method = c('bootstrap', 'cv', 'repeated.cv'),
+  boot.times = NULL, nfolds = NULL, rep.times = NULL,
+  tauc.type = c("CD", "SZ", "UNO"), tauc.time,
+  seed = 1001, trace = TRUE) {
 
-    method = match.arg(method)
-    tauc.type = match.arg(tauc.type)
+  method = match.arg(method)
+  tauc.type = match.arg(tauc.type)
 
-    if (!all(model.type %in% c('lasso', 'alasso', 'flasso', 'enet', 'aenet',
-                               'mcp', 'mnet', 'scad', 'snet'))) {
-      stop('Unknown model type(s) specified')
-    }
+  if (!all(model.type %in% c(
+    'lasso', 'alasso', 'flasso', 'enet', 'aenet',
+    'mcp', 'mnet', 'scad', 'snet'))) {
+    stop('Unknown model type(s) specified')
+  }
 
-    nmodel = length(model.type)
-    tauclist = vector('list', nmodel)
+  nmodel = length(model.type)
+  tauclist = vector('list', nmodel)
 
-    # check parameters for different methods
-    if (method == 'bootstrap') {
-      if (!is.null(nfolds) || !is.null(rep.times))
-        stop('nfolds and rep.times must be NULL when method = "bootstrap"')
-      if (is.null(boot.times)) stop('please specify boot.times')
-    }
+  # check parameters for different methods
+  if (method == 'bootstrap') {
+    if (!is.null(nfolds) || !is.null(rep.times))
+      stop('nfolds and rep.times must be NULL when method = "bootstrap"')
+    if (is.null(boot.times)) stop('please specify boot.times')
+  }
 
-    if (method == 'cv') {
-      if (!is.null(boot.times) || !is.null(rep.times))
-        stop('boot.times and rep.times must be NULL when method = "cv"')
-      if (is.null(nfolds)) stop('please specify nfolds')
-    }
+  if (method == 'cv') {
+    if (!is.null(boot.times) || !is.null(rep.times))
+      stop('boot.times and rep.times must be NULL when method = "cv"')
+    if (is.null(nfolds)) stop('please specify nfolds')
+  }
 
-    if (method == 'repeated.cv') {
-      if (!is.null(boot.times))
-        stop('boot.times must be NULL when method = "repeated.cv"')
-      if (is.null(nfolds) || is.null(rep.times))
-        stop('please specify nfolds and rep.times')
-    }
+  if (method == 'repeated.cv') {
+    if (!is.null(boot.times))
+      stop('boot.times must be NULL when method = "repeated.cv"')
+    if (is.null(nfolds) || is.null(rep.times))
+      stop('please specify nfolds and rep.times')
+  }
 
-    for (i in 1L:nmodel) {
+  for (i in 1L:nmodel) {
 
-      if (trace) cat('Starting model', i, ':', model.type[i], '\n')
+    if (trace) cat('Starting model', i, ':', model.type[i], '\n')
 
-      switch(model.type[i],
+    switch(
 
-             lasso = {
+      model.type[i],
 
-               cvfit = hdcox.lasso(x, Surv(time, event), nfolds = 5L,
-                                   rule = 'lambda.1se', seed = seed)
+      lasso = {
 
-               tauclist[[i]] =
-                 hdnom.validate(
-                   x, time, event, model.type = 'lasso',
-                   alpha = 1, lambda = cvfit$'lasso_best_lambda',
-                   method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
-                   tauc.type = tauc.type, tauc.time = tauc.time,
-                   seed = seed, trace = trace)
+        cvfit = hdcox.lasso(
+          x, Surv(time, event), nfolds = 5L,
+          rule = 'lambda.1se', seed = seed)
 
-             },
+        tauclist[[i]] = hdnom.validate(
+          x, time, event, model.type = 'lasso',
+          alpha = 1, lambda = cvfit$'lasso_best_lambda',
+          method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
+          tauc.type = tauc.type, tauc.time = tauc.time,
+          seed = seed, trace = trace)
 
-             alasso = {
+      },
 
-               cvfit = hdcox.alasso(x, Surv(time, event), nfolds = 5L,
-                                    rule = 'lambda.1se', seed = rep(seed, 2))
+      alasso = {
 
-               tauclist[[i]] =
-                 hdnom.validate(
-                   x, time, event, model.type = 'alasso',
-                   alpha = 1, lambda = cvfit$'alasso_best_lambda', pen.factor = cvfit$'pen_factor',
-                   method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
-                   tauc.type = tauc.type, tauc.time = tauc.time,
-                   seed = seed, trace = trace)
+        cvfit = hdcox.alasso(
+          x, Surv(time, event), nfolds = 5L,
+          rule = 'lambda.1se', seed = rep(seed, 2))
 
-             },
+        tauclist[[i]] = hdnom.validate(
+          x, time, event, model.type = 'alasso',
+          alpha = 1, lambda = cvfit$'alasso_best_lambda', pen.factor = cvfit$'pen_factor',
+          method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
+          tauc.type = tauc.type, tauc.time = tauc.time,
+          seed = seed, trace = trace)
 
-             flasso = {
+      },
 
-               cvfit = hdcox.flasso(x, Surv(time, event), nfolds = 5L, seed = seed)
+      flasso = {
 
-               tauclist[[i]] =
-                 hdnom.validate(
-                   x, time, event, model.type = 'flasso',
-                   lambda1 = cvfit$'flasso_best_lambda1',
-                   lambda2 = cvfit$'flasso_best_lambda2',
-                   method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
-                   tauc.type = tauc.type, tauc.time = tauc.time,
-                   seed = seed, trace = trace)
+        cvfit = hdcox.flasso(x, Surv(time, event), nfolds = 5L, seed = seed)
 
-             },
+        tauclist[[i]] = hdnom.validate(
+          x, time, event, model.type = 'flasso',
+          lambda1 = cvfit$'flasso_best_lambda1',
+          lambda2 = cvfit$'flasso_best_lambda2',
+          method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
+          tauc.type = tauc.type, tauc.time = tauc.time,
+          seed = seed, trace = trace)
 
-             enet = {
+      },
 
-               cvfit = hdcox.enet(
-                 x, Surv(time, event), nfolds = 5L,
-                 alphas = c(0.1, 0.25, 0.5, 0.75, 0.9),  # to reduce computation time
-                 rule = 'lambda.1se', seed = seed)
+      enet = {
 
-               tauclist[[i]] =
-                 hdnom.validate(
-                   x, time, event, model.type = 'enet',
-                   alpha = cvfit$'enet_best_alpha', lambda = cvfit$'enet_best_lambda',
-                   method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
-                   tauc.type = tauc.type, tauc.time = tauc.time,
-                   seed = seed, trace = trace)
+        cvfit = hdcox.enet(
+          x, Surv(time, event), nfolds = 5L,
+          alphas = c(0.1, 0.25, 0.5, 0.75, 0.9),  # to reduce computation time
+          rule = 'lambda.1se', seed = seed)
 
-             },
+        tauclist[[i]] = hdnom.validate(
+          x, time, event, model.type = 'enet',
+          alpha = cvfit$'enet_best_alpha', lambda = cvfit$'enet_best_lambda',
+          method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
+          tauc.type = tauc.type, tauc.time = tauc.time,
+          seed = seed, trace = trace)
 
-             aenet = {
+      },
 
-               cvfit = hdcox.aenet(
-                 x, Surv(time, event), nfolds = 5L,
-                 alphas = c(0.1, 0.25, 0.5, 0.75, 0.9),  # to reduce computation time
-                 rule = 'lambda.1se', seed = rep(seed, 2))
+      aenet = {
 
-               tauclist[[i]] =
-                 hdnom.validate(
-                   x, time, event, model.type = 'aenet',
-                   alpha = cvfit$'aenet_best_alpha', lambda = cvfit$'aenet_best_lambda', pen.factor = cvfit$'pen_factor',
-                   method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
-                   tauc.type = tauc.type, tauc.time = tauc.time,
-                   seed = seed, trace = trace)
+        cvfit = hdcox.aenet(
+          x, Surv(time, event), nfolds = 5L,
+          alphas = c(0.1, 0.25, 0.5, 0.75, 0.9),  # to reduce computation time
+          rule = 'lambda.1se', seed = rep(seed, 2))
 
-             },
+        tauclist[[i]] = hdnom.validate(
+          x, time, event, model.type = 'aenet',
+          alpha = cvfit$'aenet_best_alpha', lambda = cvfit$'aenet_best_lambda', pen.factor = cvfit$'pen_factor',
+          method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
+          tauc.type = tauc.type, tauc.time = tauc.time,
+          seed = seed, trace = trace)
 
-             mcp = {
+      },
 
-               cvfit = hdcox.mcp(x, Surv(time, event), nfolds = 5L, seed = seed)
+      mcp = {
 
-               tauclist[[i]] =
-                 hdnom.validate(
-                   x, time, event, model.type = 'mcp',
-                   alpha = 1, gamma = cvfit$'mcp_best_gamma', lambda = cvfit$'mcp_best_lambda',
-                   method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
-                   tauc.type = tauc.type, tauc.time = tauc.time,
-                   seed = seed, trace = trace)
+        cvfit = hdcox.mcp(x, Surv(time, event), nfolds = 5L, seed = seed)
 
-             },
+        tauclist[[i]] = hdnom.validate(
+          x, time, event, model.type = 'mcp',
+          alpha = 1, gamma = cvfit$'mcp_best_gamma', lambda = cvfit$'mcp_best_lambda',
+          method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
+          tauc.type = tauc.type, tauc.time = tauc.time,
+          seed = seed, trace = trace)
 
-             mnet = {
+      },
 
-               cvfit = hdcox.mnet(
-                 x, Surv(time, event), nfolds = 5L,
-                 alphas = c(0.1, 0.25, 0.5, 0.75, 0.9), # to reduce computation time
-                 seed = seed)
+      mnet = {
 
-               tauclist[[i]] =
-                 hdnom.validate(
-                   x, time, event, model.type = 'mnet',
-                   alpha = cvfit$'mnet_best_alpha', gamma = cvfit$'mnet_best_gamma', lambda = cvfit$'mnet_best_lambda',
-                   method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
-                   tauc.type = tauc.type, tauc.time = tauc.time,
-                   seed = seed, trace = trace)
+        cvfit = hdcox.mnet(
+          x, Surv(time, event), nfolds = 5L,
+          alphas = c(0.1, 0.25, 0.5, 0.75, 0.9), # to reduce computation time
+          seed = seed)
 
-             },
+        tauclist[[i]] = hdnom.validate(
+          x, time, event, model.type = 'mnet',
+          alpha = cvfit$'mnet_best_alpha', gamma = cvfit$'mnet_best_gamma', lambda = cvfit$'mnet_best_lambda',
+          method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
+          tauc.type = tauc.type, tauc.time = tauc.time,
+          seed = seed, trace = trace)
 
-             scad = {
+      },
 
-               cvfit = hdcox.scad(x, Surv(time, event), nfolds = 5L, seed = seed)
+      scad = {
 
-               tauclist[[i]] =
-                 hdnom.validate(
-                   x, time, event, model.type = 'scad',
-                   alpha = 1, gamma = cvfit$'scad_best_gamma', lambda = cvfit$'scad_best_lambda',
-                   method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
-                   tauc.type = tauc.type, tauc.time = tauc.time,
-                   seed = seed, trace = trace)
+        cvfit = hdcox.scad(x, Surv(time, event), nfolds = 5L, seed = seed)
 
-             },
+        tauclist[[i]] = hdnom.validate(
+          x, time, event, model.type = 'scad',
+          alpha = 1, gamma = cvfit$'scad_best_gamma', lambda = cvfit$'scad_best_lambda',
+          method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
+          tauc.type = tauc.type, tauc.time = tauc.time,
+          seed = seed, trace = trace)
 
-             snet = {
+      },
 
-               cvfit = hdcox.snet(
-                 x, Surv(time, event), nfolds = 5L,
-                 alphas = c(0.1, 0.25, 0.5, 0.75, 0.9), # to reduce computation time
-                 seed = seed)
+      snet = {
 
-               tauclist[[i]] =
-                 hdnom.validate(
-                   x, time, event, model.type = 'snet',
-                   alpha = cvfit$'snet_best_alpha', gamma = cvfit$'snet_best_gamma', lambda = cvfit$'snet_best_lambda',
-                   method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
-                   tauc.type = tauc.type, tauc.time = tauc.time,
-                   seed = seed, trace = trace)
+        cvfit = hdcox.snet(
+          x, Surv(time, event), nfolds = 5L,
+          alphas = c(0.1, 0.25, 0.5, 0.75, 0.9), # to reduce computation time
+          seed = seed)
 
-             }
+        tauclist[[i]] = hdnom.validate(
+          x, time, event, model.type = 'snet',
+          alpha = cvfit$'snet_best_alpha', gamma = cvfit$'snet_best_gamma', lambda = cvfit$'snet_best_lambda',
+          method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
+          tauc.type = tauc.type, tauc.time = tauc.time,
+          seed = seed, trace = trace)
 
-      )
+      }
 
-    }
-
-    names(tauclist) = model.type
-    class(tauclist) = c('hdnom.compare.validate')
-
-    tauclist
+    )
 
   }
+
+  names(tauclist) = model.type
+  class(tauclist) = c('hdnom.compare.validate')
+
+  tauclist
+
+}
 
 #' Print Model Comparison by Validation Results
 #'
@@ -341,80 +335,88 @@ summary.hdnom.compare.validate = function(object, silent = FALSE, ...) {
 #'
 #' @examples
 #' NULL
-plot.hdnom.compare.validate =
-  function(x, interval = FALSE,
-           col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS'),
-           ylim = NULL, ...) {
+plot.hdnom.compare.validate = function(
+  x, interval = FALSE,
+  col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS'),
+  ylim = NULL, ...) {
 
-    if (!('hdnom.compare.validate' %in% class(x)))
-      stop('object class must be "hdnom.compare.validate"')
+  if (!('hdnom.compare.validate' %in% class(x)))
+    stop('object class must be "hdnom.compare.validate"')
 
-    n = length(x)
-    dflist = vector('list', n)
+  n = length(x)
+  dflist = vector('list', n)
 
-    for (i in 1L:n) {
-      dflist[[i]] = as.data.frame(t(summary(x[[i]], silent = TRUE)))
-      tauc_time = attr(x[[i]], 'tauc.time')
+  for (i in 1L:n) {
+    dflist[[i]] = as.data.frame(t(summary(x[[i]], silent = TRUE)))
+    tauc_time = attr(x[[i]], 'tauc.time')
 
-      # special processing for repeated cv
-      if (any(grepl(pattern = 'validate.repeated.cv', class(x[[i]]))))
-        names(dflist[[i]]) = sapply(strsplit(names(dflist[[i]]), 'Mean of '), '[', 2L)
+    # special processing for repeated cv
+    if (any(grepl(pattern = 'validate.repeated.cv', class(x[[i]]))))
+      names(dflist[[i]]) = sapply(strsplit(names(dflist[[i]]), 'Mean of '), '[', 2L)
 
-      dflist[[i]][, 'Time'] = tauc_time
-      dflist[[i]][, 'Model'] = names(x)[i]
-      names(dflist[[i]])[which(names(dflist[[i]]) == '0.25 Qt.')] = 'Qt25'
-      names(dflist[[i]])[which(names(dflist[[i]]) == '0.75 Qt.')] = 'Qt75'
-    }
+    dflist[[i]][, 'Time'] = tauc_time
+    dflist[[i]][, 'Model'] = names(x)[i]
+    names(dflist[[i]])[which(names(dflist[[i]]) == '0.25 Qt.')] = 'Qt25'
+    names(dflist[[i]])[which(names(dflist[[i]]) == '0.75 Qt.')] = 'Qt75'
+  }
 
-    df = Reduce('rbind', dflist)
+  df = Reduce('rbind', dflist)
 
-    col.pal = match.arg(col.pal)
-    col_pal = switch (
-      col.pal,
-      JCO   = palette.jco(), Lancet = palette.lancet(),
-      NPG   = palette.npg(), AAAS   = palette.aaas())
+  col.pal = match.arg(col.pal)
+  col_pal = switch (
+    col.pal,
+    JCO   = palette.jco(), Lancet = palette.lancet(),
+    NPG   = palette.npg(), AAAS   = palette.aaas())
 
-    if (!interval) {
+  if (!interval) {
 
-      ggplot(data = df, aes_string(x = 'Time', y = 'Mean',
-                                   colour = 'Model', fill = 'Model')) +
-        geom_point() +
-        geom_line() +
-        geom_point(data = df, aes_string(x = 'Time', y = 'Median',
-                                         colour = 'Model', fill = 'Model')) +
-        geom_line(data = df, aes_string(x = 'Time', y = 'Median',
-                                        colour = 'Model'),
-                  linetype = 'dashed') +
-        scale_x_continuous(breaks = df$'Time') +
-        scale_colour_manual(values = col_pal) +
-        coord_cartesian(ylim = ylim) +
-        theme_bw() +
-        ylab('Area under ROC')
+    ggplot(
+      data = df,
+      aes_string(x = 'Time', y = 'Mean', colour = 'Model', fill = 'Model')) +
+      geom_point() +
+      geom_line() +
+      geom_point(
+        data = df,
+        aes_string(x = 'Time', y = 'Median', colour = 'Model', fill = 'Model')) +
+      geom_line(
+        data = df,
+        aes_string(x = 'Time', y = 'Median', colour = 'Model'),
+        linetype = 'dashed') +
+      scale_x_continuous(breaks = df$'Time') +
+      scale_colour_manual(values = col_pal) +
+      coord_cartesian(ylim = ylim) +
+      theme_bw() +
+      ylab('Area under ROC')
 
-    } else {
+  } else {
 
-      ggplot(data = df, aes_string(x = 'Time', y = 'Mean',
-                                   colour = 'Model', fill = 'Model')) +
-        geom_point() +
-        geom_line() +
-        geom_point(data = df, aes_string(x = 'Time', y = 'Median',
-                                         colour = 'Model', fill = 'Model')) +
-        geom_line(data = df, aes_string(x = 'Time', y = 'Median',
-                                        colour = 'Model'),
-                  linetype = 'dashed') +
-        geom_ribbon(data = df, aes_string(ymin = 'Qt25', ymax = 'Qt75',
-                                          colour = 'Model', fill = 'Model'),
-                    linetype = 0, alpha = 0.1) +
-        geom_ribbon(data = df, aes_string(ymin = 'Min', ymax = 'Max',
-                                          colour = 'Model', fill = 'Model'),
-                    linetype = 0, alpha = 0.05) +
-        scale_x_continuous(breaks = df$'Time') +
-        scale_colour_manual(values = col_pal) +
-        scale_fill_manual(values = col_pal) +
-        coord_cartesian(ylim = ylim) +
-        theme_bw() +
-        ylab('Area under ROC')
-
-    }
+    ggplot(
+      data = df,
+      aes_string(x = 'Time', y = 'Mean', colour = 'Model', fill = 'Model')) +
+      geom_point() +
+      geom_line() +
+      geom_point(
+        data = df,
+        aes_string(x = 'Time', y = 'Median', colour = 'Model', fill = 'Model')) +
+      geom_line(
+        data = df,
+        aes_string(x = 'Time', y = 'Median', colour = 'Model'),
+        linetype = 'dashed') +
+      geom_ribbon(
+        data = df,
+        aes_string(ymin = 'Qt25', ymax = 'Qt75', colour = 'Model', fill = 'Model'),
+        linetype = 0, alpha = 0.1) +
+      geom_ribbon(
+        data = df,
+        aes_string(ymin = 'Min', ymax = 'Max', colour = 'Model', fill = 'Model'),
+        linetype = 0, alpha = 0.05) +
+      scale_x_continuous(breaks = df$'Time') +
+      scale_colour_manual(values = col_pal) +
+      scale_fill_manual(values = col_pal) +
+      coord_cartesian(ylim = ylim) +
+      theme_bw() +
+      ylab('Area under ROC')
 
   }
+
+}

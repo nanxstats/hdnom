@@ -87,25 +87,28 @@ fit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 # Model validation by bootstrap with time-dependent AUC
 # Normally boot.times should be set to 200 or more,
 # we set it to 3 here only to save example running time.
-val.boot = hdnom.validate(x, time, event, model.type = "lasso",
-                          alpha = 1, lambda = fit$lasso_best_lambda,
-                          method = "bootstrap", boot.times = 3,
-                          tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
-                          seed = 1010)
+val.boot = hdnom.validate(
+  x, time, event, model.type = "lasso",
+  alpha = 1, lambda = fit$lasso_best_lambda,
+  method = "bootstrap", boot.times = 3,
+  tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
+  seed = 1010)
 
 # Model validation by 5-fold cross-validation with time-dependent AUC
-val.cv = hdnom.validate(x, time, event, model.type = "lasso",
-                        alpha = 1, lambda = fit$lasso_best_lambda,
-                        method = "cv", nfolds = 5,
-                        tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
-                        seed = 1010)
+val.cv = hdnom.validate(
+  x, time, event, model.type = "lasso",
+  alpha = 1, lambda = fit$lasso_best_lambda,
+  method = "cv", nfolds = 5,
+  tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
+  seed = 1010)
 
 # Model validation by repeated cross-validation with time-dependent AUC
-val.repcv = hdnom.validate(x, time, event, model.type = "lasso",
-                           alpha = 1, lambda = fit$lasso_best_lambda,
-                           method = "repeated.cv", nfolds = 5, rep.times = 3,
-                           tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
-                           seed = 1010)
+val.repcv = hdnom.validate(
+  x, time, event, model.type = "lasso",
+  alpha = 1, lambda = fit$lasso_best_lambda,
+  method = "repeated.cv", nfolds = 5, rep.times = 3,
+  tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
+  seed = 1010)
 
 # bootstrap-based discrimination curves has a very narrow band
 print(val.boot)

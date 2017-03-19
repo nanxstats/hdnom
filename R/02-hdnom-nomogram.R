@@ -51,19 +51,20 @@
 #' options(datadist = "dd")
 #'
 #' # Generate hdnom.nomogram objects and plot nomogram
-#' nom = hdnom.nomogram(fit$lasso_model, model.type = "lasso",
-#'                      x, time, event, x.df, pred.at = 365 * 2,
-#'                      funlabel = "2-Year Overall Survival Probability")
+#' nom = hdnom.nomogram(
+#'   fit$lasso_model, model.type = "lasso",
+#'   x, time, event, x.df, pred.at = 365 * 2,
+#'   funlabel = "2-Year Overall Survival Probability")
 #'
 #' print(nom)
 #' plot(nom)
-hdnom.nomogram = function(object,
-                          model.type = c('lasso', 'alasso', 'flasso',
-                                         'enet', 'aenet',
-                                         'mcp', 'mnet',
-                                         'scad', 'snet'),
-                          x, time, event, ddist,
-                          pred.at = NULL, fun.at = NULL, funlabel = NULL) {
+hdnom.nomogram = function(
+  object,
+  model.type =
+    c('lasso', 'alasso', 'flasso', 'enet', 'aenet',
+      'mcp', 'mnet', 'scad', 'snet'),
+  x, time, event, ddist,
+  pred.at = NULL, fun.at = NULL, funlabel = NULL) {
 
   model.type = match.arg(model.type)
 
@@ -100,8 +101,9 @@ hdnom.nomogram = function(object,
     survtime_at = survtime_ones[which(survtime_ones > pred.at)[1L] - 1L]
     survtime_at_idx = names(survtime_at)
 
-    survcurve = glmnet.survcurve(object = object, time = time, event = event,
-                                 x = x, survtime = survtime_ones)
+    survcurve = glmnet.survcurve(
+      object = object, time = time, event = event,
+      x = x, survtime = survtime_ones)
 
   }
 
@@ -128,8 +130,9 @@ hdnom.nomogram = function(object,
     survtime_at = survtime_ones[which(survtime_ones > pred.at)[1L] - 1L]
     survtime_at_idx = names(survtime_at)
 
-    survcurve = ncvreg.survcurve(object = object, time = time, event = event,
-                                 x = x, survtime = survtime_ones)
+    survcurve = ncvreg.survcurve(
+      object = object, time = time, event = event,
+      x = x, survtime = survtime_ones)
 
   }
 
@@ -156,8 +159,9 @@ hdnom.nomogram = function(object,
     survtime_at = survtime_ones[which(survtime_ones > pred.at)[1L] - 1L]
     survtime_at_idx = names(survtime_at)
 
-    survcurve = penalized.survcurve(object = object, time = time, event = event,
-                                    x = x, survtime = survtime_ones)
+    survcurve = penalized.survcurve(
+      object = object, time = time, event = event,
+      x = x, survtime = survtime_ones)
 
   }
 
@@ -172,12 +176,13 @@ hdnom.nomogram = function(object,
   if (is.null(funlabel))
     funlabel = paste('Overall Survival Probability at Time', pred.at)
 
-  nom = list('ols_fit'   = ols_fit,
-             'survcurve' = survcurve,
-             'bhfun'     = bhfun,
-             'pred.at'   = pred.at,
-             'fun.at'    = fun.at,
-             'funlabel'  = funlabel)
+  nom = list(
+    'ols_fit'   = ols_fit,
+    'survcurve' = survcurve,
+    'bhfun'     = bhfun,
+    'pred.at'   = pred.at,
+    'fun.at'    = fun.at,
+    'funlabel'  = funlabel)
 
   class(nom) = 'hdnom.nomogram'
 
@@ -217,8 +222,9 @@ glmnet.survcurve = function(object, time, event, x, survtime) {
 #' @return list containing cumulative base hazard
 #'
 #' @keywords internal
-glmnet.basesurv = function(time, event, lp,
-                           times.eval = NULL, centered = FALSE) {
+glmnet.basesurv = function(
+  time, event, lp,
+  times.eval = NULL, centered = FALSE) {
 
   if (is.null(times.eval)) times.eval = sort(unique(time))
 
@@ -226,8 +232,8 @@ glmnet.basesurv = function(time, event, lp,
   alpha = length(t.unique)
 
   for (i in 1L:length(t.unique)) {
-    alpha[i] = sum(time[event == 1L] ==
-                     t.unique[i])/sum(exp(lp[time >= t.unique[i]]))
+    alpha[i] = sum(
+      time[event == 1L] == t.unique[i])/sum(exp(lp[time >= t.unique[i]]))
   }
 
   obj = approx(t.unique, cumsum(alpha), yleft = 0, xout = times.eval, rule = 2)
@@ -272,8 +278,9 @@ ncvreg.survcurve = function(object, time, event, x, survtime) {
 #' @return list containing cumulative base hazard
 #'
 #' @keywords internal
-ncvreg.basesurv = function(time, event, lp,
-                           times.eval = NULL, centered = FALSE) {
+ncvreg.basesurv = function(
+  time, event, lp,
+  times.eval = NULL, centered = FALSE) {
 
   if (is.null(times.eval)) times.eval = sort(unique(time))
 
@@ -281,8 +288,8 @@ ncvreg.basesurv = function(time, event, lp,
   alpha = length(t.unique)
 
   for (i in 1L:length(t.unique)) {
-    alpha[i] = sum(time[event == 1L] ==
-                     t.unique[i])/sum(exp(lp[time >= t.unique[i]]))
+    alpha[i] = sum(
+      time[event == 1L] == t.unique[i])/sum(exp(lp[time >= t.unique[i]]))
   }
 
   obj = approx(t.unique, cumsum(alpha), yleft = 0, xout = times.eval, rule = 2)
@@ -327,8 +334,9 @@ penalized.survcurve = function(object, time, event, x, survtime) {
 #' @return list containing cumulative base hazard
 #'
 #' @keywords internal
-penalized.basesurv = function(time, event, lp,
-                              times.eval = NULL, centered = FALSE) {
+penalized.basesurv = function(
+  time, event, lp,
+  times.eval = NULL, centered = FALSE) {
 
   if (is.null(times.eval)) times.eval = sort(unique(time))
 
@@ -336,8 +344,8 @@ penalized.basesurv = function(time, event, lp,
   alpha = length(t.unique)
 
   for (i in 1L:length(t.unique)) {
-    alpha[i] = sum(time[event == 1L] ==
-                     t.unique[i])/sum(exp(lp[time >= t.unique[i]]))
+    alpha[i] = sum(
+      time[event == 1L] == t.unique[i])/sum(exp(lp[time >= t.unique[i]]))
   }
 
   obj = approx(t.unique, cumsum(alpha), yleft = 0, xout = times.eval, rule = 2)
@@ -369,9 +377,10 @@ print.hdnom.nomogram = function(x, ...) {
   if (class(x) != 'hdnom.nomogram')
     stop('object class must be "hdnom.nomogram"')
 
-  nom = nomogram(fit = x$'ols_fit', fun = x$'bhfun',
-                 fun.at = x$'fun.at', funlabel = x$'funlabel',
-                 lp = TRUE, vnames = 'labels', ...)
+  nom = nomogram(
+    fit = x$'ols_fit', fun = x$'bhfun',
+    fun.at = x$'fun.at', funlabel = x$'funlabel',
+    lp = TRUE, vnames = 'labels', ...)
 
   print(nom)
 
@@ -397,9 +406,10 @@ plot.hdnom.nomogram = function(x, ...) {
   if (class(x) != 'hdnom.nomogram')
     stop('object class must be "hdnom.nomogram"')
 
-  nom = nomogram(fit = x$'ols_fit', fun = x$'bhfun',
-                 fun.at = x$'fun.at', funlabel = x$'funlabel',
-                 lp = TRUE, vnames = 'labels', ...)
+  nom = nomogram(
+    fit = x$'ols_fit', fun = x$'bhfun',
+    fun.at = x$'fun.at', funlabel = x$'funlabel',
+    lp = TRUE, vnames = 'labels', ...)
 
   plot(nom)
 

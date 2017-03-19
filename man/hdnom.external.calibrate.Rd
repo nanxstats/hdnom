@@ -53,16 +53,17 @@ time_new = smart$TEVENT[1001:2000]
 event_new = smart$EVENT[1001:2000]
 
 # Fit Cox model with lasso penalty
-fit = hdcox.lasso(x, Surv(time, event), nfolds = 5, rule = "lambda.1se", seed = 11)
+fit = hdcox.lasso(
+  x, Surv(time, event),
+  nfolds = 5, rule = "lambda.1se", seed = 11)
 
 # External calibration
-cal.ext =
-  hdnom.external.calibrate(fit, x, time, event,
-                           x_new, time_new, event_new,
-                           pred.at = 365 * 5, ngroup = 5)
+cal.ext = hdnom.external.calibrate(
+  fit, x, time, event,
+  x_new, time_new, event_new,
+  pred.at = 365 * 5, ngroup = 5)
 
 print(cal.ext)
 summary(cal.ext)
 plot(cal.ext, xlim = c(0.6, 1), ylim = c(0.6, 1))
-
 }

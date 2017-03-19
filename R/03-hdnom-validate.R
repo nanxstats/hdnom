@@ -76,25 +76,28 @@
 #' # Model validation by bootstrap with time-dependent AUC
 #' # Normally boot.times should be set to 200 or more,
 #' # we set it to 3 here only to save example running time.
-#' val.boot = hdnom.validate(x, time, event, model.type = "lasso",
-#'                           alpha = 1, lambda = fit$lasso_best_lambda,
-#'                           method = "bootstrap", boot.times = 3,
-#'                           tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
-#'                           seed = 1010)
+#' val.boot = hdnom.validate(
+#'   x, time, event, model.type = "lasso",
+#'   alpha = 1, lambda = fit$lasso_best_lambda,
+#'   method = "bootstrap", boot.times = 3,
+#'   tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
+#'   seed = 1010)
 #'
 #' # Model validation by 5-fold cross-validation with time-dependent AUC
-#' val.cv = hdnom.validate(x, time, event, model.type = "lasso",
-#'                         alpha = 1, lambda = fit$lasso_best_lambda,
-#'                         method = "cv", nfolds = 5,
-#'                         tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
-#'                         seed = 1010)
+#' val.cv = hdnom.validate(
+#'   x, time, event, model.type = "lasso",
+#'   alpha = 1, lambda = fit$lasso_best_lambda,
+#'   method = "cv", nfolds = 5,
+#'   tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
+#'   seed = 1010)
 #'
 #' # Model validation by repeated cross-validation with time-dependent AUC
-#' val.repcv = hdnom.validate(x, time, event, model.type = "lasso",
-#'                            alpha = 1, lambda = fit$lasso_best_lambda,
-#'                            method = "repeated.cv", nfolds = 5, rep.times = 3,
-#'                            tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
-#'                            seed = 1010)
+#' val.repcv = hdnom.validate(
+#'   x, time, event, model.type = "lasso",
+#'   alpha = 1, lambda = fit$lasso_best_lambda,
+#'   method = "repeated.cv", nfolds = 5, rep.times = 3,
+#'   tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
+#'   seed = 1010)
 #'
 #' # bootstrap-based discrimination curves has a very narrow band
 #' print(val.boot)
@@ -123,23 +126,26 @@
 # y = Surv(time, event)
 #
 # set.seed(1010)
-# val.boot = hdnom.validate(x, time, event, model.type = "flasso",
-#                           lambda1 = 5, lambda2 = 2,
-#                           method = "bootstrap", boot.times = 10,
-#                           tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
-#                           seed = 1010)
+# val.boot = hdnom.validate(
+#   x, time, event, model.type = "flasso",
+#   lambda1 = 5, lambda2 = 2,
+#   method = "bootstrap", boot.times = 10,
+#   tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
+#   seed = 1010)
 #
-# val.cv = hdnom.validate(x, time, event, model.type = "scad",
-#                         gamma = 3.7, alpha = 1, lambda = 0.05,
-#                         method = "cv", nfolds = 5,
-#                         tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
-#                         seed = 1010)
+# val.cv = hdnom.validate(
+#   x, time, event, model.type = "scad",
+#   gamma = 3.7, alpha = 1, lambda = 0.05,
+#   method = "cv", nfolds = 5,
+#   tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
+#   seed = 1010)
 #
-# val.repcv = hdnom.validate(x, time, event, model.type = "mnet",
-#                            gamma = 3, alpha = 0.3, lambda = 0.05,
-#                            method = "repeated.cv", nfolds = 5, rep.times = 3,
-#                            tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
-#                            seed = 1010)
+# val.repcv = hdnom.validate(
+#   x, time, event, model.type = "mnet",
+#   gamma = 3, alpha = 0.3, lambda = 0.05,
+#   method = "repeated.cv", nfolds = 5, rep.times = 3,
+#   tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
+#   seed = 1010)
 #
 # print(val.boot)
 # summary(val.boot)
@@ -152,17 +158,17 @@
 # print(val.repcv)
 # summary(val.repcv)
 # plot(val.repcv)
-hdnom.validate = function(x, time, event,
-                          model.type = c('lasso', 'alasso', 'flasso',
-                                         'enet', 'aenet',
-                                         'mcp', 'mnet',
-                                         'scad', 'snet'),
-                          alpha, lambda, pen.factor = NULL, gamma,
-                          lambda1, lambda2,
-                          method = c('bootstrap', 'cv', 'repeated.cv'),
-                          boot.times = NULL, nfolds = NULL, rep.times = NULL,
-                          tauc.type = c("CD", "SZ", "UNO"), tauc.time,
-                          seed = 1001, trace = TRUE) {
+hdnom.validate = function(
+  x, time, event,
+  model.type =
+    c('lasso', 'alasso', 'flasso', 'enet', 'aenet',
+      'mcp', 'mnet', 'scad', 'snet'),
+  alpha, lambda, pen.factor = NULL, gamma,
+  lambda1, lambda2,
+  method = c('bootstrap', 'cv', 'repeated.cv'),
+  boot.times = NULL, nfolds = NULL, rep.times = NULL,
+  tauc.type = c("CD", "SZ", "UNO"), tauc.time,
+  seed = 1001, trace = TRUE) {
 
   model.type = match.arg(model.type)
   method = match.arg(method)
@@ -347,135 +353,138 @@ hdnom.validate = function(x, time, event,
     stop('method must be one of "bootstrap", cv", or "repeated.cv"')
   }
 
-  switch(method,
-         bootstrap = {
+  switch(
 
-           if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
-             class(tauc) = c('hdnom.validate',
-                             'glmnet.validate.bootstrap')
-             attr(tauc, 'model.type') = model.type
-             attr(tauc, 'alpha')      = alpha
-             attr(tauc, 'lambda')     = lambda
-             attr(tauc, 'pen.factor') = pen.factor
-             attr(tauc, 'boot.times') = boot.times
-             attr(tauc, 'tauc.type')  = tauc.type
-             attr(tauc, 'tauc.time')  = tauc.time
-             attr(tauc, 'seed')       = seed
-           }
+    method,
 
-           if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
-             class(tauc) = c('hdnom.validate',
-                             'ncvreg.validate.bootstrap')
-             attr(tauc, 'model.type') = model.type
-             attr(tauc, 'gamma')      = gamma
-             attr(tauc, 'alpha')      = alpha
-             attr(tauc, 'lambda')     = lambda
-             attr(tauc, 'boot.times') = boot.times
-             attr(tauc, 'tauc.type')  = tauc.type
-             attr(tauc, 'tauc.time')  = tauc.time
-             attr(tauc, 'seed')       = seed
-           }
+    bootstrap = {
 
-           if (model.type %in% c('flasso')) {
-             class(tauc) = c('hdnom.validate',
-                             'penalized.validate.bootstrap')
-             attr(tauc, 'model.type') = model.type
-             attr(tauc, 'lambda1')    = lambda1
-             attr(tauc, 'lambda2')    = lambda2
-             attr(tauc, 'boot.times') = boot.times
-             attr(tauc, 'tauc.type')  = tauc.type
-             attr(tauc, 'tauc.time')  = tauc.time
-             attr(tauc, 'seed')       = seed
-           }
+      if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
+        class(tauc) = c('hdnom.validate',
+                        'glmnet.validate.bootstrap')
+        attr(tauc, 'model.type') = model.type
+        attr(tauc, 'alpha')      = alpha
+        attr(tauc, 'lambda')     = lambda
+        attr(tauc, 'pen.factor') = pen.factor
+        attr(tauc, 'boot.times') = boot.times
+        attr(tauc, 'tauc.type')  = tauc.type
+        attr(tauc, 'tauc.time')  = tauc.time
+        attr(tauc, 'seed')       = seed
+      }
 
-         },
+      if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
+        class(tauc) = c('hdnom.validate',
+                        'ncvreg.validate.bootstrap')
+        attr(tauc, 'model.type') = model.type
+        attr(tauc, 'gamma')      = gamma
+        attr(tauc, 'alpha')      = alpha
+        attr(tauc, 'lambda')     = lambda
+        attr(tauc, 'boot.times') = boot.times
+        attr(tauc, 'tauc.type')  = tauc.type
+        attr(tauc, 'tauc.time')  = tauc.time
+        attr(tauc, 'seed')       = seed
+      }
 
-         cv = {
+      if (model.type %in% c('flasso')) {
+        class(tauc) = c('hdnom.validate',
+                        'penalized.validate.bootstrap')
+        attr(tauc, 'model.type') = model.type
+        attr(tauc, 'lambda1')    = lambda1
+        attr(tauc, 'lambda2')    = lambda2
+        attr(tauc, 'boot.times') = boot.times
+        attr(tauc, 'tauc.type')  = tauc.type
+        attr(tauc, 'tauc.time')  = tauc.time
+        attr(tauc, 'seed')       = seed
+      }
 
-           if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
-             class(tauc) = c('hdnom.validate',
-                             'glmnet.validate.cv')
-             attr(tauc, 'model.type') = model.type
-             attr(tauc, 'alpha')      = alpha
-             attr(tauc, 'lambda')     = lambda
-             attr(tauc, 'pen.factor') = pen.factor
-             attr(tauc, 'nfolds')     = nfolds
-             attr(tauc, 'tauc.type')  = tauc.type
-             attr(tauc, 'tauc.time')  = tauc.time
-             attr(tauc, 'seed')       = seed
-           }
+    },
 
-           if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
-             class(tauc) = c('hdnom.validate',
-                             'ncvreg.validate.cv')
-             attr(tauc, 'model.type') = model.type
-             attr(tauc, 'gamma')      = gamma
-             attr(tauc, 'alpha')      = alpha
-             attr(tauc, 'lambda')     = lambda
-             attr(tauc, 'nfolds')     = nfolds
-             attr(tauc, 'tauc.type')  = tauc.type
-             attr(tauc, 'tauc.time')  = tauc.time
-             attr(tauc, 'seed')       = seed
-           }
+    cv = {
 
-           if (model.type %in% c('flasso')) {
-             class(tauc) = c('hdnom.validate',
-                             'penalized.validate.cv')
-             attr(tauc, 'model.type') = model.type
-             attr(tauc, 'lambda1')    = lambda1
-             attr(tauc, 'lambda2')    = lambda2
-             attr(tauc, 'nfolds')     = nfolds
-             attr(tauc, 'tauc.type')  = tauc.type
-             attr(tauc, 'tauc.time')  = tauc.time
-             attr(tauc, 'seed')       = seed
-           }
+      if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
+        class(tauc) = c('hdnom.validate',
+                        'glmnet.validate.cv')
+        attr(tauc, 'model.type') = model.type
+        attr(tauc, 'alpha')      = alpha
+        attr(tauc, 'lambda')     = lambda
+        attr(tauc, 'pen.factor') = pen.factor
+        attr(tauc, 'nfolds')     = nfolds
+        attr(tauc, 'tauc.type')  = tauc.type
+        attr(tauc, 'tauc.time')  = tauc.time
+        attr(tauc, 'seed')       = seed
+      }
 
-         },
+      if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
+        class(tauc) = c('hdnom.validate',
+                        'ncvreg.validate.cv')
+        attr(tauc, 'model.type') = model.type
+        attr(tauc, 'gamma')      = gamma
+        attr(tauc, 'alpha')      = alpha
+        attr(tauc, 'lambda')     = lambda
+        attr(tauc, 'nfolds')     = nfolds
+        attr(tauc, 'tauc.type')  = tauc.type
+        attr(tauc, 'tauc.time')  = tauc.time
+        attr(tauc, 'seed')       = seed
+      }
 
-         repeated.cv = {
+      if (model.type %in% c('flasso')) {
+        class(tauc) = c('hdnom.validate',
+                        'penalized.validate.cv')
+        attr(tauc, 'model.type') = model.type
+        attr(tauc, 'lambda1')    = lambda1
+        attr(tauc, 'lambda2')    = lambda2
+        attr(tauc, 'nfolds')     = nfolds
+        attr(tauc, 'tauc.type')  = tauc.type
+        attr(tauc, 'tauc.time')  = tauc.time
+        attr(tauc, 'seed')       = seed
+      }
 
-           if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
-             class(tauc) = c('hdnom.validate',
-                             'glmnet.validate.repeated.cv')
-             attr(tauc, 'model.type') = model.type
-             attr(tauc, 'alpha')      = alpha
-             attr(tauc, 'lambda')     = lambda
-             attr(tauc, 'pen.factor') = pen.factor
-             attr(tauc, 'nfolds')     = nfolds
-             attr(tauc, 'rep.times')  = rep.times
-             attr(tauc, 'tauc.type')  = tauc.type
-             attr(tauc, 'tauc.time')  = tauc.time
-             attr(tauc, 'seed')       = seed
-           }
+    },
 
-           if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
-             class(tauc) = c('hdnom.validate',
-                             'ncvreg.validate.repeated.cv')
-             attr(tauc, 'model.type') = model.type
-             attr(tauc, 'gamma')      = gamma
-             attr(tauc, 'alpha')      = alpha
-             attr(tauc, 'lambda')     = lambda
-             attr(tauc, 'nfolds')     = nfolds
-             attr(tauc, 'rep.times')  = rep.times
-             attr(tauc, 'tauc.type')  = tauc.type
-             attr(tauc, 'tauc.time')  = tauc.time
-             attr(tauc, 'seed')       = seed
-           }
+    repeated.cv = {
 
-           if (model.type %in% c('flasso')) {
-             class(tauc) = c('hdnom.validate',
-                             'penalized.validate.repeated.cv')
-             attr(tauc, 'model.type') = model.type
-             attr(tauc, 'lambda1')    = lambda1
-             attr(tauc, 'lambda2')    = lambda2
-             attr(tauc, 'nfolds')     = nfolds
-             attr(tauc, 'rep.times')  = rep.times
-             attr(tauc, 'tauc.type')  = tauc.type
-             attr(tauc, 'tauc.time')  = tauc.time
-             attr(tauc, 'seed')       = seed
-           }
+      if (model.type %in% c('lasso', 'alasso', 'enet', 'aenet')) {
+        class(tauc) = c('hdnom.validate',
+                        'glmnet.validate.repeated.cv')
+        attr(tauc, 'model.type') = model.type
+        attr(tauc, 'alpha')      = alpha
+        attr(tauc, 'lambda')     = lambda
+        attr(tauc, 'pen.factor') = pen.factor
+        attr(tauc, 'nfolds')     = nfolds
+        attr(tauc, 'rep.times')  = rep.times
+        attr(tauc, 'tauc.type')  = tauc.type
+        attr(tauc, 'tauc.time')  = tauc.time
+        attr(tauc, 'seed')       = seed
+      }
 
-         }
+      if (model.type %in% c('mcp', 'mnet', 'scad', 'snet')) {
+        class(tauc) = c('hdnom.validate',
+                        'ncvreg.validate.repeated.cv')
+        attr(tauc, 'model.type') = model.type
+        attr(tauc, 'gamma')      = gamma
+        attr(tauc, 'alpha')      = alpha
+        attr(tauc, 'lambda')     = lambda
+        attr(tauc, 'nfolds')     = nfolds
+        attr(tauc, 'rep.times')  = rep.times
+        attr(tauc, 'tauc.type')  = tauc.type
+        attr(tauc, 'tauc.time')  = tauc.time
+        attr(tauc, 'seed')       = seed
+      }
+
+      if (model.type %in% c('flasso')) {
+        class(tauc) = c('hdnom.validate',
+                        'penalized.validate.repeated.cv')
+        attr(tauc, 'model.type') = model.type
+        attr(tauc, 'lambda1')    = lambda1
+        attr(tauc, 'lambda2')    = lambda2
+        attr(tauc, 'nfolds')     = nfolds
+        attr(tauc, 'rep.times')  = rep.times
+        attr(tauc, 'tauc.type')  = tauc.type
+        attr(tauc, 'tauc.time')  = tauc.time
+        attr(tauc, 'seed')       = seed
+      }
+
+    }
 
   )
 
@@ -492,38 +501,47 @@ hdnom.validate = function(x, time, event,
 #' @return time-dependent AUC (tAUC) value
 #'
 #' @keywords internal
-glmnet.validate.internal = function(x_tr, x_te, y_tr, y_te,
-                                    alpha, lambda, pen.factor,
-                                    tauc.type, tauc.time) {
+glmnet.validate.internal = function(
+  x_tr, x_te, y_tr, y_te,
+  alpha, lambda, pen.factor,
+  tauc.type, tauc.time) {
 
   if (is.null(pen.factor)) {
-    samp_fit = glmnet(x = x_tr, y = y_tr, family = 'cox',
-                      alpha = alpha, lambda = lambda)
+    samp_fit = glmnet(
+      x = x_tr, y = y_tr, family = 'cox',
+      alpha = alpha, lambda = lambda)
   } else {
-    samp_fit = glmnet(x = x_tr, y = y_tr, family = 'cox',
-                      alpha = alpha, lambda = lambda,
-                      penalty.factor = pen.factor)
+    samp_fit = glmnet(
+      x = x_tr, y = y_tr, family = 'cox',
+      alpha = alpha, lambda = lambda,
+      penalty.factor = pen.factor)
   }
 
   lp_tr = as.vector(predict(samp_fit, newx = x_tr, type = 'link'))
   lp_te = as.vector(predict(samp_fit, newx = x_te, type = 'link'))
 
-  tauc_list = switch(tauc.type,
-                     CD = {
-                       AUC.cd(Surv.rsp = y_tr, Surv.rsp.new = y_te,
-                              lp = lp_tr, lpnew = lp_te,
-                              times = tauc.time)
-                     },
-                     SZ = {
-                       AUC.sh(Surv.rsp = y_tr, Surv.rsp.new = y_te,
-                              lp = lp_tr, lpnew = lp_te,
-                              times = tauc.time)
-                     },
-                     UNO = {
-                       AUC.uno(Surv.rsp = y_tr, Surv.rsp.new = y_te,
-                               lpnew = lp_te,
-                               times = tauc.time)
-                     }
+  tauc_list = switch(
+
+    tauc.type,
+
+    CD = {
+      AUC.cd(Surv.rsp = y_tr, Surv.rsp.new = y_te,
+             lp = lp_tr, lpnew = lp_te,
+             times = tauc.time)
+    },
+
+    SZ = {
+      AUC.sh(Surv.rsp = y_tr, Surv.rsp.new = y_te,
+             lp = lp_tr, lpnew = lp_te,
+             times = tauc.time)
+    },
+
+    UNO = {
+      AUC.uno(Surv.rsp = y_tr, Surv.rsp.new = y_te,
+              lpnew = lp_te,
+              times = tauc.time)
+    }
+
   )
 
   tauc_list
@@ -539,53 +557,64 @@ glmnet.validate.internal = function(x_tr, x_te, y_tr, y_te,
 #' @return time-dependent AUC (tAUC) value
 #'
 #' @keywords internal
-ncvreg.validate.internal = function(x_tr, x_te, y_tr, y_te, model.type,
-                                    gamma, alpha, lambda,
-                                    tauc.type, tauc.time) {
+ncvreg.validate.internal = function(
+  x_tr, x_te, y_tr, y_te, model.type,
+  gamma, alpha, lambda,
+  tauc.type, tauc.time) {
 
   if (model.type == 'mcp') {
-    samp_fit = ncvreg::ncvsurv(X = x_tr, y = y_tr,
-                               penalty = 'MCP', gamma = gamma,
-                               alpha = 1, lambda = lambda)
+    samp_fit = ncvreg::ncvsurv(
+      X = x_tr, y = y_tr,
+      penalty = 'MCP', gamma = gamma,
+      alpha = 1, lambda = lambda)
   }
 
   if (model.type == 'mnet') {
-    samp_fit = ncvreg::ncvsurv(X = x_tr, y = y_tr,
-                               penalty = 'MCP', gamma = gamma,
-                               alpha = alpha, lambda = lambda)
+    samp_fit = ncvreg::ncvsurv(
+      X = x_tr, y = y_tr,
+      penalty = 'MCP', gamma = gamma,
+      alpha = alpha, lambda = lambda)
   }
 
   if (model.type == 'scad') {
-    samp_fit = ncvreg::ncvsurv(X = x_tr, y = y_tr,
-                               penalty = 'SCAD', gamma = gamma,
-                               alpha = 1, lambda = lambda)
+    samp_fit = ncvreg::ncvsurv(
+      X = x_tr, y = y_tr,
+      penalty = 'SCAD', gamma = gamma,
+      alpha = 1, lambda = lambda)
   }
 
   if (model.type == 'snet') {
-    samp_fit = ncvreg::ncvsurv(X = x_tr, y = y_tr,
-                               penalty = 'SCAD', gamma = gamma,
-                               alpha = alpha, lambda = lambda)
+    samp_fit = ncvreg::ncvsurv(
+      X = x_tr, y = y_tr,
+      penalty = 'SCAD', gamma = gamma,
+      alpha = alpha, lambda = lambda)
   }
 
   lp_tr = as.vector(predict(samp_fit, X = x_tr, type = 'link'))
   lp_te = as.vector(predict(samp_fit, X = x_te, type = 'link'))
 
-  tauc_list = switch(tauc.type,
-                     CD = {
-                       AUC.cd(Surv.rsp = y_tr, Surv.rsp.new = y_te,
-                              lp = lp_tr, lpnew = lp_te,
-                              times = tauc.time)
-                     },
-                     SZ = {
-                       AUC.sh(Surv.rsp = y_tr, Surv.rsp.new = y_te,
-                              lp = lp_tr, lpnew = lp_te,
-                              times = tauc.time)
-                     },
-                     UNO = {
-                       AUC.uno(Surv.rsp = y_tr, Surv.rsp.new = y_te,
-                               lpnew = lp_te,
-                               times = tauc.time)
-                     }
+  tauc_list = switch(
+
+    tauc.type,
+
+    CD = {
+      AUC.cd(Surv.rsp = y_tr, Surv.rsp.new = y_te,
+             lp = lp_tr, lpnew = lp_te,
+             times = tauc.time)
+    },
+
+    SZ = {
+      AUC.sh(Surv.rsp = y_tr, Surv.rsp.new = y_te,
+             lp = lp_tr, lpnew = lp_te,
+             times = tauc.time)
+    },
+
+    UNO = {
+      AUC.uno(Surv.rsp = y_tr, Surv.rsp.new = y_te,
+              lpnew = lp_te,
+              times = tauc.time)
+    }
+
   )
 
   tauc_list
@@ -601,34 +630,42 @@ ncvreg.validate.internal = function(x_tr, x_te, y_tr, y_te, model.type,
 #' @return time-dependent AUC (tAUC) value
 #'
 #' @keywords internal
-penalized.validate.internal = function(x_tr, x_te, y_tr, y_te,
-                                       lambda1, lambda2,
-                                       tauc.type, tauc.time) {
+penalized.validate.internal = function(
+  x_tr, x_te, y_tr, y_te,
+  lambda1, lambda2,
+  tauc.type, tauc.time) {
 
-  samp_fit = penalized(response = y_tr, penalized = x_tr,
-                       lambda1 = lambda1, lambda2 = lambda2,
-                       maxiter = 25, epsilon = 1e-3,  # for faster convergence, consistent with `hdcox.flasso()`
-                       fusedl = TRUE, standardize = TRUE, model = 'cox')
+  samp_fit = penalized(
+    response = y_tr, penalized = x_tr,
+    lambda1 = lambda1, lambda2 = lambda2,
+    maxiter = 25, epsilon = 1e-3,  # for faster convergence, consistent with `hdcox.flasso()`
+    fusedl = TRUE, standardize = TRUE, model = 'cox')
 
   lp_tr = as.vector(samp_fit@lin.pred)
   lp_te = as.vector(x_te %*% as.matrix(samp_fit@penalized))
 
-  tauc_list = switch(tauc.type,
-                     CD = {
-                       AUC.cd(Surv.rsp = y_tr, Surv.rsp.new = y_te,
-                              lp = lp_tr, lpnew = lp_te,
-                              times = tauc.time)
-                     },
-                     SZ = {
-                       AUC.sh(Surv.rsp = y_tr, Surv.rsp.new = y_te,
-                              lp = lp_tr, lpnew = lp_te,
-                              times = tauc.time)
-                     },
-                     UNO = {
-                       AUC.uno(Surv.rsp = y_tr, Surv.rsp.new = y_te,
-                               lpnew = lp_te,
-                               times = tauc.time)
-                     }
+  tauc_list = switch(
+
+    tauc.type,
+
+    CD = {
+      AUC.cd(Surv.rsp = y_tr, Surv.rsp.new = y_te,
+             lp = lp_tr, lpnew = lp_te,
+             times = tauc.time)
+    },
+
+    SZ = {
+      AUC.sh(Surv.rsp = y_tr, Surv.rsp.new = y_te,
+             lp = lp_tr, lpnew = lp_te,
+             times = tauc.time)
+    },
+
+    UNO = {
+      AUC.uno(Surv.rsp = y_tr, Surv.rsp.new = y_te,
+              lpnew = lp_te,
+              times = tauc.time)
+    }
+
   )
 
   tauc_list
@@ -655,136 +692,138 @@ print.hdnom.validate = function(x, ...) {
 
   method = setdiff(class(x), 'hdnom.validate')
 
-  switch(method,
+  switch(
 
-         glmnet.validate.bootstrap = {
-           cat('High-Dimensional Cox Model Validation Object\n')
-           cat('Random seed:', attr(x, 'seed'), '\n')
-           cat('Validation method: bootstrap\n')
-           cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
-           cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
-           if (is.null(attr(x, 'pen.factor'))) {
-             cat('glmnet model penalty factor: not specified\n')
-           } else {
-             cat('glmnet model penalty factor: specified\n')
-           }
-           cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
-           cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
-         },
+    method,
 
-         glmnet.validate.cv = {
-           cat('High-Dimensional Cox Model Validation Object\n')
-           cat('Random seed:', attr(x, 'seed'), '\n')
-           cat('Validation method: k-fold cross-validation\n')
-           cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
-           cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
-           if (is.null(attr(x, 'pen.factor'))) {
-             cat('glmnet model penalty factor: not specified\n')
-           } else {
-             cat('glmnet model penalty factor: specified\n')
-           }
-           cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
-           cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
-         },
+    glmnet.validate.bootstrap = {
+      cat('High-Dimensional Cox Model Validation Object\n')
+      cat('Random seed:', attr(x, 'seed'), '\n')
+      cat('Validation method: bootstrap\n')
+      cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
+      cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
+      if (is.null(attr(x, 'pen.factor'))) {
+        cat('glmnet model penalty factor: not specified\n')
+      } else {
+        cat('glmnet model penalty factor: specified\n')
+      }
+      cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
+      cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
+    },
 
-         glmnet.validate.repeated.cv = {
-           cat('High-Dimensional Cox Model Validation Object\n')
-           cat('Random seed:', attr(x, 'seed'), '\n')
-           cat('Validation method: repeated cross-validation\n')
-           cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
-           cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
-           cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
-           if (is.null(attr(x, 'pen.factor'))) {
-             cat('glmnet model penalty factor: not specified\n')
-           } else {
-             cat('glmnet model penalty factor: specified\n')
-           }
-           cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
-           cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
-         },
+    glmnet.validate.cv = {
+      cat('High-Dimensional Cox Model Validation Object\n')
+      cat('Random seed:', attr(x, 'seed'), '\n')
+      cat('Validation method: k-fold cross-validation\n')
+      cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
+      cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
+      if (is.null(attr(x, 'pen.factor'))) {
+        cat('glmnet model penalty factor: not specified\n')
+      } else {
+        cat('glmnet model penalty factor: specified\n')
+      }
+      cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
+      cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
+    },
 
-         ncvreg.validate.bootstrap = {
-           cat('High-Dimensional Cox Model Validation Object\n')
-           cat('Random seed:', attr(x, 'seed'), '\n')
-           cat('Validation method: bootstrap\n')
-           cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('ncvreg model gamma:', attr(x, 'gamma'), '\n')
-           cat('ncvreg model alpha:', attr(x, 'alpha'), '\n')
-           cat('ncvreg model lambda:', attr(x, 'lambda'), '\n')
-           cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
-           cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
-         },
+    glmnet.validate.repeated.cv = {
+      cat('High-Dimensional Cox Model Validation Object\n')
+      cat('Random seed:', attr(x, 'seed'), '\n')
+      cat('Validation method: repeated cross-validation\n')
+      cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
+      cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('glmnet model alpha:', attr(x, 'alpha'), '\n')
+      cat('glmnet model lambda:', attr(x, 'lambda'), '\n')
+      if (is.null(attr(x, 'pen.factor'))) {
+        cat('glmnet model penalty factor: not specified\n')
+      } else {
+        cat('glmnet model penalty factor: specified\n')
+      }
+      cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
+      cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
+    },
 
-         ncvreg.validate.cv = {
-           cat('High-Dimensional Cox Model Validation Object\n')
-           cat('Random seed:', attr(x, 'seed'), '\n')
-           cat('Validation method: k-fold cross-validation\n')
-           cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('ncvreg model gamma:', attr(x, 'gamma'), '\n')
-           cat('ncvreg model alpha:', attr(x, 'alpha'), '\n')
-           cat('ncvreg model lambda:', attr(x, 'lambda'), '\n')
-           cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
-           cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
-         },
+    ncvreg.validate.bootstrap = {
+      cat('High-Dimensional Cox Model Validation Object\n')
+      cat('Random seed:', attr(x, 'seed'), '\n')
+      cat('Validation method: bootstrap\n')
+      cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('ncvreg model gamma:', attr(x, 'gamma'), '\n')
+      cat('ncvreg model alpha:', attr(x, 'alpha'), '\n')
+      cat('ncvreg model lambda:', attr(x, 'lambda'), '\n')
+      cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
+      cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
+    },
 
-         ncvreg.validate.repeated.cv = {
-           cat('High-Dimensional Cox Model Validation Object\n')
-           cat('Random seed:', attr(x, 'seed'), '\n')
-           cat('Validation method: repeated cross-validation\n')
-           cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
-           cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('ncvreg model gamma:', attr(x, 'gamma'), '\n')
-           cat('ncvreg model alpha:', attr(x, 'alpha'), '\n')
-           cat('ncvreg model lambda:', attr(x, 'lambda'), '\n')
-           cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
-           cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
-         },
+    ncvreg.validate.cv = {
+      cat('High-Dimensional Cox Model Validation Object\n')
+      cat('Random seed:', attr(x, 'seed'), '\n')
+      cat('Validation method: k-fold cross-validation\n')
+      cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('ncvreg model gamma:', attr(x, 'gamma'), '\n')
+      cat('ncvreg model alpha:', attr(x, 'alpha'), '\n')
+      cat('ncvreg model lambda:', attr(x, 'lambda'), '\n')
+      cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
+      cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
+    },
 
-         penalized.validate.bootstrap = {
-           cat('High-Dimensional Cox Model Validation Object\n')
-           cat('Random seed:', attr(x, 'seed'), '\n')
-           cat('Validation method: bootstrap\n')
-           cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('Fused lasso model lambda1:', attr(x, 'lambda1'), '\n')
-           cat('Fused lasso model lambda2:', attr(x, 'lambda2'), '\n')
-           cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
-           cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
-         },
+    ncvreg.validate.repeated.cv = {
+      cat('High-Dimensional Cox Model Validation Object\n')
+      cat('Random seed:', attr(x, 'seed'), '\n')
+      cat('Validation method: repeated cross-validation\n')
+      cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
+      cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('ncvreg model gamma:', attr(x, 'gamma'), '\n')
+      cat('ncvreg model alpha:', attr(x, 'alpha'), '\n')
+      cat('ncvreg model lambda:', attr(x, 'lambda'), '\n')
+      cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
+      cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
+    },
 
-         penalized.validate.cv = {
-           cat('High-Dimensional Cox Model Validation Object\n')
-           cat('Random seed:', attr(x, 'seed'), '\n')
-           cat('Validation method: k-fold cross-validation\n')
-           cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('Fused lasso model lambda1:', attr(x, 'lambda1'), '\n')
-           cat('Fused lasso model lambda2:', attr(x, 'lambda2'), '\n')
-           cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
-           cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
-         },
+    penalized.validate.bootstrap = {
+      cat('High-Dimensional Cox Model Validation Object\n')
+      cat('Random seed:', attr(x, 'seed'), '\n')
+      cat('Validation method: bootstrap\n')
+      cat('Bootstrap samples:', attr(x, 'boot.times'), '\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('Fused lasso model lambda1:', attr(x, 'lambda1'), '\n')
+      cat('Fused lasso model lambda2:', attr(x, 'lambda2'), '\n')
+      cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
+      cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
+    },
 
-         penalized.validate.repeated.cv = {
-           cat('High-Dimensional Cox Model Validation Object\n')
-           cat('Random seed:', attr(x, 'seed'), '\n')
-           cat('Validation method: repeated cross-validation\n')
-           cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
-           cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
-           cat('Model type:', attr(x, 'model.type'), '\n')
-           cat('Fused lasso model lambda1:', attr(x, 'lambda1'), '\n')
-           cat('Fused lasso model lambda2:', attr(x, 'lambda2'), '\n')
-           cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
-           cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
-         }
+    penalized.validate.cv = {
+      cat('High-Dimensional Cox Model Validation Object\n')
+      cat('Random seed:', attr(x, 'seed'), '\n')
+      cat('Validation method: k-fold cross-validation\n')
+      cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('Fused lasso model lambda1:', attr(x, 'lambda1'), '\n')
+      cat('Fused lasso model lambda2:', attr(x, 'lambda2'), '\n')
+      cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
+      cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
+    },
+
+    penalized.validate.repeated.cv = {
+      cat('High-Dimensional Cox Model Validation Object\n')
+      cat('Random seed:', attr(x, 'seed'), '\n')
+      cat('Validation method: repeated cross-validation\n')
+      cat('Cross-validation folds:', attr(x, 'nfolds'), '\n')
+      cat('Cross-validation repeated times:', attr(x, 'rep.times'), '\n')
+      cat('Model type:', attr(x, 'model.type'), '\n')
+      cat('Fused lasso model lambda1:', attr(x, 'lambda1'), '\n')
+      cat('Fused lasso model lambda2:', attr(x, 'lambda2'), '\n')
+      cat('Time-dependent AUC type:', attr(x, 'tauc.type'), '\n')
+      cat('Evaluation time points for tAUC:', attr(x, 'tauc.time'))
+    }
 
   )
 
@@ -851,14 +890,16 @@ summary.hdnom.validate = function(object, silent = FALSE, ...) {
 
     summary_list = vector('list', rep.times)
     for (i in 1L:rep.times) {
-      summary_list[[i]] = rbind(apply(auclist[[i]], 2, mean),
-                                apply(auclist[[i]], 2, quantile))
+      summary_list[[i]] = rbind(
+        apply(auclist[[i]], 2, mean),
+        apply(auclist[[i]], 2, quantile))
     }
 
     summary_mat = Reduce('+', summary_list)/length(summary_list)
-    rownames(summary_mat) = c('Mean of Mean', 'Mean of Min',
-                              'Mean of 0.25 Qt.', 'Mean of Median',
-                              'Mean of 0.75 Qt.', 'Mean of Max')
+    rownames(summary_mat) = c(
+      'Mean of Mean', 'Mean of Min',
+      'Mean of 0.25 Qt.', 'Mean of Median',
+      'Mean of 0.75 Qt.', 'Mean of Max')
     colnames(summary_mat) = tauc.time
 
     if (!silent) {
@@ -898,45 +939,44 @@ summary.hdnom.validate = function(object, silent = FALSE, ...) {
 #'
 #' @examples
 #' NULL
-plot.hdnom.validate =
-  function(x, col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS'),
-           ylim = NULL, ...) {
+plot.hdnom.validate = function(
+  x, col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS'), ylim = NULL, ...) {
 
-    if (!('hdnom.validate' %in% class(x)))
-      stop('object class must be "hdnom.validate"')
+  if (!('hdnom.validate' %in% class(x)))
+    stop('object class must be "hdnom.validate"')
 
-    df = as.data.frame(t(summary(x, silent = TRUE)))
-    tauc_time = attr(x, 'tauc.time')
+  df = as.data.frame(t(summary(x, silent = TRUE)))
+  tauc_time = attr(x, 'tauc.time')
 
-    # special processing for repeated cv
-    if (any(grepl(pattern = 'validate.repeated.cv', class(x))))
-      names(df) = sapply(strsplit(names(df), 'Mean of '), '[', 2L)
+  # special processing for repeated cv
+  if (any(grepl(pattern = 'validate.repeated.cv', class(x))))
+    names(df) = sapply(strsplit(names(df), 'Mean of '), '[', 2L)
 
-    df[, 'Time'] = tauc_time
-    names(df)[which(names(df) == '0.25 Qt.')] = 'Qt25'
-    names(df)[which(names(df) == '0.75 Qt.')] = 'Qt75'
+  df[, 'Time'] = tauc_time
+  names(df)[which(names(df) == '0.25 Qt.')] = 'Qt25'
+  names(df)[which(names(df) == '0.75 Qt.')] = 'Qt75'
 
-    col.pal = match.arg(col.pal)
-    col_pal = switch (
-      col.pal,
-      JCO   = palette.jco()[1], Lancet = palette.lancet()[1],
-      NPG   = palette.npg()[1], AAAS   = palette.aaas()[1])
+  col.pal = match.arg(col.pal)
+  col_pal = switch (
+    col.pal,
+    JCO   = palette.jco()[1], Lancet = palette.lancet()[1],
+    NPG   = palette.npg()[1], AAAS   = palette.aaas()[1])
 
-    ggplot(data = df, aes_string(x = 'Time', y = 'Mean')) +
-      geom_point(colour = col_pal) +
-      geom_line(colour = col_pal) +
-      geom_point(data = df, aes_string(x = 'Time', y = 'Median'),
-                 colour = col_pal) +
-      geom_line(data = df, aes_string(x = 'Time', y = 'Median'),
-                colour = col_pal, linetype = 'dashed') +
-      geom_ribbon(data = df, aes_string(ymin = 'Qt25', ymax = 'Qt75'),
-                  linetype = 0, alpha = 0.2) +
-      geom_ribbon(data = df, aes_string(ymin = 'Min', ymax = 'Max'),
-                  linetype = 0, alpha = 0.1) +
-      scale_x_continuous(breaks = df$'Time') +
-      coord_cartesian(ylim = ylim) +
-      theme_bw() +
-      theme(legend.position = 'none') +
-      ylab('Area under ROC')
+  ggplot(data = df, aes_string(x = 'Time', y = 'Mean')) +
+    geom_point(colour = col_pal) +
+    geom_line(colour = col_pal) +
+    geom_point(data = df, aes_string(x = 'Time', y = 'Median'),
+               colour = col_pal) +
+    geom_line(data = df, aes_string(x = 'Time', y = 'Median'),
+              colour = col_pal, linetype = 'dashed') +
+    geom_ribbon(data = df, aes_string(ymin = 'Qt25', ymax = 'Qt75'),
+                linetype = 0, alpha = 0.2) +
+    geom_ribbon(data = df, aes_string(ymin = 'Min', ymax = 'Max'),
+                linetype = 0, alpha = 0.1) +
+    scale_x_continuous(breaks = df$'Time') +
+    coord_cartesian(ylim = ylim) +
+    theme_bw() +
+    theme(legend.position = 'none') +
+    ylab('Area under ROC')
 
-  }
+}

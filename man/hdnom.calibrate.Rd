@@ -82,34 +82,38 @@ y = Surv(time, event)
 fit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 
 # Model calibration by fitting the original data directly
-cal.fitting = hdnom.calibrate(x, time, event, model.type = "lasso",
-                              alpha = 1, lambda = fit$lasso_best_lambda,
-                              method = "fitting",
-                              pred.at = 365 * 9, ngroup = 5,
-                              seed = 1010)
+cal.fitting = hdnom.calibrate(
+  x, time, event, model.type = "lasso",
+  alpha = 1, lambda = fit$lasso_best_lambda,
+  method = "fitting",
+  pred.at = 365 * 9, ngroup = 5,
+  seed = 1010)
 
 # Model calibration by bootstrap
 # Normally boot.times should be set to 200 or more,
 # we set it to 3 here only to save example running time.
-cal.boot = hdnom.calibrate(x, time, event, model.type = "lasso",
-                           alpha = 1, lambda = fit$lasso_best_lambda,
-                           method = "bootstrap", boot.times = 3,
-                           pred.at = 365 * 9, ngroup = 5,
-                           seed = 1010)
+cal.boot = hdnom.calibrate(
+  x, time, event, model.type = "lasso",
+  alpha = 1, lambda = fit$lasso_best_lambda,
+  method = "bootstrap", boot.times = 3,
+  pred.at = 365 * 9, ngroup = 5,
+  seed = 1010)
 
 # Model calibration by 5-fold cross-validation
-cal.cv = hdnom.calibrate(x, time, event, model.type = "lasso",
-                         alpha = 1, lambda = fit$lasso_best_lambda,
-                         method = "cv", nfolds = 5,
-                         pred.at = 365 * 9, ngroup = 5,
-                         seed = 1010)
+cal.cv = hdnom.calibrate(
+  x, time, event, model.type = "lasso",
+  alpha = 1, lambda = fit$lasso_best_lambda,
+  method = "cv", nfolds = 5,
+  pred.at = 365 * 9, ngroup = 5,
+  seed = 1010)
 
 # Model calibration by repeated cross-validation
-cal.repcv = hdnom.calibrate(x, time, event, model.type = "lasso",
-                            alpha = 1, lambda = fit$lasso_best_lambda,
-                            method = "repeated.cv", nfolds = 3, rep.times = 3,
-                            pred.at = 365 * 9, ngroup = 5,
-                            seed = 1010)
+cal.repcv = hdnom.calibrate(
+  x, time, event, model.type = "lasso",
+  alpha = 1, lambda = fit$lasso_best_lambda,
+  method = "repeated.cv", nfolds = 3, rep.times = 3,
+  pred.at = 365 * 9, ngroup = 5,
+  seed = 1010)
 
 print(cal.fitting)
 summary(cal.fitting)

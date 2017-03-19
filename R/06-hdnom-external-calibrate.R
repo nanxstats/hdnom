@@ -42,18 +42,19 @@
 #' event_new = smart$EVENT[1001:2000]
 #'
 #' # Fit Cox model with lasso penalty
-#' fit = hdcox.lasso(x, Surv(time, event), nfolds = 5, rule = "lambda.1se", seed = 11)
+#' fit = hdcox.lasso(
+#'   x, Surv(time, event),
+#'   nfolds = 5, rule = "lambda.1se", seed = 11)
 #'
 #' # External calibration
-#' cal.ext =
-#'   hdnom.external.calibrate(fit, x, time, event,
-#'                            x_new, time_new, event_new,
-#'                            pred.at = 365 * 5, ngroup = 5)
+#' cal.ext = hdnom.external.calibrate(
+#'   fit, x, time, event,
+#'   x_new, time_new, event_new,
+#'   pred.at = 365 * 5, ngroup = 5)
 #'
 #' print(cal.ext)
 #' summary(cal.ext)
 #' plot(cal.ext, xlim = c(0.6, 1), ylim = c(0.6, 1))
-#'
 # ### Testing fused lasso, MCP, and Snet models ###
 # library("survival")
 #
@@ -75,20 +76,20 @@
 # scadfit = hdcox.mcp(x, Surv(time, event), nfolds = 5, seed = 11)
 # mnetfit = hdcox.snet(x, Surv(time, event), nfolds = 5, seed = 11)
 #
-# cal.ext1 =
-#   hdnom.external.calibrate(flassofit, x, time, event,
-#                            x_new, time_new, event_new,
-#                            pred.at = 365 * 5, ngroup = 5)
+# cal.ext1 = hdnom.external.calibrate(
+#   flassofit, x, time, event,
+#   x_new, time_new, event_new,
+#   pred.at = 365 * 5, ngroup = 5)
 #
-# cal.ext2 =
-#   hdnom.external.calibrate(scadfit, x, time, event,
-#                            x_new, time_new, event_new,
-#                            pred.at = 365 * 5, ngroup = 5)
+# cal.ext2 = hdnom.external.calibrate(
+#   scadfit, x, time, event,
+#   x_new, time_new, event_new,
+#   pred.at = 365 * 5, ngroup = 5)
 #
-# cal.ext3 =
-#   hdnom.external.calibrate(mnetfit, x, time, event,
-#                            x_new, time_new, event_new,
-#                            pred.at = 365 * 5, ngroup = 5)
+# cal.ext3 = hdnom.external.calibrate(
+#   mnetfit, x, time, event,
+#   x_new, time_new, event_new,
+#   pred.at = 365 * 5, ngroup = 5)
 #
 # print(cal.ext1)
 # summary(cal.ext1)
@@ -101,9 +102,10 @@
 # print(cal.ext3)
 # summary(cal.ext3)
 # plot(cal.ext3)
-hdnom.external.calibrate = function(object, x, time, event,
-                                    x_new, time_new, event_new,
-                                    pred.at, ngroup = 5) {
+hdnom.external.calibrate = function(
+  object, x, time, event,
+  x_new, time_new, event_new,
+  pred.at, ngroup = 5) {
 
   if (!('hdcox.model' %in% class(object)))
     stop('object must be of class "hdcox.model" fitted by hdcox.* functions')
@@ -177,9 +179,10 @@ hdnom.external.calibrate = function(object, x, time, event,
 #' @return list containing predicted survival probability
 #'
 #' @keywords internal
-glmnet.external.calibrate.internal.pred = function(object, x_tr, x_te, y_tr,
-                                                   alpha, lambda, pen.factor,
-                                                   pred.at) {
+glmnet.external.calibrate.internal.pred = function(
+  object, x_tr, x_te, y_tr,
+  alpha, lambda, pen.factor,
+  pred.at) {
 
   lp = as.numeric(predict(object, newx = data.matrix(x_tr), type = 'link'))
   lpnew = as.numeric(predict(object, newx = data.matrix(x_te), type = 'link'))
@@ -212,8 +215,9 @@ glmnet.external.calibrate.internal.pred = function(object, x_tr, x_te, y_tr,
 #' @return list containing predicted survival probability
 #'
 #' @keywords internal
-ncvreg.external.calibrate.internal.pred = function(object, x_tr, x_te, y_tr,
-                                                   pred.at) {
+ncvreg.external.calibrate.internal.pred = function(
+  object, x_tr, x_te, y_tr,
+  pred.at) {
 
   lp = as.numeric(predict(object, X = data.matrix(x_tr), type = 'link'))
   lpnew = as.numeric(predict(object, X = data.matrix(x_te), type = 'link'))
@@ -247,8 +251,9 @@ ncvreg.external.calibrate.internal.pred = function(object, x_tr, x_te, y_tr,
 #' @return list containing predicted survival probability
 #'
 #' @keywords internal
-penalized.external.calibrate.internal.pred = function(object, x_tr, x_te, y_tr,
-                                                      pred.at) {
+penalized.external.calibrate.internal.pred = function(
+  object, x_tr, x_te, y_tr,
+  pred.at) {
 
   lp = as.vector(data.matrix(x_tr) %*% as.matrix(object@'penalized'))
   lpnew = as.vector(data.matrix(x_te) %*% as.matrix(object@'penalized'))
@@ -282,9 +287,10 @@ penalized.external.calibrate.internal.pred = function(object, x_tr, x_te, y_tr,
 #' @return list
 #'
 #' @keywords internal
-hdnom.external.calibrate.internal.true = function(pred_prob, grp,
-                                                  time_new, event_new,
-                                                  pred.at, ngroup) {
+hdnom.external.calibrate.internal.true = function(
+  pred_prob, grp,
+  time_new, event_new,
+  pred.at, ngroup) {
 
   true_prob = matrix(NA, ncol = 3L, nrow = ngroup)
   colnames(true_prob) = c("Observed", "Lower 95%", "Upper 95%")
@@ -385,31 +391,34 @@ summary.hdnom.external.calibrate = function(object, ...) {
 #'
 #' @examples
 #' NULL
-plot.hdnom.external.calibrate =
-  function(x, xlim = c(0, 1), ylim = c(0, 1),
-           col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS'), ...) {
+plot.hdnom.external.calibrate = function(
+  x, xlim = c(0, 1), ylim = c(0, 1),
+  col.pal = c('JCO', 'Lancet', 'NPG', 'AAAS'), ...) {
 
-    if (!('hdnom.external.calibrate' %in% class(x)))
-      stop('object class must be "hdnom.external.calibrate"')
+  if (!('hdnom.external.calibrate' %in% class(x)))
+    stop('object class must be "hdnom.external.calibrate"')
 
-    df = data.frame('pre' = x[, 'Predicted'], 'obs' = x[, 'Observed'],
-                    'll' = x[, 'Lower 95%'], 'ul' = x[, 'Upper 95%'])
+  df = data.frame('pre' = x[, 'Predicted'], 'obs' = x[, 'Observed'],
+                  'll' = x[, 'Lower 95%'], 'ul' = x[, 'Upper 95%'])
 
-    col.pal = match.arg(col.pal)
-    col_pal = switch (
-      col.pal,
-      JCO   = palette.jco()[1], Lancet = palette.lancet()[1],
-      NPG   = palette.npg()[1], AAAS   = palette.aaas()[1])
+  col.pal = match.arg(col.pal)
+  col_pal = switch (
+    col.pal,
+    JCO   = palette.jco()[1], Lancet = palette.lancet()[1],
+    NPG   = palette.npg()[1], AAAS   = palette.aaas()[1])
 
-    ggplot(df, aes_string(x = 'pre', y = 'obs',
-                          xmin = xlim[1L], xmax = xlim[2L],
-                          ymin = ylim[1L], ymax = ylim[2L])) +
-      geom_abline(slope = 1, intercept = 0, colour = 'grey') +
-      geom_errorbar(aes_string(ymin = 'll', ymax = 'ul'), colour = col_pal) +
-      geom_line(colour = col_pal) +
-      geom_point(size = 3, colour = col_pal) +
-      xlab('Predicted Survival Probability') +
-      ylab('Observed Survival Probability') +
-      theme_bw()
+  ggplot(
+    df,
+    aes_string(
+      x = 'pre', y = 'obs',
+      xmin = xlim[1L], xmax = xlim[2L],
+      ymin = ylim[1L], ymax = ylim[2L])) +
+    geom_abline(slope = 1, intercept = 0, colour = 'grey') +
+    geom_errorbar(aes_string(ymin = 'll', ymax = 'ul'), colour = col_pal) +
+    geom_line(colour = col_pal) +
+    geom_point(size = 3, colour = col_pal) +
+    xlab('Predicted Survival Probability') +
+    ylab('Observed Survival Probability') +
+    theme_bw()
 
-  }
+}

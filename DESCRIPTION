@@ -1,7 +1,7 @@
 Package: hdnom
 Type: Package
 Title: Benchmarking and Visualization Toolkit for Penalized Cox Models
-Version: 4.6.9000
+Version: 4.6.9001
 Authors@R: c(
     person("Nan", "Xiao", email = "me@nanx.me", role = c("aut", "cre")),
     person("Qingsong", "Xu", email = "qsxu@csu.edu.cn", role = c("aut")),

@@ -55,11 +55,11 @@ time = smart$TEVENT
 event = smart$EVENT
 
 # Compare lasso and adaptive lasso by 5-fold cross-validation
-cmp.cal.cv =
-  hdnom.compare.calibrate(x, time, event,
-                          model.type = c("lasso", "alasso"),
-                          method = "fitting",
-                          pred.at = 365 * 9, ngroup = 5, seed = 1001)
+cmp.cal.cv = hdnom.compare.calibrate(
+  x, time, event,
+  model.type = c("lasso", "alasso"),
+  method = "fitting",
+  pred.at = 365 * 9, ngroup = 5, seed = 1001)
 
 print(cmp.cal.cv)
 summary(cmp.cal.cv)
