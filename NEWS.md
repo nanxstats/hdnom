@@ -1,3 +1,9 @@
+# hdnom 4.8 (2017-03-24)
+
+## Improvements
+
+- Reduced example running time to less than 10s for `hdnom.calibrate()`.
+
 # hdnom 4.7 (2017-03-24)
 
 ## Improvements
