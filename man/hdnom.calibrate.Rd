@@ -89,16 +89,6 @@ cal.fitting = hdnom.calibrate(
   pred.at = 365 * 9, ngroup = 5,
   seed = 1010)
 
-# Model calibration by bootstrap
-# Normally boot.times should be set to 200 or more,
-# we set it to 3 here only to save example running time.
-cal.boot = hdnom.calibrate(
-  x, time, event, model.type = "lasso",
-  alpha = 1, lambda = fit$lasso_best_lambda,
-  method = "bootstrap", boot.times = 3,
-  pred.at = 365 * 9, ngroup = 5,
-  seed = 1010)
-
 # Model calibration by 5-fold cross-validation
 cal.cv = hdnom.calibrate(
   x, time, event, model.type = "lasso",
@@ -107,27 +97,11 @@ cal.cv = hdnom.calibrate(
   pred.at = 365 * 9, ngroup = 5,
   seed = 1010)
 
-# Model calibration by repeated cross-validation
-cal.repcv = hdnom.calibrate(
-  x, time, event, model.type = "lasso",
-  alpha = 1, lambda = fit$lasso_best_lambda,
-  method = "repeated.cv", nfolds = 3, rep.times = 3,
-  pred.at = 365 * 9, ngroup = 5,
-  seed = 1010)
-
 print(cal.fitting)
 summary(cal.fitting)
 plot(cal.fitting)
 
-print(cal.boot)
-summary(cal.boot)
-plot(cal.boot)
-
 print(cal.cv)
 summary(cal.cv)
 plot(cal.cv)
-
-print(cal.repcv)
-summary(cal.repcv)
-plot(cal.repcv)
 }
