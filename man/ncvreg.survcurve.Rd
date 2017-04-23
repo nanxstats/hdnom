@@ -14,3 +14,4 @@ linear predictors for all samples
 Derived from c060::predictProb.coxnet
 }
 \keyword{internal}
+

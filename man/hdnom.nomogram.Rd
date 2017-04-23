@@ -73,3 +73,4 @@ nom = hdnom.nomogram(
 print(nom)
 plot(nom)
 }
+

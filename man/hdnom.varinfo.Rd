@@ -33,3 +33,4 @@ y = Surv(time, event)
 fit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 hdnom.varinfo(fit, x)
 }
+

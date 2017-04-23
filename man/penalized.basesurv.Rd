@@ -13,3 +13,4 @@ list containing cumulative base hazard
 Derived from \code{peperr:::basesurv} and \code{gbm::basehaz.gbm}.
 }
 \keyword{internal}
+

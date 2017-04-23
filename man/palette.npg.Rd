@@ -11,3 +11,4 @@ A 10-color discrete color palette based on the colors
 used in figures in NPG journals such as \emph{Nature Reviews Cancer}.
 }
 \keyword{internal}
+

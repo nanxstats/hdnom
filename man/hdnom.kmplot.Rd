@@ -67,3 +67,4 @@ hdnom.kmplot(
   cal.ext, group.name = c('High risk','Medium risk', 'Low risk'),
   time.at = 1:6 * 365)
 }
+
