@@ -1,6 +1,6 @@
-templates:
+template:
   params:
-    bootswatch: spacelab
+    ganalytics: UA-66880388-1
 
 reference:
   - title: "Building Cox Models"
