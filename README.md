@@ -66,3 +66,7 @@ Browse [the vignettes](https://hdnom.org/articles/) to start.
 * hdnom appmaker: [https://hdnom.org/appmaker](https://hdnom.org/appmaker)
 * CRAN: [https://cran.r-project.org/package=hdnom](https://cran.r-project.org/package=hdnom)
 * GitHub: [https://github.com/road2stat/hdnom](https://github.com/road2stat/hdnom)
+
+## Contribute
+
+To contribute to this project, please take a look at the [Contributing Guidelines](CONTRIBUTING.md) first. Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
