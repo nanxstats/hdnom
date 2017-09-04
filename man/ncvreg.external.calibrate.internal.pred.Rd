@@ -13,4 +13,3 @@ list containing predicted survival probability
 Compute ncvreg Predicted Survival Probabilities for External Calibration
 }
 \keyword{internal}
-

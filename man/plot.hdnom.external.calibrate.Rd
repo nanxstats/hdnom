@@ -26,4 +26,3 @@ Plot External Calibration Results
 \examples{
 NULL
 }
-

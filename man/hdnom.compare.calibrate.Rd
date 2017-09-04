@@ -65,4 +65,3 @@ print(cmp.cal.cv)
 summary(cmp.cal.cv)
 plot(cmp.cal.cv)
 }
-

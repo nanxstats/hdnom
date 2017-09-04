@@ -13,4 +13,3 @@ best model object, best gamma, and best alpha
 Automatic Mnet/Snet gamma and alpha tuning function by k-fold cross-validation
 }
 \keyword{internal}
-

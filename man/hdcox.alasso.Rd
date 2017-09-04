@@ -52,4 +52,3 @@ nom = hdnom.nomogram(
 
 plot(nom)
 }
-

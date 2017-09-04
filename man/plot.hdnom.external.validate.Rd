@@ -24,4 +24,3 @@ Plot Time-Dependent Discrimination Curves for External Validation
 \examples{
 NULL
 }
-

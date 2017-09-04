@@ -23,4 +23,3 @@ for log-rank test.}
 Kaplan-Meier Plot with Number at Risk Table
 }
 \keyword{internal}
-

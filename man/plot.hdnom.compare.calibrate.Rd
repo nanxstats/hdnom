@@ -26,4 +26,3 @@ Plot Model Comparison by Calibration Results
 \examples{
 NULL
 }
-

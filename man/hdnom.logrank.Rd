@@ -53,4 +53,3 @@ cal.ext = hdnom.external.calibrate(
 
 hdnom.logrank(cal.ext)
 }
-
