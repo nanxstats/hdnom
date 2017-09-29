@@ -1,4 +1,10 @@
-# hdnom 4.8 (2017-03-24)
+# hdnom 4.9 (2017-09-28)
+
+## Improvements
+
+- Use system font stack instead of Google Fonts in vignettes to avoid pandoc SSL issue.
+
+# hdnom 4.8 (2017-03-25)
 
 ## Improvements
 
