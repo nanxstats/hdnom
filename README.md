@@ -9,9 +9,9 @@
 
 ## Paper Citation
 
-Formatted citation for [the preprint](http://dx.doi.org/10.1101/065524):
+Formatted citation for [the preprint](https://dx.doi.org/10.1101/065524):
 
-Nan Xiao, Qing-Song Xu, and Miao-Zhu Li. "hdnom: Building Nomograms for Penalized Cox Models with High-Dimensional Survival Data." bioRxiv (2016): 065524; doi: http://dx.doi.org/10.1101/065524
+Nan Xiao, Qing-Song Xu, and Miao-Zhu Li. "hdnom: Building Nomograms for Penalized Cox Models with High-Dimensional Survival Data." bioRxiv (2016): 065524; doi: https://dx.doi.org/10.1101/065524
 
 BibTeX entry:
 
@@ -22,8 +22,8 @@ BibTeX entry:
 	year = {2016},
 	doi = {10.1101/065524},
 	publisher = {Cold Spring Harbor Labs Journals},
-	URL = {http://biorxiv.org/content/early/2016/08/23/065524},
-	eprint = {http://biorxiv.org/content/early/2016/08/23/065524.full.pdf},
+	URL = {https://www.biorxiv.org/content/early/2016/08/23/065524},
+	eprint = {https://www.biorxiv.org/content/biorxiv/early/2016/08/23/065524.full.pdf},
 	journal = {bioRxiv}
 }
 ```
@@ -69,4 +69,4 @@ Browse [the vignettes](https://hdnom.org/articles/) to start.
 
 ## Contribute
 
-To contribute to this project, please take a look at the [Contributing Guidelines](CONTRIBUTING.md) first. Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
+To contribute to this project, please take a look at the [Contributing Guidelines](https://github.com/road2stat/hdnom/blob/master/CONTRIBUTING.md) first. Please note that this project is released with a [Contributor Code of Conduct](https://github.com/road2stat/hdnom/blob/master/CONDUCT.md). By participating in this project you agree to abide by its terms.
