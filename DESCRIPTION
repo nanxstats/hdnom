@@ -5,8 +5,8 @@ Version: 4.9
 Authors@R: c(
     person("Nan", "Xiao", email = "me@nanx.me", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0250-5673")),
-    person("Qingsong", "Xu", email = "qsxu@csu.edu.cn", role = c("aut")),
-    person("Miaozhu", "Li", email = "miaozhu.li@duke.edu", role = c("aut"))
+    person("Qing-Song", "Xu", email = "qsxu@csu.edu.cn", role = c("aut")),
+    person("Miao-Zhu", "Li", email = "miaozhu.li@duke.edu", role = c("aut"))
     )
 Maintainer: Nan Xiao <me@nanx.me>
 Description: Creates nomogram visualizations for penalized Cox regression
