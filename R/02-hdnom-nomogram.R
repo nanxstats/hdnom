@@ -88,11 +88,11 @@ hdnom.nomogram = function(
     selected_vars =
       all_vars[which(as.vector(
         abs(coef(object, s = object$'lambda')) > .Machine$double.eps))]
-    ols_formula = paste('glmnet_pred_lp ~',
-                        paste(paste('`', selected_vars, '`', sep = ''),
-                              collapse = ' + '))
-    ols_fit = ols(as.formula(ols_formula), data = ddist,
-                  sigma = 1, x = TRUE, y = TRUE)
+    ols_formula = paste(
+      'glmnet_pred_lp ~',
+      paste(paste('`', selected_vars, '`', sep = ''), collapse = ' + '))
+    ols_fit = ols(
+      as.formula(ols_formula), data = ddist, sigma = 1, x = TRUE, y = TRUE)
 
     idx_ones = which(event == 1L)
     survtime_ones = time[idx_ones]
@@ -117,11 +117,11 @@ hdnom.nomogram = function(
     all_vars = rownames(object$'beta')
     selected_vars =
       all_vars[which(as.vector(abs(coef(object)) > .Machine$double.eps))]
-    ols_formula = paste('ncvreg_pred_lp ~',
-                        paste(paste('`', selected_vars, '`', sep = ''),
-                              collapse = ' + '))
-    ols_fit = ols(as.formula(ols_formula), data = ddist,
-                  sigma = 1, x = TRUE, y = TRUE)
+    ols_formula = paste(
+      'ncvreg_pred_lp ~',
+      paste(paste('`', selected_vars, '`', sep = ''), collapse = ' + '))
+    ols_fit = ols(
+      as.formula(ols_formula), data = ddist, sigma = 1, x = TRUE, y = TRUE)
 
     idx_ones = which(event == 1L)
     survtime_ones = time[idx_ones]
@@ -146,11 +146,11 @@ hdnom.nomogram = function(
     all_vars = colnames(x)
     selected_vars =
       all_vars[which(abs(object@penalized) > .Machine$double.eps)]
-    ols_formula = paste('penalized_pred_lp ~',
-                        paste(paste('`', selected_vars, '`', sep = ''),
-                              collapse = ' + '))
-    ols_fit = ols(as.formula(ols_formula), data = ddist,
-                  sigma = 1, x = TRUE, y = TRUE)
+    ols_formula = paste(
+      'penalized_pred_lp ~',
+      paste(paste('`', selected_vars, '`', sep = ''), collapse = ' + '))
+    ols_fit = ols(
+      as.formula(ols_formula), data = ddist, sigma = 1, x = TRUE, y = TRUE)
 
     idx_ones = which(event == 1L)
     survtime_ones = time[idx_ones]

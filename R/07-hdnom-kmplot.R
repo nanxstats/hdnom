@@ -73,8 +73,9 @@ hdnom.kmplot = function(
   df = data.frame(time, event, grp)
   fit = survfit(formula('Surv(time, event) ~ grp'))
   col.pal = match.arg(col.pal)
-  kmplot(fit = fit, group.name = group.name,
-         time.at = time.at, surv.df = df, col.pal = col.pal)
+  kmplot(
+    fit = fit, group.name = group.name,
+    time.at = time.at, surv.df = df, col.pal = col.pal)
 
 }
 
@@ -120,28 +121,30 @@ kmplot = function(
 
   if (is.null(col.pal)) stop('col.pal must be specified')
 
-  col_pal = switch (
+  col_pal = switch(
     col.pal,
-    JCO   = palette.jco(), Lancet = palette.lancet(),
-    NPG   = palette.npg(), AAAS   = palette.aaas())
+    JCO = palette.jco(), Lancet = palette.lancet(),
+    NPG = palette.npg(), AAAS = palette.aaas())
 
   # kaplan-meier plot
   k = max(nchar(group.name))
-  km_plot = ggplot(km_df,
-                   aes_string(x = 'time', y = 'surv', group = 'risk.group')) +
+  km_plot = ggplot(
+    km_df, aes_string(x = 'time', y = 'surv', group = 'risk.group')) +
     geom_step(aes_string(colour = 'risk.group'), size = 0.7) +
     scale_x_continuous(breaks = time.at) +
     scale_colour_manual(values = col_pal) +
     theme_bw() +
-    theme(panel.grid.major = element_blank(),  # remove grid lines + half-open frame
-          panel.grid.minor = element_blank(),
-          panel.background = element_blank(),
-          panel.border = element_blank(),
-          # the axis will show properly for ggplot2 >= 2.2.0
-          axis.line = element_line(colour = 'black')) +
+    theme(
+      panel.grid.major = element_blank(),  # remove grid lines + half-open frame
+      panel.grid.minor = element_blank(),
+      panel.background = element_blank(),
+      panel.border = element_blank(),
+      # the axis will show properly for ggplot2 >= 2.2.0
+      axis.line = element_line(colour = 'black')) +
     theme(axis.title.x = element_text(vjust = 0.5)) +
-    theme(legend.key = element_rect(colour = NA),
-          legend.title = element_blank()) +
+    theme(
+      legend.key = element_rect(colour = NA),
+      legend.title = element_blank()) +
     theme(plot.margin = unit(c(0, 1, 0.5, ifelse(k < 10, 1.5, 2.5)), 'lines')) +
     xlab('Time') +
     ylab('Overall Survival Probability')
@@ -156,10 +159,11 @@ kmplot = function(
   placeholder_plot = ggplot(km_df, aes_string(x = 'time', y = 'surv')) +
     geom_blank() +
     theme_bw() +
-    theme(axis.text.x = element_blank(), axis.text.y = element_blank(),
-          axis.title.x = element_blank(), axis.title.y = element_blank(),
-          axis.ticks = element_blank(), panel.grid.major = element_blank(),
-          panel.border = element_blank())
+    theme(
+      axis.text.x = element_blank(), axis.text.y = element_blank(),
+      axis.title.x = element_blank(), axis.title.y = element_blank(),
+      axis.ticks = element_blank(), panel.grid.major = element_blank(),
+      panel.border = element_blank())
 
   # number at risk data
   table_df = data.frame(
@@ -170,20 +174,22 @@ kmplot = function(
   # number at risk plot
   table_plot = ggplot(
     table_df,
-    aes_string(x = 'time', y = 'risk.group',
-               label = format('n.risk', nsmall = 0))) +
+    aes_string(
+      x = 'time', y = 'risk.group', label = format('n.risk', nsmall = 0))) +
     geom_text(size = 4) +
-    scale_y_discrete(breaks = as.character(levels(table_df$'risk.group')),
-                     labels = group.name) +
+    scale_y_discrete(
+      breaks = as.character(levels(table_df$'risk.group')),
+      labels = group.name) +
     scale_x_continuous('Number at risk', limits = c(0, max(fit$'time'))) +
     theme_bw() +
-    theme(axis.title.x = element_text(vjust = 1),
-          axis.text.y = element_text(hjust = 1),
-          panel.grid.major = element_blank(),
-          panel.grid.minor = element_blank(),
-          panel.border = element_blank(),
-          axis.text.x = element_blank(),
-          axis.ticks = element_blank()) +
+    theme(
+      axis.title.x = element_text(vjust = 1),
+      axis.text.y = element_text(hjust = 1),
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      panel.border = element_blank(),
+      axis.text.x = element_blank(),
+      axis.ticks = element_blank()) +
     theme(plot.margin = unit(
       c(-1.5, 1, 0.1, ifelse(k < 10, 2.5, 3.5) - 0.28 * k), 'lines')) +
     xlab(NULL) +

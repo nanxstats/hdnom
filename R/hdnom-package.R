@@ -1,7 +1,5 @@
 #' Benchmarking and Visualization Toolkit for Penalized Cox Models
 #'
-#' Benchmarking and Visualization Toolkit for Penalized Cox Models
-#'
 #' Browse vignettes with \code{browseVignettes(package = "hdnom")}.
 #'
 #' \tabular{ll}{ Package: \tab hdnom\cr
@@ -11,6 +9,6 @@
 #' @name hdnom-package
 #' @docType package
 #' @author Nan Xiao <\email{me@@nanx.me}>
-#'         Qingsong Xu <\email{qsxu@@csu.edu.cn}>
-#'         Miaozhu Li <\email{miaozhu.li@@duke.edu}>
+#'         Qing-Song Xu <\email{qsxu@@csu.edu.cn}>
+#'         Miao-Zhu Li <\email{miaozhu.li@@duke.edu}>
 NULL
