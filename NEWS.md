@@ -1,3 +1,9 @@
+# hdnom 4.9.9000
+
+## Improvements
+
+- Exported the survival curve prediction functions (`glmnet.survcurve()`, `ncvreg.survcurve()`, `penalized.survcurve()`) and Breslow baseline hazard estimator functions (`glmnet.basesurv()`, `ncvreg.basesurv()`, `penalized.basesurv()`).
+
 # hdnom 4.9 (2017-09-28)
 
 ## Improvements
