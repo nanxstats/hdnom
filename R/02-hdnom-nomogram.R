@@ -203,6 +203,8 @@ hdnom.nomogram = function(
 #' @return list containing predicted survival probabilities and
 #' linear predictors for all samples
 #'
+#' @export glmnet.survcurve
+#'
 #' @examples
 #' NULL
 glmnet.survcurve = function(object, time, event, x, survtime) {
@@ -233,6 +235,8 @@ glmnet.survcurve = function(object, time, event, x, survtime) {
 #' See \code{\link[survival]{basehaz}} for details.
 #'
 #' @importFrom stats approx
+#'
+#' @export glmnet.basesurv
 #'
 #' @return list containing cumulative base hazard
 #'
@@ -273,6 +277,8 @@ glmnet.basesurv = function(
 #' @param x Predictor matrix
 #' @param survtime Survival time to evaluate
 #'
+#' @export ncvreg.survcurve
+#'
 #' @return list containing predicted survival probabilities and
 #' linear predictors for all samples
 #'
@@ -304,6 +310,8 @@ ncvreg.survcurve = function(object, time, event, x, survtime) {
 #' See \code{\link[survival]{basehaz}} for details.
 #'
 #' @importFrom stats approx
+#'
+#' @export ncvreg.basesurv
 #'
 #' @return list containing cumulative base hazard
 #'
@@ -344,6 +352,8 @@ ncvreg.basesurv = function(
 #' @param x Predictor matrix
 #' @param survtime Survival time to evaluate
 #'
+#' @export penalized.survcurve
+#'
 #' @return list containing predicted survival probabilities and
 #' linear predictors for all samples
 #'
@@ -375,6 +385,8 @@ penalized.survcurve = function(object, time, event, x, survtime) {
 #' See \code{\link[survival]{basehaz}} for details.
 #'
 #' @importFrom stats approx
+#'
+#' @export penalized.basesurv
 #'
 #' @return list containing cumulative base hazard
 #'
