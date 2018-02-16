@@ -16,7 +16,7 @@ penalized.basesurv(time, event, lp, times.eval = NULL, centered = FALSE)
 \item{times.eval}{Survival time to evaluate}
 
 \item{centered}{Should we center the survival curve?
-See [survival::basehaz()] for details.}
+See \code{\link[survival]{basehaz}} for details.}
 }
 \value{
 list containing cumulative base hazard

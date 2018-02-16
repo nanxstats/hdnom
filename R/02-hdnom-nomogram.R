@@ -230,7 +230,7 @@ glmnet.survcurve = function(object, time, event, x, survtime) {
 #' @param lp Linear predictors
 #' @param times.eval Survival time to evaluate
 #' @param centered Should we center the survival curve?
-#' See [survival::basehaz()] for details.
+#' See \code{\link[survival]{basehaz}} for details.
 #'
 #' @importFrom stats approx
 #'
@@ -301,7 +301,7 @@ ncvreg.survcurve = function(object, time, event, x, survtime) {
 #' @param lp Linear predictors
 #' @param times.eval Survival time to evaluate
 #' @param centered Should we center the survival curve?
-#' See [survival::basehaz()] for details.
+#' See \code{\link[survival]{basehaz}} for details.
 #'
 #' @importFrom stats approx
 #'
@@ -372,7 +372,7 @@ penalized.survcurve = function(object, time, event, x, survtime) {
 #' @param lp Linear predictors
 #' @param times.eval Survival time to evaluate
 #' @param centered Should we center the survival curve?
-#' See [survival::basehaz()] for details.
+#' See \code{\link[survival]{basehaz}} for details.
 #'
 #' @importFrom stats approx
 #'
