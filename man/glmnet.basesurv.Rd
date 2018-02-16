@@ -6,10 +6,24 @@
 \usage{
 glmnet.basesurv(time, event, lp, times.eval = NULL, centered = FALSE)
 }
+\arguments{
+\item{time}{Survival time}
+
+\item{event}{Status indicator}
+
+\item{lp}{Linear predictors}
+
+\item{times.eval}{Survival time to evaluate}
+
+\item{centered}{Should we center the survival curve?
+See [survival::basehaz()] for details.}
+}
 \value{
 list containing cumulative base hazard
 }
 \description{
 Derived from \code{peperr:::basesurv} and \code{gbm::basehaz.gbm}.
 }
-\keyword{internal}
+\examples{
+NULL
+}

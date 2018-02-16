@@ -194,14 +194,22 @@ hdnom.nomogram = function(
 #'
 #' Derived from c060::predictProb.coxnet
 #'
+#' @param object \code{glmnet} model object
+#' @param time Survival time
+#' @param event Status indicator
+#' @param x Predictor matrix
+#' @param survtime Survival time to evaluate
+#'
 #' @return list containing predicted survival probabilities and
 #' linear predictors for all samples
 #'
-#' @keywords internal
+#' @examples
+#' NULL
 glmnet.survcurve = function(object, time, event, x, survtime) {
 
-  lp = as.numeric(predict(object, newx = data.matrix(x),
-                          s = object$'lambda', type = 'link'))
+  lp = as.numeric(predict(
+    object, newx = data.matrix(x),
+    s = object$'lambda', type = 'link'))
   basesurv = glmnet.basesurv(time, event, lp, sort(survtime))
   p = exp(exp(lp) %*% (-t(basesurv$cumulative_base_hazard)))
   colnames(p) = names(sort(survtime))
@@ -217,11 +225,19 @@ glmnet.survcurve = function(object, time, event, x, survtime) {
 #'
 #' Derived from \code{peperr:::basesurv} and \code{gbm::basehaz.gbm}.
 #'
+#' @param time Survival time
+#' @param event Status indicator
+#' @param lp Linear predictors
+#' @param times.eval Survival time to evaluate
+#' @param centered Should we center the survival curve?
+#' See [survival::basehaz()] for details.
+#'
 #' @importFrom stats approx
 #'
 #' @return list containing cumulative base hazard
 #'
-#' @keywords internal
+#' @examples
+#' NULL
 glmnet.basesurv = function(
   time, event, lp,
   times.eval = NULL, centered = FALSE) {
@@ -251,10 +267,17 @@ glmnet.basesurv = function(
 #'
 #' Derived from c060::predictProb.coxnet
 #'
+#' @param object \code{ncvreg} model object
+#' @param time Survival time
+#' @param event Status indicator
+#' @param x Predictor matrix
+#' @param survtime Survival time to evaluate
+#'
 #' @return list containing predicted survival probabilities and
 #' linear predictors for all samples
 #'
-#' @keywords internal
+#' @examples
+#' NULL
 ncvreg.survcurve = function(object, time, event, x, survtime) {
 
   lp = as.numeric(predict(object, X = data.matrix(x), type = 'link'))
@@ -273,11 +296,19 @@ ncvreg.survcurve = function(object, time, event, x, survtime) {
 #'
 #' Derived from \code{peperr:::basesurv} and \code{gbm::basehaz.gbm}.
 #'
+#' @param time Survival time
+#' @param event Status indicator
+#' @param lp Linear predictors
+#' @param times.eval Survival time to evaluate
+#' @param centered Should we center the survival curve?
+#' See [survival::basehaz()] for details.
+#'
 #' @importFrom stats approx
 #'
 #' @return list containing cumulative base hazard
 #'
-#' @keywords internal
+#' @examples
+#' NULL
 ncvreg.basesurv = function(
   time, event, lp,
   times.eval = NULL, centered = FALSE) {
@@ -307,10 +338,17 @@ ncvreg.basesurv = function(
 #'
 #' Derived from c060::predictProb.coxnet
 #'
+#' @param object \code{penalized} model object
+#' @param time Survival time
+#' @param event Status indicator
+#' @param x Predictor matrix
+#' @param survtime Survival time to evaluate
+#'
 #' @return list containing predicted survival probabilities and
 #' linear predictors for all samples
 #'
-#' @keywords internal
+#' @examples
+#' NULL
 penalized.survcurve = function(object, time, event, x, survtime) {
 
   lp = as.numeric(object@lin.pred)
@@ -329,11 +367,19 @@ penalized.survcurve = function(object, time, event, x, survtime) {
 #'
 #' Derived from \code{peperr:::basesurv} and \code{gbm::basehaz.gbm}.
 #'
+#' @param time Survival time
+#' @param event Status indicator
+#' @param lp Linear predictors
+#' @param times.eval Survival time to evaluate
+#' @param centered Should we center the survival curve?
+#' See [survival::basehaz()] for details.
+#'
 #' @importFrom stats approx
 #'
 #' @return list containing cumulative base hazard
 #'
-#' @keywords internal
+#' @examples
+#' NULL
 penalized.basesurv = function(
   time, event, lp,
   times.eval = NULL, centered = FALSE) {

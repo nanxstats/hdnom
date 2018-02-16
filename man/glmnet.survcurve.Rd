@@ -6,6 +6,17 @@
 \usage{
 glmnet.survcurve(object, time, event, x, survtime)
 }
+\arguments{
+\item{object}{\code{glmnet} model object}
+
+\item{time}{Survival time}
+
+\item{event}{Status indicator}
+
+\item{x}{Predictor matrix}
+
+\item{survtime}{Survival time to evaluate}
+}
 \value{
 list containing predicted survival probabilities and
 linear predictors for all samples
@@ -13,4 +24,6 @@ linear predictors for all samples
 \description{
 Derived from c060::predictProb.coxnet
 }
-\keyword{internal}
+\examples{
+NULL
+}
