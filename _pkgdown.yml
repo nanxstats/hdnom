@@ -61,6 +61,18 @@ reference:
       - summary.hdnom.compare.calibrate
       - plot.hdnom.compare.validate
       - plot.hdnom.compare.calibrate
+  - title: "Miscellaneous"
+    desc: >
+      Miscellaneous functions for supporting survival analysis,
+      such as baseline hazard estimation and survival curve prediction.
+    contents:
+      - glmnet.basesurv
+      - glmnet.survcurve
+      - penalized.basesurv
+      - penalized.survcurve
+      - ncvreg.basesurv
+      - ncvreg.survcurve
+      - hdnom-package
   - title: "Datasets"
     desc: >
       Example datasets
