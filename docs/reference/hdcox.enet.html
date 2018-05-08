@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Elastic-Net Model Selection for High-Dimensional Cox Models — hdcox.enet" />
 
 <meta property="og:description" content="Automatic elastic-net model selection for high-dimensional
@@ -42,16 +45,14 @@ Cox models, evaluated by penalized partial-likelihood." />
 
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66880388-1"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66394392-1"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'UA-66880388-1');
+  gtag('config', 'UA-66394392-1');
 </script>
-
-
 
   </head>
 
@@ -68,7 +69,7 @@ Cox models, evaluated by penalized partial-likelihood." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hdnom</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">4.9.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">4.9.9001</span>
       </span>
     </div>
 
@@ -111,14 +112,16 @@ Cox models, evaluated by penalized partial-likelihood." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Elastic-Net Model Selection for High-Dimensional Cox Models</h1>
-    <small>Source: <a href='https://github.com/road2stat/hdnom/blob/master/R/01-hdnom-models.R'><code>R/01-hdnom-models.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/road2stat/hdnom/blob/master/R/01-hdnom-models.R'><code>R/01-hdnom-models.R</code></a></small>
     <div class="hidden name"><code>hdcox.enet.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Automatic elastic-net model selection for high-dimensional
 Cox models, evaluated by penalized partial-likelihood.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>hdcox.enet</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5L</span>, <span class='kw'>alphas</span> <span class='kw'>=</span> <span class='fu'>seq</span>(<span class='fl'>0.05</span>, <span class='fl'>0.95</span>, <span class='fl'>0.05</span>),
   <span class='kw'>rule</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"lambda.min"</span>, <span class='st'>"lambda.1se"</span>), <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1001</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
