@@ -451,8 +451,8 @@ To cite our paper (preprint), please use [@hdnompreprint2016].
 For further information about the hdnom project,
 please visit:
 
-- hdnom project website: [https://hdnom.org](https://hdnom.org)
+- hdnom project website: [https://nanx.me/hdnom/](https://nanx.me/hdnom/)
 - hdnom web application: [http://hdnom.io](http://hdnom.io)
-- hdnom appmaker: [https://hdnom.org/appmaker](https://hdnom.org/appmaker)
+- hdnom appmaker: [https://nanx.me/hdnom/appmaker](https://nanx.me/hdnom/appmaker)
 
 # References

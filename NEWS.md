@@ -1,8 +1,9 @@
-# hdnom 4.9.9000
+# hdnom 4.9.9001
 
 ## Improvements
 
 - Exported the survival curve prediction functions (`glmnet.survcurve()`, `ncvreg.survcurve()`, `penalized.survcurve()`) and Breslow baseline hazard estimator functions (`glmnet.basesurv()`, `ncvreg.basesurv()`, `penalized.basesurv()`).
+- New URL for the documentation website: https://nanx.me/hdnom/.
 
 # hdnom 4.9 (2017-09-28)
 
@@ -58,7 +59,7 @@ substantially higher value (5e+4).
 ## Improvements
 
 - Added Windows continuous integration using AppVeyor.
-- New website design for hdnom.org: consistent with the web application hdnom.io.
+- New website design for project website: consistent with the web application hdnom.io.
 
 # hdnom 4.0 (2016-07-05)
 
@@ -126,8 +127,8 @@ substantially higher value (5e+4).
 
 ## New Features
 
-- New website: http://hdnom.org
-- Shiny-based web application (http://hdnom.io) shipped.
+- New documentation website.
+- New Shiny web application (http://hdnom.io).
 
 ## Improvements
 

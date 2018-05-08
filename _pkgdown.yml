@@ -1,6 +1,6 @@
 template:
   params:
-    ganalytics: UA-66880388-1
+    ganalytics: UA-66394392-1
 
 reference:
   - title: "Building Cox Models"
