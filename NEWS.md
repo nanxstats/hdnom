@@ -1,4 +1,4 @@
-# hdnom 4.9.9001
+# hdnom 5.0 (2018-05-13)
 
 ## Improvements
 
