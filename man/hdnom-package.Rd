@@ -8,9 +8,10 @@
 Browse vignettes with \code{browseVignettes(package = "hdnom")}.
 }
 \details{
-\tabular{ll}{ Package: \tab hdnom\cr
+\tabular{ll}{
+Package: \tab hdnom\cr
 Type: \tab Package\cr
-License: \tab GPL-3\cr }
+License: \tab GPL-3}
 }
 \author{
 Nan Xiao <\email{me@nanx.me}>
