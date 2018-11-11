@@ -5,7 +5,8 @@
 \title{Elastic-Net Model Selection for High-Dimensional Cox Models}
 \usage{
 hdcox.enet(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
-  rule = c("lambda.min", "lambda.1se"), seed = 1001, parallel = FALSE)
+  rule = c("lambda.min", "lambda.1se"), seed = 1001,
+  parallel = FALSE)
 }
 \arguments{
 \item{x}{Data matrix.}

@@ -4,8 +4,8 @@
 \alias{plot.hdnom.validate}
 \title{Plot Optimism-Corrected Time-Dependent Discrimination Curves for Validation}
 \usage{
-\method{plot}{hdnom.validate}(x, col.pal = c("JCO", "Lancet", "NPG", "AAAS"),
-  ylim = NULL, ...)
+\method{plot}{hdnom.validate}(x, col.pal = c("JCO", "Lancet", "NPG",
+  "AAAS"), ylim = NULL, ...)
 }
 \arguments{
 \item{x}{An object returned by \code{\link{hdnom.validate}}.}

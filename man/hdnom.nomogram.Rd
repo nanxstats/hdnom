@@ -4,8 +4,8 @@
 \alias{hdnom.nomogram}
 \title{Nomograms for High-Dimensional Cox Models}
 \usage{
-hdnom.nomogram(object, model.type = c("lasso", "alasso", "flasso", "enet",
-  "aenet", "mcp", "mnet", "scad", "snet"), x, time, event, ddist,
+hdnom.nomogram(object, model.type = c("lasso", "alasso", "flasso",
+  "enet", "aenet", "mcp", "mnet", "scad", "snet"), x, time, event, ddist,
   pred.at = NULL, fun.at = NULL, funlabel = NULL)
 }
 \arguments{

@@ -4,7 +4,8 @@
 \alias{penalized.external.calibrate.internal.pred}
 \title{Compute "penalized" Predicted Survival Probabilities for External Calibration}
 \usage{
-penalized.external.calibrate.internal.pred(object, x_tr, x_te, y_tr, pred.at)
+penalized.external.calibrate.internal.pred(object, x_tr, x_te, y_tr,
+  pred.at)
 }
 \value{
 list containing predicted survival probability

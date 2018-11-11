@@ -4,8 +4,8 @@
 \alias{plot.hdnom.external.calibrate}
 \title{Plot External Calibration Results}
 \usage{
-\method{plot}{hdnom.external.calibrate}(x, xlim = c(0, 1), ylim = c(0, 1),
-  col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ...)
+\method{plot}{hdnom.external.calibrate}(x, xlim = c(0, 1), ylim = c(0,
+  1), col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ...)
 }
 \arguments{
 \item{x}{An object returned by \code{\link{hdnom.external.calibrate}}.}

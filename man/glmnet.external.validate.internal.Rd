@@ -4,8 +4,8 @@
 \alias{glmnet.external.validate.internal}
 \title{Compute External Validation Measures for glmnet Objects}
 \usage{
-glmnet.external.validate.internal(object, x_tr, x_te, y_tr, y_te, tauc.type,
-  tauc.time)
+glmnet.external.validate.internal(object, x_tr, x_te, y_tr, y_te,
+  tauc.type, tauc.time)
 }
 \value{
 time-dependent AUC (tAUC) value

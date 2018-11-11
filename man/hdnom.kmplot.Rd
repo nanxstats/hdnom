@@ -5,8 +5,8 @@
 \title{Kaplan-Meier Plot with Number at Risk Table for Internal Calibration and
 External Calibration Results}
 \usage{
-hdnom.kmplot(object, group.name = NULL, time.at = NULL, col.pal = c("JCO",
-  "Lancet", "NPG", "AAAS"))
+hdnom.kmplot(object, group.name = NULL, time.at = NULL,
+  col.pal = c("JCO", "Lancet", "NPG", "AAAS"))
 }
 \arguments{
 \item{object}{An object returned by \code{\link{hdnom.calibrate}} or

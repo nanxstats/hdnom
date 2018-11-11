@@ -4,8 +4,8 @@
 \alias{hdnom.external.calibrate}
 \title{Externally Calibrate High-Dimensional Cox Models}
 \usage{
-hdnom.external.calibrate(object, x, time, event, x_new, time_new, event_new,
-  pred.at, ngroup = 5)
+hdnom.external.calibrate(object, x, time, event, x_new, time_new,
+  event_new, pred.at, ngroup = 5)
 }
 \arguments{
 \item{object}{Model object fitted by \code{hdcox.*()} functions.}

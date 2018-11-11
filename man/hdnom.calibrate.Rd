@@ -4,8 +4,8 @@
 \alias{hdnom.calibrate}
 \title{Calibrate High-Dimensional Cox Models}
 \usage{
-hdnom.calibrate(x, time, event, model.type = c("lasso", "alasso", "flasso",
-  "enet", "aenet", "mcp", "mnet", "scad", "snet"), alpha, lambda,
+hdnom.calibrate(x, time, event, model.type = c("lasso", "alasso",
+  "flasso", "enet", "aenet", "mcp", "mnet", "scad", "snet"), alpha, lambda,
   pen.factor = NULL, gamma, lambda1, lambda2, method = c("fitting",
   "bootstrap", "cv", "repeated.cv"), boot.times = NULL, nfolds = NULL,
   rep.times = NULL, pred.at, ngroup = 5, seed = 1001, trace = TRUE)

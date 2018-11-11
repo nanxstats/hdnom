@@ -4,11 +4,12 @@
 \alias{hdnom.validate}
 \title{Validate High-Dimensional Cox Models with Time-Dependent AUC}
 \usage{
-hdnom.validate(x, time, event, model.type = c("lasso", "alasso", "flasso",
-  "enet", "aenet", "mcp", "mnet", "scad", "snet"), alpha, lambda,
-  pen.factor = NULL, gamma, lambda1, lambda2, method = c("bootstrap", "cv",
-  "repeated.cv"), boot.times = NULL, nfolds = NULL, rep.times = NULL,
-  tauc.type = c("CD", "SZ", "UNO"), tauc.time, seed = 1001, trace = TRUE)
+hdnom.validate(x, time, event, model.type = c("lasso", "alasso",
+  "flasso", "enet", "aenet", "mcp", "mnet", "scad", "snet"), alpha, lambda,
+  pen.factor = NULL, gamma, lambda1, lambda2, method = c("bootstrap",
+  "cv", "repeated.cv"), boot.times = NULL, nfolds = NULL,
+  rep.times = NULL, tauc.type = c("CD", "SZ", "UNO"), tauc.time,
+  seed = 1001, trace = TRUE)
 }
 \arguments{
 \item{x}{Matrix of training data used for fitting the model;
