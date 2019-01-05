@@ -46,32 +46,84 @@ library("survival")
 data(smart)
 # Use the first 1000 samples as training data
 # (the data used for internal validation)
-x = as.matrix(smart[, -c(1, 2)])[1:1000, ]
-time = smart$TEVENT[1:1000]
-event = smart$EVENT[1:1000]
+x <- as.matrix(smart[, -c(1, 2)])[1:1000, ]
+time <- smart$TEVENT[1:1000]
+event <- smart$EVENT[1:1000]
 
 # Take the next 1000 samples as external validation data
 # In practice, usually use data collected in other studies
-x_new = as.matrix(smart[, -c(1, 2)])[1001:2000, ]
-time_new = smart$TEVENT[1001:2000]
-event_new = smart$EVENT[1001:2000]
+x_new <- as.matrix(smart[, -c(1, 2)])[1001:2000, ]
+time_new <- smart$TEVENT[1001:2000]
+event_new <- smart$EVENT[1001:2000]
 
 # Fit Cox model with lasso penalty
-fit = hdcox.lasso(
+fit <- hdcox.lasso(
   x, Surv(time, event),
-  nfolds = 5, rule = "lambda.1se", seed = 11)
+  nfolds = 5, rule = "lambda.1se", seed = 11
+)
 
 # External validation with time-dependent AUC
-val.ext = hdnom.external.validate(
+val.ext <- hdnom.external.validate(
   fit, x, time, event,
   x_new, time_new, event_new,
   tauc.type = "UNO",
-  tauc.time = seq(0.25, 2, 0.25) * 365)
+  tauc.time = seq(0.25, 2, 0.25) * 365
+)
 
 print(val.ext)
 summary(val.ext)
 plot(val.ext)
 
+# ### Testing fused lasso, MCP and Snet models ###
+# library("survival")
+#
+# # Load imputed SMART data
+# data(smart)
+# # Use first 600 samples as training data
+# # (the data used for internal validation)
+# x = as.matrix(smart[, -c(1, 2)])[1:600, ]
+# time = smart$TEVENT[1:600]
+# event = smart$EVENT[1:600]
+#
+# # Take 500 samples as external validation data.
+# # In practice, usually use data collected in other studies.
+# x_new = as.matrix(smart[, -c(1, 2)])[1001:1500, ]
+# time_new = smart$TEVENT[1001:1500]
+# event_new = smart$EVENT[1001:1500]
+#
+# flassofit = hdcox.flasso(x, Surv(time, event), nfolds = 5, seed = 11)
+# scadfit = hdcox.mcp(x, Surv(time, event), nfolds = 5, seed = 11)
+# mnetfit = hdcox.snet(x, Surv(time, event), nfolds = 5, seed = 11)
+#
+# val.ext1 = hdnom.external.validate(
+#   flassofit, x, time, event,
+#   x_new, time_new, event_new,
+#   tauc.type = "UNO",
+#   tauc.time = seq(0.25, 2, 0.25) * 365)
+#
+# val.ext2 = hdnom.external.validate(
+#   scadfit, x, time, event,
+#   x_new, time_new, event_new,
+#   tauc.type = "CD",
+#   tauc.time = seq(0.25, 2, 0.25) * 365)
+#
+# val.ext3 = hdnom.external.validate(
+#   mnetfit, x, time, event,
+#   x_new, time_new, event_new,
+#   tauc.type = "SZ",
+#   tauc.time = seq(0.25, 2, 0.25) * 365)
+#
+# print(val.ext1)
+# summary(val.ext1)
+# plot(val.ext1)
+#
+# print(val.ext2)
+# summary(val.ext2)
+# plot(val.ext2)
+#
+# print(val.ext3)
+# summary(val.ext3)
+# plot(val.ext3)
 }
 \references{
 Chambless, L. E. and G. Diao (2006).

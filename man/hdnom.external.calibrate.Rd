@@ -42,28 +42,77 @@ library("survival")
 data(smart)
 # Use the first 1000 samples as training data
 # (the data used for internal validation)
-x = as.matrix(smart[, -c(1, 2)])[1:1000, ]
-time = smart$TEVENT[1:1000]
-event = smart$EVENT[1:1000]
+x <- as.matrix(smart[, -c(1, 2)])[1:1000, ]
+time <- smart$TEVENT[1:1000]
+event <- smart$EVENT[1:1000]
 
 # Take the next 1000 samples as external calibration data
 # In practice, usually use data collected in other studies
-x_new = as.matrix(smart[, -c(1, 2)])[1001:2000, ]
-time_new = smart$TEVENT[1001:2000]
-event_new = smart$EVENT[1001:2000]
+x_new <- as.matrix(smart[, -c(1, 2)])[1001:2000, ]
+time_new <- smart$TEVENT[1001:2000]
+event_new <- smart$EVENT[1001:2000]
 
 # Fit Cox model with lasso penalty
-fit = hdcox.lasso(
+fit <- hdcox.lasso(
   x, Surv(time, event),
-  nfolds = 5, rule = "lambda.1se", seed = 11)
+  nfolds = 5, rule = "lambda.1se", seed = 11
+)
 
 # External calibration
-cal.ext = hdnom.external.calibrate(
+cal.ext <- hdnom.external.calibrate(
   fit, x, time, event,
   x_new, time_new, event_new,
-  pred.at = 365 * 5, ngroup = 5)
+  pred.at = 365 * 5, ngroup = 5
+)
 
 print(cal.ext)
 summary(cal.ext)
 plot(cal.ext, xlim = c(0.6, 1), ylim = c(0.6, 1))
+# ### Testing fused lasso, MCP, and Snet models ###
+# library("survival")
+#
+# # Load imputed SMART data
+# data(smart)
+# # Use first 500 samples as training data
+# # (the data used for internal validation)
+# x = as.matrix(smart[, -c(1, 2)])[1:500, ]
+# time = smart$TEVENT[1:500]
+# event = smart$EVENT[1:500]
+#
+# # Take 1000 samples as external validation data.
+# # In practice, usually use data collected in other studies.
+# x_new = as.matrix(smart[, -c(1, 2)])[1001:2000, ]
+# time_new = smart$TEVENT[1001:2000]
+# event_new = smart$EVENT[1001:2000]
+#
+# flassofit = hdcox.flasso(x, Surv(time, event), nfolds = 5, seed = 11)
+# scadfit = hdcox.mcp(x, Surv(time, event), nfolds = 5, seed = 11)
+# mnetfit = hdcox.snet(x, Surv(time, event), nfolds = 5, seed = 11)
+#
+# cal.ext1 = hdnom.external.calibrate(
+#   flassofit, x, time, event,
+#   x_new, time_new, event_new,
+#   pred.at = 365 * 5, ngroup = 5)
+#
+# cal.ext2 = hdnom.external.calibrate(
+#   scadfit, x, time, event,
+#   x_new, time_new, event_new,
+#   pred.at = 365 * 5, ngroup = 5)
+#
+# cal.ext3 = hdnom.external.calibrate(
+#   mnetfit, x, time, event,
+#   x_new, time_new, event_new,
+#   pred.at = 365 * 5, ngroup = 5)
+#
+# print(cal.ext1)
+# summary(cal.ext1)
+# plot(cal.ext1)
+#
+# print(cal.ext2)
+# summary(cal.ext2)
+# plot(cal.ext2)
+#
+# print(cal.ext3)
+# summary(cal.ext3)
+# plot(cal.ext3)
 }

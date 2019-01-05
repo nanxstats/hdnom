@@ -77,39 +77,45 @@ library("survival")
 
 # Load imputed SMART data
 data(smart)
-x = as.matrix(smart[, -c(1, 2)])[1:500, ]
-time = smart$TEVENT[1:500]
-event = smart$EVENT[1:500]
-y = Surv(time, event)
+x <- as.matrix(smart[, -c(1, 2)])[1:500, ]
+time <- smart$TEVENT[1:500]
+event <- smart$EVENT[1:500]
+y <- Surv(time, event)
 
 # Fit penalized Cox model with lasso penalty
-fit = hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+fit <- hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 
 # Model validation by bootstrap with time-dependent AUC
 # Normally boot.times should be set to 200 or more,
 # we set it to 3 here only to save example running time.
-val.boot = hdnom.validate(
-  x, time, event, model.type = "lasso",
+val.boot <- hdnom.validate(
+  x, time, event,
+  model.type = "lasso",
   alpha = 1, lambda = fit$lasso_best_lambda,
   method = "bootstrap", boot.times = 3,
   tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
-  seed = 1010)
+  seed = 1010
+)
 
 # Model validation by 5-fold cross-validation with time-dependent AUC
-val.cv = hdnom.validate(
-  x, time, event, model.type = "lasso",
+val.cv <- hdnom.validate(
+  x, time, event,
+  model.type = "lasso",
   alpha = 1, lambda = fit$lasso_best_lambda,
   method = "cv", nfolds = 5,
   tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
-  seed = 1010)
+  seed = 1010
+)
 
 # Model validation by repeated cross-validation with time-dependent AUC
-val.repcv = hdnom.validate(
-  x, time, event, model.type = "lasso",
+val.repcv <- hdnom.validate(
+  x, time, event,
+  model.type = "lasso",
   alpha = 1, lambda = fit$lasso_best_lambda,
   method = "repeated.cv", nfolds = 5, rep.times = 3,
   tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
-  seed = 1010)
+  seed = 1010
+)
 
 # bootstrap-based discrimination curves has a very narrow band
 print(val.boot)
@@ -126,6 +132,50 @@ plot(val.cv)
 print(val.repcv)
 summary(val.repcv)
 plot(val.repcv)
+# ### Testing fused lasso, SCAD, and Mnet models ###
+# library("survival")
+# library("rms")
+#
+# # Load imputed SMART data
+# data(smart)
+# x = as.matrix(smart[, -c(1, 2)])[1:500,]
+# time = smart$TEVENT[1:500]
+# event = smart$EVENT[1:500]
+# y = Surv(time, event)
+#
+# set.seed(1010)
+# val.boot = hdnom.validate(
+#   x, time, event, model.type = "flasso",
+#   lambda1 = 5, lambda2 = 2,
+#   method = "bootstrap", boot.times = 10,
+#   tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
+#   seed = 1010)
+#
+# val.cv = hdnom.validate(
+#   x, time, event, model.type = "scad",
+#   gamma = 3.7, alpha = 1, lambda = 0.05,
+#   method = "cv", nfolds = 5,
+#   tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
+#   seed = 1010)
+#
+# val.repcv = hdnom.validate(
+#   x, time, event, model.type = "mnet",
+#   gamma = 3, alpha = 0.3, lambda = 0.05,
+#   method = "repeated.cv", nfolds = 5, rep.times = 3,
+#   tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
+#   seed = 1010)
+#
+# print(val.boot)
+# summary(val.boot)
+# plot(val.boot)
+#
+# print(val.cv)
+# summary(val.cv)
+# plot(val.cv)
+#
+# print(val.repcv)
+# summary(val.repcv)
+# plot(val.repcv)
 }
 \references{
 Chambless, L. E. and G. Diao (2006).
