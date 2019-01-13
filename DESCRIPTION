@@ -1,12 +1,13 @@
 Package: hdnom
 Type: Package
 Title: Benchmarking and Visualization Toolkit for Penalized Cox Models
-Version: 5.0.9000
+Version: 5.9.9000
 Authors@R: c(
     person("Nan", "Xiao", email = "me@nanx.me", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0250-5673")),
     person("Qing-Song", "Xu", email = "qsxu@csu.edu.cn", role = c("aut")),
-    person("Miao-Zhu", "Li", email = "miaozhu.li@duke.edu", role = c("aut"))
+    person("Miao-Zhu", "Li", email = "miaozhu.li@duke.edu", role = c("aut")),
+    person("Frank", "Harrell", email = "f.harrell@vanderbilt.edu", role = c("ctb"))
     )
 Maintainer: Nan Xiao <me@nanx.me>
 Description: Creates nomogram visualizations for penalized Cox regression
@@ -24,7 +25,6 @@ Imports:
     glmnet,
     penalized,
     ncvreg (>= 3.8-0),
-    rms,
     foreach,
     survAUC,
     ggplot2 (>= 2.2.1),
@@ -32,8 +32,6 @@ Imports:
 Suggests:
     knitr,
     rmarkdown,
-    doParallel,
-    Hmisc,
-    mice
+    doParallel
 Encoding: UTF-8
 RoxygenNote: 6.1.1
