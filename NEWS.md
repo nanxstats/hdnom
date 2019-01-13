@@ -7,8 +7,8 @@ This version comes with several significant technical changes to improve the fun
 ### Nomograms
 
 - Removed the dependency on `rms`, by reusing a minimal set of code from `rms` for nomogram construction and plotting. This results in clearer code structure, better maintainability, and faster package installation/loading speed. Also removed other non-essential package dependencies.
-- The new nomogram implementation prints and plots the nomogram for the penalized regression models directly. This supersedes the old implementation, which fits an OLS model to regress the linear predictors on the same set of predictors selected by the penalized Cox regression model to approximates the penalized model. Although the numerical and visual differences are minimal.
-- For `hdcox.*()` models, the `ddist` argument has been removed and not needed anymore. Also, it is not needed anymore to set a datadist object in the global option (which is in the `rms` user flow).
+- The new nomogram implementation prints and plots the nomogram for the penalized regression models directly. This supersedes the old implementation, which fits an OLS model to regress the linear predictors on the same set of predictors selected by the penalized Cox regression model, aiming to approximate the penalized model. The numerical or visual difference is minimal, though.
+- For `hdcox.*()` models, the `ddist` argument has been removed and not needed anymore. Also, there is no more needed to set a `datadist` object as a into the global options variable (which was required in the `rms` user flow).
 
 # hdnom 5.0 (2018-05-13)
 
