@@ -126,20 +126,14 @@ lambda <- fit$aenet_best_lambda
 adapen <- fit$pen_factor
 ```
 
-To plot the nomogram, first we make `x` available as a `datadist` object
-for the `rms` package [@harrell2013regression], then generate a `hdnom.nomogram`
-object with `hdnom.nomogram()`, and plot the nomogram:
+Let's generate a `hdnom.nomogram` object with `hdnom.nomogram()`
+and plot the nomogram:
 
 ```{r, fig.width = 8, fig.height = 8, out.width = 600, out.height = 600}
-suppressMessages(library("rms"))
-x.df <- as.data.frame(x)
-dd <- datadist(x.df)
-options(datadist = "dd")
-
 nom <- hdnom.nomogram(
   model,
   model.type = "aenet",
-  x, time, event, x.df, pred.at = 365 * 2,
+  x, time, event, pred.at = 365 * 2,
   funlabel = "2-Year Overall Survival Probability"
 )
 plot(nom)
