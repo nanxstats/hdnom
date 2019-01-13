@@ -74,7 +74,7 @@ Cox models, evaluated by cross-validated likelihood." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hdnom</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.9.9000</span>
       </span>
     </div>
 
@@ -117,7 +117,7 @@ Cox models, evaluated by cross-validated likelihood." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Fused Lasso Model Selection for High-Dimensional Cox Models</h1>
-    <small class="dont-index">Source: <a href='https://github.com/road2stat/hdnom/blob/master/R/01-hdnom-models.R'><code>R/01-hdnom-models.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/road2stat/hdnom/blob/master/R/1-1-models.R'><code>R/1-1-models.R</code></a></small>
     <div class="hidden name"><code>hdcox.flasso.Rd</code></div>
     </div>
 
@@ -201,8 +201,8 @@ and a higher number of cross-validation folds.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"survival"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"rms"</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"hdnom"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"survival"</span>)
 
 <span class='co'># Load imputed SMART data; only use the first 120 samples</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"smart"</span>)
@@ -216,16 +216,11 @@ and a higher number of cross-validation folds.</p>
   <span class='kw'>lambda1</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>10</span>), <span class='kw'>lambda2</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.01</span>),
   <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>11</span>
 )</div><div class='output co'>#&gt; 123123</div><div class='input'>
-<span class='co'># Prepare data for hdnom.nomogram</span>
-<span class='no'>x.df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame</a></span>(<span class='no'>x</span>)
-<span class='no'>dd</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/rms/topics/datadist'>datadist</a></span>(<span class='no'>x.df</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>options</a></span>(<span class='kw'>datadist</span> <span class='kw'>=</span> <span class='st'>"dd"</span>)
-
 <span class='co'># Generate hdnom.nomogram objects and plot nomogram</span>
 <span class='no'>nom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hdnom.nomogram.html'>hdnom.nomogram</a></span>(
   <span class='no'>fit</span>$<span class='no'>flasso_model</span>,
   <span class='kw'>model.type</span> <span class='kw'>=</span> <span class='st'>"flasso"</span>,
-  <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>, <span class='no'>x.df</span>, <span class='kw'>pred.at</span> <span class='kw'>=</span> <span class='fl'>365</span> * <span class='fl'>2</span>,
+  <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>, <span class='kw'>pred.at</span> <span class='kw'>=</span> <span class='fl'>365</span> * <span class='fl'>2</span>,
   <span class='kw'>funlabel</span> <span class='kw'>=</span> <span class='st'>"2-Year Overall Survival Probability"</span>
 )
 

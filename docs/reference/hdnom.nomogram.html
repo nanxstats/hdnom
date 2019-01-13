@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hdnom</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.9.9000</span>
       </span>
     </div>
 
@@ -116,7 +116,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Nomograms for High-Dimensional Cox Models</h1>
-    <small class="dont-index">Source: <a href='https://github.com/road2stat/hdnom/blob/master/R/02-hdnom-nomogram.R'><code>R/02-hdnom-nomogram.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/road2stat/hdnom/blob/master/R/2-1-nomogram.R'><code>R/2-1-nomogram.R</code></a></small>
     <div class="hidden name"><code>hdnom.nomogram.Rd</code></div>
     </div>
 
@@ -127,7 +127,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>hdnom.nomogram</span>(<span class='no'>object</span>, <span class='kw'>model.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"lasso"</span>, <span class='st'>"alasso"</span>, <span class='st'>"flasso"</span>,
-  <span class='st'>"enet"</span>, <span class='st'>"aenet"</span>, <span class='st'>"mcp"</span>, <span class='st'>"mnet"</span>, <span class='st'>"scad"</span>, <span class='st'>"snet"</span>), <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>, <span class='no'>ddist</span>,
+  <span class='st'>"enet"</span>, <span class='st'>"aenet"</span>, <span class='st'>"mcp"</span>, <span class='st'>"mnet"</span>, <span class='st'>"scad"</span>, <span class='st'>"snet"</span>), <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>,
   <span class='kw'>pred.at</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>fun.at</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>funlabel</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -158,10 +158,6 @@ Must be of the same length with the number of rows as <code>x</code>.</p></td>
 Must be of the same length with the number of rows as <code>x</code>.</p></td>
     </tr>
     <tr>
-      <th>ddist</th>
-      <td><p>Data frame version of x, made by <code><a href='https://www.rdocumentation.org/packages/rms/topics/datadist'>datadist</a></code>.</p></td>
-    </tr>
-    <tr>
       <th>pred.at</th>
       <td><p>Time point at which to plot nomogram prediction axis.</p></td>
     </tr>
@@ -190,28 +186,24 @@ of a vector of multiple lambdas) in the fitted model object.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"rms"</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"hdnom"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"survival"</span>)
 
 <span class='co'># Load imputed SMART data</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>smart</span>)
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='no'>smart</span>[, -<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>)])
 <span class='no'>time</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>TEVENT</span>
 <span class='no'>event</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>EVENT</span>
-<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'>Surv</span>(<span class='no'>time</span>, <span class='no'>event</span>)
+<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/survival/topics/Surv'>Surv</a></span>(<span class='no'>time</span>, <span class='no'>event</span>)
 
 <span class='co'># Fit penalized Cox model with lasso penalty</span>
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='hdcox.lasso.html'>hdcox.lasso</a></span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>rule</span> <span class='kw'>=</span> <span class='st'>"lambda.1se"</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>11</span>)
-
-<span class='co'># Prepare data needed for plotting nomogram</span>
-<span class='no'>x.df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame</a></span>(<span class='no'>x</span>)
-<span class='no'>dd</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/rms/topics/datadist'>datadist</a></span>(<span class='no'>x.df</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>options</a></span>(<span class='kw'>datadist</span> <span class='kw'>=</span> <span class='st'>"dd"</span>)
 
 <span class='co'># Generate hdnom.nomogram objects and plot nomogram</span>
 <span class='no'>nom</span> <span class='kw'>&lt;-</span> <span class='fu'>hdnom.nomogram</span>(
   <span class='no'>fit</span>$<span class='no'>lasso_model</span>,
   <span class='kw'>model.type</span> <span class='kw'>=</span> <span class='st'>"lasso"</span>,
-  <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>, <span class='no'>x.df</span>, <span class='kw'>pred.at</span> <span class='kw'>=</span> <span class='fl'>365</span> * <span class='fl'>2</span>,
+  <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>, <span class='kw'>pred.at</span> <span class='kw'>=</span> <span class='fl'>365</span> * <span class='fl'>2</span>,
   <span class='kw'>funlabel</span> <span class='kw'>=</span> <span class='st'>"2-Year Overall Survival Probability"</span>
 )
 

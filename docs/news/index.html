@@ -70,7 +70,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hdnom</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.9.9000</span>
       </span>
     </div>
 
@@ -116,13 +116,32 @@
       <small>Source: <a href='https://github.com/road2stat/hdnom/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="hdnom-599000" class="section level1">
+<h1 class="page-header">
+<a href="#hdnom-599000" class="anchor"></a>hdnom 5.9.9000<small> Unreleased </small>
+</h1>
+<p>This version comes with several significant technical changes to improve the function interface, code structure, and performance. As a result, a few API-breaking changes have been made. Please update your previous code that calls hdnom accordingly. For the detailed changes, check the updated items below.</p>
+<div id="improvements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#improvements" class="anchor"></a>Improvements</h2>
+<div id="nomograms" class="section level3">
+<h3 class="hasAnchor">
+<a href="#nomograms" class="anchor"></a>Nomograms</h3>
+<ul>
+<li>Removed the dependency on <code>rms</code>, by reusing a minimal set of code from <code>rms</code> for nomogram construction and plotting. This results in clearer code structure, better maintainability, and faster package installation/loading speed. Also removed other non-essential package dependencies.</li>
+<li>The new nomogram implementation prints and plots the nomogram for the penalized regression models directly. This supersedes the old implementation, which fits an OLS model to regress the linear predictors on the same set of predictors selected by the penalized Cox regression model to approximates the penalized model. Although the numerical and visual differences are minimal.</li>
+<li>For <code>hdcox.*()</code> models, the <code>ddist</code> argument has been removed and not needed anymore. Also, it is not needed anymore to set a datadist object in the global option (which is in the <code>rms</code> user flow).</li>
+</ul>
+</div>
+</div>
+</div>
     <div id="hdnom-50-2018-05-13" class="section level1">
 <h1 class="page-header">
 <a href="#hdnom-50-2018-05-13" class="anchor"></a>hdnom 5.0 (2018-05-13)<small> 2018-05-14 </small>
 </h1>
-<div id="improvements" class="section level2">
+<div id="improvements-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements" class="anchor"></a>Improvements</h2>
+<a href="#improvements-1" class="anchor"></a>Improvements</h2>
 <ul>
 <li>Exported the survival curve prediction functions (<code><a href="../reference/glmnet.survcurve.html">glmnet.survcurve()</a></code>, <code><a href="../reference/ncvreg.survcurve.html">ncvreg.survcurve()</a></code>, <code><a href="../reference/penalized.survcurve.html">penalized.survcurve()</a></code>) and Breslow baseline hazard estimator functions (<code><a href="../reference/glmnet.basesurv.html">glmnet.basesurv()</a></code>, <code><a href="../reference/ncvreg.basesurv.html">ncvreg.basesurv()</a></code>, <code><a href="../reference/penalized.basesurv.html">penalized.basesurv()</a></code>).</li>
 <li>New URL for the documentation website: <a href="https://nanx.me/hdnom/" class="uri">https://nanx.me/hdnom/</a>.</li>
@@ -133,9 +152,9 @@
 <h1 class="page-header">
 <a href="#hdnom-49-2017-09-28" class="anchor"></a>hdnom 4.9 (2017-09-28)<small> 2017-09-29 </small>
 </h1>
-<div id="improvements-1" class="section level2">
+<div id="improvements-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-1" class="anchor"></a>Improvements</h2>
+<a href="#improvements-2" class="anchor"></a>Improvements</h2>
 <ul>
 <li>Use system font stack instead of Google Fonts in vignettes to avoid pandoc SSL issue.</li>
 </ul>
@@ -145,9 +164,9 @@
 <h1 class="page-header">
 <a href="#hdnom-48-2017-03-25" class="anchor"></a>hdnom 4.8 (2017-03-25)<small> 2017-03-25 </small>
 </h1>
-<div id="improvements-2" class="section level2">
+<div id="improvements-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-2" class="anchor"></a>Improvements</h2>
+<a href="#improvements-3" class="anchor"></a>Improvements</h2>
 <ul>
 <li>Reduced example running time to less than 10s for <code><a href="../reference/hdnom.calibrate.html">hdnom.calibrate()</a></code>.</li>
 </ul>
@@ -157,9 +176,9 @@
 <h1 class="page-header">
 <a href="#hdnom-47-2017-03-24" class="anchor"></a>hdnom 4.7 (2017-03-24)<small> Unreleased </small>
 </h1>
-<div id="improvements-3" class="section level2">
+<div id="improvements-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-3" class="anchor"></a>Improvements</h2>
+<a href="#improvements-4" class="anchor"></a>Improvements</h2>
 <ul>
 <li>Better code indentation style.</li>
 <li>Reduced example running time for fused lasso.</li>
@@ -179,9 +198,9 @@
 <li>Fixed issues in parameter tuning and cross-validation procedures for fused lasso models (<a href="https://github.com/road2stat/hdnom/commit/afc49c9ad952edd5881a3e2f14a3503981d213c7">afc49c9</a>). The user-visible change is that two parameters <code>lambda1</code> and <code>lambda2</code> instead of a single “lambda” are now required to fit, validate, and calibrate fused lasso models.</li>
 </ul>
 </div>
-<div id="improvements-4" class="section level2">
+<div id="improvements-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-4" class="anchor"></a>Improvements</h2>
+<a href="#improvements-5" class="anchor"></a>Improvements</h2>
 <ul>
 <li>The argument <code>lambda</code> in <code>hdnom.nomogram</code> is no longer needed and has been deprecated.</li>
 <li>Allow users to specify <code>eps</code> and <code>max.iter</code> for MCP and SCAD penalty related models. Setting the default values to be <code>1e-4</code> and <code>10000</code>, which is consistent with ncvreg 3.8-0.</li>
@@ -201,9 +220,9 @@
 <li>Fixed single lambda support issues in <code>ncvsurv</code> under ncvreg &gt;= 3.7-0.</li>
 </ul>
 </div>
-<div id="improvements-5" class="section level2">
+<div id="improvements-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-5" class="anchor"></a>Improvements</h2>
+<a href="#improvements-6" class="anchor"></a>Improvements</h2>
 <ul>
 <li>Added Windows continuous integration using AppVeyor.</li>
 <li>New website design for project website: consistent with the web application hdnom.io.</li>
@@ -214,9 +233,9 @@
 <h1 class="page-header">
 <a href="#hdnom-40-2016-07-05" class="anchor"></a>hdnom 4.0 (2016-07-05)<small> 2016-07-05 </small>
 </h1>
-<div id="improvements-6" class="section level2">
+<div id="improvements-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-6" class="anchor"></a>Improvements</h2>
+<a href="#improvements-7" class="anchor"></a>Improvements</h2>
 <ul>
 <li>More concrete examples for several functions.</li>
 <li>Introduce argument <code>ylim</code> for <code><a href="../reference/plot.hdnom.validate.html">plot.hdnom.validate()</a></code>, <code><a href="../reference/plot.hdnom.external.validate.html">plot.hdnom.external.validate()</a></code>, and <code><a href="../reference/plot.hdnom.compare.validate.html">plot.hdnom.compare.validate()</a></code> (<a href="https://github.com/road2stat/hdnom/issues/4"><a href='https://github.com/road2stat/hdnom/issues/4'>#4</a></a>).</li>
@@ -253,9 +272,9 @@
 <li>Fixed vanishing axis problem in Kaplan-Meier plot due to ggplot2 2.1.0 update.</li>
 </ul>
 </div>
-<div id="improvements-7" class="section level2">
+<div id="improvements-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-7" class="anchor"></a>Improvements</h2>
+<a href="#improvements-8" class="anchor"></a>Improvements</h2>
 <ul>
 <li>New CSS style for the HTML vignette.</li>
 </ul>
@@ -292,9 +311,9 @@
 </ul>
 </div>
 </div>
-<div id="improvements-8" class="section level2">
+<div id="improvements-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-8" class="anchor"></a>Improvements</h2>
+<a href="#improvements-9" class="anchor"></a>Improvements</h2>
 <ul>
 <li>Improvements on random seed handling for internal validation and calibration</li>
 <li>The vignette is extended to reflect the new features</li>
@@ -320,9 +339,9 @@
 <li>New Shiny web application (<a href="http://hdnom.io" class="uri">http://hdnom.io</a>).</li>
 </ul>
 </div>
-<div id="improvements-9" class="section level2">
+<div id="improvements-10" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-9" class="anchor"></a>Improvements</h2>
+<a href="#improvements-10" class="anchor"></a>Improvements</h2>
 <ul>
 <li>Added exception handling for null models in all <code>hdcox.*()</code> functions. Make examples compatible with ncvreg 3.5-0, which refined CV implementation for survival models and improved computation speed.</li>
 </ul>
@@ -353,9 +372,9 @@
 <h1 class="page-header">
 <a href="#hdnom-12-2015-08-27" class="anchor"></a>hdnom 1.2 (2015-08-27)<small> 2015-08-28 </small>
 </h1>
-<div id="improvements-10" class="section level2">
+<div id="improvements-11" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-10" class="anchor"></a>Improvements</h2>
+<a href="#improvements-11" class="anchor"></a>Improvements</h2>
 <ul>
 <li>Reduced example running time for <code><a href="../reference/hdnom.validate.html">hdnom.validate()</a></code>, <code><a href="../reference/hdnom.calibrate.html">hdnom.calibrate()</a></code>, <code><a href="../reference/hdcox.aenet.html">hdcox.aenet()</a></code>, and <code><a href="../reference/hdcox.enet.html">hdcox.enet()</a></code> by reducing resampling times.</li>
 </ul>
@@ -394,6 +413,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#hdnom-599000">5.9.9000</a></li>
         <li><a href="#hdnom-50-2018-05-13">5.0</a></li>
         <li><a href="#hdnom-49-2017-09-28">4.9</a></li>
         <li><a href="#hdnom-48-2017-03-25">4.8</a></li>

@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hdnom</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.9.9000</span>
       </span>
     </div>
 
@@ -116,7 +116,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Validate High-Dimensional Cox Models with Time-Dependent AUC</h1>
-    <small class="dont-index">Source: <a href='https://github.com/road2stat/hdnom/blob/master/R/03-hdnom-validate.R'><code>R/03-hdnom-validate.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/road2stat/hdnom/blob/master/R/3-1-validate.R'><code>R/3-1-validate.R</code></a></small>
     <div class="hidden name"><code>hdnom.validate.Rd</code></div>
     </div>
 
@@ -384,9 +384,9 @@ regression models.
 #&gt; Mean of 0.25 Qt. 0.6498740 0.6488383
 #&gt; Mean of Median   0.7156659 0.7076146
 #&gt; Mean of 0.75 Qt. 0.8139573 0.7821154
-#&gt; Mean of Max      0.8764099 0.8755320</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>val.repcv</span>)</div><div class='img'><img src='hdnom.validate-3.png' alt='' width='700' height='433' /></div><div class='input'># ### Testing fused lasso, SCAD, and Mnet models ###
+#&gt; Mean of Max      0.8764099 0.8755320</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>val.repcv</span>)</div><div class='img'><img src='hdnom.validate-3.png' alt='' width='700' height='433' /></div><div class='input'># # Test fused lasso, SCAD, and Mnet models ###
+# library("hdnom")
 # library("survival")
-# library("rms")
 #
 # # Load imputed SMART data
 # data(smart)

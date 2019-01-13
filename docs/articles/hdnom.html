@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hdnom</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.9.9000</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <h1>An Introduction to hdnom</h1>
                         <h4 class="author">Nan Xiao &lt;<a href="https://nanx.me" class="uri">https://nanx.me</a>&gt; <br> Miaozhu Li &lt;<a href="http://miaozhu.li" class="uri">http://miaozhu.li</a>&gt;</h4>
             
-            <h4 class="date">2019-01-05</h4>
+            <h4 class="date">2019-01-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/road2stat/hdnom/blob/master/vignettes/hdnom.Rmd"><code>vignettes/hdnom.Rmd</code></a></small>
       <div class="hidden name"><code>hdnom.Rmd</code></div>
@@ -182,19 +182,14 @@
 <a class="sourceLine" id="cb5-2" title="2">alpha &lt;-<span class="st"> </span>fit<span class="op">$</span>aenet_best_alpha</a>
 <a class="sourceLine" id="cb5-3" title="3">lambda &lt;-<span class="st"> </span>fit<span class="op">$</span>aenet_best_lambda</a>
 <a class="sourceLine" id="cb5-4" title="4">adapen &lt;-<span class="st"> </span>fit<span class="op">$</span>pen_factor</a></code></pre></div>
-<p>To plot the nomogram, first we make <code>x</code> available as a <code>datadist</code> object for the <code>rms</code> package <span class="citation">(Harrell 2013)</span>, then generate a <code>hdnom.nomogram</code> object with <code><a href="../reference/hdnom.nomogram.html">hdnom.nomogram()</a></code>, and plot the nomogram:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressMessages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"rms"</span>))</a>
-<a class="sourceLine" id="cb6-2" title="2">x.df &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.data.frame">as.data.frame</a></span>(x)</a>
-<a class="sourceLine" id="cb6-3" title="3">dd &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/rms/topics/datadist">datadist</a></span>(x.df)</a>
-<a class="sourceLine" id="cb6-4" title="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/options">options</a></span>(<span class="dt">datadist =</span> <span class="st">"dd"</span>)</a>
-<a class="sourceLine" id="cb6-5" title="5"></a>
-<a class="sourceLine" id="cb6-6" title="6">nom &lt;-<span class="st"> </span><span class="kw"><a href="../reference/hdnom.nomogram.html">hdnom.nomogram</a></span>(</a>
-<a class="sourceLine" id="cb6-7" title="7">  model,</a>
-<a class="sourceLine" id="cb6-8" title="8">  <span class="dt">model.type =</span> <span class="st">"aenet"</span>,</a>
-<a class="sourceLine" id="cb6-9" title="9">  x, time, event, x.df, <span class="dt">pred.at =</span> <span class="dv">365</span> <span class="op">*</span><span class="st"> </span><span class="dv">2</span>,</a>
-<a class="sourceLine" id="cb6-10" title="10">  <span class="dt">funlabel =</span> <span class="st">"2-Year Overall Survival Probability"</span></a>
-<a class="sourceLine" id="cb6-11" title="11">)</a>
-<a class="sourceLine" id="cb6-12" title="12"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nom)</a></code></pre></div>
+<p>Let’s generate a <code>hdnom.nomogram</code> object with <code><a href="../reference/hdnom.nomogram.html">hdnom.nomogram()</a></code> and plot the nomogram:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">nom &lt;-<span class="st"> </span><span class="kw"><a href="../reference/hdnom.nomogram.html">hdnom.nomogram</a></span>(</a>
+<a class="sourceLine" id="cb6-2" title="2">  model,</a>
+<a class="sourceLine" id="cb6-3" title="3">  <span class="dt">model.type =</span> <span class="st">"aenet"</span>,</a>
+<a class="sourceLine" id="cb6-4" title="4">  x, time, event, <span class="dt">pred.at =</span> <span class="dv">365</span> <span class="op">*</span><span class="st"> </span><span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb6-5" title="5">  <span class="dt">funlabel =</span> <span class="st">"2-Year Overall Survival Probability"</span></a>
+<a class="sourceLine" id="cb6-6" title="6">)</a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nom)</a></code></pre></div>
 <p><img src="hdnom_files/figure-html/unnamed-chunk-6-1.png" width="600" height="600"></p>
 <p>According to the nomogram, the adaptive elastic-net model selected 6 variables from the original set of 27 variables, effectively reduced the model complexity.</p>
 <p>Information about the nomogram itself, such as the point-linear predictor unit mapping and total points-survival probability mapping, can be viewed by printing the <code>nom</code> object directly.</p>
@@ -615,9 +610,6 @@
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
 <div id="refs" class="references">
-<div id="ref-harrell2013regression">
-<p>Harrell, Frank E. 2013. <em>Regression Modeling Strategies: With Applications to Linear Models, Logistic Regression, and Survival Analysis</em>. Springer Science &amp; Business Media.</p>
-</div>
 <div id="ref-steyerberg2008clinical">
 <p>Steyerberg, Ewout W. 2008. <em>Clinical Prediction Models: A Practical Approach to Development, Validation, and Updating</em>. Springer Science &amp; Business Media.</p>
 </div>
