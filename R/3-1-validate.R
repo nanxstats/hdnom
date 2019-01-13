@@ -120,9 +120,9 @@
 #' print(val.repcv)
 #' summary(val.repcv)
 #' plot(val.repcv)
-#' # ### Testing fused lasso, SCAD, and Mnet models ###
+#' # # Test fused lasso, SCAD, and Mnet models ###
+#' # library("hdnom")
 #' # library("survival")
-#' # library("rms")
 #' #
 #' # # Load imputed SMART data
 #' # data(smart)

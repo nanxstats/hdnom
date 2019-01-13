@@ -9,8 +9,4 @@
 #'
 #' @name hdnom-package
 #' @docType package
-#' @author
-#' Nan Xiao <\email{me@@nanx.me}>
-#' Qing-Song Xu <\email{qsxu@@csu.edu.cn}>
-#' Miao-Zhu Li <\email{miaozhu.li@@duke.edu}>
 NULL

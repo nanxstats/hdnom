@@ -62,8 +62,8 @@ glmnet.tune.alpha <- function(..., alphas, seed, parallel) {
 #' @export hdcox.aenet
 #'
 #' @examples
+#' library("hdnom")
 #' library("survival")
-#' library("rms")
 #'
 #' # Load imputed SMART data
 #' data("smart")
@@ -84,16 +84,11 @@ glmnet.tune.alpha <- function(..., alphas, seed, parallel) {
 #'   rule = "lambda.1se", seed = c(5, 7)
 #' )
 #'
-#' # Prepare data for hdnom.nomogram
-#' x.df <- as.data.frame(x)
-#' dd <- datadist(x.df)
-#' options(datadist = "dd")
-#'
 #' # Generate hdnom.nomogram objects and plot nomogram
 #' nom <- hdnom.nomogram(
 #'   fit$aenet_model,
 #'   model.type = "aenet",
-#'   x, time, event, x.df, pred.at = 365 * 2,
+#'   x, time, event, pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -204,8 +199,8 @@ hdcox.aenet <- function(
 #' @export hdcox.alasso
 #'
 #' @examples
+#' library("hdnom")
 #' library("survival")
-#' library("rms")
 #'
 #' # Load imputed SMART data
 #' data("smart")
@@ -217,16 +212,11 @@ hdcox.aenet <- function(
 #' # Fit Cox model with adaptive lasso penalty
 #' fit <- hdcox.alasso(x, y, nfolds = 3, rule = "lambda.1se", seed = c(7, 11))
 #'
-#' # Prepare data for hdnom.nomogram
-#' x.df <- as.data.frame(x)
-#' dd <- datadist(x.df)
-#' options(datadist = "dd")
-#'
 #' # Generate hdnom.nomogram objects and plot nomogram
 #' nom <- hdnom.nomogram(
 #'   fit$alasso_model,
 #'   model.type = "alasso",
-#'   x, time, event, x.df, pred.at = 365 * 2,
+#'   x, time, event, pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -322,8 +312,8 @@ hdcox.alasso <- function(
 #' @export hdcox.enet
 #'
 #' @examples
+#' library("hdnom")
 #' library("survival")
-#' library("rms")
 #'
 #' # Load imputed SMART data
 #' data("smart")
@@ -343,16 +333,11 @@ hdcox.alasso <- function(
 #'   rule = "lambda.1se", seed = 11
 #' )
 #'
-#' # Prepare data for hdnom.nomogram
-#' x.df <- as.data.frame(x)
-#' dd <- datadist(x.df)
-#' options(datadist = "dd")
-#'
 #' # Generate hdnom.nomogram objects and plot nomogram
 #' nom <- hdnom.nomogram(
 #'   fit$enet_model,
 #'   model.type = "enet",
-#'   x, time, event, x.df, pred.at = 365 * 2,
+#'   x, time, event, pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -417,7 +402,6 @@ hdcox.enet <- function(
 #'
 #' @examples
 #' library("survival")
-#' library("rms")
 #'
 #' # Load imputed SMART data
 #' data("smart")
@@ -429,16 +413,11 @@ hdcox.enet <- function(
 #' # Fit Cox model with lasso penalty
 #' fit <- hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 #'
-#' # Prepare data for hdnom.nomogram
-#' x.df <- as.data.frame(x)
-#' dd <- datadist(x.df)
-#' options(datadist = "dd")
-#'
 #' # Generate hdnom.nomogram objects and plot nomogram
 #' nom <- hdnom.nomogram(
 #'   fit$lasso_model,
 #'   model.type = "lasso",
-#'   x, time, event, x.df, pred.at = 365 * 2,
+#'   x, time, event, pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -580,8 +559,8 @@ penalized.tune.lambda <- function(..., lambda1, lambda2, seed, trace, parallel) 
 #' @export hdcox.flasso
 #'
 #' @examples
+#' library("hdnom")
 #' library("survival")
-#' library("rms")
 #'
 #' # Load imputed SMART data; only use the first 120 samples
 #' data("smart")
@@ -596,16 +575,11 @@ penalized.tune.lambda <- function(..., lambda1, lambda2, seed, trace, parallel) 
 #'   nfolds = 3, seed = 11
 #' )
 #'
-#' # Prepare data for hdnom.nomogram
-#' x.df <- as.data.frame(x)
-#' dd <- datadist(x.df)
-#' options(datadist = "dd")
-#'
 #' # Generate hdnom.nomogram objects and plot nomogram
 #' nom <- hdnom.nomogram(
 #'   fit$flasso_model,
 #'   model.type = "flasso",
-#'   x, time, event, x.df, pred.at = 365 * 2,
+#'   x, time, event, pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -718,8 +692,8 @@ ncvreg.tune.gamma <- function(..., gammas, eps, max.iter, seed, parallel) {
 #' @export hdcox.mcp
 #'
 #' @examples
+#' library("hdnom")
 #' library("survival")
-#' library("rms")
 #'
 #' # Load imputed SMART data; only use the first 150 samples
 #' data("smart")
@@ -731,16 +705,11 @@ ncvreg.tune.gamma <- function(..., gammas, eps, max.iter, seed, parallel) {
 #' # Fit Cox model with MCP penalty
 #' fit <- hdcox.mcp(x, y, nfolds = 3, gammas = c(2.1, 3), seed = 1001)
 #'
-#' # Prepare data for hdnom.nomogram
-#' x.df <- as.data.frame(x)
-#' dd <- datadist(x.df)
-#' options(datadist = "dd")
-#'
 #' # Generate hdnom.nomogram objects and plot nomogram
 #' nom <- hdnom.nomogram(
 #'   fit$mcp_model,
 #'   model.type = "mcp",
-#'   x, time, event, x.df, pred.at = 365 * 2,
+#'   x, time, event, pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -868,8 +837,8 @@ ncvreg.tune.gamma.alpha <- function(
 #' @export hdcox.mnet
 #'
 #' @examples
+#' library("hdnom")
 #' library("survival")
-#' library("rms")
 #'
 #' # Load imputed SMART data; only use the first 120 samples
 #' data("smart")
@@ -886,16 +855,11 @@ ncvreg.tune.gamma.alpha <- function(
 #'   max.iter = 15000, seed = 1010
 #' )
 #'
-#' # Prepare data for hdnom.nomogram
-#' x.df <- as.data.frame(x)
-#' dd <- datadist(x.df)
-#' options(datadist = "dd")
-#'
 #' # Generate hdnom.nomogram objects and plot nomogram
 #' nom <- hdnom.nomogram(
 #'   fit$mnet_model,
 #'   model.type = "mnet",
-#'   x, time, event, x.df, pred.at = 365 * 2,
+#'   x, time, event, pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -972,8 +936,8 @@ hdcox.mnet <- function(
 #' @export hdcox.scad
 #'
 #' @examples
+#' library("hdnom")
 #' library("survival")
-#' library("rms")
 #'
 #' # Load imputed SMART data; only use the first 120 samples
 #' data("smart")
@@ -989,16 +953,11 @@ hdcox.mnet <- function(
 #'   max.iter = 15000, seed = 1010
 #' )
 #'
-#' # Prepare data for hdnom.nomogram
-#' x.df <- as.data.frame(x)
-#' dd <- datadist(x.df)
-#' options(datadist = "dd")
-#'
 #' # Generate hdnom.nomogram objects and plot nomogram
 #' nom <- hdnom.nomogram(
 #'   fit$scad_model,
 #'   model.type = "scad",
-#'   x, time, event, x.df, pred.at = 365 * 2,
+#'   x, time, event, pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -1068,8 +1027,8 @@ hdcox.scad <- function(
 #' @export hdcox.snet
 #'
 #' @examples
+#' library("hdnom")
 #' library("survival")
-#' library("rms")
 #'
 #' # Load imputed SMART data; only use the first 120 samples
 #' data("smart")
@@ -1086,16 +1045,11 @@ hdcox.scad <- function(
 #'   max.iter = 15000, seed = 1010
 #' )
 #'
-#' # Prepare data for hdnom.nomogram
-#' x.df <- as.data.frame(x)
-#' dd <- datadist(x.df)
-#' options(datadist = "dd")
-#'
 #' # Generate hdnom.nomogram objects and plot nomogram
 #' nom <- hdnom.nomogram(
 #'   fit$snet_model,
 #'   model.type = "snet",
-#'   x, time, event, x.df, pred.at = 365 * 2,
+#'   x, time, event, pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'

@@ -87,8 +87,8 @@
 #' plot(cal.cv)
 #'
 #' # ### Testing fused lasso, SCAD, and Mnet models ###
+#' # library("hdnom")
 #' # library("survival")
-#' # library("rms")
 #' #
 #' # # Load imputed SMART data
 #' # data(smart)
