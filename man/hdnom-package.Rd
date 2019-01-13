@@ -13,8 +13,3 @@ Package: \tab hdnom\cr
 Type: \tab Package\cr
 License: \tab GPL-3}
 }
-\author{
-Nan Xiao <\email{me@nanx.me}>
-Qing-Song Xu <\email{qsxu@csu.edu.cn}>
-Miao-Zhu Li <\email{miaozhu.li@duke.edu}>
-}
