@@ -1,7 +1,7 @@
-#' Lasso Model Selection for High-Dimensional Cox Models
+#' Model selection for high-dimensional Cox models with lasso penalty
 #'
-#' Automatic lasso model selection for high-dimensional
-#' Cox models, evaluated by penalized partial-likelihood.
+#' Automatic model selection for high-dimensional Cox models
+#' with lasso penalty, evaluated by penalized partial-likelihood.
 #'
 #' @param x Data matrix.
 #' @param y Response matrix made by \code{\link[survival]{Surv}}.
@@ -11,7 +11,7 @@
 #' for details.
 #' @param seed A random seed for cross-validation fold division.
 #'
-#' @export hdcox.lasso
+#' @export fit_lasso
 #'
 #' @examples
 #' library("survival")
@@ -24,10 +24,9 @@
 #' y <- Surv(time, event)
 #'
 #' # Fit Cox model with lasso penalty
-#' fit <- hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+#' fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 #'
-#' # Generate hdnom.nomogram objects and plot nomogram
-#' nom <- hdnom.nomogram(
+#' nom <- as_nomogram(
 #'   fit$lasso_model,
 #'   model.type = "lasso",
 #'   x, time, event, pred.at = 365 * 2,
@@ -35,7 +34,7 @@
 #' )
 #'
 #' plot(nom)
-hdcox.lasso <- function(
+fit_lasso <- function(
   x, y, nfolds = 5L,
   rule = c("lambda.min", "lambda.1se"),
   seed = 1001) {
@@ -65,15 +64,15 @@ hdcox.lasso <- function(
     "lasso_model" = lasso_full
   )
 
-  class(coxlasso_model) <- c("hdcox.model", "hdcox.model.lasso")
+  class(coxlasso_model) <- c("hdnom.model", "hdnom.model.lasso")
 
   coxlasso_model
 }
 
-#' Adaptive Lasso Model Selection for High-Dimensional Cox Models
+#' Model selection for high-dimensional Cox models with adaptive lasso penalty
 #'
-#' Automatic adaptive lasso model selection for high-dimensional
-#' Cox models, evaluated by penalized partial-likelihood.
+#' Automatic model selection for high-dimensional Cox models
+#' with adaptive lasso penalty, evaluated by penalized partial-likelihood.
 #'
 #' @param x Data matrix.
 #' @param y Response matrix made by \code{\link[survival]{Surv}}.
@@ -84,10 +83,9 @@ hdcox.lasso <- function(
 #' @param seed Two random seeds for cross-validation fold division
 #' in two estimation steps.
 #'
-#' @export hdcox.alasso
+#' @export fit_alasso
 #'
 #' @examples
-#' library("hdnom")
 #' library("survival")
 #'
 #' # Load imputed SMART data
@@ -98,10 +96,9 @@ hdcox.lasso <- function(
 #' y <- Surv(time, event)
 #'
 #' # Fit Cox model with adaptive lasso penalty
-#' fit <- hdcox.alasso(x, y, nfolds = 3, rule = "lambda.1se", seed = c(7, 11))
+#' fit <- fit_alasso(x, y, nfolds = 3, rule = "lambda.1se", seed = c(7, 11))
 #'
-#' # Generate hdnom.nomogram objects and plot nomogram
-#' nom <- hdnom.nomogram(
+#' nom <- as_nomogram(
 #'   fit$alasso_model,
 #'   model.type = "alasso",
 #'   x, time, event, pred.at = 365 * 2,
@@ -109,7 +106,7 @@ hdcox.lasso <- function(
 #' )
 #'
 #' plot(nom)
-hdcox.alasso <- function(
+fit_alasso <- function(
   x, y, nfolds = 5L,
   rule = c("lambda.min", "lambda.1se"),
   seed = c(1001, 1002)) {
@@ -174,15 +171,15 @@ hdcox.alasso <- function(
     "pen_factor" = adpen_vec
   )
 
-  class(coxalasso_model) <- c("hdcox.model", "hdcox.model.alasso")
+  class(coxalasso_model) <- c("hdnom.model", "hdnom.model.alasso")
 
   coxalasso_model
 }
 
-#' Elastic-Net Model Selection for High-Dimensional Cox Models
+#' Model selection for high-dimensional Cox models with elastic-net penalty
 #'
-#' Automatic elastic-net model selection for high-dimensional
-#' Cox models, evaluated by penalized partial-likelihood.
+#' Automatic model selection for high-dimensional Cox models
+#' with elastic-net penalty, evaluated by penalized partial-likelihood.
 #'
 #' @param x Data matrix.
 #' @param y Response matrix made by \code{\link[survival]{Surv}}.
@@ -197,10 +194,9 @@ hdcox.alasso <- function(
 #' \code{doParallel} package and run \code{registerDoParallel()}
 #' with the number of CPU cores before calling this function.
 #'
-#' @export hdcox.enet
+#' @export fit_enet
 #'
 #' @examples
-#' library("hdnom")
 #' library("survival")
 #'
 #' # Load imputed SMART data
@@ -213,16 +209,15 @@ hdcox.alasso <- function(
 #' # To enable parallel parameter tuning, first run:
 #' # library("doParallel")
 #' # registerDoParallel(detectCores())
-#' # then set hdcox.enet(..., parallel = TRUE).
+#' # then set fit_enet(..., parallel = TRUE).
 #'
 #' # Fit Cox model with elastic-net penalty
-#' fit <- hdcox.enet(x, y,
+#' fit <- fit_enet(x, y,
 #'   nfolds = 3, alphas = c(0.3, 0.7),
 #'   rule = "lambda.1se", seed = 11
 #' )
 #'
-#' # Generate hdnom.nomogram objects and plot nomogram
-#' nom <- hdnom.nomogram(
+#' nom <- as_nomogram(
 #'   fit$enet_model,
 #'   model.type = "enet",
 #'   x, time, event, pred.at = 365 * 2,
@@ -230,11 +225,11 @@ hdcox.alasso <- function(
 #' )
 #'
 #' plot(nom)
-hdcox.enet <- function(
+fit_enet <- function(
   x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
   rule = c("lambda.min", "lambda.1se"),
   seed = 1001, parallel = FALSE) {
-  enet_cv <- glmnet.tune.alpha(
+  enet_cv <- glmnet_tune_alpha(
     x, y,
     family = "cox",
     nfolds = nfolds, alphas = alphas,
@@ -268,15 +263,15 @@ hdcox.enet <- function(
     "enet_model" = enet_full
   )
 
-  class(coxenet_model) <- c("hdcox.model", "hdcox.model.enet")
+  class(coxenet_model) <- c("hdnom.model", "hdnom.model.enet")
 
   coxenet_model
 }
 
-#' Adaptive Elastic-Net Model Selection for High-Dimensional Cox Models
+#' Model selection for high-dimensional Cox models with adaptive elastic-net penalty
 #'
-#' Automatic adaptive elastic-net model selection for high-dimensional
-#' Cox models, evaluated by penalized partial-likelihood.
+#' Automatic model selection for high-dimensional Cox models
+#' with adaptive elastic-net penalty, evaluated by penalized partial-likelihood.
 #'
 #' @param x Data matrix.
 #' @param y Response matrix made with \code{\link[survival]{Surv}}.
@@ -294,10 +289,9 @@ hdcox.enet <- function(
 #'
 #' @importFrom glmnet glmnet
 #'
-#' @export hdcox.aenet
+#' @export fit_aenet
 #'
 #' @examples
-#' library("hdnom")
 #' library("survival")
 #'
 #' # Load imputed SMART data
@@ -310,17 +304,16 @@ hdcox.enet <- function(
 #' # To enable parallel parameter tuning, first run:
 #' # library("doParallel")
 #' # registerDoParallel(detectCores())
-#' # then set hdcox.aenet(..., parallel = TRUE).
+#' # then set fit_aenet(..., parallel = TRUE).
 #'
 #' # Fit Cox model with adaptive elastic-net penalty
-#' fit <- hdcox.aenet(
+#' fit <- fit_aenet(
 #'   x, y,
 #'   nfolds = 3, alphas = c(0.3, 0.7),
 #'   rule = "lambda.1se", seed = c(5, 7)
 #' )
 #'
-#' # Generate hdnom.nomogram objects and plot nomogram
-#' nom <- hdnom.nomogram(
+#' nom <- as_nomogram(
 #'   fit$aenet_model,
 #'   model.type = "aenet",
 #'   x, time, event, pred.at = 365 * 2,
@@ -328,7 +321,7 @@ hdcox.enet <- function(
 #' )
 #'
 #' plot(nom)
-hdcox.aenet <- function(
+fit_aenet <- function(
   x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
   rule = c("lambda.min", "lambda.1se"),
   seed = c(1001, 1002),
@@ -336,7 +329,7 @@ hdcox.aenet <- function(
   rule <- match.arg(rule)
 
   # Tuning alpha for the both two stages of adaptive enet estimation
-  enet_cv <- glmnet.tune.alpha(
+  enet_cv <- glmnet_tune_alpha(
     x, y,
     family = "cox",
     nfolds = nfolds, alphas = alphas,
@@ -365,7 +358,7 @@ hdcox.aenet <- function(
   # adaptive penalty
   adpen <- (1 / pmax(abs(bhat), .Machine$double.eps))
 
-  aenet_cv <- glmnet.tune.alpha(
+  aenet_cv <- glmnet_tune_alpha(
     x, y,
     family = "cox", nfolds = nfolds,
     exclude = which(bhat == 0),
@@ -412,15 +405,15 @@ hdcox.aenet <- function(
     "pen_factor" = adpen_vec
   )
 
-  class(coxaenet_model) <- c("hdcox.model", "hdcox.model.aenet")
+  class(coxaenet_model) <- c("hdnom.model", "hdnom.model.aenet")
 
   coxaenet_model
 }
 
-#' SCAD Model Selection for High-Dimensional Cox Models
+#' Model selection for high-dimensional Cox models with SCAD penalty
 #'
-#' Automatic SCAD model selection for high-dimensional
-#' Cox models, evaluated by penalized partial-likelihood.
+#' Automatic model selection for high-dimensional Cox models
+#' with SCAD penalty, evaluated by penalized partial-likelihood.
 #'
 #' @param x Data matrix.
 #' @param y Response matrix made by \code{\link[survival]{Surv}}.
@@ -438,10 +431,9 @@ hdcox.aenet <- function(
 #'
 #' @importFrom ncvreg ncvsurv
 #'
-#' @export hdcox.scad
+#' @export fit_scad
 #'
 #' @examples
-#' library("hdnom")
 #' library("survival")
 #'
 #' # Load imputed SMART data; only use the first 120 samples
@@ -452,14 +444,13 @@ hdcox.aenet <- function(
 #' y <- Surv(time, event)
 #'
 #' # Fit Cox model with SCAD penalty
-#' fit <- hdcox.scad(
+#' fit <- fit_scad(
 #'   x, y,
 #'   nfolds = 3, gammas = c(3.7, 5),
 #'   max.iter = 15000, seed = 1010
 #' )
 #'
-#' # Generate hdnom.nomogram objects and plot nomogram
-#' nom <- hdnom.nomogram(
+#' nom <- as_nomogram(
 #'   fit$scad_model,
 #'   model.type = "scad",
 #'   x, time, event, pred.at = 365 * 2,
@@ -467,12 +458,12 @@ hdcox.aenet <- function(
 #' )
 #'
 #' plot(nom)
-hdcox.scad <- function(
+fit_scad <- function(
   x, y, nfolds = 5L,
   gammas = c(2.01, 2.3, 3.7, 200),
   eps = 1e-4, max.iter = 10000L,
   seed = 1001, trace = FALSE, parallel = FALSE) {
-  scad_cv <- ncvreg.tune.gamma(
+  scad_cv <- ncvreg_tune_gamma(
     x, y,
     penalty = "SCAD", alpha = 1,
     nfolds = nfolds, gammas = gammas,
@@ -502,15 +493,15 @@ hdcox.scad <- function(
     "scad_model" = scad_full
   )
 
-  class(coxscad_model) <- c("hdcox.model", "hdcox.model.scad")
+  class(coxscad_model) <- c("hdnom.model", "hdnom.model.scad")
 
   coxscad_model
 }
 
-#' Snet Model Selection for High-Dimensional Cox Models
+#' Model selection for high-dimensional Cox models with Snet penalty
 #'
-#' Automatic Snet model selection for high-dimensional
-#' Cox models, evaluated by penalized partial-likelihood.
+#' Automatic model selection for high-dimensional Cox models
+#' with Snet penalty, evaluated by penalized partial-likelihood.
 #'
 #' @param x Data matrix.
 #' @param y Response matrix made by \code{\link[survival]{Surv}}.
@@ -529,10 +520,9 @@ hdcox.scad <- function(
 #'
 #' @importFrom ncvreg ncvsurv
 #'
-#' @export hdcox.snet
+#' @export fit_snet
 #'
 #' @examples
-#' library("hdnom")
 #' library("survival")
 #'
 #' # Load imputed SMART data; only use the first 120 samples
@@ -543,15 +533,14 @@ hdcox.scad <- function(
 #' y <- Surv(time, event)
 #'
 #' # Fit Cox model with Snet penalty
-#' fit <- hdcox.snet(
+#' fit <- fit_snet(
 #'   x, y,
 #'   nfolds = 3,
 #'   gammas = 3.7, alphas = c(0.3, 0.8),
 #'   max.iter = 15000, seed = 1010
 #' )
 #'
-#' # Generate hdnom.nomogram objects and plot nomogram
-#' nom <- hdnom.nomogram(
+#' nom <- as_nomogram(
 #'   fit$snet_model,
 #'   model.type = "snet",
 #'   x, time, event, pred.at = 365 * 2,
@@ -559,13 +548,13 @@ hdcox.scad <- function(
 #' )
 #'
 #' plot(nom)
-hdcox.snet <- function(
+fit_snet <- function(
   x, y, nfolds = 5L,
   gammas = c(2.01, 2.3, 3.7, 200),
   alphas = seq(0.05, 0.95, 0.05),
   eps = 1e-4, max.iter = 10000L,
   seed = 1001, trace = FALSE, parallel = FALSE) {
-  snet_cv <- ncvreg.tune.gamma.alpha(
+  snet_cv <- ncvreg_tune_gamma_alpha(
     x, y,
     penalty = "SCAD",
     nfolds = nfolds,
@@ -601,15 +590,15 @@ hdcox.snet <- function(
     "snet_model" = snet_full
   )
 
-  class(coxsnet_model) <- c("hdcox.model", "hdcox.model.snet")
+  class(coxsnet_model) <- c("hdnom.model", "hdnom.model.snet")
 
   coxsnet_model
 }
 
-#' MCP Model Selection for High-Dimensional Cox Models
+#' Model selection for high-dimensional Cox models with MCP penalty
 #'
-#' Automatic MCP model selection for high-dimensional
-#' Cox models, evaluated by penalized partial-likelihood.
+#' Automatic model selection for high-dimensional Cox models
+#' with MCP penalty, evaluated by penalized partial-likelihood.
 #'
 #' @param x Data matrix.
 #' @param y Response matrix made by \code{\link[survival]{Surv}}.
@@ -627,10 +616,9 @@ hdcox.snet <- function(
 #'
 #' @importFrom ncvreg ncvsurv
 #'
-#' @export hdcox.mcp
+#' @export fit_mcp
 #'
 #' @examples
-#' library("hdnom")
 #' library("survival")
 #'
 #' # Load imputed SMART data; only use the first 150 samples
@@ -641,10 +629,9 @@ hdcox.snet <- function(
 #' y <- Surv(time, event)
 #'
 #' # Fit Cox model with MCP penalty
-#' fit <- hdcox.mcp(x, y, nfolds = 3, gammas = c(2.1, 3), seed = 1001)
+#' fit <- fit_mcp(x, y, nfolds = 3, gammas = c(2.1, 3), seed = 1001)
 #'
-#' # Generate hdnom.nomogram objects and plot nomogram
-#' nom <- hdnom.nomogram(
+#' nom <- as_nomogram(
 #'   fit$mcp_model,
 #'   model.type = "mcp",
 #'   x, time, event, pred.at = 365 * 2,
@@ -652,11 +639,11 @@ hdcox.snet <- function(
 #' )
 #'
 #' plot(nom)
-hdcox.mcp <- function(
+fit_mcp <- function(
   x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
   eps = 1e-4, max.iter = 10000L,
   seed = 1001, trace = FALSE, parallel = FALSE) {
-  mcp_cv <- ncvreg.tune.gamma(
+  mcp_cv <- ncvreg_tune_gamma(
     x, y,
     penalty = "MCP", alpha = 1,
     nfolds = nfolds, gammas = gammas,
@@ -688,15 +675,15 @@ hdcox.mcp <- function(
     "mcp_model" = mcp_full
   )
 
-  class(coxmcp_model) <- c("hdcox.model", "hdcox.model.mcp")
+  class(coxmcp_model) <- c("hdnom.model", "hdnom.model.mcp")
 
   coxmcp_model
 }
 
-#' Mnet Model Selection for High-Dimensional Cox Models
+#' Model selection for high-dimensional Cox models with Mnet penalty
 #'
-#' Automatic Mnet model selection for high-dimensional
-#' Cox models, evaluated by penalized partial-likelihood.
+#' Automatic model selection for high-dimensional Cox models
+#' with Mnet penalty, evaluated by penalized partial-likelihood.
 #'
 #' @param x Data matrix.
 #' @param y Response matrix made by \code{\link[survival]{Surv}}.
@@ -715,10 +702,9 @@ hdcox.mcp <- function(
 #'
 #' @importFrom ncvreg ncvsurv
 #'
-#' @export hdcox.mnet
+#' @export fit_mnet
 #'
 #' @examples
-#' library("hdnom")
 #' library("survival")
 #'
 #' # Load imputed SMART data; only use the first 120 samples
@@ -729,15 +715,14 @@ hdcox.mcp <- function(
 #' y <- Surv(time, event)
 #'
 #' # Fit Cox model with Mnet penalty
-#' fit <- hdcox.mnet(
+#' fit <- fit_mnet(
 #'   x, y,
 #'   nfolds = 3,
 #'   gammas = 3, alphas = c(0.3, 0.8),
 #'   max.iter = 15000, seed = 1010
 #' )
 #'
-#' # Generate hdnom.nomogram objects and plot nomogram
-#' nom <- hdnom.nomogram(
+#' nom <- as_nomogram(
 #'   fit$mnet_model,
 #'   model.type = "mnet",
 #'   x, time, event, pred.at = 365 * 2,
@@ -745,13 +730,13 @@ hdcox.mcp <- function(
 #' )
 #'
 #' plot(nom)
-hdcox.mnet <- function(
+fit_mnet <- function(
   x, y, nfolds = 5L,
   gammas = c(1.01, 1.7, 3, 100),
   alphas = seq(0.05, 0.95, 0.05),
   eps = 1e-4, max.iter = 10000L,
   seed = 1001, trace = FALSE, parallel = FALSE) {
-  mnet_cv <- ncvreg.tune.gamma.alpha(
+  mnet_cv <- ncvreg_tune_gamma_alpha(
     x, y,
     penalty = "MCP",
     nfolds = nfolds,
@@ -788,15 +773,15 @@ hdcox.mnet <- function(
     "mnet_model" = mnet_full
   )
 
-  class(coxmnet_model) <- c("hdcox.model", "hdcox.model.mnet")
+  class(coxmnet_model) <- c("hdnom.model", "hdnom.model.mnet")
 
   coxmnet_model
 }
 
-#' Fused Lasso Model Selection for High-Dimensional Cox Models
+#' Model selection for high-dimensional Cox models with fused lasso penalty
 #'
-#' Automatic fused lasso model selection for high-dimensional
-#' Cox models, evaluated by cross-validated likelihood.
+#' Automatic model selection for high-dimensional Cox models
+#' with fused lasso penalty, evaluated by cross-validated likelihood.
 #'
 #' @param x Data matrix.
 #' @param y Response matrix made by \code{\link[survival]{Surv}}.
@@ -828,10 +813,9 @@ hdcox.mnet <- function(
 #'
 #' @importFrom penalized penalized
 #'
-#' @export hdcox.flasso
+#' @export fit_flasso
 #'
 #' @examples
-#' library("hdnom")
 #' library("survival")
 #'
 #' # Load imputed SMART data; only use the first 120 samples
@@ -842,13 +826,12 @@ hdcox.mnet <- function(
 #' y <- Surv(time, event)
 #'
 #' # Fit Cox model with fused lasso penalty
-#' fit <- hdcox.flasso(x, y,
+#' fit <- fit_flasso(x, y,
 #'   lambda1 = c(1, 10), lambda2 = c(0.01),
 #'   nfolds = 3, seed = 11
 #' )
 #'
-#' # Generate hdnom.nomogram objects and plot nomogram
-#' nom <- hdnom.nomogram(
+#' nom <- as_nomogram(
 #'   fit$flasso_model,
 #'   model.type = "flasso",
 #'   x, time, event, pred.at = 365 * 2,
@@ -856,14 +839,14 @@ hdcox.mnet <- function(
 #' )
 #'
 #' plot(nom)
-hdcox.flasso <- function(
+fit_flasso <- function(
   x, y, nfolds = 5L,
   lambda1 = c(0.001, 0.05, 0.5, 1, 5),
   lambda2 = c(0.001, 0.01, 0.5),
   maxiter = 25, epsilon = 1e-3,
   seed = 1001, trace = FALSE, parallel = FALSE, ...) {
   if (trace) cat("Starting cross-validation...\n")
-  flasso_cv <- penalized.tune.lambda(
+  flasso_cv <- penalized_tune_lambda(
     response = y, penalized = x, fold = nfolds,
     lambda1 = lambda1, lambda2 = lambda2,
     maxiter = maxiter, epsilon = epsilon,
@@ -896,7 +879,7 @@ hdcox.flasso <- function(
     "flasso_model" = flasso_full
   )
 
-  class(coxflasso_model) <- c("hdcox.model", "hdcox.model.flasso")
+  class(coxflasso_model) <- c("hdnom.model", "hdnom.model.flasso")
 
   coxflasso_model
 }

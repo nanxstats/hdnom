@@ -1,11 +1,11 @@
-#' Print High-Dimensional Cox Model Objects
+#' Print high-dimensional Cox model objects
 #'
-#' Print information about high-dimensional Cox models.
+#' Print high-dimensional Cox model objects
 #'
-#' @param x Model object fitted by \code{hdcox.*()} functions.
+#' @param x Model object.
 #' @param ... Other parameters (not used).
 #'
-#' @method print hdcox.model
+#' @method print hdnom.model
 #'
 #' @export
 #'
@@ -19,14 +19,10 @@
 #' event <- smart$EVENT
 #' y <- Surv(time, event)
 #'
-#' fit <- hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+#' fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 #' print(fit)
-print.hdcox.model <- function(x, ...) {
-  if (!("hdcox.model" %in% class(x))) {
-    stop('x must be of class "hdcox.model" fitted by hdcox.* functions')
-  }
-
-  model.type <- gsub("hdcox.model.", "", setdiff(class(x), "hdcox.model"))
+print.hdnom.model <- function(x, ...) {
+  model.type <- gsub("hdnom.model.", "", setdiff(class(x), "hdnom.model"))
 
   switch(
 
@@ -107,14 +103,16 @@ print.hdcox.model <- function(x, ...) {
       cat("Best lambda2:", x$"flasso_best_lambda2", "\n")
     }
   )
+
+  invisible(x)
 }
 
-#' Make Predictions from High-Dimensional Cox Models
+#' Make predictions from high-dimensional Cox models
 #'
 #' Predict overall survival probability at certain time points
-#' from established Cox models.
+#' from fitted Cox models.
 #'
-#' @param object Model object fitted by \code{hdcox.*()} functions.
+#' @param object Model object.
 #' @param x Data matrix used to fit the model.
 #' @param y Response matrix made with \code{\link[survival]{Surv}}.
 #' @param newx Matrix (with named columns) of new values for \code{x}
@@ -125,7 +123,7 @@ print.hdcox.model <- function(x, ...) {
 #' @return A \code{nrow(newx) x length(pred.at)} matrix containing
 #' overall survival probablity.
 #'
-#' @method predict hdcox.model
+#' @method predict hdnom.model
 #'
 #' @importFrom penalized survival
 #' @importMethodsFrom penalized predict
@@ -142,14 +140,10 @@ print.hdcox.model <- function(x, ...) {
 #' event <- smart$EVENT
 #' y <- Surv(time, event)
 #'
-#' fit <- hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+#' fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 #' predict(fit, x, y, newx = x[101:105, ], pred.at = 1:10 * 365)
-predict.hdcox.model <- function(object, x, y, newx, pred.at, ...) {
-  if (!("hdcox.model" %in% class(object))) {
-    stop('object must be of class "hdcox.model" fitted by hdcox.* functions')
-  }
-
-  model.type <- gsub("hdcox.model.", "", setdiff(class(object), "hdcox.model"))
+predict.hdnom.model <- function(object, x, y, newx, pred.at, ...) {
+  model.type <- gsub("hdnom.model.", "", setdiff(class(object), "hdnom.model"))
 
   if (!("matrix" %in% class(newx))) stop("newx must be a matrix")
 
@@ -171,14 +165,14 @@ predict.hdcox.model <- function(object, x, y, newx, pred.at, ...) {
 
     glmnet = {
       lp <- predict(object[[paste0(model.type, "_model")]], x, type = "link")
-      basesurv <- glmnet.basesurv(time, event, lp, pred.at)
+      basesurv <- glmnet_basesurv(time, event, lp, pred.at)
       lpnew <- predict(object[[paste0(model.type, "_model")]], newx, type = "link")
       p <- exp(exp(lpnew) %*% -t(basesurv$"cumulative_base_hazard"))
     },
 
     ncvreg = {
       lp <- predict(object[[paste0(model.type, "_model")]], x, type = "link")
-      basesurv <- ncvreg.basesurv(time, event, lp, pred.at)
+      basesurv <- ncvreg_basesurv(time, event, lp, pred.at)
       lpnew <- predict(object[[paste0(model.type, "_model")]], newx, type = "link")
       p <- exp(exp(lpnew) %*% -t(basesurv$"cumulative_base_hazard"))
       # # alternative method using ncvreg built-in prediction directly
@@ -201,15 +195,15 @@ predict.hdcox.model <- function(object, x, y, newx, pred.at, ...) {
   p
 }
 
-#' Extract Information of Selected Variables from High-Dimensional Cox Models
+#' Extract information of selected variables from high-dimensional Cox models
 #'
-#' Extract the names and type of selected variables from established
+#' Extract the names and type of selected variables from fitted
 #' high-dimensional Cox models.
 #'
-#' @param object Model object fitted by \code{hdcox.*()} functions.
+#' @param object Model object.
 #' @param x Data matrix used to fit the model.
 #'
-#' @export hdnom.varinfo
+#' @export infer_variable_type
 #'
 #' @return A list containing the index, name, type and range of the
 #' selected variables.
@@ -224,15 +218,10 @@ predict.hdcox.model <- function(object, x, y, newx, pred.at, ...) {
 #' event <- smart$EVENT
 #' y <- Surv(time, event)
 #'
-#' # Fit Cox model with lasso penalty
-#' fit <- hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
-#' hdnom.varinfo(fit, x)
-hdnom.varinfo <- function(object, x) {
-  if (!("hdcox.model" %in% class(object))) {
-    stop('object must be of class "hdcox.model" fitted by hdcox.* functions')
-  }
-
-  model.type <- gsub("hdcox.model.", "", setdiff(class(object), "hdcox.model"))
+#' fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+#' infer_variable_type(fit, x)
+infer_variable_type <- function(object, x) {
+  model.type <- gsub("hdnom.model.", "", setdiff(class(object), "hdnom.model"))
 
   obj.type <- switch(
     model.type,
@@ -263,33 +252,32 @@ hdnom.varinfo <- function(object, x) {
     }
   )
 
-  varinfo <- list("index" = NULL, "name" = NULL, "type" = NULL, "domain" = NULL)
+  res <- list("index" = NULL, "name" = NULL, "type" = NULL, "domain" = NULL)
 
-  varinfo[["index"]] <- nonzero_idx
-  varinfo[["name"]] <- nonzero_var
-  nvar <- length(varinfo[["name"]])
+  res[["index"]] <- nonzero_idx
+  res[["name"]] <- nonzero_var
+  nvar <- length(res[["name"]])
 
   is.wholenumber <- function(
     x, tol = .Machine$double.eps^0.5) abs(x - round(x)) < tol
 
   # type: logical, categorical or continuous
   for (i in 1L:nvar) {
-    var <- x[, varinfo[["name"]][i]]
+    var <- x[, res[["name"]][i]]
     if (all(is.wholenumber(var)) & nlevels(as.factor(var)) == 2L) {
-      varinfo[["type"]][i] <- "logical"
-      varinfo[["domain"]][[i]] <- unique(var)
+      res[["type"]][i] <- "logical"
+      res[["domain"]][[i]] <- unique(var)
     } else if (all(is.wholenumber(var)) & nlevels(as.factor(var)) > 2L) {
-      varinfo[["type"]][i] <- "categorical"
-      varinfo[["domain"]][[i]] <- c(min(var), max(var))
+      res[["type"]][i] <- "categorical"
+      res[["domain"]][[i]] <- c(min(var), max(var))
     } else if (any(!is.wholenumber(var))) {
-      varinfo[["type"]][i] <- "continuous"
-      varinfo[["domain"]][[i]] <- c(min(var), max(var))
+      res[["type"]][i] <- "continuous"
+      res[["domain"]][[i]] <- c(min(var), max(var))
     } else {
-      stop(paste0("unrecognized variable type: ", varinfo[["name"]][i]))
+      stop(paste0("unrecognized variable type: ", res[["name"]][i]))
     }
   }
 
-  class(varinfo) <- "hdnom.varinfo"
-
-  varinfo
+  class(res) <- "hdnom.variable.type"
+  res
 }

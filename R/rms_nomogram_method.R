@@ -33,7 +33,7 @@ print.nomogram.raw <- function(x, dec = 0, ...) {
     print(z, quote = FALSE)
     cat("\n")
   }
-  invisible()
+  invisible(x)
 }
 
 # plot.nomogram.raw ------------------------------------------------------------
@@ -428,14 +428,14 @@ plot.nomogram.raw <- function(
       lines(range(scaled), rep(y, 2)) # make sure all ticks are connected
     }
   }
-  invisible()
+  invisible(x)
 }
 
 # capitalize the first letter of a string
 capitalize <- function(string) {
   capped <- grep("^[A-Z]", string, invert = TRUE)
   substr(string[capped], 1, 1) <- toupper(substr(string[capped], 1, 1))
-  return(string)
+  string
 }
 
 # Version of axis allowing tick mark labels to be forced, or to

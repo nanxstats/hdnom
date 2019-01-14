@@ -1,11 +1,11 @@
-# generate nomogram object -----------------------------------------------------
+# generate raw nomogram object -------------------------------------------------
 
 # The following code is derived from the code at
 # https://github.com/harrelfe/rms/blob/master/R/nomogram.s
 # which is a part of the R package rms released under GPL,
 # originally written by Frank E Harrell Jr.
 
-nomogram.raw <- function(
+as_nomogram_raw <- function(
   fit, ..., adj.to,
   lp = TRUE, lp.at = NULL,
   fun = NULL, fun.at = NULL, fun.lp.at = NULL, funlabel = "Predicted Value",

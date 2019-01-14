@@ -1,4 +1,4 @@
-#' Survival Curve Prediction for glmnet Objects
+#' Survival curve prediction for glmnet objects
 #'
 #' Derived from c060::predictProb.coxnet
 #'
@@ -11,17 +11,17 @@
 #' @return list containing predicted survival probabilities and
 #' linear predictors for all samples
 #'
-#' @export glmnet.survcurve
+#' @export glmnet_survcurve
 #'
 #' @examples
 #' NULL
-glmnet.survcurve <- function(object, time, event, x, survtime) {
+glmnet_survcurve <- function(object, time, event, x, survtime) {
   lp <- as.numeric(predict(
     object,
     newx = data.matrix(x),
     s = object$"lambda", type = "link"
   ))
-  basesurv <- glmnet.basesurv(time, event, lp, sort(survtime))
+  basesurv <- glmnet_basesurv(time, event, lp, sort(survtime))
   p <- exp(exp(lp) %*% (-t(basesurv$cumulative_base_hazard)))
   colnames(p) <- names(sort(survtime))
 
@@ -32,7 +32,7 @@ glmnet.survcurve <- function(object, time, event, x, survtime) {
   list("p" = p, "lp" = lp)
 }
 
-#' Breslow Baseline Hazard Estimator for glmnet Objects
+#' Breslow baseline hazard estimator for glmnet objects
 #'
 #' Derived from \code{peperr:::basesurv} and \code{gbm::basehaz.gbm}.
 #'
@@ -45,13 +45,13 @@ glmnet.survcurve <- function(object, time, event, x, survtime) {
 #'
 #' @importFrom stats approx
 #'
-#' @export glmnet.basesurv
+#' @export glmnet_basesurv
 #'
 #' @return list containing cumulative base hazard
 #'
 #' @examples
 #' NULL
-glmnet.basesurv <- function(
+glmnet_basesurv <- function(
   time, event, lp,
   times.eval = NULL, centered = FALSE) {
   if (is.null(times.eval)) times.eval <- sort(unique(time))
@@ -75,7 +75,7 @@ glmnet.basesurv <- function(
   obj
 }
 
-#' Survival Curve Prediction for ncvreg Objects
+#' Survival curve prediction for ncvreg objects
 #'
 #' Derived from c060::predictProb.coxnet
 #'
@@ -85,16 +85,16 @@ glmnet.basesurv <- function(
 #' @param x Predictor matrix
 #' @param survtime Survival time to evaluate
 #'
-#' @export ncvreg.survcurve
+#' @export ncvreg_survcurve
 #'
 #' @return list containing predicted survival probabilities and
 #' linear predictors for all samples
 #'
 #' @examples
 #' NULL
-ncvreg.survcurve <- function(object, time, event, x, survtime) {
+ncvreg_survcurve <- function(object, time, event, x, survtime) {
   lp <- as.numeric(predict(object, X = data.matrix(x), type = "link"))
-  basesurv <- ncvreg.basesurv(time, event, lp, sort(survtime))
+  basesurv <- ncvreg_basesurv(time, event, lp, sort(survtime))
   p <- exp(exp(lp) %*% (-t(basesurv$cumulative_base_hazard)))
   colnames(p) <- names(sort(survtime))
 
@@ -105,7 +105,7 @@ ncvreg.survcurve <- function(object, time, event, x, survtime) {
   list("p" = p, "lp" = lp)
 }
 
-#' Breslow Baseline Hazard Estimator for ncvreg Objects
+#' Breslow baseline hazard estimator for ncvreg objects
 #'
 #' Derived from \code{peperr:::basesurv} and \code{gbm::basehaz.gbm}.
 #'
@@ -118,13 +118,13 @@ ncvreg.survcurve <- function(object, time, event, x, survtime) {
 #'
 #' @importFrom stats approx
 #'
-#' @export ncvreg.basesurv
+#' @export ncvreg_basesurv
 #'
 #' @return list containing cumulative base hazard
 #'
 #' @examples
 #' NULL
-ncvreg.basesurv <- function(
+ncvreg_basesurv <- function(
   time, event, lp,
   times.eval = NULL, centered = FALSE) {
   if (is.null(times.eval)) times.eval <- sort(unique(time))
@@ -148,7 +148,7 @@ ncvreg.basesurv <- function(
   obj
 }
 
-#' Survival Curve Prediction for "penalized" Objects
+#' Survival curve prediction for penfit objects
 #'
 #' Derived from c060::predictProb.coxnet
 #'
@@ -158,16 +158,16 @@ ncvreg.basesurv <- function(
 #' @param x Predictor matrix
 #' @param survtime Survival time to evaluate
 #'
-#' @export penalized.survcurve
+#' @export penalized_survcurve
 #'
 #' @return list containing predicted survival probabilities and
 #' linear predictors for all samples
 #'
 #' @examples
 #' NULL
-penalized.survcurve <- function(object, time, event, x, survtime) {
+penalized_survcurve <- function(object, time, event, x, survtime) {
   lp <- as.numeric(object@lin.pred)
-  basesurv <- penalized.basesurv(time, event, lp, sort(survtime))
+  basesurv <- penalized_basesurv(time, event, lp, sort(survtime))
   p <- exp(exp(lp) %*% (-t(basesurv$cumulative_base_hazard)))
   colnames(p) <- names(sort(survtime))
 
@@ -178,7 +178,7 @@ penalized.survcurve <- function(object, time, event, x, survtime) {
   list("p" = p, "lp" = lp)
 }
 
-#' Breslow Baseline Hazard Estimator for "penalized" Objects
+#' Breslow baseline hazard estimator for penfit objects
 #'
 #' Derived from \code{peperr:::basesurv} and \code{gbm::basehaz.gbm}.
 #'
@@ -191,13 +191,13 @@ penalized.survcurve <- function(object, time, event, x, survtime) {
 #'
 #' @importFrom stats approx
 #'
-#' @export penalized.basesurv
+#' @export penalized_basesurv
 #'
 #' @return list containing cumulative base hazard
 #'
 #' @examples
 #' NULL
-penalized.basesurv <- function(
+penalized_basesurv <- function(
   time, event, lp,
   times.eval = NULL, centered = FALSE) {
   if (is.null(times.eval)) times.eval <- sort(unique(time))

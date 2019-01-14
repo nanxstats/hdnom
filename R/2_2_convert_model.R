@@ -5,7 +5,7 @@
 #
 # @return converted model object, can be used as input
 # for nomogram.raw() to construct nomogram object
-convert.model <- function(model, x) {
+convert_model <- function(model, x) {
   is_glmnet <- function(model) "glmnet" %in% class(model)
   is_ncvreg <- function(model) "ncvreg" %in% class(model)
   is_penalized <- function(model) "penfit" %in% class(model)

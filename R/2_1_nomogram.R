@@ -1,6 +1,6 @@
-#' Nomograms for High-Dimensional Cox Models
+#' Nomograms for high-dimensional Cox models
 #'
-#' Nomograms for High-Dimensional Cox Models
+#' Nomograms for high-dimensional Cox models
 #'
 #' @param object Fitted model object.
 #' @param model.type Fitted model type. Could be one of \code{"lasso"},
@@ -15,18 +15,12 @@
 #' @param fun.at Function values to label on axis.
 #' @param funlabel Label for \code{fun} axis.
 #'
-#' @note We will try to use the value of the selected penalty
-#' parameter (e.g. lambda, alpha) in the model object fitted by
-#' \code{\link[glmnet]{glmnet}}, \code{\link[ncvreg]{ncvsurv}}, or
-#' \code{\link[penalized]{penalized}}. The selected variables under
-#' the penalty parameter will be used to build the nomogram
-#' and make predictions. This means, if you use routines other
-#' than \code{hdcox.*} functions to fit the model, please
-#' make sure that there is only one set of necessary parameters
-#' (e.g. only a single lambda should be in glmnet objects intead
-#' of a vector of multiple lambdas) in the fitted model object.
+#' @note We will try to use the value of the automatically selected
+#' "optimal" penalty parameter (e.g. lambda, alpha) in the model object.
+#' The selected variables under the penalty parameter will be
+#' used to build the nomogram and make predictions.
 #'
-#' @export hdnom.nomogram
+#' @export as_nomogram
 #'
 #' @importFrom stats coef as.formula
 #'
@@ -42,10 +36,9 @@
 #' y <- Surv(time, event)
 #'
 #' # Fit penalized Cox model with lasso penalty
-#' fit <- hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+#' fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 #'
-#' # Generate hdnom.nomogram objects and plot nomogram
-#' nom <- hdnom.nomogram(
+#' nom <- as_nomogram(
 #'   fit$lasso_model,
 #'   model.type = "lasso",
 #'   x, time, event, pred.at = 365 * 2,
@@ -54,7 +47,7 @@
 #'
 #' print(nom)
 #' plot(nom)
-hdnom.nomogram <- function(
+as_nomogram <- function(
   object,
   model.type =
     c(
@@ -74,7 +67,7 @@ hdnom.nomogram <- function(
   if (is.null(pred.at)) stop("Missing argument pred.at")
 
   # convert hdcox models to nomogram object
-  nomogram.obj <- convert.model(object, x)
+  nomogram_object <- convert_model(object, x)
 
   # compute survival curves
   if (model.type %in% c("lasso", "alasso", "enet", "aenet")) {
@@ -93,7 +86,7 @@ hdnom.nomogram <- function(
     survtime_at <- survtime_ones[which(survtime_ones > pred.at)[1L] - 1L]
     survtime_at_idx <- names(survtime_at)
 
-    survcurve <- glmnet.survcurve(
+    survcurve <- glmnet_survcurve(
       object = object, time = time, event = event,
       x = x, survtime = survtime_ones
     )
@@ -111,7 +104,7 @@ hdnom.nomogram <- function(
     survtime_at <- survtime_ones[which(survtime_ones > pred.at)[1L] - 1L]
     survtime_at_idx <- names(survtime_at)
 
-    survcurve <- ncvreg.survcurve(
+    survcurve <- ncvreg_survcurve(
       object = object, time = time, event = event,
       x = x, survtime = survtime_ones
     )
@@ -129,7 +122,7 @@ hdnom.nomogram <- function(
     survtime_at <- survtime_ones[which(survtime_ones > pred.at)[1L] - 1L]
     survtime_at_idx <- names(survtime_at)
 
-    survcurve <- penalized.survcurve(
+    survcurve <- penalized_survcurve(
       object = object, time = time, event = event,
       x = x, survtime = survtime_ones
     )
@@ -152,7 +145,7 @@ hdnom.nomogram <- function(
   }
 
   nom <- list(
-    "nomogram.obj" = nomogram.obj,
+    "nomogram" = nomogram_object,
     "survcurve" = survcurve,
     "bhfun" = bhfun,
     "pred.at" = pred.at,

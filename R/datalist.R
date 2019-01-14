@@ -1,4 +1,4 @@
-#' Original SMART Study Data
+#' Original SMART study data
 #'
 #' Original SMART study data (with missing values) from Steyerberg et, al. 2008.
 #'
@@ -65,7 +65,7 @@
 #' dim(smarto)
 NULL
 
-#' Imputed SMART Study Data
+#' Imputed SMART study data
 #'
 #' Imputed SMART study data (no missing values).
 #'

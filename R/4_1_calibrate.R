@@ -1,6 +1,6 @@
-#' Calibrate High-Dimensional Cox Models
+#' Calibrate high-dimensional Cox models
 #'
-#' Calibrate High-Dimensional Cox Models
+#' Calibrate high-dimensional Cox models
 #'
 #' @param x Matrix of training data used for fitting the model;
 #' on which to run the calibration.
@@ -43,7 +43,7 @@
 #' @importFrom stats quantile
 #' @importFrom stats median
 #'
-#' @export hdnom.calibrate
+#' @export calibrate
 #'
 #' @examples
 #' library("survival")
@@ -56,10 +56,10 @@
 #' y <- Surv(time, event)
 #'
 #' # Fit Cox model with lasso penalty
-#' fit <- hdcox.lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+#' fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 #'
 #' # Model calibration by fitting the original data directly
-#' cal.fitting <- hdnom.calibrate(
+#' cal.fitting <- calibrate(
 #'   x, time, event,
 #'   model.type = "lasso",
 #'   alpha = 1, lambda = fit$lasso_best_lambda,
@@ -69,7 +69,7 @@
 #' )
 #'
 #' # Model calibration by 5-fold cross-validation
-#' cal.cv <- hdnom.calibrate(
+#' cal.cv <- calibrate(
 #'   x, time, event,
 #'   model.type = "lasso",
 #'   alpha = 1, lambda = fit$lasso_best_lambda,
@@ -98,28 +98,28 @@
 #' # y = Surv(time, event)
 #' #
 #' # set.seed(1010)
-#' # cal.fitting = hdnom.calibrate(
+#' # cal.fitting = calibrate(
 #' #   x, time, event, model.type = "flasso",
 #' #   lambda1 = 5, lambda2 = 2,
 #' #   method = "fitting",
 #' #   pred.at = 365 * 9, ngroup = 5,
 #' #   seed = 1010)
 #' #
-#' # cal.boot = hdnom.calibrate(
+#' # cal.boot = calibrate(
 #' #   x, time, event, model.type = "scad",
 #' #   gamma = 3.7, alpha = 1, lambda = 0.03,
 #' #   method = "bootstrap", boot.times = 10,
 #' #   pred.at = 365 * 9, ngroup = 5,
 #' #   seed = 1010)
 #' #
-#' # cal.cv = hdnom.calibrate(
+#' # cal.cv = calibrate(
 #' #   x, time, event, model.type = "mnet",
 #' #   gamma = 3, alpha = 0.3, lambda = 0.03,
 #' #   method = "cv", nfolds = 5,
 #' #   pred.at = 365 * 9, ngroup = 5,
 #' #   seed = 1010)
 #' #
-#' # cal.repcv = hdnom.calibrate(
+#' # cal.repcv = calibrate(
 #' #   x, time, event, model.type = "flasso",
 #' #   lambda1 = 5, lambda2 = 2,
 #' #   method = "repeated.cv", nfolds = 5, rep.times = 3,
@@ -141,7 +141,7 @@
 #' # print(cal.repcv)
 #' # summary(cal.repcv)
 #' # plot(cal.repcv)
-hdnom.calibrate <- function(
+calibrate <- function(
   x, time, event,
   model.type =
     c(
@@ -168,7 +168,7 @@ hdnom.calibrate <- function(
     if (trace) cat("Start fitting ...\n")
 
     if (model.type %in% c("lasso", "alasso", "enet", "aenet")) {
-      pred_list <- glmnet.calibrate.internal.pred(
+      pred_list <- glmnet_calibrate_surv_prob_pred(
         x_tr = x, x_te = x, y_tr = Surv(time, event),
         alpha = alpha, lambda = lambda, pen.factor = pen.factor,
         pred.at = pred.at
@@ -176,7 +176,7 @@ hdnom.calibrate <- function(
     }
 
     if (model.type %in% c("mcp", "mnet", "scad", "snet")) {
-      pred_list <- ncvreg.calibrate.internal.pred(
+      pred_list <- ncvreg_calibrate_surv_prob_pred(
         x_tr = x, x_te = x, y_tr = Surv(time, event),
         model.type = model.type,
         gamma = gamma, alpha = alpha, lambda = lambda,
@@ -185,7 +185,7 @@ hdnom.calibrate <- function(
     }
 
     if (model.type %in% c("flasso")) {
-      pred_list <- penalized.calibrate.internal.pred(
+      pred_list <- penalized_calibrate_surv_prob_pred(
         x_tr = x, x_te = x, y_tr = Surv(time, event),
         lambda1 = lambda1, lambda2 = lambda2,
         pred.at = pred.at
@@ -198,7 +198,7 @@ hdnom.calibrate <- function(
 
     pred_prob_median <- tapply(pred_prob, grp, median)
 
-    true_prob <- hdnom.calibrate.internal.true(
+    true_prob <- calibrate_surv_prob_true(
       pred_prob, grp, time, event, pred.at, ngroup
     )
 
@@ -229,7 +229,7 @@ hdnom.calibrate <- function(
       y_te <- Surv(time, event) # use original dataset as test set
 
       if (model.type %in% c("lasso", "alasso", "enet", "aenet")) {
-        pred_list_list[[i]] <- glmnet.calibrate.internal.pred(
+        pred_list_list[[i]] <- glmnet_calibrate_surv_prob_pred(
           x_tr = x_tr, x_te = x_te, y_tr = y_tr,
           alpha = alpha, lambda = lambda, pen.factor = pen.factor,
           pred.at = pred.at
@@ -237,7 +237,7 @@ hdnom.calibrate <- function(
       }
 
       if (model.type %in% c("mcp", "mnet", "scad", "snet")) {
-        pred_list_list[[i]] <- ncvreg.calibrate.internal.pred(
+        pred_list_list[[i]] <- ncvreg_calibrate_surv_prob_pred(
           x_tr = x_tr, x_te = x_te, y_tr = y_tr,
           model.type = model.type,
           alpha = alpha, lambda = lambda, gamma = gamma,
@@ -246,7 +246,7 @@ hdnom.calibrate <- function(
       }
 
       if (model.type %in% c("flasso")) {
-        pred_list_list[[i]] <- penalized.calibrate.internal.pred(
+        pred_list_list[[i]] <- penalized_calibrate_surv_prob_pred(
           x_tr = x_tr, x_te = x_te, y_tr = y_tr,
           lambda1 = lambda1, lambda2 = lambda2,
           pred.at = pred.at
@@ -266,7 +266,7 @@ hdnom.calibrate <- function(
 
     pred_prob_median <- tapply(pred_prob, grp, median)
 
-    true_prob <- hdnom.calibrate.internal.true(
+    true_prob <- calibrate_surv_prob_true(
       pred_prob, grp, time, event, pred.at, ngroup
     )
 
@@ -299,7 +299,7 @@ hdnom.calibrate <- function(
       idx_te <- which(samp_idx == i)
 
       if (model.type %in% c("lasso", "alasso", "enet", "aenet")) {
-        pred_list_list[[i]] <- glmnet.calibrate.internal.pred(
+        pred_list_list[[i]] <- glmnet_calibrate_surv_prob_pred(
           x_tr = x_tr, x_te = x_te, y_tr = y_tr,
           alpha = alpha, lambda = lambda, pen.factor = pen.factor,
           pred.at = pred.at
@@ -307,7 +307,7 @@ hdnom.calibrate <- function(
       }
 
       if (model.type %in% c("mcp", "mnet", "scad", "snet")) {
-        pred_list_list[[i]] <- ncvreg.calibrate.internal.pred(
+        pred_list_list[[i]] <- ncvreg_calibrate_surv_prob_pred(
           x_tr = x_tr, x_te = x_te, y_tr = y_tr,
           model.type = model.type,
           alpha = alpha, lambda = lambda, gamma = gamma,
@@ -316,7 +316,7 @@ hdnom.calibrate <- function(
       }
 
       if (model.type %in% c("flasso")) {
-        pred_list_list[[i]] <- penalized.calibrate.internal.pred(
+        pred_list_list[[i]] <- penalized_calibrate_surv_prob_pred(
           x_tr = x_tr, x_te = x_te, y_tr = y_tr,
           lambda1 = lambda1, lambda2 = lambda2,
           pred.at = pred.at
@@ -339,7 +339,7 @@ hdnom.calibrate <- function(
 
     pred_prob_median <- tapply(pred_prob, grp, median)
 
-    true_prob <- hdnom.calibrate.internal.true(
+    true_prob <- calibrate_surv_prob_true(
       pred_prob, grp, time, event, pred.at, ngroup
     )
 
@@ -378,7 +378,7 @@ hdnom.calibrate <- function(
         idx_te <- which(samp_idx[[j]] == i)
 
         if (model.type %in% c("lasso", "alasso", "enet", "aenet")) {
-          pred_list_list[[j]][[i]] <- glmnet.calibrate.internal.pred(
+          pred_list_list[[j]][[i]] <- glmnet_calibrate_surv_prob_pred(
             x_tr = x_tr, x_te = x_te, y_tr = y_tr,
             alpha = alpha, lambda = lambda, pen.factor = pen.factor,
             pred.at = pred.at
@@ -386,7 +386,7 @@ hdnom.calibrate <- function(
         }
 
         if (model.type %in% c("mcp", "mnet", "scad", "snet")) {
-          pred_list_list[[j]][[i]] <- ncvreg.calibrate.internal.pred(
+          pred_list_list[[j]][[i]] <- ncvreg_calibrate_surv_prob_pred(
             x_tr = x_tr, x_te = x_te, y_tr = y_tr,
             model.type = model.type,
             alpha = alpha, lambda = lambda, gamma = gamma,
@@ -395,7 +395,7 @@ hdnom.calibrate <- function(
         }
 
         if (model.type %in% c("flasso")) {
-          pred_list_list[[j]][[i]] <- penalized.calibrate.internal.pred(
+          pred_list_list[[j]][[i]] <- penalized_calibrate_surv_prob_pred(
             x_tr = x_tr, x_te = x_te, y_tr = y_tr,
             lambda1 = lambda1, lambda2 = lambda2,
             pred.at = pred.at
@@ -432,7 +432,7 @@ hdnom.calibrate <- function(
 
     pred_prob_median <- tapply(pred_prob, grp, median)
 
-    true_prob <- hdnom.calibrate.internal.true(
+    true_prob <- calibrate_surv_prob_true(
       pred_prob, grp, time, event, pred.at, ngroup
     )
 
@@ -592,570 +592,4 @@ hdnom.calibrate <- function(
   attr(prob, "seed") <- seed
 
   prob
-}
-
-#' Compute glmnet Predicted Survival Probabilities for Calibration
-#'
-#' @importFrom glmnet glmnet
-#' @importFrom stats predict
-#'
-#' @return list containing predicted survival probability
-#'
-#' @keywords internal
-glmnet.calibrate.internal.pred <- function(
-  x_tr, x_te, y_tr,
-  alpha, lambda, pen.factor,
-  pred.at) {
-  if (is.null(pen.factor)) {
-    object <- glmnet(
-      x = x_tr, y = y_tr, family = "cox",
-      alpha = alpha, lambda = lambda
-    )
-  } else {
-    object <- glmnet(
-      x = x_tr, y = y_tr, family = "cox",
-      alpha = alpha, lambda = lambda,
-      penalty.factor = pen.factor
-    )
-  }
-
-  lp <- as.numeric(
-    predict(object, newx = data.matrix(x_tr), s = lambda, type = "link")
-  )
-  lpnew <- as.numeric(
-    predict(object, newx = data.matrix(x_te), s = lambda, type = "link")
-  )
-
-  time_tr <- y_tr[, 1L]
-  event_tr <- y_tr[, 2L]
-  idx_ones <- which(event_tr == 1L)
-  if (length(idx_ones) == 0L) {
-    stop("No 1 events in the training fold, please try other random seeds")
-  }
-  survtime_ones <- time_tr[idx_ones]
-  names(survtime_ones) <- idx_ones
-  survtime_ones <- sort(survtime_ones)
-
-  basesurv <- glmnet.basesurv(time_tr, event_tr, lp, survtime_ones)
-  p <- exp(exp(lpnew) %*% (-t(basesurv$cumulative_base_hazard)))
-
-  if (nrow(p) != nrow(x_te) || ncol(p) != length(survtime_ones)) {
-    stop("Prediction error when estimating baseline hazard")
-  }
-
-  idx <- length(which(survtime_ones <= pred.at))
-
-  list("p" = p, "idx" = idx)
-}
-
-#' Compute ncvreg Predicted Survival Probabilities for Calibration
-#'
-#' @importFrom ncvreg ncvsurv
-#' @importFrom stats predict
-#'
-#' @return list containing predicted survival probability
-#'
-#' @keywords internal
-ncvreg.calibrate.internal.pred <- function(
-  x_tr, x_te, y_tr,
-  model.type,
-  alpha, lambda, gamma,
-  pred.at) {
-  if (model.type == "mcp") {
-    object <- ncvreg::ncvsurv(
-      X = x_tr, y = y_tr,
-      penalty = "MCP", gamma = gamma,
-      alpha = 1, lambda = lambda
-    )
-  }
-
-  if (model.type == "mnet") {
-    object <- ncvreg::ncvsurv(
-      X = x_tr, y = y_tr,
-      penalty = "MCP", gamma = gamma,
-      alpha = alpha, lambda = lambda
-    )
-  }
-
-  if (model.type == "scad") {
-    object <- ncvreg::ncvsurv(
-      X = x_tr, y = y_tr,
-      penalty = "SCAD", gamma = gamma,
-      alpha = 1, lambda = lambda
-    )
-  }
-
-  if (model.type == "snet") {
-    object <- ncvreg::ncvsurv(
-      X = x_tr, y = y_tr,
-      penalty = "SCAD", gamma = gamma,
-      alpha = alpha, lambda = lambda
-    )
-  }
-
-  lp <- as.numeric(predict(object, X = data.matrix(x_tr), type = "link"))
-  lpnew <- as.numeric(predict(object, X = data.matrix(x_te), type = "link"))
-
-  time_tr <- y_tr[, 1L]
-  event_tr <- y_tr[, 2L]
-  idx_ones <- which(event_tr == 1L)
-  if (length(idx_ones) == 0L) {
-    stop("No 1 events in the training fold, please try other random seeds")
-  }
-  survtime_ones <- time_tr[idx_ones]
-  names(survtime_ones) <- idx_ones
-  survtime_ones <- sort(survtime_ones)
-
-  basesurv <- ncvreg.basesurv(time_tr, event_tr, lp, survtime_ones)
-  p <- exp(exp(lpnew) %*% (-t(basesurv$cumulative_base_hazard)))
-
-  if (nrow(p) != nrow(x_te) || ncol(p) != length(survtime_ones)) {
-    stop("Prediction error when estimating baseline hazard")
-  }
-
-  idx <- length(which(survtime_ones <= pred.at))
-
-  list("p" = p, "idx" = idx)
-}
-
-#' Compute "penalized" Predicted Survival Probabilities for Calibration
-#'
-#' @importFrom penalized penalized
-#' @importFrom stats predict
-#'
-#' @return list containing predicted survival probability
-#'
-#' @keywords internal
-penalized.calibrate.internal.pred <- function(
-  x_tr, x_te, y_tr,
-  lambda1, lambda2,
-  pred.at) {
-  object <- penalized(
-    response = y_tr, penalized = x_tr,
-    lambda1 = lambda1, lambda2 = lambda2,
-    maxiter = 25, epsilon = 1e-3, # for faster convergence, consistent with `hdcox.flasso()`
-    fusedl = TRUE, standardize = TRUE, model = "cox"
-  )
-
-  lp <- as.vector(data.matrix(x_tr) %*% as.matrix(object@penalized))
-  lpnew <- as.vector(data.matrix(x_te) %*% as.matrix(object@penalized))
-
-  time_tr <- y_tr[, 1L]
-  event_tr <- y_tr[, 2L]
-  idx_ones <- which(event_tr == 1L)
-  if (length(idx_ones) == 0L) {
-    stop("No 1 events in the training fold, please try other random seeds")
-  }
-  survtime_ones <- time_tr[idx_ones]
-  names(survtime_ones) <- idx_ones
-  survtime_ones <- sort(survtime_ones)
-
-  basesurv <- penalized.basesurv(time_tr, event_tr, lp, survtime_ones)
-  p <- exp(exp(lpnew) %*% (-t(basesurv$cumulative_base_hazard)))
-
-  if (nrow(p) != nrow(x_te) || ncol(p) != length(survtime_ones)) {
-    stop("Prediction error when estimating baseline hazard")
-  }
-
-  idx <- length(which(survtime_ones <= pred.at))
-
-  list("p" = p, "idx" = idx)
-}
-
-#' Compute Kaplan-Meier Estimated Survival Probabilities for Calibration
-#'
-#' @importFrom survival survfit
-#' @importFrom survival Surv
-#'
-#' @return list
-#'
-#' @keywords internal
-hdnom.calibrate.internal.true <- function(
-  pred_prob, grp,
-  time, event,
-  pred.at, ngroup) {
-  true_prob <- matrix(NA, ncol = 3L, nrow = ngroup)
-  colnames(true_prob) <- c("Observed", "Lower 95%", "Upper 95%")
-
-  for (i in 1L:ngroup) {
-    time_grp <- time[which(grp == i)]
-    event_grp <- event[which(grp == i)]
-    km <- survfit(Surv(time_grp, event_grp) ~ 1, type = "kaplan-meier")
-    idx <- which(km$time > pred.at)[1L] - 1L
-    km_pred_at <- km$surv[idx]
-    ll_pred_at <- km$lower[idx]
-    ul_pred_at <- km$upper[idx]
-    true_prob[i, ] <- c(km_pred_at, ll_pred_at, ul_pred_at)
-  }
-
-  return(true_prob)
-}
-
-#' Print Calibration Results
-#'
-#' Print Calibration Results
-#'
-#' @param x An object returned by \code{\link{hdnom.calibrate}}.
-#' @param ... Other parameters (not used).
-#'
-#' @method print hdnom.calibrate
-#'
-#' @export
-#'
-#' @examples
-#' NULL
-print.hdnom.calibrate <- function(x, ...) {
-  if (!("hdnom.calibrate" %in% class(x))) {
-    stop('object class must be "hdnom.calibrate"')
-  }
-
-  method <- setdiff(class(x), "hdnom.calibrate")
-
-  switch(
-
-    method,
-
-    glmnet.calibrate.fitting = {
-      cat("High-Dimensional Cox Model Calibration Object\n")
-      cat("Random seed:", attr(x, "seed"), "\n")
-      cat("Calibration method: fitting\n")
-      cat("Model type:", attr(x, "model.type"), "\n")
-      cat("glmnet model alpha:", attr(x, "alpha"), "\n")
-      cat("glmnet model lambda:", attr(x, "lambda"), "\n")
-      if (is.null(attr(x, "pen.factor"))) {
-        cat("glmnet model penalty factor: not specified\n")
-      } else {
-        cat("glmnet model penalty factor: specified\n")
-      }
-      cat("Calibration time point:", attr(x, "pred.at"), "\n")
-      cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
-    },
-
-    glmnet.calibrate.bootstrap = {
-      cat("High-Dimensional Cox Model Calibration Object\n")
-      cat("Random seed:", attr(x, "seed"), "\n")
-      cat("Calibration method: bootstrap\n")
-      cat("Bootstrap samples:", attr(x, "boot.times"), "\n")
-      cat("Model type:", attr(x, "model.type"), "\n")
-      cat("glmnet model alpha:", attr(x, "alpha"), "\n")
-      cat("glmnet model lambda:", attr(x, "lambda"), "\n")
-      if (is.null(attr(x, "pen.factor"))) {
-        cat("glmnet model penalty factor: not specified\n")
-      } else {
-        cat("glmnet model penalty factor: specified\n")
-      }
-      cat("Calibration time point:", attr(x, "pred.at"), "\n")
-      cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
-    },
-
-    glmnet.calibrate.cv = {
-      cat("High-Dimensional Cox Model Calibration Object\n")
-      cat("Random seed:", attr(x, "seed"), "\n")
-      cat("Calibration method: k-fold cross-validation\n")
-      cat("Cross-validation folds:", attr(x, "nfolds"), "\n")
-      cat("Model type:", attr(x, "model.type"), "\n")
-      cat("glmnet model alpha:", attr(x, "alpha"), "\n")
-      cat("glmnet model lambda:", attr(x, "lambda"), "\n")
-      if (is.null(attr(x, "pen.factor"))) {
-        cat("glmnet model penalty factor: not specified\n")
-      } else {
-        cat("glmnet model penalty factor: specified\n")
-      }
-      cat("Calibration time point:", attr(x, "pred.at"), "\n")
-      cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
-    },
-
-    glmnet.calibrate.repeated.cv = {
-      cat("High-Dimensional Cox Model Calibration Object\n")
-      cat("Random seed:", attr(x, "seed"), "\n")
-      cat("Calibration method: repeated cross-validation\n")
-      cat("Cross-validation folds:", attr(x, "nfolds"), "\n")
-      cat("Cross-validation repeated times:", attr(x, "rep.times"), "\n")
-      cat("Model type:", attr(x, "model.type"), "\n")
-      cat("glmnet model alpha:", attr(x, "alpha"), "\n")
-      cat("glmnet model lambda:", attr(x, "lambda"), "\n")
-      if (is.null(attr(x, "pen.factor"))) {
-        cat("glmnet model penalty factor: not specified\n")
-      } else {
-        cat("glmnet model penalty factor: specified\n")
-      }
-      cat("Calibration time point:", attr(x, "pred.at"), "\n")
-      cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
-    },
-
-    ncvreg.calibrate.fitting = {
-      cat("High-Dimensional Cox Model Calibration Object\n")
-      cat("Random seed:", attr(x, "seed"), "\n")
-      cat("Calibration method: fitting\n")
-      cat("Model type:", attr(x, "model.type"), "\n")
-      cat("ncvreg model gamma:", attr(x, "gamma"), "\n")
-      cat("ncvreg model alpha:", attr(x, "alpha"), "\n")
-      cat("ncvreg model lambda:", attr(x, "lambda"), "\n")
-      cat("Calibration time point:", attr(x, "pred.at"), "\n")
-      cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
-    },
-
-    ncvreg.calibrate.bootstrap = {
-      cat("High-Dimensional Cox Model Calibration Object\n")
-      cat("Random seed:", attr(x, "seed"), "\n")
-      cat("Calibration method: bootstrap\n")
-      cat("Bootstrap samples:", attr(x, "boot.times"), "\n")
-      cat("Model type:", attr(x, "model.type"), "\n")
-      cat("ncvreg model gamma:", attr(x, "gamma"), "\n")
-      cat("ncvreg model alpha:", attr(x, "alpha"), "\n")
-      cat("ncvreg model lambda:", attr(x, "lambda"), "\n")
-      cat("Calibration time point:", attr(x, "pred.at"), "\n")
-      cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
-    },
-
-    ncvreg.calibrate.cv = {
-      cat("High-Dimensional Cox Model Calibration Object\n")
-      cat("Random seed:", attr(x, "seed"), "\n")
-      cat("Calibration method: k-fold cross-validation\n")
-      cat("Cross-validation folds:", attr(x, "nfolds"), "\n")
-      cat("Model type:", attr(x, "model.type"), "\n")
-      cat("ncvreg model gamma:", attr(x, "gamma"), "\n")
-      cat("ncvreg model alpha:", attr(x, "alpha"), "\n")
-      cat("ncvreg model lambda:", attr(x, "lambda"), "\n")
-      cat("Calibration time point:", attr(x, "pred.at"), "\n")
-      cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
-    },
-
-    ncvreg.calibrate.repeated.cv = {
-      cat("High-Dimensional Cox Model Calibration Object\n")
-      cat("Random seed:", attr(x, "seed"), "\n")
-      cat("Calibration method: repeated cross-validation\n")
-      cat("Cross-validation folds:", attr(x, "nfolds"), "\n")
-      cat("Cross-validation repeated times:", attr(x, "rep.times"), "\n")
-      cat("Model type:", attr(x, "model.type"), "\n")
-      cat("ncvreg model alpha:", attr(x, "gamma"), "\n")
-      cat("ncvreg model alpha:", attr(x, "alpha"), "\n")
-      cat("ncvreg model lambda:", attr(x, "lambda"), "\n")
-      cat("Calibration time point:", attr(x, "pred.at"), "\n")
-      cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
-    },
-
-    penalized.calibrate.fitting = {
-      cat("High-Dimensional Cox Model Calibration Object\n")
-      cat("Random seed:", attr(x, "seed"), "\n")
-      cat("Calibration method: fitting\n")
-      cat("Model type:", attr(x, "model.type"), "\n")
-      cat("Fused lasso model lambda1:", attr(x, "lambda1"), "\n")
-      cat("Fused lasso model lambda2:", attr(x, "lambda2"), "\n")
-      cat("Calibration time point:", attr(x, "pred.at"), "\n")
-      cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
-    },
-
-    penalized.calibrate.bootstrap = {
-      cat("High-Dimensional Cox Model Calibration Object\n")
-      cat("Random seed:", attr(x, "seed"), "\n")
-      cat("Calibration method: bootstrap\n")
-      cat("Bootstrap samples:", attr(x, "boot.times"), "\n")
-      cat("Model type:", attr(x, "model.type"), "\n")
-      cat("Fused lasso model lambda1:", attr(x, "lambda1"), "\n")
-      cat("Fused lasso model lambda2:", attr(x, "lambda2"), "\n")
-      cat("Calibration time point:", attr(x, "pred.at"), "\n")
-      cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
-    },
-
-    penalized.calibrate.cv = {
-      cat("High-Dimensional Cox Model Calibration Object\n")
-      cat("Random seed:", attr(x, "seed"), "\n")
-      cat("Calibration method: k-fold cross-validation\n")
-      cat("Cross-validation folds:", attr(x, "nfolds"), "\n")
-      cat("Model type:", attr(x, "model.type"), "\n")
-      cat("Fused lasso model lambda1:", attr(x, "lambda1"), "\n")
-      cat("Fused lasso model lambda2:", attr(x, "lambda2"), "\n")
-      cat("Calibration time point:", attr(x, "pred.at"), "\n")
-      cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
-    },
-
-    penalized.calibrate.repeated.cv = {
-      cat("High-Dimensional Cox Model Calibration Object\n")
-      cat("Random seed:", attr(x, "seed"), "\n")
-      cat("Calibration method: repeated cross-validation\n")
-      cat("Cross-validation folds:", attr(x, "nfolds"), "\n")
-      cat("Cross-validation repeated times:", attr(x, "rep.times"), "\n")
-      cat("Model type:", attr(x, "model.type"), "\n")
-      cat("Fused lasso model lambda1:", attr(x, "lambda1"), "\n")
-      cat("Fused lasso model lambda2:", attr(x, "lambda2"), "\n")
-      cat("Calibration time point:", attr(x, "pred.at"), "\n")
-      cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
-    }
-  )
-}
-
-#' Summary of Calibration Results
-#'
-#' Summary of Calibration Results
-#'
-#' @param object An object returned by \code{\link{hdnom.calibrate}}.
-#' @param ... Other parameters (not used).
-#'
-#' @method summary hdnom.calibrate
-#'
-#' @export
-#'
-#' @examples
-#' NULL
-summary.hdnom.calibrate <- function(object, ...) {
-  if (!("hdnom.calibrate" %in% class(object))) {
-    stop('object class must be "hdnom.calibrate"')
-  }
-
-  method <- setdiff(class(object), "hdnom.calibrate")
-
-  switch(
-
-    method,
-
-    glmnet.calibrate.fitting = {
-      attr(object, "alpha") <- NULL
-      attr(object, "lambda") <- NULL
-      attr(object, "pen.factor") <- NULL
-    },
-
-    glmnet.calibrate.bootstrap = {
-      attr(object, "boot.times") <- NULL
-      attr(object, "alpha") <- NULL
-      attr(object, "lambda") <- NULL
-      attr(object, "pen.factor") <- NULL
-    },
-
-    glmnet.calibrate.cv = {
-      attr(object, "nfolds") <- NULL
-      attr(object, "alpha") <- NULL
-      attr(object, "lambda") <- NULL
-      attr(object, "pen.factor") <- NULL
-    },
-
-    glmnet.calibrate.repeated.cv = {
-      attr(object, "nfolds") <- NULL
-      attr(object, "rep.times") <- NULL
-      attr(object, "alpha") <- NULL
-      attr(object, "lambda") <- NULL
-      attr(object, "pen.factor") <- NULL
-    },
-
-    ncvreg.calibrate.fitting = {
-      attr(object, "alpha") <- NULL
-      attr(object, "lambda") <- NULL
-      attr(object, "gamma") <- NULL
-    },
-
-    ncvreg.calibrate.bootstrap = {
-      attr(object, "alpha") <- NULL
-      attr(object, "lambda") <- NULL
-      attr(object, "gamma") <- NULL
-      attr(object, "boot.times") <- NULL
-    },
-
-    ncvreg.calibrate.cv = {
-      attr(object, "alpha") <- NULL
-      attr(object, "lambda") <- NULL
-      attr(object, "gamma") <- NULL
-      attr(object, "nfolds") <- NULL
-    },
-
-    ncvreg.calibrate.repeated.cv = {
-      attr(object, "alpha") <- NULL
-      attr(object, "lambda") <- NULL
-      attr(object, "gamma") <- NULL
-      attr(object, "nfolds") <- NULL
-      attr(object, "rep.times") <- NULL
-    },
-
-    penalized.calibrate.fitting = {
-      attr(object, "lambda1") <- NULL
-      attr(object, "lambda2") <- NULL
-    },
-
-    penalized.calibrate.bootstrap = {
-      attr(object, "lambda1") <- NULL
-      attr(object, "lambda2") <- NULL
-      attr(object, "boot.times") <- NULL
-    },
-
-    penalized.calibrate.cv = {
-      attr(object, "lambda1") <- NULL
-      attr(object, "lambda2") <- NULL
-      attr(object, "nfolds") <- NULL
-    },
-
-    penalized.calibrate.repeated.cv = {
-      attr(object, "lambda1") <- NULL
-      attr(object, "lambda2") <- NULL
-      attr(object, "nfolds") <- NULL
-      attr(object, "rep.times") <- NULL
-    }
-  )
-
-  attr(object, "model.type") <- NULL
-  attr(object, "pred.at") <- NULL
-  attr(object, "ngroup") <- NULL
-  attr(object, "risk.group") <- NULL
-  attr(object, "surv.time") <- NULL
-  attr(object, "surv.event") <- NULL
-  attr(object, "seed") <- NULL
-
-  cat("  Calibration Summary Table\n")
-  class(object) <- "matrix"
-  print(object)
-}
-
-#' Plot Calibration Results
-#'
-#' Plot Calibration Results
-#'
-#' @param x An object returned by \code{\link{hdnom.calibrate}}.
-#' @param xlim x axis limits of the plot.
-#' @param ylim y axis limits of the plot.
-#' @param col.pal Color palette to use. Possible values are
-#' \code{"JCO"}, \code{"Lancet"}, \code{"NPG"}, and \code{"AAAS"}.
-#' Default is \code{"JCO"}.
-#' @param ... Other parameters for \code{plot}.
-#'
-#' @method plot hdnom.calibrate
-#'
-#' @export
-#'
-#' @importFrom ggplot2 ggplot aes_string geom_errorbar
-#' geom_line geom_point geom_abline xlab ylab theme_bw
-#'
-#' @examples
-#' NULL
-plot.hdnom.calibrate <- function(
-  x, xlim = c(0, 1), ylim = c(0, 1),
-  col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ...) {
-  if (!("hdnom.calibrate" %in% class(x))) {
-    stop('object class must be "hdnom.calibrate"')
-  }
-
-  df <- data.frame(
-    "pre" = x[, "Predicted"], "obs" = x[, "Observed"],
-    "ll" = x[, "Lower 95%"], "ul" = x[, "Upper 95%"]
-  )
-
-  col.pal <- match.arg(col.pal)
-  col_pal <- switch(
-    col.pal,
-    JCO = palette.jco()[1], Lancet = palette.lancet()[1],
-    NPG = palette.npg()[1], AAAS = palette.aaas()[1]
-  )
-
-  ggplot(
-    df,
-    aes_string(
-      x = "pre", y = "obs",
-      xmin = xlim[1L], xmax = xlim[2L],
-      ymin = ylim[1L], ymax = ylim[2L]
-    )
-  ) +
-    geom_abline(slope = 1, intercept = 0, colour = "grey") +
-    geom_errorbar(aes_string(ymin = "ll", ymax = "ul"), colour = col_pal) +
-    geom_line(colour = col_pal) +
-    geom_point(size = 3, colour = col_pal) +
-    xlab("Predicted Survival Probability") +
-    ylab("Observed Survival Probability") +
-    theme_bw()
 }

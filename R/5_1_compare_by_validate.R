@@ -1,6 +1,6 @@
-#' Compare High-Dimensional Cox Models by Model Validation
+#' Compare high-dimensional Cox models by model validation
 #'
-#' Compare High-Dimensional Cox Models by Model Validation
+#' Compare high-dimensional Cox models by model validation
 #'
 #' @param x Matrix of training data used for fitting the model;
 #' on which to run the validation.
@@ -28,7 +28,7 @@
 #' @param trace Logical. Output the validation progress or not.
 #' Default is \code{TRUE}.
 #'
-#' @export hdnom.compare.validate
+#' @export compare_by_validate
 #'
 #' @importFrom ggplot2 ggplot
 #'
@@ -56,7 +56,7 @@
 #' event <- smart$EVENT[1:1000]
 #'
 #' # Compare lasso and adaptive lasso by 5-fold cross-validation
-#' cmp.val.cv <- hdnom.compare.validate(
+#' cmp.val.cv <- compare_by_validate(
 #'   x, time, event,
 #'   model.type = c("lasso", "alasso"),
 #'   method = "cv", nfolds = 5, tauc.type = "UNO",
@@ -67,7 +67,7 @@
 #' summary(cmp.val.cv)
 #' plot(cmp.val.cv)
 #' plot(cmp.val.cv, interval = TRUE)
-hdnom.compare.validate <- function(
+compare_by_validate <- function(
   x, time, event,
   model.type =
     c(
@@ -123,13 +123,13 @@ hdnom.compare.validate <- function(
       model.type[i],
 
       lasso = {
-        cvfit <- hdcox.lasso(
+        cvfit <- fit_lasso(
           x, Surv(time, event),
           nfolds = 5L,
           rule = "lambda.1se", seed = seed
         )
 
-        tauclist[[i]] <- hdnom.validate(
+        tauclist[[i]] <- hdnom::validate(
           x, time, event,
           model.type = "lasso",
           alpha = 1, lambda = cvfit$"lasso_best_lambda",
@@ -140,13 +140,13 @@ hdnom.compare.validate <- function(
       },
 
       alasso = {
-        cvfit <- hdcox.alasso(
+        cvfit <- fit_alasso(
           x, Surv(time, event),
           nfolds = 5L,
           rule = "lambda.1se", seed = rep(seed, 2)
         )
 
-        tauclist[[i]] <- hdnom.validate(
+        tauclist[[i]] <- hdnom::validate(
           x, time, event,
           model.type = "alasso",
           alpha = 1, lambda = cvfit$"alasso_best_lambda", pen.factor = cvfit$"pen_factor",
@@ -157,9 +157,9 @@ hdnom.compare.validate <- function(
       },
 
       flasso = {
-        cvfit <- hdcox.flasso(x, Surv(time, event), nfolds = 5L, seed = seed)
+        cvfit <- fit_flasso(x, Surv(time, event), nfolds = 5L, seed = seed)
 
-        tauclist[[i]] <- hdnom.validate(
+        tauclist[[i]] <- hdnom::validate(
           x, time, event,
           model.type = "flasso",
           lambda1 = cvfit$"flasso_best_lambda1",
@@ -171,14 +171,14 @@ hdnom.compare.validate <- function(
       },
 
       enet = {
-        cvfit <- hdcox.enet(
+        cvfit <- fit_enet(
           x, Surv(time, event),
           nfolds = 5L,
           alphas = c(0.1, 0.25, 0.5, 0.75, 0.9), # to reduce computation time
           rule = "lambda.1se", seed = seed
         )
 
-        tauclist[[i]] <- hdnom.validate(
+        tauclist[[i]] <- hdnom::validate(
           x, time, event,
           model.type = "enet",
           alpha = cvfit$"enet_best_alpha", lambda = cvfit$"enet_best_lambda",
@@ -189,14 +189,14 @@ hdnom.compare.validate <- function(
       },
 
       aenet = {
-        cvfit <- hdcox.aenet(
+        cvfit <- fit_aenet(
           x, Surv(time, event),
           nfolds = 5L,
           alphas = c(0.1, 0.25, 0.5, 0.75, 0.9), # to reduce computation time
           rule = "lambda.1se", seed = rep(seed, 2)
         )
 
-        tauclist[[i]] <- hdnom.validate(
+        tauclist[[i]] <- hdnom::validate(
           x, time, event,
           model.type = "aenet",
           alpha = cvfit$"aenet_best_alpha", lambda = cvfit$"aenet_best_lambda", pen.factor = cvfit$"pen_factor",
@@ -207,9 +207,9 @@ hdnom.compare.validate <- function(
       },
 
       mcp = {
-        cvfit <- hdcox.mcp(x, Surv(time, event), nfolds = 5L, seed = seed)
+        cvfit <- fit_mcp(x, Surv(time, event), nfolds = 5L, seed = seed)
 
-        tauclist[[i]] <- hdnom.validate(
+        tauclist[[i]] <- hdnom::validate(
           x, time, event,
           model.type = "mcp",
           alpha = 1, gamma = cvfit$"mcp_best_gamma", lambda = cvfit$"mcp_best_lambda",
@@ -220,14 +220,14 @@ hdnom.compare.validate <- function(
       },
 
       mnet = {
-        cvfit <- hdcox.mnet(
+        cvfit <- fit_mnet(
           x, Surv(time, event),
           nfolds = 5L,
           alphas = c(0.1, 0.25, 0.5, 0.75, 0.9), # to reduce computation time
           seed = seed
         )
 
-        tauclist[[i]] <- hdnom.validate(
+        tauclist[[i]] <- hdnom::validate(
           x, time, event,
           model.type = "mnet",
           alpha = cvfit$"mnet_best_alpha", gamma = cvfit$"mnet_best_gamma", lambda = cvfit$"mnet_best_lambda",
@@ -238,9 +238,9 @@ hdnom.compare.validate <- function(
       },
 
       scad = {
-        cvfit <- hdcox.scad(x, Surv(time, event), nfolds = 5L, seed = seed)
+        cvfit <- fit_scad(x, Surv(time, event), nfolds = 5L, seed = seed)
 
-        tauclist[[i]] <- hdnom.validate(
+        tauclist[[i]] <- hdnom::validate(
           x, time, event,
           model.type = "scad",
           alpha = 1, gamma = cvfit$"scad_best_gamma", lambda = cvfit$"scad_best_lambda",
@@ -251,14 +251,14 @@ hdnom.compare.validate <- function(
       },
 
       snet = {
-        cvfit <- hdcox.snet(
+        cvfit <- fit_snet(
           x, Surv(time, event),
           nfolds = 5L,
           alphas = c(0.1, 0.25, 0.5, 0.75, 0.9), # to reduce computation time
           seed = seed
         )
 
-        tauclist[[i]] <- hdnom.validate(
+        tauclist[[i]] <- hdnom::validate(
           x, time, event,
           model.type = "snet",
           alpha = cvfit$"snet_best_alpha", gamma = cvfit$"snet_best_gamma", lambda = cvfit$"snet_best_lambda",
@@ -274,168 +274,4 @@ hdnom.compare.validate <- function(
   class(tauclist) <- c("hdnom.compare.validate")
 
   tauclist
-}
-
-#' Print Model Comparison by Validation Results
-#'
-#' Print Model Comparison by Validation Results
-#'
-#' @param x An object returned by \code{\link{hdnom.compare.validate}}.
-#' @param ... Other parameters (not used).
-#'
-#' @method print hdnom.compare.validate
-#'
-#' @export
-#'
-#' @examples
-#' NULL
-print.hdnom.compare.validate <- function(x, ...) {
-  if (!("hdnom.compare.validate" %in% class(x))) {
-    stop('object class must be "hdnom.compare.validate"')
-  }
-
-  for (i in 1L:length(x)) {
-    print(x[[i]])
-    cat("\n\n")
-  }
-}
-
-#' Summary of Model Comparison by Validation Results
-#'
-#' Summary of Model Comparison by Validation Results
-#'
-#' @param object An object \code{\link{hdnom.compare.validate}}.
-#' @param silent Print summary table header or not,
-#' default is \code{FALSE}.
-#' @param ... Other parameters (not used).
-#'
-#' @method summary hdnom.compare.validate
-#'
-#' @export
-#'
-#' @examples
-#' NULL
-summary.hdnom.compare.validate <- function(object, silent = FALSE, ...) {
-  if (!("hdnom.compare.validate" %in% class(object))) {
-    stop('object class must be "hdnom.compare.validate"')
-  }
-
-  for (i in 1L:length(object)) {
-    cat("Model type:", names(object)[i], "\n")
-    print(summary(object[[i]], silent = TRUE))
-    cat("\n")
-  }
-}
-
-#' Plot Model Comparison by Validation Results
-#'
-#' Plot Model Comparison by Validation Results
-#'
-#' @param x An object returned by \code{\link{hdnom.compare.validate}}.
-#' @param interval Show maximum, minimum, 0.25, and 0.75 quantiles of
-#' time-dependent AUC as ribbons? Default is \code{FALSE}.
-#' @param col.pal Color palette to use. Possible values are
-#' \code{"JCO"}, \code{"Lancet"}, \code{"NPG"}, and \code{"AAAS"}.
-#' Default is \code{"JCO"}.
-#' @param ylim Range of y coordinates. For example, \code{c(0.5, 1)}.
-#' @param ... Other parameters (not used).
-#'
-#' @method plot hdnom.compare.validate
-#'
-#' @importFrom ggplot2 ggplot aes_string geom_point geom_line
-#' scale_x_continuous scale_colour_manual theme_bw ylab coord_cartesian
-#'
-#' @export
-#'
-#' @examples
-#' NULL
-plot.hdnom.compare.validate <- function(
-  x, interval = FALSE,
-  col.pal = c("JCO", "Lancet", "NPG", "AAAS"),
-  ylim = NULL, ...) {
-  if (!("hdnom.compare.validate" %in% class(x))) {
-    stop('object class must be "hdnom.compare.validate"')
-  }
-
-  n <- length(x)
-  dflist <- vector("list", n)
-
-  for (i in 1L:n) {
-    dflist[[i]] <- as.data.frame(t(summary(x[[i]], silent = TRUE)))
-    tauc_time <- attr(x[[i]], "tauc.time")
-
-    # special processing for repeated cv
-    if (any(grepl(pattern = "validate.repeated.cv", class(x[[i]])))) {
-      names(dflist[[i]]) <- sapply(strsplit(names(dflist[[i]]), "Mean of "), "[", 2L)
-    }
-
-    dflist[[i]][, "Time"] <- tauc_time
-    dflist[[i]][, "Model"] <- names(x)[i]
-    names(dflist[[i]])[which(names(dflist[[i]]) == "0.25 Qt.")] <- "Qt25"
-    names(dflist[[i]])[which(names(dflist[[i]]) == "0.75 Qt.")] <- "Qt75"
-  }
-
-  df <- Reduce("rbind", dflist)
-
-  col.pal <- match.arg(col.pal)
-  col_pal <- switch(
-    col.pal,
-    JCO = palette.jco(), Lancet = palette.lancet(),
-    NPG = palette.npg(), AAAS = palette.aaas()
-  )
-
-  if (!interval) {
-    ggplot(
-      data = df,
-      aes_string(x = "Time", y = "Mean", colour = "Model", fill = "Model")
-    ) +
-      geom_point() +
-      geom_line() +
-      geom_point(
-        data = df,
-        aes_string(x = "Time", y = "Median", colour = "Model", fill = "Model")
-      ) +
-      geom_line(
-        data = df,
-        aes_string(x = "Time", y = "Median", colour = "Model"),
-        linetype = "dashed"
-      ) +
-      scale_x_continuous(breaks = df$"Time") +
-      scale_colour_manual(values = col_pal) +
-      coord_cartesian(ylim = ylim) +
-      theme_bw() +
-      ylab("Area under ROC")
-  } else {
-    ggplot(
-      data = df,
-      aes_string(x = "Time", y = "Mean", colour = "Model", fill = "Model")
-    ) +
-      geom_point() +
-      geom_line() +
-      geom_point(
-        data = df,
-        aes_string(x = "Time", y = "Median", colour = "Model", fill = "Model")
-      ) +
-      geom_line(
-        data = df,
-        aes_string(x = "Time", y = "Median", colour = "Model"),
-        linetype = "dashed"
-      ) +
-      geom_ribbon(
-        data = df,
-        aes_string(ymin = "Qt25", ymax = "Qt75", colour = "Model", fill = "Model"),
-        linetype = 0, alpha = 0.1
-      ) +
-      geom_ribbon(
-        data = df,
-        aes_string(ymin = "Min", ymax = "Max", colour = "Model", fill = "Model"),
-        linetype = 0, alpha = 0.05
-      ) +
-      scale_x_continuous(breaks = df$"Time") +
-      scale_colour_manual(values = col_pal) +
-      scale_fill_manual(values = col_pal) +
-      coord_cartesian(ylim = ylim) +
-      theme_bw() +
-      ylab("Area under ROC")
-  }
 }

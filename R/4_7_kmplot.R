@@ -1,11 +1,11 @@
-#' Kaplan-Meier Plot with Number at Risk Table for Internal Calibration and
-#' External Calibration Results
+#' Kaplan-Meier plot with number at risk table for internal calibration and
+#' external calibration results
 #'
-#' Kaplan-Meier Plot with Number at Risk Table for Internal Calibration and
-#' External Calibration Results
+#' Kaplan-Meier plot with number at risk table for internal calibration and
+#' external calibration results
 #'
-#' @param object An object returned by \code{\link{hdnom.calibrate}} or
-#' \code{\link{hdnom.external.calibrate}}.
+#' @param object An object returned by \code{\link{calibrate}} or
+#' \code{\link{calibrate_external}}.
 #' @param group.name Risk group labels. Default is
 #' Group 1, Group 2, ..., Group k.
 #' @param time.at Time points to evaluate the number at risk.
@@ -17,7 +17,7 @@
 #' @importFrom survival Surv
 #' @importFrom stats formula
 #'
-#' @export hdnom.kmplot
+#' @export kmplot
 #'
 #' @examples
 #' library("survival")
@@ -38,10 +38,10 @@
 #' event_new <- smart$EVENT[1001:2000]
 #'
 #' # Fit Cox model with lasso penalty
-#' fit <- hdcox.lasso(x, Surv(time, event), nfolds = 5, rule = "lambda.1se", seed = 11)
+#' fit <- fit_lasso(x, Surv(time, event), nfolds = 5, rule = "lambda.1se", seed = 11)
 #'
 #' # Internal calibration
-#' cal.int <- hdnom.calibrate(
+#' cal.int <- calibrate(
 #'   x, time, event,
 #'   model.type = "lasso",
 #'   alpha = 1, lambda = fit$lasso_best_lambda,
@@ -49,29 +49,29 @@
 #'   pred.at = 365 * 9, ngroup = 3
 #' )
 #'
-#' hdnom.kmplot(
+#' kmplot(
 #'   cal.int,
 #'   group.name = c("High risk", "Medium risk", "Low risk"),
 #'   time.at = 1:6 * 365
 #' )
 #'
 #' # External calibration
-#' cal.ext <- hdnom.external.calibrate(
+#' cal.ext <- calibrate_external(
 #'   fit, x, time, event,
 #'   x_new, time_new, event_new,
 #'   pred.at = 365 * 5, ngroup = 3
 #' )
 #'
-#' hdnom.kmplot(
+#' kmplot(
 #'   cal.ext,
 #'   group.name = c("High risk", "Medium risk", "Low risk"),
 #'   time.at = 1:6 * 365
 #' )
-hdnom.kmplot <- function(
+kmplot <- function(
   object, group.name = NULL, time.at = NULL,
   col.pal = c("JCO", "Lancet", "NPG", "AAAS")) {
-  if (!(any(c("hdnom.calibrate", "hdnom.external.calibrate") %in% class(object)))) {
-    stop('object class must be "hdnom.calibrate" or "hdnom.external.calibrate"')
+  if (!(any(c("hdnom.calibrate", "hdnom.calibrate.external") %in% class(object)))) {
+    stop('object class must be "hdnom.calibrate" or "hdnom.calibrate.external"')
   }
 
   time <- attr(object, "surv.time")
@@ -80,7 +80,7 @@ hdnom.kmplot <- function(
   df <- data.frame(time, event, grp)
   fit <- survfit(formula("Surv(time, event) ~ grp"))
   col.pal <- match.arg(col.pal)
-  kmplot(
+  kmplot_raw(
     fit = fit, group.name = group.name,
     time.at = time.at, surv.df = df, col.pal = col.pal
   )
@@ -103,7 +103,7 @@ hdnom.kmplot <- function(
 #' scale_y_discrete unit annotate
 #'
 #' @keywords internal
-kmplot <- function(
+kmplot_raw <- function(
   fit, group.name = NULL, time.at = NULL,
   surv.df = NULL, col.pal = NULL) {
   if (is.null(group.name)) {
@@ -132,8 +132,8 @@ kmplot <- function(
 
   col_pal <- switch(
     col.pal,
-    JCO = palette.jco(), Lancet = palette.lancet(),
-    NPG = palette.npg(), AAAS = palette.aaas()
+    JCO = palette_jco(), Lancet = palette_lancet(),
+    NPG = palette_npg(), AAAS = palette_aaas()
   )
 
   # kaplan-meier plot

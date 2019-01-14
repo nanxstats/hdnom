@@ -11,7 +11,7 @@
 #' @importFrom foreach foreach
 #'
 #' @keywords internal
-glmnet.tune.alpha <- function(..., alphas, seed, parallel) {
+glmnet_tune_alpha <- function(..., alphas, seed, parallel) {
   if (!parallel) {
     model_list <- vector("list", length(alphas))
     for (i in 1L:length(alphas)) {
@@ -44,7 +44,7 @@ glmnet.tune.alpha <- function(..., alphas, seed, parallel) {
 #' @importFrom foreach foreach
 #'
 #' @keywords internal
-ncvreg.tune.gamma <- function(..., gammas, eps, max.iter, seed, parallel) {
+ncvreg_tune_gamma <- function(..., gammas, eps, max.iter, seed, parallel) {
   if (!parallel) {
     model_list <- vector("list", length(gammas))
     for (i in 1L:length(gammas)) {
@@ -86,7 +86,7 @@ ncvreg.tune.gamma <- function(..., gammas, eps, max.iter, seed, parallel) {
 #' @importFrom foreach foreach
 #'
 #' @keywords internal
-ncvreg.tune.gamma.alpha <- function(
+ncvreg_tune_gamma_alpha <- function(
   ..., gammas, alphas, eps, max.iter, seed, parallel) {
   if (!parallel) {
     model_list <- vector("list", length(gammas))
@@ -144,7 +144,7 @@ ncvreg.tune.gamma.alpha <- function(
 #' @importFrom foreach foreach
 #'
 #' @keywords internal
-penalized.tune.lambda <- function(..., lambda1, lambda2, seed, trace, parallel) {
+penalized_tune_lambda <- function(..., lambda1, lambda2, seed, trace, parallel) {
   nlambda1 <- length(lambda1)
   nlambda2 <- length(lambda2)
 

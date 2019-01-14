@@ -1,6 +1,6 @@
-#' Compare High-Dimensional Cox Models by Model Calibration
+#' Compare high-dimensional Cox models by model calibration
 #'
-#' Compare High-Dimensional Cox Models by Model Calibration
+#' Compare high-dimensional Cox models by model calibration
 #'
 #' @param x Matrix of training data used for fitting the model;
 #' on which to run the calibration.
@@ -24,7 +24,7 @@
 #' @param trace Logical. Output the calibration progress or not.
 #' Default is \code{TRUE}.
 #'
-#' @export hdnom.compare.calibrate
+#' @export compare_by_calibrate
 #'
 #' @examples
 #' # Load imputed SMART data
@@ -34,7 +34,7 @@
 #' event <- smart$EVENT
 #'
 #' # Compare lasso and adaptive lasso by 5-fold cross-validation
-#' cmp.cal.cv <- hdnom.compare.calibrate(
+#' cmp.cal.cv <- compare_by_calibrate(
 #'   x, time, event,
 #'   model.type = c("lasso", "alasso"),
 #'   method = "fitting",
@@ -44,7 +44,7 @@
 #' print(cmp.cal.cv)
 #' summary(cmp.cal.cv)
 #' plot(cmp.cal.cv)
-hdnom.compare.calibrate <- function(
+compare_by_calibrate <- function(
   x, time, event,
   model.type =
     c(
@@ -106,13 +106,13 @@ hdnom.compare.calibrate <- function(
       model.type[i],
 
       lasso = {
-        cvfit <- hdcox.lasso(
+        cvfit <- fit_lasso(
           x, Surv(time, event),
           nfolds = 5L,
           rule = "lambda.1se", seed = seed
         )
 
-        problist[[i]] <- hdnom.calibrate(
+        problist[[i]] <- hdnom::calibrate(
           x, time, event,
           model.type = "lasso",
           alpha = 1, lambda = cvfit$"lasso_best_lambda",
@@ -123,13 +123,13 @@ hdnom.compare.calibrate <- function(
       },
 
       alasso = {
-        cvfit <- hdcox.alasso(
+        cvfit <- fit_alasso(
           x, Surv(time, event),
           nfolds = 5L,
           rule = "lambda.1se", seed = rep(seed, 2)
         )
 
-        problist[[i]] <- hdnom.calibrate(
+        problist[[i]] <- hdnom::calibrate(
           x, time, event,
           model.type = "alasso",
           alpha = 1, lambda = cvfit$"alasso_best_lambda", pen.factor = cvfit$"pen_factor",
@@ -140,9 +140,9 @@ hdnom.compare.calibrate <- function(
       },
 
       flasso = {
-        cvfit <- hdcox.flasso(x, Surv(time, event), nfolds = 5L, seed = seed)
+        cvfit <- fit_flasso(x, Surv(time, event), nfolds = 5L, seed = seed)
 
-        problist[[i]] <- hdnom.calibrate(
+        problist[[i]] <- hdnom::calibrate(
           x, time, event,
           model.type = "flasso",
           lambda1 = cvfit$"flasso_best_lambda1",
@@ -154,14 +154,14 @@ hdnom.compare.calibrate <- function(
       },
 
       enet = {
-        cvfit <- hdcox.enet(
+        cvfit <- fit_enet(
           x, Surv(time, event),
           nfolds = 5L,
           alphas = c(0.1, 0.25, 0.5, 0.75, 0.9), # to reduce computation time
           rule = "lambda.1se", seed = seed
         )
 
-        problist[[i]] <- hdnom.calibrate(
+        problist[[i]] <- hdnom::calibrate(
           x, time, event,
           model.type = "enet",
           alpha = cvfit$"enet_best_alpha", lambda = cvfit$"enet_best_lambda",
@@ -172,14 +172,14 @@ hdnom.compare.calibrate <- function(
       },
 
       aenet = {
-        cvfit <- hdcox.aenet(
+        cvfit <- fit_aenet(
           x, Surv(time, event),
           nfolds = 5L,
           alphas = c(0.1, 0.25, 0.5, 0.75, 0.9), # to reduce computation time
           rule = "lambda.1se", seed = rep(seed, 2)
         )
 
-        problist[[i]] <- hdnom.calibrate(
+        problist[[i]] <- hdnom::calibrate(
           x, time, event,
           model.type = "aenet",
           alpha = cvfit$"aenet_best_alpha", lambda = cvfit$"aenet_best_lambda", pen.factor = cvfit$"pen_factor",
@@ -190,9 +190,9 @@ hdnom.compare.calibrate <- function(
       },
 
       mcp = {
-        cvfit <- hdcox.mcp(x, Surv(time, event), nfolds = 5L, seed = seed)
+        cvfit <- fit_mcp(x, Surv(time, event), nfolds = 5L, seed = seed)
 
-        problist[[i]] <- hdnom.calibrate(
+        problist[[i]] <- hdnom::calibrate(
           x, time, event,
           model.type = "mcp",
           alpha = 1, gamma = cvfit$"mcp_best_gamma", lambda = cvfit$"mcp_best_lambda",
@@ -203,14 +203,14 @@ hdnom.compare.calibrate <- function(
       },
 
       mnet = {
-        cvfit <- hdcox.mnet(
+        cvfit <- fit_mnet(
           x, Surv(time, event),
           nfolds = 5L,
           alphas = c(0.1, 0.25, 0.5, 0.75, 0.9), # to reduce computation time
           seed = seed
         )
 
-        problist[[i]] <- hdnom.calibrate(
+        problist[[i]] <- hdnom::calibrate(
           x, time, event,
           model.type = "mnet",
           alpha = cvfit$"mnet_best_alpha", gamma = cvfit$"mnet_best_gamma", lambda = cvfit$"mnet_best_lambda",
@@ -221,9 +221,9 @@ hdnom.compare.calibrate <- function(
       },
 
       scad = {
-        cvfit <- hdcox.scad(x, Surv(time, event), nfolds = 5L, seed = seed)
+        cvfit <- fit_scad(x, Surv(time, event), nfolds = 5L, seed = seed)
 
-        problist[[i]] <- hdnom.calibrate(
+        problist[[i]] <- hdnom::calibrate(
           x, time, event,
           model.type = "scad",
           alpha = 1, gamma = cvfit$"scad_best_gamma", lambda = cvfit$"scad_best_lambda",
@@ -234,14 +234,14 @@ hdnom.compare.calibrate <- function(
       },
 
       snet = {
-        cvfit <- hdcox.snet(
+        cvfit <- fit_snet(
           x, Surv(time, event),
           nfolds = 5L,
           alphas = c(0.1, 0.25, 0.5, 0.75, 0.9), # to reduce computation time
           seed = seed
         )
 
-        problist[[i]] <- hdnom.calibrate(
+        problist[[i]] <- hdnom::calibrate(
           x, time, event,
           model.type = "snet",
           alpha = cvfit$"snet_best_alpha", gamma = cvfit$"snet_best_gamma", lambda = cvfit$"snet_best_lambda",
@@ -257,123 +257,4 @@ hdnom.compare.calibrate <- function(
   class(problist) <- c("hdnom.compare.calibrate")
 
   problist
-}
-
-#' Print Model Comparison by Calibration Results
-#'
-#' Print Model Comparison by Calibration Results
-#'
-#' @param x An object returned by \code{\link{hdnom.compare.calibrate}}.
-#' @param ... Other parameters (not used).
-#'
-#' @method print hdnom.compare.calibrate
-#'
-#' @export
-#'
-#' @examples
-#' NULL
-print.hdnom.compare.calibrate <- function(x, ...) {
-  if (!("hdnom.compare.calibrate" %in% class(x))) {
-    stop('object class must be "hdnom.compare.calibrate"')
-  }
-
-  for (i in 1L:length(x)) {
-    print(x[[i]])
-    cat("\n")
-  }
-}
-
-#' Summary of Model Comparison by Calibration Results
-#'
-#' Summary of Model Comparison by Calibration Results
-#'
-#' @param object An object returned by \code{\link{hdnom.compare.calibrate}}.
-#' @param ... Other parameters (not used).
-#'
-#' @method summary hdnom.compare.calibrate
-#'
-#' @export
-#'
-#' @examples
-#' NULL
-summary.hdnom.compare.calibrate <- function(object, ...) {
-  if (!("hdnom.compare.calibrate" %in% class(object))) {
-    stop('object class must be "hdnom.compare.calibrate"')
-  }
-
-  for (i in 1L:length(object)) {
-    cat("  Model type:", names(object)[i], "\n")
-    summary(object[[i]])
-    cat("\n")
-  }
-}
-
-#' Plot Model Comparison by Calibration Results
-#'
-#' Plot Model Comparison by Calibration Results
-#'
-#' @param x An object returned by \code{\link{hdnom.compare.calibrate}}.
-#' @param xlim x axis limits of the plot.
-#' @param ylim y axis limits of the plot.
-#' @param col.pal Color palette to use. Possible values are
-#' \code{"JCO"}, \code{"Lancet"}, \code{"NPG"}, and \code{"AAAS"}.
-#' Default is \code{"JCO"}.
-#' @param ... Other parameters (not used).
-#'
-#' @method plot hdnom.compare.calibrate
-#'
-#' @export
-#'
-#' @importFrom ggplot2 ggplot aes_string geom_errorbar
-#' geom_line geom_point geom_abline scale_colour_manual
-#' xlab ylab theme_bw
-#'
-#' @examples
-#' NULL
-plot.hdnom.compare.calibrate <- function(
-  x, xlim = c(0, 1), ylim = c(0, 1),
-  col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ...) {
-  if (!("hdnom.compare.calibrate" %in% class(x))) {
-    stop('object class must be "hdnom.compare.calibrate"')
-  }
-
-  n <- length(x)
-  dflist <- vector("list", n)
-
-  for (i in 1L:n) {
-    dflist[[i]] <- data.frame(
-      "pre" = x[[i]][, "Predicted"],
-      "obs" = x[[i]][, "Observed"],
-      "ll" = x[[i]][, "Lower 95%"],
-      "ul" = x[[i]][, "Upper 95%"]
-    )
-    dflist[[i]][, "Model"] <- names(x)[i]
-  }
-
-  df <- Reduce("rbind", dflist)
-
-  col.pal <- match.arg(col.pal)
-  col_pal <- switch(
-    col.pal,
-    JCO = palette.jco(), Lancet = palette.lancet(),
-    NPG = palette.npg(), AAAS = palette.aaas()
-  )
-
-  ggplot(
-    df,
-    aes_string(
-      x = "pre", y = "obs",
-      xmin = xlim[1L], xmax = xlim[2L],
-      ymin = ylim[1L], ymax = ylim[2L],
-      colour = "Model"
-    )
-  ) +
-    geom_errorbar(aes_string(ymin = "ll", ymax = "ul"), width = 0.02) +
-    geom_line() +
-    geom_point(size = 2) +
-    geom_abline(slope = 1, intercept = 0, colour = "grey") +
-    xlab("Predicted Survival Probability") +
-    ylab("Observed Survival Probability") +
-    scale_colour_manual(values = col_pal) +
-    theme_bw()
 }
