@@ -1,4 +1,4 @@
-# print ------------------------------------------------------------------------
+# print.nomogram.raw -----------------------------------------------------------
 
 # The following code is derived from the code at
 # https://github.com/harrelfe/rms/blob/master/R/nomogram.s
@@ -36,7 +36,7 @@ print.nomogram.raw <- function(x, dec = 0, ...) {
   invisible()
 }
 
-# plot -------------------------------------------------------------------------
+# plot.nomogram.raw ------------------------------------------------------------
 
 # The following code is derived from the code at
 # https://github.com/harrelfe/rms/blob/master/R/plot.nomogram.s
