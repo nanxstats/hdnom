@@ -80,7 +80,7 @@
       <h1>An Introduction to hdnom</h1>
                         <h4 class="author">Nan Xiao &lt;<a href="https://nanx.me" class="uri">https://nanx.me</a>&gt; <br> Miaozhu Li &lt;<a href="http://miaozhu.li" class="uri">http://miaozhu.li</a>&gt;</h4>
             
-            <h4 class="date">2019-01-13</h4>
+            <h4 class="date">2019-01-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/road2stat/hdnom/blob/master/vignettes/hdnom.Rmd"><code>vignettes/hdnom.Rmd</code></a></small>
       <div class="hidden name"><code>hdnom.Rmd</code></div>
@@ -103,53 +103,78 @@
 <p>To free the users from the tedious and error-prone parameter tuning process, <code>hdnom</code> provides several functions for automatic parameter tuning and model selection, including the following model types:</p>
 <table class="table">
 <colgroup>
-<col width="26%">
-<col width="38%">
+<col width="24%">
+<col width="35%">
+<col width="40%">
 </colgroup>
 <thead><tr class="header">
-<th>Function Name</th>
-<th>Model Type</th>
+<th>Function name</th>
+<th>Model type</th>
+<th>Auto-tuned hyperparameters</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td><code><a href="../reference/hdcox.lasso.html">hdcox.lasso()</a></code></td>
+<td><code><a href="../reference/fit_lasso.html">fit_lasso()</a></code></td>
 <td>Lasso</td>
+<td><span class="math inline">\(\lambda\)</span></td>
 </tr>
 <tr class="even">
-<td><code><a href="../reference/hdcox.alasso.html">hdcox.alasso()</a></code></td>
+<td><code><a href="../reference/fit_alasso.html">fit_alasso()</a></code></td>
 <td>Adaptive lasso</td>
+<td><span class="math inline">\(\lambda\)</span></td>
 </tr>
 <tr class="odd">
-<td><code><a href="../reference/hdcox.flasso.html">hdcox.flasso()</a></code></td>
-<td>Fused lasso</td>
-</tr>
-<tr class="even">
-<td><code><a href="../reference/hdcox.enet.html">hdcox.enet()</a></code></td>
+<td><code><a href="../reference/fit_enet.html">fit_enet()</a></code></td>
 <td>Elastic-net</td>
+<td>
+<span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\alpha\)</span>
+</td>
 </tr>
-<tr class="odd">
-<td><code><a href="../reference/hdcox.aenet.html">hdcox.aenet()</a></code></td>
+<tr class="even">
+<td><code><a href="../reference/fit_aenet.html">fit_aenet()</a></code></td>
 <td>Adaptive elastic-net</td>
+<td>
+<span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\alpha\)</span>
+</td>
 </tr>
-<tr class="even">
-<td><code><a href="../reference/hdcox.mcp.html">hdcox.mcp()</a></code></td>
+<tr class="odd">
+<td><code><a href="../reference/fit_mcp.html">fit_mcp()</a></code></td>
 <td>MCP</td>
-</tr>
-<tr class="odd">
-<td><code><a href="../reference/hdcox.mnet.html">hdcox.mnet()</a></code></td>
-<td>Mnet (MCP + elastic-net)</td>
+<td>
+<span class="math inline">\(\gamma\)</span>, <span class="math inline">\(\lambda\)</span>
+</td>
 </tr>
 <tr class="even">
-<td><code><a href="../reference/hdcox.scad.html">hdcox.scad()</a></code></td>
-<td>SCAD</td>
+<td><code><a href="../reference/fit_mnet.html">fit_mnet()</a></code></td>
+<td>Mnet (MCP + <span class="math inline">\(\ell_2\)</span>)</td>
+<td>
+<span class="math inline">\(\gamma\)</span>, <span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\alpha\)</span>
+</td>
 </tr>
 <tr class="odd">
-<td><code><a href="../reference/hdcox.snet.html">hdcox.snet()</a></code></td>
-<td>Snet (SCAD + elastic-net)</td>
+<td><code><a href="../reference/fit_scad.html">fit_scad()</a></code></td>
+<td>SCAD</td>
+<td>
+<span class="math inline">\(\gamma\)</span>, <span class="math inline">\(\lambda\)</span>
+</td>
+</tr>
+<tr class="even">
+<td><code><a href="../reference/fit_snet.html">fit_snet()</a></code></td>
+<td>Snet (SCAD + <span class="math inline">\(\ell_2\)</span>)</td>
+<td>
+<span class="math inline">\(\gamma\)</span>, <span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\alpha\)</span>
+</td>
+</tr>
+<tr class="odd">
+<td><code><a href="../reference/fit_flasso.html">fit_flasso()</a></code></td>
+<td>Fused lasso</td>
+<td>
+<span class="math inline">\(\lambda_1\)</span>, <span class="math inline">\(\lambda_2\)</span>
+</td>
 </tr>
 </tbody>
 </table>
-<p>In the next, we will use the imputed SMART study data <span class="citation">(Steyerberg 2008)</span> to demonstrate a complete process of model building, nomogram plotting, model validation, calibration, and comparison with <code>hdnom</code>.</p>
+<p>In the next, we will use the imputed SMART study data to demonstrate a complete process of model building, nomogram plotting, model validation, calibration, and comparison with <code>hdnom</code>.</p>
 <p>Load the <code>smart</code> dataset:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"smart"</span>)</a>
 <a class="sourceLine" id="cb2-2" title="2">x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">as.matrix</a></span>(smart[, <span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>)])</a>
@@ -159,12 +184,12 @@
 <a class="sourceLine" id="cb2-6" title="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"survival"</span>)</a>
 <a class="sourceLine" id="cb2-7" title="7">y &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/survival/topics/Surv">Surv</a></span>(time, event)</a></code></pre></div>
 <p>The dataset contains 3873 observations with corresponding survival outcome (<code>time</code>, <code>event</code>). 27 clinical variables (<code>x</code>) are available as the predictors. See <code><a href="../reference/smart.html">?smart</a></code> for a detailed explanation of the variables.</p>
-<p>Fit a penalized Cox model by adaptive elastic-net regularization, with <code>hdcox.aenet</code>:</p>
+<p>Fit a penalized Cox model by adaptive elastic-net regularization with <code><a href="../reference/fit_aenet.html">fit_aenet()</a></code>:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="co"># enable parallel parameter tuning</span></a>
 <a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressMessages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"doParallel"</span>))</a>
 <a class="sourceLine" id="cb3-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/doParallel/topics/registerDoParallel">registerDoParallel</a></span>(<span class="kw">detectCores</span>())</a>
 <a class="sourceLine" id="cb3-4" title="4"></a>
-<a class="sourceLine" id="cb3-5" title="5">fit &lt;-<span class="st"> </span><span class="kw"><a href="../reference/hdcox.aenet.html">hdcox.aenet</a></span>(x, y,</a>
+<a class="sourceLine" id="cb3-5" title="5">fit &lt;-<span class="st"> </span><span class="kw"><a href="../reference/fit_aenet.html">fit_aenet</a></span>(x, y,</a>
 <a class="sourceLine" id="cb3-6" title="6">  <span class="dt">nfolds =</span> <span class="dv">10</span>, <span class="dt">rule =</span> <span class="st">"lambda.1se"</span>,</a>
 <a class="sourceLine" id="cb3-7" title="7">  <span class="dt">seed =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">5</span>, <span class="dv">7</span>), <span class="dt">parallel =</span> <span class="ot">TRUE</span></a>
 <a class="sourceLine" id="cb3-8" title="8">)</a>
@@ -174,16 +199,16 @@
 ## [7] "aenet_model"       "pen_factor"</code></pre>
 <p>Adaptive elastic-net includes two estimation steps. The random seed used for parameter tuning, the selected best <span class="math inline">\(\alpha\)</span>, the selected best <span class="math inline">\(\lambda\)</span>, the model fitted for each estimation step, and the penalty factor for the model coefficients in the second estimation step are all stored in the model object <code>fit</code>.</p>
 </div>
-<div id="nomogram-plotting" class="section level1">
+<div id="nomogram-visualization" class="section level1">
 <h1 class="hasAnchor">
-<a href="#nomogram-plotting" class="anchor"></a>Nomogram Plotting</h1>
+<a href="#nomogram-visualization" class="anchor"></a>Nomogram Visualization</h1>
 <p>Before plotting the nomogram, we need to extract some necessary information about the model, namely, the model object and parameters, from the result of the last step:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">model &lt;-<span class="st"> </span>fit<span class="op">$</span>aenet_model</a>
 <a class="sourceLine" id="cb5-2" title="2">alpha &lt;-<span class="st"> </span>fit<span class="op">$</span>aenet_best_alpha</a>
 <a class="sourceLine" id="cb5-3" title="3">lambda &lt;-<span class="st"> </span>fit<span class="op">$</span>aenet_best_lambda</a>
 <a class="sourceLine" id="cb5-4" title="4">adapen &lt;-<span class="st"> </span>fit<span class="op">$</span>pen_factor</a></code></pre></div>
-<p>Let’s generate a <code>hdnom.nomogram</code> object with <code><a href="../reference/hdnom.nomogram.html">hdnom.nomogram()</a></code> and plot the nomogram:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">nom &lt;-<span class="st"> </span><span class="kw"><a href="../reference/hdnom.nomogram.html">hdnom.nomogram</a></span>(</a>
+<p>Let’s generate a nomogram object with <code><a href="../reference/as_nomogram.html">as_nomogram()</a></code> and plot it:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">nom &lt;-<span class="st"> </span><span class="kw"><a href="../reference/as_nomogram.html">as_nomogram</a></span>(</a>
 <a class="sourceLine" id="cb6-2" title="2">  model,</a>
 <a class="sourceLine" id="cb6-3" title="3">  <span class="dt">model.type =</span> <span class="st">"aenet"</span>,</a>
 <a class="sourceLine" id="cb6-4" title="4">  x, time, event, <span class="dt">pred.at =</span> <span class="dv">365</span> <span class="op">*</span><span class="st"> </span><span class="dv">2</span>,</a>
@@ -202,9 +227,9 @@
 <div id="internal-validation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#internal-validation" class="anchor"></a>Internal Validation</h2>
-<p><code><a href="../reference/hdnom.validate.html">hdnom.validate()</a></code> allows us to assess the model performance internally by time-dependent AUC (Area Under the ROC Curve) with the above three resampling methods.</p>
+<p><code><a href="../reference/validate.html">validate()</a></code> allows us to assess the model performance internally by time-dependent AUC (Area Under the ROC Curve) with the above three resampling methods.</p>
 <p>Here, we validate the performance of the adaptive elastic-net model with bootstrap resampling, at every half year from the first year to the fifth year:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">val.int &lt;-<span class="st"> </span><span class="kw"><a href="../reference/hdnom.validate.html">hdnom.validate</a></span>(</a>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">val.int &lt;-<span class="st"> </span><span class="kw"><a href="../reference/validate.html">validate</a></span>(</a>
 <a class="sourceLine" id="cb7-2" title="2">  x, time, event,</a>
 <a class="sourceLine" id="cb7-3" title="3">  <span class="dt">model.type =</span> <span class="st">"aenet"</span>,</a>
 <a class="sourceLine" id="cb7-4" title="4">  <span class="dt">alpha =</span> alpha, <span class="dt">lambda =</span> lambda, <span class="dt">pen.factor =</span> adapen,</a>
@@ -220,45 +245,59 @@
 ## Bootstrap samples: 10 
 ## Model type: aenet 
 ## glmnet model alpha: 0.15 
-## glmnet model lambda: 2.559313e+12 
+## glmnet model lambda: 0.4322461 
 ## glmnet model penalty factor: specified
 ## Time-dependent AUC type: UNO 
 ## Evaluation time points for tAUC: 365 547.5 730 912.5 1095 1277.5 1460 1642.5 1825</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(val.int)</a></code></pre></div>
-<pre><code>## Time-Dependent AUC Summary at Evaluation Time Points</code></pre>
-<pre><code>##                365     547.5       730     912.5      1095    1277.5
-## Mean     0.6633218 0.6908359 0.6835247 0.6775386 0.7095764 0.7301827
-## Min      0.6568324 0.6864658 0.6783314 0.6747490 0.7025513 0.7224083
-## 0.25 Qt. 0.6589450 0.6878048 0.6820924 0.6759995 0.7091919 0.7298811
-## Median   0.6656771 0.6917197 0.6840430 0.6777887 0.7099562 0.7310424
-## 0.75 Qt. 0.6664824 0.6932608 0.6850584 0.6788960 0.7120672 0.7327024
-## Max      0.6679094 0.6953842 0.6868593 0.6802138 0.7149459 0.7349118
+<pre><code>## Time-Dependent AUC Summary at Evaluation Time Points
+##                365     547.5       730     912.5      1095    1277.5
+## Mean     0.6719884 0.6964906 0.6841211 0.6846299 0.7119032 0.7307381
+## Min      0.6656145 0.6900480 0.6743054 0.6766896 0.7009340 0.7206457
+## 0.25 Qt. 0.6706340 0.6951501 0.6836948 0.6815774 0.7085533 0.7292635
+## Median   0.6719498 0.6973106 0.6852666 0.6864537 0.7137401 0.7313070
+## 0.75 Qt. 0.6738873 0.6977342 0.6858319 0.6871891 0.7153364 0.7333464
+## Max      0.6767791 0.7007197 0.6895877 0.6895799 0.7183999 0.7399907
 ##               1460    1642.5      1825
-## Mean     0.6716061 0.6731475 0.6883837
-## Min      0.6647284 0.6693436 0.6783940
-## 0.25 Qt. 0.6693304 0.6703827 0.6875514
-## Median   0.6721205 0.6735065 0.6889860
-## 0.75 Qt. 0.6746232 0.6753697 0.6906602
-## Max      0.6775177 0.6770954 0.6952586</code></pre>
+## Mean     0.6779095 0.6801867 0.6968828
+## Min      0.6686938 0.6763450 0.6866227
+## 0.25 Qt. 0.6723307 0.6777257 0.6913125
+## Median   0.6802664 0.6802311 0.6980555
+## 0.75 Qt. 0.6820302 0.6827378 0.7020305
+## Max      0.6844907 0.6836347 0.7049328</code></pre>
 <p>The mean, median, 25%, and 75% quantiles of time-dependent AUC at each time point across all bootstrap predictions are listed above. The median and the mean can be considered as the bias-corrected estimation of the model performance.</p>
 <p>It is also possible to plot the model validation result:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(val.int)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(val.int)</a></code></pre></div>
+<pre><code>##                365     547.5       730     912.5      1095    1277.5
+## Mean     0.6719884 0.6964906 0.6841211 0.6846299 0.7119032 0.7307381
+## Min      0.6656145 0.6900480 0.6743054 0.6766896 0.7009340 0.7206457
+## 0.25 Qt. 0.6706340 0.6951501 0.6836948 0.6815774 0.7085533 0.7292635
+## Median   0.6719498 0.6973106 0.6852666 0.6864537 0.7137401 0.7313070
+## 0.75 Qt. 0.6738873 0.6977342 0.6858319 0.6871891 0.7153364 0.7333464
+## Max      0.6767791 0.7007197 0.6895877 0.6895799 0.7183999 0.7399907
+##               1460    1642.5      1825
+## Mean     0.6779095 0.6801867 0.6968828
+## Min      0.6686938 0.6763450 0.6866227
+## 0.25 Qt. 0.6723307 0.6777257 0.6913125
+## Median   0.6802664 0.6802311 0.6980555
+## 0.75 Qt. 0.6820302 0.6827378 0.7020305
+## Max      0.6844907 0.6836347 0.7049328</code></pre>
 <p><img src="hdnom_files/figure-html/unnamed-chunk-8-1.png" width="600" height="600"></p>
 <p>The solid line represents the mean of the AUC, the dashed line represents the median of the AUC. The darker interval in the plot shows the 25% and 75% quantiles of AUC, the lighter interval shows the minimum and maximum of AUC.</p>
 <p>It seems that the bootstrap-based validation result is stable: the median and the mean value at each evaluation time point are close; the 25% and 75% quantiles are also close to the median at each time point.</p>
-<p>Bootstrap-based validation often gives relatively stable results. Many of the established nomograms in clinical oncology research are validated by bootstrap methods. <span class="math inline">\(K\)</span>-fold cross-validation provides a more strict evaluation scheme than bootstrap. Repeated cross-validation gives similar results as <span class="math inline">\(k\)</span>-fold cross-validation, and usually more robust. These two methods are more applied by the machine learning community. Check <code><a href="../reference/hdnom.validate.html">?hdnom.validate</a></code> for more examples about internal model validation.</p>
+<p>Bootstrap-based validation often gives relatively stable results. Many of the established nomograms in clinical oncology research are validated by bootstrap methods. <span class="math inline">\(K\)</span>-fold cross-validation provides a more strict evaluation scheme than bootstrap. Repeated cross-validation gives similar results as <span class="math inline">\(k\)</span>-fold cross-validation, and usually more robust. These two methods are more applied by the machine learning community. Check <code><a href="../reference/validate.html">?hdnom::validate</a></code> for more examples about internal model validation.</p>
 </div>
 <div id="external-validation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#external-validation" class="anchor"></a>External Validation</h2>
 <p>Now we have the internally validated model. To perform external validation, we usually need an independent dataset (preferably, collected in other studies), which has the same variables as the dataset used to build the model. For penalized Cox models, the external dataset should have at least the same variables that have been selected in the model.</p>
-<p>For demonstration purposes, here we draw 1000 samples from the <code>smart</code> data and <em>assume</em> that they form an external validation dataset, then use <code><a href="../reference/hdnom.external.validate.html">hdnom.external.validate()</a></code> to perform external validation:</p>
+<p>For demonstration purposes, here we draw 1000 samples from the <code>smart</code> data and <em>assume</em> that they form an external validation dataset, then use <code><a href="../reference/validate_external.html">validate_external()</a></code> to perform external validation:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">x_new &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">as.matrix</a></span>(smart[, <span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>, <span class="dv">2</span>)])[<span class="dv">1001</span><span class="op">:</span><span class="dv">2000</span>, ]</a>
 <a class="sourceLine" id="cb13-2" title="2">time_new &lt;-<span class="st"> </span>smart<span class="op">$</span>TEVENT[<span class="dv">1001</span><span class="op">:</span><span class="dv">2000</span>]</a>
 <a class="sourceLine" id="cb13-3" title="3">event_new &lt;-<span class="st"> </span>smart<span class="op">$</span>EVENT[<span class="dv">1001</span><span class="op">:</span><span class="dv">2000</span>]</a>
 <a class="sourceLine" id="cb13-4" title="4"></a>
 <a class="sourceLine" id="cb13-5" title="5"><span class="co"># External validation with time-dependent AUC</span></a>
-<a class="sourceLine" id="cb13-6" title="6">val.ext &lt;-<span class="st"> </span><span class="kw"><a href="../reference/hdnom.external.validate.html">hdnom.external.validate</a></span>(</a>
+<a class="sourceLine" id="cb13-6" title="6">val.ext &lt;-<span class="st"> </span><span class="kw"><a href="../reference/validate_external.html">validate_external</a></span>(</a>
 <a class="sourceLine" id="cb13-7" title="7">  fit, x, time, event,</a>
 <a class="sourceLine" id="cb13-8" title="8">  x_new, time_new, event_new,</a>
 <a class="sourceLine" id="cb13-9" title="9">  <span class="dt">tauc.type =</span> <span class="st">"UNO"</span>,</a>
@@ -271,12 +310,16 @@
 ## Time-dependent AUC type: UNO 
 ## Evaluation time points for tAUC: 91.25 182.5 273.75 365 456.25 547.5 638.75 730</code></pre>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(val.ext)</a></code></pre></div>
-<pre><code>## Time-Dependent AUC Summary at Evaluation Time Points</code></pre>
+<pre><code>## Time-Dependent AUC Summary at Evaluation Time Points
+##         91.25     182.5    273.75       365    456.25     547.5    638.75
+## AUC 0.4328241 0.5608442 0.6299909 0.6289888 0.6530596 0.6728417 0.6795879
+##           730
+## AUC 0.6922393</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(val.ext)</a></code></pre></div>
 <pre><code>##         91.25     182.5    273.75       365    456.25     547.5    638.75
 ## AUC 0.4328241 0.5608442 0.6299909 0.6289888 0.6530596 0.6728417 0.6795879
 ##           730
 ## AUC 0.6922393</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(val.ext)</a></code></pre></div>
 <p><img src="hdnom_files/figure-html/unnamed-chunk-9-1.png" width="600" height="600"></p>
 <p>The time-dependent AUC on the external dataset is shown above.</p>
 </div>
@@ -288,9 +331,9 @@
 <div id="internal-calibration" class="section level2">
 <h2 class="hasAnchor">
 <a href="#internal-calibration" class="anchor"></a>Internal Calibration</h2>
-<p><code><a href="../reference/hdnom.calibrate.html">hdnom.calibrate()</a></code> provides non-resampling and resampling methods for internal model calibration, including direct fitting, bootstrap resampling, <span class="math inline">\(k\)</span>-fold cross-validation, and repeated cross-validation.</p>
+<p><code><a href="../reference/calibrate.html">calibrate()</a></code> provides non-resampling and resampling methods for internal model calibration, including direct fitting, bootstrap resampling, <span class="math inline">\(k\)</span>-fold cross-validation, and repeated cross-validation.</p>
 <p>For example, to calibrate the model internally with the bootstrap method:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">cal.int &lt;-<span class="st"> </span><span class="kw"><a href="../reference/hdnom.calibrate.html">hdnom.calibrate</a></span>(</a>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">cal.int &lt;-<span class="st"> </span><span class="kw"><a href="../reference/calibrate.html">calibrate</a></span>(</a>
 <a class="sourceLine" id="cb19-2" title="2">  x, time, event,</a>
 <a class="sourceLine" id="cb19-3" title="3">  <span class="dt">model.type =</span> <span class="st">"aenet"</span>,</a>
 <a class="sourceLine" id="cb19-4" title="4">  <span class="dt">alpha =</span> alpha, <span class="dt">lambda =</span> lambda, <span class="dt">pen.factor =</span> adapen,</a>
@@ -305,28 +348,28 @@
 ## Bootstrap samples: 10 
 ## Model type: aenet 
 ## glmnet model alpha: 0.15 
-## glmnet model lambda: 2.559313e+12 
+## glmnet model lambda: 0.4322461 
 ## glmnet model penalty factor: specified
 ## Calibration time point: 1825 
 ## Number of groups formed for calibration: 3</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(cal.int)</a></code></pre></div>
 <pre><code>##   Calibration Summary Table
 ##   Predicted  Observed Lower 95% Upper 95%
-## 1 0.8002909 0.7614210 0.7329893 0.7909556
-## 2 0.8940495 0.8903038 0.8687012 0.9124435
-## 3 0.9245110 0.9343037 0.9168044 0.9521371</code></pre>
+## 1 0.7920403 0.7552327 0.7272514 0.7842905
+## 2 0.8979794 0.8970591 0.8757388 0.9188985
+## 3 0.9423162 0.9417877 0.9251980 0.9586749</code></pre>
 <p>We split the samples into three risk groups. In practice, the number of risk groups is decided by the users according to their needs.</p>
 <p>The model calibration results (the median of the predicted survival probability; the median of the observed survival probability estimated by Kaplan-Meier method with 95% CI) are summarized as above.</p>
 <p>Plot the calibration result:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(cal.int, <span class="dt">xlim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.5</span>, <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.5</span>, <span class="dv">1</span>))</a></code></pre></div>
 <p><img src="hdnom_files/figure-html/unnamed-chunk-11-1.png" width="600" height="600"></p>
-<p>In practice, you may want to perform calibration for multiple time points separately, and put the plots together in one figure. See <code><a href="../reference/hdnom.calibrate.html">?hdnom.calibrate</a></code> for more examples about internal model calibration.</p>
+<p>In practice, you may want to perform calibration for multiple time points separately, and put the plots together in one figure. See <code><a href="../reference/calibrate.html">?hdnom::calibrate</a></code> for more examples about internal model calibration.</p>
 </div>
 <div id="external-calibration" class="section level2">
 <h2 class="hasAnchor">
 <a href="#external-calibration" class="anchor"></a>External Calibration</h2>
-<p>To perform external calibration with an external dataset, use <code><a href="../reference/hdnom.external.calibrate.html">hdnom.external.calibrate()</a></code>:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1">cal.ext &lt;-<span class="st"> </span><span class="kw"><a href="../reference/hdnom.external.calibrate.html">hdnom.external.calibrate</a></span>(</a>
+<p>To perform external calibration with an external dataset, use <code><a href="../reference/calibrate_external.html">calibrate_external()</a></code>:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1">cal.ext &lt;-<span class="st"> </span><span class="kw"><a href="../reference/calibrate_external.html">calibrate_external</a></span>(</a>
 <a class="sourceLine" id="cb24-2" title="2">  fit, x, time, event,</a>
 <a class="sourceLine" id="cb24-3" title="3">  x_new, time_new, event_new,</a>
 <a class="sourceLine" id="cb24-4" title="4">  <span class="dt">pred.at =</span> <span class="dv">365</span> <span class="op">*</span><span class="st"> </span><span class="dv">5</span>, <span class="dt">ngroup =</span> <span class="dv">3</span></a>
@@ -351,14 +394,14 @@
 <h2 class="hasAnchor">
 <a href="#kaplan-meier-analysis-for-risk-groups" class="anchor"></a>Kaplan-Meier Analysis for Risk Groups</h2>
 <p>Internal calibration and external calibration both classify the testing set into different risk groups. For internal calibration, the testing set means all the samples in the dataset that was used to build the model, for external calibration, the testing set means the samples from the external dataset.</p>
-<p>We can further analyze the differences in survival time for different risk groups with Kaplan-Meier survival curves and a number at risk table. For example, here we plot the Kaplan-Meier survival curves and evaluate the number at risk from one year to six years for the three risk groups, with the function <code><a href="../reference/hdnom.kmplot.html">hdnom.kmplot()</a></code>:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="kw"><a href="../reference/hdnom.kmplot.html">hdnom.kmplot</a></span>(</a>
+<p>We can further analyze the differences in survival time for different risk groups with Kaplan-Meier survival curves and a number at risk table. For example, here we plot the Kaplan-Meier survival curves and evaluate the number at risk from one year to six years for the three risk groups, with the function <code><a href="../reference/kmplot.html">kmplot()</a></code>:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="kw"><a href="../reference/kmplot.html">kmplot</a></span>(</a>
 <a class="sourceLine" id="cb29-2" title="2">  cal.int,</a>
 <a class="sourceLine" id="cb29-3" title="3">  <span class="dt">group.name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"High risk"</span>, <span class="st">"Medium risk"</span>, <span class="st">"Low risk"</span>),</a>
 <a class="sourceLine" id="cb29-4" title="4">  <span class="dt">time.at =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">6</span> <span class="op">*</span><span class="st"> </span><span class="dv">365</span></a>
 <a class="sourceLine" id="cb29-5" title="5">)</a></code></pre></div>
 <p><img src="hdnom_files/figure-html/unnamed-chunk-13-1.png" width="600" height="600"></p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"><span class="kw"><a href="../reference/hdnom.kmplot.html">hdnom.kmplot</a></span>(</a>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"><span class="kw"><a href="../reference/kmplot.html">kmplot</a></span>(</a>
 <a class="sourceLine" id="cb30-2" title="2">  cal.ext,</a>
 <a class="sourceLine" id="cb30-3" title="3">  <span class="dt">group.name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"High risk"</span>, <span class="st">"Medium risk"</span>, <span class="st">"Low risk"</span>),</a>
 <a class="sourceLine" id="cb30-4" title="4">  <span class="dt">time.at =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">6</span> <span class="op">*</span><span class="st"> </span><span class="dv">365</span></a>
@@ -369,8 +412,8 @@
 <div id="log-rank-test-for-risk-groups" class="section level2">
 <h2 class="hasAnchor">
 <a href="#log-rank-test-for-risk-groups" class="anchor"></a>Log-Rank Test for Risk Groups</h2>
-<p>To compare the differences between the survival curves, log-rank test is often applied. <code><a href="../reference/hdnom.logrank.html">hdnom.logrank()</a></code> performs such tests on the internal calibration and external calibration results:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1">cal.int.logrank &lt;-<span class="st"> </span><span class="kw"><a href="../reference/hdnom.logrank.html">hdnom.logrank</a></span>(cal.int)</a>
+<p>To compare the differences between the survival curves, log-rank test is often applied. <code><a href="../reference/logrank_test.html">logrank_test()</a></code> performs such tests on the internal calibration and external calibration results:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1">cal.int.logrank &lt;-<span class="st"> </span><span class="kw"><a href="../reference/logrank_test.html">logrank_test</a></span>(cal.int)</a>
 <a class="sourceLine" id="cb31-2" title="2">cal.int.logrank</a></code></pre></div>
 <pre><code>## Call:
 ## survdiff(formula = formula("Surv(time, event) ~ grp"))
@@ -378,14 +421,14 @@
 ## n=3872, 1 observation deleted due to missingness.
 ## 
 ##          N Observed Expected (O-E)^2/E (O-E)^2/V
-## grp=1 1290      274      152     97.67     146.1
-## grp=2 1291      121      157      8.07      12.2
-## grp=3 1291       65      151     49.26      73.5
+## grp=1 1290      291      156     116.3     176.5
+## grp=2 1291      111      154      12.1      18.3
+## grp=3 1291       57      148      56.4      83.4
 ## 
-##  Chisq= 155  on 2 degrees of freedom, p= &lt;2e-16</code></pre>
+##  Chisq= 185  on 2 degrees of freedom, p= &lt;2e-16</code></pre>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1">cal.int.logrank<span class="op">$</span>pval</a></code></pre></div>
-<pre><code>## [1] 1.962792e-34</code></pre>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1">cal.ext.logrank &lt;-<span class="st"> </span><span class="kw"><a href="../reference/hdnom.logrank.html">hdnom.logrank</a></span>(cal.ext)</a>
+<pre><code>## [1] 6.69581e-41</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1">cal.ext.logrank &lt;-<span class="st"> </span><span class="kw"><a href="../reference/logrank_test.html">logrank_test</a></span>(cal.ext)</a>
 <a class="sourceLine" id="cb35-2" title="2">cal.ext.logrank</a></code></pre></div>
 <pre><code>## Call:
 ## survdiff(formula = formula("Surv(time, event) ~ grp"))
@@ -411,7 +454,7 @@
 <h2 class="hasAnchor">
 <a href="#model-comparison-by-validation" class="anchor"></a>Model Comparison by Validation</h2>
 <p>We can compare the model performance using time-dependent AUC by the same (internal) model validation approach as before. For example, here we compare lasso and adaptive lasso by 5-fold cross-validation:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1">cmp.val &lt;-<span class="st"> </span><span class="kw"><a href="../reference/hdnom.compare.validate.html">hdnom.compare.validate</a></span>(</a>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1">cmp.val &lt;-<span class="st"> </span><span class="kw"><a href="../reference/compare_by_validate.html">compare_by_validate</a></span>(</a>
 <a class="sourceLine" id="cb39-2" title="2">  x, time, event,</a>
 <a class="sourceLine" id="cb39-3" title="3">  <span class="dt">model.type =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"lasso"</span>, <span class="st">"alasso"</span>),</a>
 <a class="sourceLine" id="cb39-4" title="4">  <span class="dt">method =</span> <span class="st">"cv"</span>, <span class="dt">nfolds =</span> <span class="dv">5</span>, <span class="dt">tauc.type =</span> <span class="st">"UNO"</span>,</a>
@@ -457,6 +500,20 @@
 ## Median   0.6614052 0.6685402
 ## 0.75 Qt. 0.6996538 0.7139283
 ## Max      0.7066672 0.7210249
+##              91.25     182.5    273.75       365    456.25     547.5
+## Mean     0.5213013 0.6134751 0.6475741 0.6482503 0.6557042 0.6793388
+## Min      0.4144015 0.5453072 0.5849391 0.6145979 0.6175435 0.6621891
+## 0.25 Qt. 0.4775529 0.5846219 0.6309895 0.6180075 0.6199005 0.6641325
+## Median   0.5112358 0.6210905 0.6542970 0.6565121 0.6645453 0.6643884
+## 0.75 Qt. 0.5504564 0.6499560 0.6750810 0.6753578 0.6842037 0.6917158
+## Max      0.6528601 0.6664000 0.6925638 0.6767762 0.6923281 0.7142681
+##             638.75       730
+## Mean     0.6770071 0.6701842
+## Min      0.6576044 0.6232936
+## 0.25 Qt. 0.6597050 0.6241340
+## Median   0.6614052 0.6685402
+## 0.75 Qt. 0.6996538 0.7139283
+## Max      0.7066672 0.7210249
 ## 
 ## Model type: alasso 
 ##              91.25     182.5    273.75       365    456.25     547.5
@@ -472,10 +529,80 @@
 ## 0.25 Qt. 0.6656156 0.6463165
 ## Median   0.6694466 0.6611572
 ## 0.75 Qt. 0.6823622 0.6825825
+## Max      0.7325616 0.7458939
+##              91.25     182.5    273.75       365    456.25     547.5
+## Mean     0.5002315 0.6052897 0.6402225 0.6450094 0.6577948 0.6709570
+## Min      0.3796394 0.5066813 0.5064970 0.5272463 0.5529251 0.6061399
+## 0.25 Qt. 0.4399829 0.5692907 0.6293616 0.6558905 0.6652881 0.6614951
+## Median   0.4535396 0.5992165 0.6329806 0.6564025 0.6755343 0.6713710
+## 0.75 Qt. 0.6120902 0.6322008 0.6499734 0.6724999 0.6903455 0.6862749
+## Max      0.6159053 0.7190593 0.7822996 0.7130080 0.7048811 0.7295041
+##             638.75       730
+## Mean     0.6720233 0.6747241
+## Min      0.6101307 0.6376704
+## 0.25 Qt. 0.6656156 0.6463165
+## Median   0.6694466 0.6611572
+## 0.75 Qt. 0.6823622 0.6825825
 ## Max      0.7325616 0.7458939</code></pre>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(cmp.val)</a></code></pre></div>
+<pre><code>##              91.25     182.5    273.75       365    456.25     547.5
+## Mean     0.5213013 0.6134751 0.6475741 0.6482503 0.6557042 0.6793388
+## Min      0.4144015 0.5453072 0.5849391 0.6145979 0.6175435 0.6621891
+## 0.25 Qt. 0.4775529 0.5846219 0.6309895 0.6180075 0.6199005 0.6641325
+## Median   0.5112358 0.6210905 0.6542970 0.6565121 0.6645453 0.6643884
+## 0.75 Qt. 0.5504564 0.6499560 0.6750810 0.6753578 0.6842037 0.6917158
+## Max      0.6528601 0.6664000 0.6925638 0.6767762 0.6923281 0.7142681
+##             638.75       730
+## Mean     0.6770071 0.6701842
+## Min      0.6576044 0.6232936
+## 0.25 Qt. 0.6597050 0.6241340
+## Median   0.6614052 0.6685402
+## 0.75 Qt. 0.6996538 0.7139283
+## Max      0.7066672 0.7210249
+##              91.25     182.5    273.75       365    456.25     547.5
+## Mean     0.5002315 0.6052897 0.6402225 0.6450094 0.6577948 0.6709570
+## Min      0.3796394 0.5066813 0.5064970 0.5272463 0.5529251 0.6061399
+## 0.25 Qt. 0.4399829 0.5692907 0.6293616 0.6558905 0.6652881 0.6614951
+## Median   0.4535396 0.5992165 0.6329806 0.6564025 0.6755343 0.6713710
+## 0.75 Qt. 0.6120902 0.6322008 0.6499734 0.6724999 0.6903455 0.6862749
+## Max      0.6159053 0.7190593 0.7822996 0.7130080 0.7048811 0.7295041
+##             638.75       730
+## Mean     0.6720233 0.6747241
+## Min      0.6101307 0.6376704
+## 0.25 Qt. 0.6656156 0.6463165
+## Median   0.6694466 0.6611572
+## 0.75 Qt. 0.6823622 0.6825825
+## Max      0.7325616 0.7458939</code></pre>
 <p><img src="hdnom_files/figure-html/unnamed-chunk-15-1.png" width="600" height="480"></p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(cmp.val, <span class="dt">interval =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(cmp.val, <span class="dt">interval =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code>##              91.25     182.5    273.75       365    456.25     547.5
+## Mean     0.5213013 0.6134751 0.6475741 0.6482503 0.6557042 0.6793388
+## Min      0.4144015 0.5453072 0.5849391 0.6145979 0.6175435 0.6621891
+## 0.25 Qt. 0.4775529 0.5846219 0.6309895 0.6180075 0.6199005 0.6641325
+## Median   0.5112358 0.6210905 0.6542970 0.6565121 0.6645453 0.6643884
+## 0.75 Qt. 0.5504564 0.6499560 0.6750810 0.6753578 0.6842037 0.6917158
+## Max      0.6528601 0.6664000 0.6925638 0.6767762 0.6923281 0.7142681
+##             638.75       730
+## Mean     0.6770071 0.6701842
+## Min      0.6576044 0.6232936
+## 0.25 Qt. 0.6597050 0.6241340
+## Median   0.6614052 0.6685402
+## 0.75 Qt. 0.6996538 0.7139283
+## Max      0.7066672 0.7210249
+##              91.25     182.5    273.75       365    456.25     547.5
+## Mean     0.5002315 0.6052897 0.6402225 0.6450094 0.6577948 0.6709570
+## Min      0.3796394 0.5066813 0.5064970 0.5272463 0.5529251 0.6061399
+## 0.25 Qt. 0.4399829 0.5692907 0.6293616 0.6558905 0.6652881 0.6614951
+## Median   0.4535396 0.5992165 0.6329806 0.6564025 0.6755343 0.6713710
+## 0.75 Qt. 0.6120902 0.6322008 0.6499734 0.6724999 0.6903455 0.6862749
+## Max      0.6159053 0.7190593 0.7822996 0.7130080 0.7048811 0.7295041
+##             638.75       730
+## Mean     0.6720233 0.6747241
+## Min      0.6101307 0.6376704
+## 0.25 Qt. 0.6656156 0.6463165
+## Median   0.6694466 0.6611572
+## 0.75 Qt. 0.6823622 0.6825825
+## Max      0.7325616 0.7458939</code></pre>
 <p><img src="hdnom_files/figure-html/unnamed-chunk-15-2.png" width="600" height="480"></p>
 <p>The solid line, dashed line and intervals have the same interpretation as above. For this comparison, there seems to be no substantial difference (AUC difference <span class="math inline">\(&lt; 5\%\)</span>) between lasso and adaptive lasso in predictive performance, although lasso performs slightly better than adaptive lasso for the first three time points, adaptive lasso performs slightly better than lasso for the last few time points.</p>
 <p>The model comparison functions in <code>hdnom</code> have a minimal input design so you do not have to set the parameters for each model type manually. The functions will try to determine the best parameter settings automatically for each model type to achieve the best performance.</p>
@@ -484,15 +611,15 @@
 <h2 class="hasAnchor">
 <a href="#model-comparison-by-calibration" class="anchor"></a>Model Comparison by Calibration</h2>
 <p>We can compare the models by comparing their (internal) model calibration performance. To continue the example, we split the samples into five risk groups, and compare lasso to adaptive lasso via calibration:</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1">cmp.cal &lt;-<span class="st"> </span><span class="kw"><a href="../reference/hdnom.compare.calibrate.html">hdnom.compare.calibrate</a></span>(</a>
-<a class="sourceLine" id="cb45-2" title="2">  x, time, event,</a>
-<a class="sourceLine" id="cb45-3" title="3">  <span class="dt">model.type =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"lasso"</span>, <span class="st">"alasso"</span>),</a>
-<a class="sourceLine" id="cb45-4" title="4">  <span class="dt">method =</span> <span class="st">"cv"</span>, <span class="dt">nfolds =</span> <span class="dv">5</span>,</a>
-<a class="sourceLine" id="cb45-5" title="5">  <span class="dt">pred.at =</span> <span class="dv">365</span> <span class="op">*</span><span class="st"> </span><span class="dv">9</span>, <span class="dt">ngroup =</span> <span class="dv">5</span>,</a>
-<a class="sourceLine" id="cb45-6" title="6">  <span class="dt">seed =</span> <span class="dv">42</span>, <span class="dt">trace =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb45-7" title="7">)</a>
-<a class="sourceLine" id="cb45-8" title="8"></a>
-<a class="sourceLine" id="cb45-9" title="9">cmp.cal</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1">cmp.cal &lt;-<span class="st"> </span><span class="kw"><a href="../reference/compare_by_calibrate.html">compare_by_calibrate</a></span>(</a>
+<a class="sourceLine" id="cb47-2" title="2">  x, time, event,</a>
+<a class="sourceLine" id="cb47-3" title="3">  <span class="dt">model.type =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"lasso"</span>, <span class="st">"alasso"</span>),</a>
+<a class="sourceLine" id="cb47-4" title="4">  <span class="dt">method =</span> <span class="st">"cv"</span>, <span class="dt">nfolds =</span> <span class="dv">5</span>,</a>
+<a class="sourceLine" id="cb47-5" title="5">  <span class="dt">pred.at =</span> <span class="dv">365</span> <span class="op">*</span><span class="st"> </span><span class="dv">9</span>, <span class="dt">ngroup =</span> <span class="dv">5</span>,</a>
+<a class="sourceLine" id="cb47-6" title="6">  <span class="dt">seed =</span> <span class="dv">42</span>, <span class="dt">trace =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb47-7" title="7">)</a>
+<a class="sourceLine" id="cb47-8" title="8"></a>
+<a class="sourceLine" id="cb47-9" title="9">cmp.cal</a></code></pre></div>
 <pre><code>## High-Dimensional Cox Model Calibration Object
 ## Random seed: 42 
 ## Calibration method: k-fold cross-validation
@@ -514,7 +641,7 @@
 ## glmnet model penalty factor: specified
 ## Calibration time point: 3285 
 ## Number of groups formed for calibration: 5</code></pre>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(cmp.cal)</a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(cmp.cal)</a></code></pre></div>
 <pre><code>##   Model type: lasso 
 ##   Calibration Summary Table
 ##   Predicted  Observed Lower 95% Upper 95%
@@ -532,7 +659,7 @@
 ## 3 0.7919996 0.8038972 0.7316597 0.8832667
 ## 4 0.8259658 0.8365244 0.7891229 0.8867733
 ## 5 0.8576949 0.9053904 0.8448153 0.9703090</code></pre>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(cmp.cal, <span class="dt">xlim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.3</span>, <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.3</span>, <span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(cmp.cal, <span class="dt">xlim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.3</span>, <span class="dv">1</span>), <span class="dt">ylim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.3</span>, <span class="dv">1</span>))</a></code></pre></div>
 <p><img src="hdnom_files/figure-html/unnamed-chunk-16-1.png" width="600" height="480"></p>
 <p>The summary output and the plot show the calibration results for each model type we want to compare. Lasso and adaptive lasso have comparable performance in this case, since their predicted overall survival probabilities are both close to the observed survival probabilities in a similar degree. Adaptive lasso seems to be slightly more stable than lasso in calibration.</p>
 </div>
@@ -542,7 +669,7 @@
 <a href="#prediction-on-new-data" class="anchor"></a>Prediction on New Data</h1>
 <p>To predict the overall survival probability on certain time points for new samples with the established models, simply use <code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict()</a></code> on the model objects and the new data.</p>
 <p>As an example, we will use the samples numbered from 101 to 105 in the <code>smart</code> dataset as the new samples, and predict their overall survival probability from one year to ten years:</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(fit, x, y, <span class="dt">newx =</span> x[<span class="dv">101</span><span class="op">:</span><span class="dv">105</span>, ], <span class="dt">pred.at =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span> <span class="op">*</span><span class="st"> </span><span class="dv">365</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(fit, x, y, <span class="dt">newx =</span> x[<span class="dv">101</span><span class="op">:</span><span class="dv">105</span>, ], <span class="dt">pred.at =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span> <span class="op">*</span><span class="st"> </span><span class="dv">365</span>)</a></code></pre></div>
 <pre><code>##            365       730      1095      1460      1825      2190      2555
 ## [1,] 0.9476831 0.9203352 0.8883491 0.8572830 0.8171430 0.7841366 0.7430376
 ## [2,] 0.9714625 0.9562557 0.9382028 0.9203799 0.8969040 0.8771987 0.8521190
@@ -562,61 +689,41 @@
 <p>The <code>hdnom</code> package has 4 unique built-in color palettes available for all above plots, inspired by the colors commonly used by scientific journals. Users can use the <code>col.pal</code> argument to select the color palette. Possible values for this argument are listed in the table below:</p>
 <table class="table">
 <colgroup>
-<col width="15%">
+<col width="18%">
 <col width="69%">
 </colgroup>
 <thead><tr class="header">
 <th>Value</th>
-<th>Color Palette Related Journals</th>
+<th>Color palette inspiration</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td><code>"JCO"</code></td>
-<td><div class="line-block"><em>Journal of Clinical Oncology</em></div></td>
+<td><em>Journal of Clinical Oncology</em></td>
 </tr>
 <tr class="even">
 <td><code>"Lancet"</code></td>
-<td><div class="line-block">Lancet journals, such as <em>Lancet Oncology</em>
-</div></td>
+<td>Lancet journals, such as <em>Lancet Oncology</em>
+</td>
 </tr>
 <tr class="odd">
 <td><code>"NPG"</code></td>
-<td><div class="line-block">NPG journals, such as <em>Nature Reviews Cancer</em>
-</div></td>
+<td>NPG journals, such as <em>Nature Reviews Cancer</em>
+</td>
 </tr>
 <tr class="even">
 <td><code>"AAAS"</code></td>
-<td><div class="line-block">AAAS Journals, such as <em>Science</em>
-</div></td>
+<td>AAAS Journals, such as <em>Science</em>
+</td>
 </tr>
 </tbody>
 </table>
 <p>By default, <code>hdnom</code> will use the JCO color palette (<code>col.pal = "JCO"</code>).</p>
 </div>
-<div id="further-reading" class="section level1">
+<div id="shiny-app" class="section level1">
 <h1 class="hasAnchor">
-<a href="#further-reading" class="anchor"></a>Further Reading</h1>
-<p>To cite our paper (preprint), please use <span class="citation">(Xiao, Xu, and Li 2016)</span>. For further information about the hdnom project, please visit:</p>
-<ul>
-<li>hdnom project website: <a href="https://nanx.me/hdnom/">https://nanx.me/hdnom/</a>
-</li>
-<li>hdnom web application: <a href="http://hdnom.io">http://hdnom.io</a>
-</li>
-<li>hdnom appmaker: <a href="https://nanx.me/hdnom/appmaker">https://nanx.me/hdnom/appmaker</a>
-</li>
-</ul>
-</div>
-<div id="references" class="section level1 unnumbered">
-<h1 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h1>
-<div id="refs" class="references">
-<div id="ref-steyerberg2008clinical">
-<p>Steyerberg, Ewout W. 2008. <em>Clinical Prediction Models: A Practical Approach to Development, Validation, and Updating</em>. Springer Science &amp; Business Media.</p>
-</div>
-<div id="ref-hdnompreprint2016">
-<p>Xiao, Nan, Qing-Song Xu, and Miao-Zhu Li. 2016. “Hdnom: Building Nomograms for Penalized Cox Models with High-Dimensional Survival Data.” <em>bioRxiv</em>. <a href="https://doi.org/10.1101/065524">https://doi.org/10.1101/065524</a>.</p>
-</div>
-</div>
+<a href="#shiny-app" class="anchor"></a>Shiny app</h1>
+<p><a href="http://hdnom.io">http://hdnom.io</a></p>
 </div>
   </div>
 
@@ -627,7 +734,7 @@
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#introduction">Introduction</a></li>
       <li><a href="#build-survival-models">Build Survival Models</a></li>
-      <li><a href="#nomogram-plotting">Nomogram Plotting</a></li>
+      <li><a href="#nomogram-visualization">Nomogram Visualization</a></li>
       <li>
 <a href="#model-validation">Model Validation</a><ul class="nav nav-pills nav-stacked">
 <li><a href="#internal-validation">Internal Validation</a></li>
@@ -650,8 +757,7 @@
 </li>
       <li><a href="#prediction-on-new-data">Prediction on New Data</a></li>
       <li><a href="#customize-color-palette">Customize Color Palette</a></li>
-      <li><a href="#further-reading">Further Reading</a></li>
-      <li><a href="#references">References</a></li>
+      <li><a href="#shiny-app">Shiny app</a></li>
       </ul>
 </div>
       </div>

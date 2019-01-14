@@ -120,17 +120,35 @@
 <h1 class="page-header">
 <a href="#hdnom-599000" class="anchor"></a>hdnom 5.9.9000<small> Unreleased </small>
 </h1>
-<p>This version comes with several significant technical changes to improve the function interface, code structure, and performance. As a result, a few API-breaking changes have been made. Please update your previous code that calls hdnom accordingly. For the detailed changes, check the updated items below.</p>
+<p>This version is a major refactor of the package, with several technical adjustments to improve the function interface, code structure, and performance. As a result, a few API-breaking changes have been made. Please update your previous code that calls hdnom accordingly. For the detailed changes, check the updated items below.</p>
 <div id="improvements" class="section level2">
 <h2 class="hasAnchor">
 <a href="#improvements" class="anchor"></a>Improvements</h2>
+<div id="general" class="section level3">
+<h3 class="hasAnchor">
+<a href="#general" class="anchor"></a>General</h3>
+<ul>
+<li>Function renaming: dot to underscore, also shorter. For example, <code>hdcox.*()</code> to <code>fit_*()</code>; <code>hdnom.nomogram()</code> to <code><a href="../reference/as_nomogram.html">as_nomogram()</a></code>; <code>hdnom.validate()</code> to <code><a href="../reference/validate.html">validate()</a></code>, etc.</li>
+<li>Removed the dependency on <code>rms</code>, by reusing a minimal set of code from <code>rms</code> for nomogram construction and plotting. This results in clearer code structure, better maintainability, and faster package installation/loading speed. Also removed other non-essential package dependencies.</li>
+<li>The first argument are now returned invisbily for functions with side-effects (mostly print and summary), to make it easier to use them in a pipe.</li>
+</ul>
+</div>
+<div id="model-fitting" class="section level3">
+<h3 class="hasAnchor">
+<a href="#model-fitting" class="anchor"></a>Model Fitting</h3>
+<ul>
+<li>unified the name of the returned model with a single <code>$model</code>. the previous <code>$lasso_model</code> has been deprecated. For adptive estimation methods, we unified the initial estimation model object named as <code>model_init</code>.</li>
+<li>Added a new component <code>model_type</code> to <code>fit_.*</code> returns.</li>
+</ul>
+</div>
 <div id="nomograms" class="section level3">
 <h3 class="hasAnchor">
 <a href="#nomograms" class="anchor"></a>Nomograms</h3>
 <ul>
-<li>Removed the dependency on <code>rms</code>, by reusing a minimal set of code from <code>rms</code> for nomogram construction and plotting. This results in clearer code structure, better maintainability, and faster package installation/loading speed. Also removed other non-essential package dependencies.</li>
+<li>
+<code>hdnom.nomogram()</code> now accepts the fitted model objects directly instead of the <code>$model</code> component. It now will recognize the model type automatically, thus the previous arguments <code>model.type</code> has been deprecated. so that it is easier to chain the function calls together using <code>magrittr</code>.</li>
+<li>In <code>hdnom.nomogram()</code>, the previous <code>ddist</code> argument is not needed anymore and has been removed. There is also no more need to set a <code>datadist</code> object as a into the global options variable (which was required in the <code>rms</code> user flow).</li>
 <li>The new nomogram implementation prints and plots the nomogram for the penalized regression models directly. This supersedes the old implementation, which fits an OLS model to regress the linear predictors on the same set of predictors selected by the penalized Cox regression model, aiming to approximate the penalized model. The numerical or visual difference is minimal, though.</li>
-<li>For <code>hdcox.*()</code> models, the <code>ddist</code> argument has been removed and not needed anymore. Also, there is no more needed to set a <code>datadist</code> object as a into the global options variable (which was required in the <code>rms</code> user flow).</li>
 </ul>
 </div>
 </div>
@@ -143,7 +161,7 @@
 <h2 class="hasAnchor">
 <a href="#improvements-1" class="anchor"></a>Improvements</h2>
 <ul>
-<li>Exported the survival curve prediction functions (<code><a href="../reference/glmnet.survcurve.html">glmnet.survcurve()</a></code>, <code><a href="../reference/ncvreg.survcurve.html">ncvreg.survcurve()</a></code>, <code><a href="../reference/penalized.survcurve.html">penalized.survcurve()</a></code>) and Breslow baseline hazard estimator functions (<code><a href="../reference/glmnet.basesurv.html">glmnet.basesurv()</a></code>, <code><a href="../reference/ncvreg.basesurv.html">ncvreg.basesurv()</a></code>, <code><a href="../reference/penalized.basesurv.html">penalized.basesurv()</a></code>).</li>
+<li>Exported the survival curve prediction functions (<code>glmnet.survcurve()</code>, <code>ncvreg.survcurve()</code>, <code>penalized.survcurve()</code>) and Breslow baseline hazard estimator functions (<code>glmnet.basesurv()</code>, <code>ncvreg.basesurv()</code>, <code>penalized.basesurv()</code>).</li>
 <li>New URL for the documentation website: <a href="https://nanx.me/hdnom/" class="uri">https://nanx.me/hdnom/</a>.</li>
 </ul>
 </div>
@@ -168,7 +186,7 @@
 <h2 class="hasAnchor">
 <a href="#improvements-3" class="anchor"></a>Improvements</h2>
 <ul>
-<li>Reduced example running time to less than 10s for <code><a href="../reference/hdnom.calibrate.html">hdnom.calibrate()</a></code>.</li>
+<li>Reduced example running time to less than 10s for <code>hdnom.calibrate()</code>.</li>
 </ul>
 </div>
 </div>
@@ -215,7 +233,7 @@
 <h2 class="hasAnchor">
 <a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h2>
 <ul>
-<li>Fixed vanishing axis problem in Kaplan-Meier plot <code><a href="../reference/hdnom.kmplot.html">hdnom.kmplot()</a></code> under ggplot2 2.2.0, which is caused by a previous workaround for a bug introduced in ggplot2 2.1.0.</li>
+<li>Fixed vanishing axis problem in Kaplan-Meier plot <code>hdnom.kmplot()</code> under ggplot2 2.2.0, which is caused by a previous workaround for a bug introduced in ggplot2 2.1.0.</li>
 <li>Fixed potential convergence issues for examples under ncvreg &gt;= 3.7-0 new convergence criterion, by increasing <code>max.iter</code> for <code>ncvsurv</code> to a substantially higher value (5e+4).</li>
 <li>Fixed single lambda support issues in <code>ncvsurv</code> under ncvreg &gt;= 3.7-0.</li>
 </ul>
@@ -238,7 +256,7 @@
 <a href="#improvements-7" class="anchor"></a>Improvements</h2>
 <ul>
 <li>More concrete examples for several functions.</li>
-<li>Introduce argument <code>ylim</code> for <code><a href="../reference/plot.hdnom.validate.html">plot.hdnom.validate()</a></code>, <code><a href="../reference/plot.hdnom.external.validate.html">plot.hdnom.external.validate()</a></code>, and <code><a href="../reference/plot.hdnom.compare.validate.html">plot.hdnom.compare.validate()</a></code> (<a href="https://github.com/road2stat/hdnom/issues/4"><a href='https://github.com/road2stat/hdnom/issues/4'>#4</a></a>).</li>
+<li>Introduce argument <code>ylim</code> for <code><a href="../reference/plot.hdnom.validate.html">plot.hdnom.validate()</a></code>, <code>plot.hdnom.external.validate()</code>, and <code><a href="../reference/plot.hdnom.compare.validate.html">plot.hdnom.compare.validate()</a></code> (<a href="https://github.com/road2stat/hdnom/issues/4"><a href='https://github.com/road2stat/hdnom/issues/4'>#4</a></a>).</li>
 </ul>
 </div>
 </div>
@@ -291,13 +309,13 @@
 <h3 class="hasAnchor">
 <a href="#package" class="anchor"></a>Package</h3>
 <ul>
-<li>New function <code><a href="../reference/hdnom.compare.validate.html">hdnom.compare.validate()</a></code> for model comparison by validation</li>
-<li>New function <code><a href="../reference/hdnom.compare.calibrate.html">hdnom.compare.calibrate()</a></code> for model comparison by calibration</li>
-<li>New function <code><a href="../reference/hdnom.external.validate.html">hdnom.external.validate()</a></code> for external validation</li>
-<li>New function <code><a href="../reference/hdnom.external.calibrate.html">hdnom.external.calibrate()</a></code> for external calibration</li>
+<li>New function <code>hdnom.compare.validate()</code> for model comparison by validation</li>
+<li>New function <code>hdnom.compare.calibrate()</code> for model comparison by calibration</li>
+<li>New function <code>hdnom.external.validate()</code> for external validation</li>
+<li>New function <code>hdnom.external.calibrate()</code> for external calibration</li>
 <li>New <code>predict</code> and <code>print</code> methods for <code>hdcox.model</code> objects</li>
-<li>New function <code><a href="../reference/hdnom.kmplot.html">hdnom.kmplot()</a></code>: Kaplan-Meier analysis for risk groups using internal/external calibration results</li>
-<li>New function <code><a href="../reference/hdnom.logrank.html">hdnom.logrank()</a></code>: Log-rank test for risk groups using internal/external calibration results</li>
+<li>New function <code>hdnom.kmplot()</code>: Kaplan-Meier analysis for risk groups using internal/external calibration results</li>
+<li>New function <code>hdnom.logrank()</code>: Log-rank test for risk groups using internal/external calibration results</li>
 </ul>
 </div>
 <div id="web-application" class="section level3">
@@ -376,7 +394,7 @@
 <h2 class="hasAnchor">
 <a href="#improvements-11" class="anchor"></a>Improvements</h2>
 <ul>
-<li>Reduced example running time for <code><a href="../reference/hdnom.validate.html">hdnom.validate()</a></code>, <code><a href="../reference/hdnom.calibrate.html">hdnom.calibrate()</a></code>, <code><a href="../reference/hdcox.aenet.html">hdcox.aenet()</a></code>, and <code><a href="../reference/hdcox.enet.html">hdcox.enet()</a></code> by reducing resampling times.</li>
+<li>Reduced example running time for <code>hdnom.validate()</code>, <code>hdnom.calibrate()</code>, <code>hdcox.aenet()</code>, and <code>hdcox.enet()</code> by reducing resampling times.</li>
 </ul>
 </div>
 </div>
@@ -388,7 +406,7 @@
 <h2 class="hasAnchor">
 <a href="#bug-fixes-5" class="anchor"></a>Bug Fixes</h2>
 <ul>
-<li>Added argument <code>parallel</code> to <code><a href="../reference/hdcox.aenet.html">hdcox.aenet()</a></code> and <code><a href="../reference/hdcox.enet.html">hdcox.enet()</a></code> to enable or disable the use of parallel parameter tuning.</li>
+<li>Added argument <code>parallel</code> to <code>hdcox.aenet()</code> and <code>hdcox.enet()</code> to enable or disable the use of parallel parameter tuning.</li>
 </ul>
 </div>
 </div>

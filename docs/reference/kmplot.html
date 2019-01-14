@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Kaplan-Meier Plot with Number at Risk Table — kmplot • hdnom</title>
+<title>Kaplan-Meier plot with number at risk table for internal calibration and
+external calibration results — kmplot • hdnom</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +31,11 @@
 
 
 
-<meta property="og:title" content="Kaplan-Meier Plot with Number at Risk Table — kmplot" />
+<meta property="og:title" content="Kaplan-Meier plot with number at risk table for internal calibration and
+external calibration results — kmplot" />
 
-<meta property="og:description" content="Kaplan-Meier Plot with Number at Risk Table" />
+<meta property="og:description" content="Kaplan-Meier plot with number at risk table for internal calibration and
+external calibration results" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -115,53 +118,106 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Kaplan-Meier Plot with Number at Risk Table</h1>
-    <small class="dont-index">Source: <a href='https://github.com/road2stat/hdnom/blob/master/R/4-3-kmplot.R'><code>R/4-3-kmplot.R</code></a></small>
+    <h1>Kaplan-Meier plot with number at risk table for internal calibration and
+external calibration results</h1>
+    <small class="dont-index">Source: <a href='https://github.com/road2stat/hdnom/blob/master/R/4_7_kmplot.R'><code>R/4_7_kmplot.R</code></a></small>
     <div class="hidden name"><code>kmplot.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Kaplan-Meier Plot with Number at Risk Table</p>
+    <p>Kaplan-Meier plot with number at risk table for internal calibration and
+external calibration results</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>kmplot</span>(<span class='no'>fit</span>, <span class='kw'>group.name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>time.at</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>surv.df</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>col.pal</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>kmplot</span>(<span class='no'>object</span>, <span class='kw'>group.name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>time.at</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col.pal</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"JCO"</span>,
+  <span class='st'>"Lancet"</span>, <span class='st'>"NPG"</span>, <span class='st'>"AAAS"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>fit</th>
-      <td><p>a <code><a href='https://www.rdocumentation.org/packages/survival/topics/survfit'>survfit</a></code> object</p></td>
+      <th>object</th>
+      <td><p>An object returned by <code><a href='calibrate.html'>calibrate</a></code> or
+<code><a href='calibrate_external.html'>calibrate_external</a></code>.</p></td>
     </tr>
     <tr>
       <th>group.name</th>
-      <td><p>Group labels. Default is Group 1, Group 2, ... Group k.</p></td>
+      <td><p>Risk group labels. Default is
+Group 1, Group 2, ..., Group k.</p></td>
     </tr>
     <tr>
       <th>time.at</th>
       <td><p>Time points to evaluate the number at risk.</p></td>
     </tr>
     <tr>
-      <th>surv.df</th>
-      <td><p>Data frame containing survival time, event and risk group
-for log-rank test.</p></td>
-    </tr>
-    <tr>
       <th>col.pal</th>
-      <td><p>color palette to use</p></td>
+      <td><p>Color palette to use. Possible values are
+<code>"JCO"</code>, <code>"Lancet"</code>, <code>"NPG"</code>, and <code>"AAAS"</code>.
+Default is <code>"JCO"</code>.</p></td>
     </tr>
     </table>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"survival"</span>)
+
+<span class='co'># Load imputed SMART data</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"smart"</span>)
+
+<span class='co'># Use the first 1000 samples as training data</span>
+<span class='co'># (the data used for internal validation)</span>
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='no'>smart</span>[, -<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>)])[<span class='fl'>1</span>:<span class='fl'>1000</span>, ]
+<span class='no'>time</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>TEVENT</span>[<span class='fl'>1</span>:<span class='fl'>1000</span>]
+<span class='no'>event</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>EVENT</span>[<span class='fl'>1</span>:<span class='fl'>1000</span>]
+
+<span class='co'># Take the next 1000 samples as external calibration data</span>
+<span class='co'># In practice, usually use data collected in other studies</span>
+<span class='no'>x_new</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='no'>smart</span>[, -<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>)])[<span class='fl'>1001</span>:<span class='fl'>2000</span>, ]
+<span class='no'>time_new</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>TEVENT</span>[<span class='fl'>1001</span>:<span class='fl'>2000</span>]
+<span class='no'>event_new</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>EVENT</span>[<span class='fl'>1001</span>:<span class='fl'>2000</span>]
+
+<span class='co'># Fit Cox model with lasso penalty</span>
+<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_lasso.html'>fit_lasso</a></span>(<span class='no'>x</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/survival/topics/Surv'>Surv</a></span>(<span class='no'>time</span>, <span class='no'>event</span>), <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>rule</span> <span class='kw'>=</span> <span class='st'>"lambda.1se"</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>11</span>)
+
+<span class='co'># Internal calibration</span>
+<span class='no'>cal.int</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='calibrate.html'>calibrate</a></span>(
+  <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>,
+  <span class='kw'>model.type</span> <span class='kw'>=</span> <span class='st'>"lasso"</span>,
+  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='no'>fit</span>$<span class='no'>lasso_best_lambda</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"cv"</span>, <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>pred.at</span> <span class='kw'>=</span> <span class='fl'>365</span> * <span class='fl'>9</span>, <span class='kw'>ngroup</span> <span class='kw'>=</span> <span class='fl'>3</span>
+)</div><div class='output co'>#&gt; Start fold 1 
+#&gt; Start fold 2 
+#&gt; Start fold 3 
+#&gt; Start fold 4 
+#&gt; Start fold 5 </div><div class='input'>
+<span class='fu'>kmplot</span>(
+  <span class='no'>cal.int</span>,
+  <span class='kw'>group.name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"High risk"</span>, <span class='st'>"Medium risk"</span>, <span class='st'>"Low risk"</span>),
+  <span class='kw'>time.at</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>6</span> * <span class='fl'>365</span>
+)</div><div class='img'><img src='kmplot-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># External calibration</span>
+<span class='no'>cal.ext</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='calibrate_external.html'>calibrate_external</a></span>(
+  <span class='no'>fit</span>, <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>,
+  <span class='no'>x_new</span>, <span class='no'>time_new</span>, <span class='no'>event_new</span>,
+  <span class='kw'>pred.at</span> <span class='kw'>=</span> <span class='fl'>365</span> * <span class='fl'>5</span>, <span class='kw'>ngroup</span> <span class='kw'>=</span> <span class='fl'>3</span>
+)
+
+<span class='fu'>kmplot</span>(
+  <span class='no'>cal.ext</span>,
+  <span class='kw'>group.name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"High risk"</span>, <span class='st'>"Medium risk"</span>, <span class='st'>"Low risk"</span>),
+  <span class='kw'>time.at</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>6</span> * <span class='fl'>365</span>
+)</div><div class='img'><img src='kmplot-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+            
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
