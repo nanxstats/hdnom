@@ -34,10 +34,10 @@ Note that for \code{mnet} and \code{snet} models,
 \code{alpha} can be set to very close to 0 but not 0 exactly.}
 
 \item{lambda}{Value of the penalty parameter lambda to use in the
-model fits on the resampled data. From the built Cox model.}
+model fits on the resampled data. From the fitted Cox model.}
 
 \item{pen.factor}{Penalty factors to apply to each coefficient.
-From the built \emph{adaptive lasso} or \emph{adaptive elastic-net} model.}
+From the fitted \emph{adaptive lasso} or \emph{adaptive elastic-net} model.}
 
 \item{gamma}{Value of the model parameter gamma for
 MCP/SCAD/Mnet/Snet models.}
