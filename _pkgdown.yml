@@ -6,72 +6,80 @@ reference:
   - title: "Building Cox Models"
     desc: "Functions for building penalized Cox models."
     contents:
-      - starts_with("hdcox.")
-      - print.hdcox.model
-      - predict.hdcox.model
-      - hdnom.varinfo
+      - fit_lasso
+      - fit_alasso
+      - fit_enet
+      - fit_aenet
+      - fit_scad
+      - fit_snet
+      - fit_mcp
+      - fit_mnet
+      - fit_flasso
+      - print.hdnom.model
+      - predict.hdnom.model
+      - infer_variable_type
   - title: "Nomogram Visualization"
     desc: >
       Functions for nomogram visualization of the penalized
       Cox models
     contents:
-      - hdnom.nomogram
-      - plot.hdnom.nomogram
+      - as_nomogram
       - print.hdnom.nomogram
+      - plot.hdnom.nomogram
   - title: "Model Validation"
     desc: >
       Functions for model validation using bootstrap,
       k-fold cross-validation, and repeated k-fold cross-validation.
       Model performance is assessed by time-dependent AUC (tAUC).
     contents:
-      - hdnom.validate
-      - hdnom.external.validate
+      - validate
       - print.hdnom.validate
-      - print.hdnom.external.validate
       - summary.hdnom.validate
-      - summary.hdnom.external.validate
       - plot.hdnom.validate
-      - plot.hdnom.external.validate
+      - validate_external
+      - print.hdnom.validate.external
+      - summary.hdnom.validate.external
+      - plot.hdnom.validate.external
   - title: "Model Calibration"
     desc: >
       Functions for model calibration using direct fitting,
       bootstrap resampling, k-fold cross-validation, and
       repeated cross-validation.
     contents:
-      - hdnom.calibrate
-      - hdnom.external.calibrate
+      - calibrate
       - print.hdnom.calibrate
-      - print.hdnom.external.calibrate
       - summary.hdnom.calibrate
-      - summary.hdnom.external.calibrate
       - plot.hdnom.calibrate
-      - plot.hdnom.external.calibrate
-      - hdnom.kmplot
-      - hdnom.logrank
+      - calibrate_external
+      - print.hdnom.calibrate.external
+      - summary.hdnom.calibrate.external
+      - plot.hdnom.calibrate.external
+      - kmplot
+      - logrank_test
   - title: "Model Comparison"
     desc: >
       Functions for model comparison in terms of validation and
       calibration performance.
     contents:
-      - hdnom.compare.validate
-      - hdnom.compare.calibrate
+      - compare_by_validate
       - print.hdnom.compare.validate
-      - print.hdnom.compare.calibrate
       - summary.hdnom.compare.validate
-      - summary.hdnom.compare.calibrate
       - plot.hdnom.compare.validate
+      - compare_by_calibrate
+      - print.hdnom.compare.calibrate
+      - summary.hdnom.compare.calibrate
       - plot.hdnom.compare.calibrate
   - title: "Miscellaneous"
     desc: >
       Miscellaneous functions for supporting survival analysis,
       such as baseline hazard estimation and survival curve prediction.
     contents:
-      - glmnet.basesurv
-      - glmnet.survcurve
-      - penalized.basesurv
-      - penalized.survcurve
-      - ncvreg.basesurv
-      - ncvreg.survcurve
+      - glmnet_basesurv
+      - glmnet_survcurve
+      - ncvreg_basesurv
+      - ncvreg_survcurve
+      - penalized_basesurv
+      - penalized_survcurve
       - hdnom-package
   - title: "Datasets"
     desc: >
