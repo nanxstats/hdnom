@@ -2,12 +2,14 @@
 title: "An Introduction to hdnom"
 author: "Nan Xiao <<https://nanx.me>> <br> Miaozhu Li <<http://miaozhu.li>>"
 date: "`r Sys.Date()`"
-bibliography: hdnom.bib
 output:
-  rmarkdown::html_vignette:
+  rmarkdown::html_document:
     toc: true
+    toc_float: true
+    toc_depth: 4
     number_sections: true
-    css: hdnom.css
+    theme: "flatly"
+    highlight: "textmate"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{An Introduction to hdnom}
@@ -40,29 +42,29 @@ To free the users from the tedious and error-prone parameter tuning process,
 `hdnom` provides several functions for automatic parameter tuning and
 model selection, including the following model types:
 
-+------------------+---------------------------+
-| Function Name    | Model Type                |
-+==================+===========================+
-| `hdcox.lasso()`  | Lasso                     |
-+------------------+---------------------------+
-| `hdcox.alasso()` | Adaptive lasso            |
-+------------------+---------------------------+
-| `hdcox.flasso()` | Fused lasso               |
-+------------------+---------------------------+
-| `hdcox.enet()`   | Elastic-net               |
-+------------------+---------------------------+
-| `hdcox.aenet()`  | Adaptive elastic-net      |
-+------------------+---------------------------+
-| `hdcox.mcp()`    | MCP                       |
-+------------------+---------------------------+
-| `hdcox.mnet()`   | Mnet (MCP + elastic-net)  |
-+------------------+---------------------------+
-| `hdcox.scad()`   | SCAD                      |
-+------------------+---------------------------+
-| `hdcox.snet()`   | Snet (SCAD + elastic-net) |
-+------------------+---------------------------+
++------------------+---------------------------+-------------------------------+
+| Function name    | Model type                | Auto-tuned hyperparameters    |
++==================+===========================+===============================+
+| `fit_lasso()`    | Lasso                     | $\lambda$                     |
++------------------+---------------------------+-------------------------------+
+| `fit_alasso()`   | Adaptive lasso            | $\lambda$                     |
++------------------+---------------------------+-------------------------------+
+| `fit_enet()`     | Elastic-net               | $\lambda$, $\alpha$           |
++------------------+---------------------------+-------------------------------+
+| `fit_aenet()`    | Adaptive elastic-net      | $\lambda$, $\alpha$           |
++------------------+---------------------------+-------------------------------+
+| `fit_mcp()`      | MCP                       | $\gamma$, $\lambda$           |
++------------------+---------------------------+-------------------------------+
+| `fit_mnet()`     | Mnet (MCP + $\ell_2$)     | $\gamma$, $\lambda$, $\alpha$ |
++------------------+---------------------------+-------------------------------+
+| `fit_scad()`     | SCAD                      | $\gamma$, $\lambda$           |
++------------------+---------------------------+-------------------------------+
+| `fit_snet()`     | Snet (SCAD + $\ell_2$)    | $\gamma$, $\lambda$, $\alpha$ |
++------------------+---------------------------+-------------------------------+
+| `fit_flasso()`   | Fused lasso               | $\lambda_1$, $\lambda_2$      |
++------------------+---------------------------+-------------------------------+
 
-In the next, we will use the imputed SMART study data [@steyerberg2008clinical]
+In the next, we will use the imputed SMART study data
 to demonstrate a complete process of model building, nomogram plotting,
 model validation, calibration, and comparison with `hdnom`.
 
@@ -82,15 +84,14 @@ The dataset contains 3873 observations with corresponding survival outcome
 (`time`, `event`). 27 clinical variables (`x`) are available as the predictors.
 See `?smart` for a detailed explanation of the variables.
 
-Fit a penalized Cox model by adaptive elastic-net regularization,
-with `hdcox.aenet`:
+Fit a penalized Cox model by adaptive elastic-net regularization with `fit_aenet()`:
 
 ```{r, eval = FALSE}
 # enable parallel parameter tuning
 suppressMessages(library("doParallel"))
 registerDoParallel(detectCores())
 
-fit <- hdcox.aenet(x, y,
+fit <- fit_aenet(x, y,
   nfolds = 10, rule = "lambda.1se",
   seed = c(5, 7), parallel = TRUE
 )
@@ -113,7 +114,7 @@ the model fitted for each estimation step, and the penalty factor for the model
 coefficients in the second estimation step are all stored in the model object
 `fit`.
 
-# Nomogram Plotting
+# Nomogram Visualization
 
 Before plotting the nomogram, we need to extract some necessary information
 about the model, namely, the model object and parameters,
@@ -126,11 +127,10 @@ lambda <- fit$aenet_best_lambda
 adapen <- fit$pen_factor
 ```
 
-Let's generate a `hdnom.nomogram` object with `hdnom.nomogram()`
-and plot the nomogram:
+Let's generate a nomogram object with `as_nomogram()` and plot it:
 
 ```{r, fig.width = 8, fig.height = 8, out.width = 600, out.height = 600}
-nom <- hdnom.nomogram(
+nom <- as_nomogram(
   model,
   model.type = "aenet",
   x, time, event, pred.at = 365 * 2,
@@ -162,7 +162,7 @@ independent to the dataset used in model building.
 
 ## Internal Validation
 
-`hdnom.validate()` allows us to assess the model performance internally by
+`validate()` allows us to assess the model performance internally by
 time-dependent AUC (Area Under the ROC Curve) with the above three
 resampling methods.
 
@@ -171,7 +171,7 @@ with bootstrap resampling, at every half year from the first year
 to the fifth year:
 
 ```{r}
-val.int <- hdnom.validate(
+val.int <- validate(
   x, time, event,
   model.type = "aenet",
   alpha = alpha, lambda = lambda, pen.factor = adapen,
@@ -210,7 +210,7 @@ validated by bootstrap methods. $K$-fold cross-validation provides a more
 strict evaluation scheme than bootstrap. Repeated cross-validation gives
 similar results as $k$-fold cross-validation, and usually more robust.
 These two methods are more applied by the machine learning community.
-Check `?hdnom.validate` for more examples about internal model validation.
+Check `?hdnom::validate` for more examples about internal model validation.
 
 ## External Validation
 
@@ -222,7 +222,7 @@ the same variables that have been selected in the model.
 
 For demonstration purposes, here we draw 1000 samples from the `smart` data
 and _assume_ that they form an external validation dataset, then
-use `hdnom.external.validate()` to perform external validation:
+use `validate_external()` to perform external validation:
 
 ```{r, fig.width = 8, fig.height = 8, out.width = 600, out.height = 600}
 x_new <- as.matrix(smart[, -c(1, 2)])[1001:2000, ]
@@ -230,7 +230,7 @@ time_new <- smart$TEVENT[1001:2000]
 event_new <- smart$EVENT[1001:2000]
 
 # External validation with time-dependent AUC
-val.ext <- hdnom.external.validate(
+val.ext <- validate_external(
   fit, x, time, event,
   x_new, time_new, event_new,
   tauc.type = "UNO",
@@ -254,14 +254,14 @@ external model calibration are supported in `hdnom`.
 
 ## Internal Calibration
 
-`hdnom.calibrate()` provides non-resampling and resampling
+`calibrate()` provides non-resampling and resampling
 methods for internal model calibration, including direct fitting,
 bootstrap resampling, $k$-fold cross-validation, and repeated cross-validation.
 
 For example, to calibrate the model internally with the bootstrap method:
 
 ```{r}
-cal.int <- hdnom.calibrate(
+cal.int <- calibrate(
   x, time, event,
   model.type = "aenet",
   alpha = alpha, lambda = lambda, pen.factor = adapen,
@@ -288,15 +288,14 @@ plot(cal.int, xlim = c(0.5, 1), ylim = c(0.5, 1))
 
 In practice, you may want to perform calibration for multiple time points
 separately, and put the plots together in one figure.
-See `?hdnom.calibrate` for more examples about internal model calibration.
+See `?hdnom::calibrate` for more examples about internal model calibration.
 
 ## External Calibration
 
-To perform external calibration with an external dataset,
-use `hdnom.external.calibrate()`:
+To perform external calibration with an external dataset, use `calibrate_external()`:
 
 ```{r, fig.width = 8, fig.height = 8, out.width = 600, out.height = 600}
-cal.ext <- hdnom.external.calibrate(
+cal.ext <- calibrate_external(
   fit, x, time, event,
   x_new, time_new, event_new,
   pred.at = 365 * 5, ngroup = 3
@@ -322,16 +321,16 @@ We can further analyze the differences in survival time for different risk
 groups with Kaplan-Meier survival curves and a number at risk table.
 For example, here we plot the Kaplan-Meier survival curves and evaluate
 the number at risk from one year to six years for the three risk groups,
-with the function `hdnom.kmplot()`:
+with the function `kmplot()`:
 
 ```{r, fig.width = 8, fig.height = 8, out.width = 600, out.height = 600}
-hdnom.kmplot(
+kmplot(
   cal.int,
   group.name = c("High risk", "Medium risk", "Low risk"),
   time.at = 1:6 * 365
 )
 
-hdnom.kmplot(
+kmplot(
   cal.ext,
   group.name = c("High risk", "Medium risk", "Low risk"),
   time.at = 1:6 * 365
@@ -343,14 +342,14 @@ The $p$-value of the log-rank test is also shown in the plot.
 ## Log-Rank Test for Risk Groups
 
 To compare the differences between the survival curves, log-rank test
-is often applied. `hdnom.logrank()` performs such tests on the internal
+is often applied. `logrank_test()` performs such tests on the internal
 calibration and external calibration results:
 
 ```{r}
-cal.int.logrank <- hdnom.logrank(cal.int)
+cal.int.logrank <- logrank_test(cal.int)
 cal.int.logrank
 cal.int.logrank$pval
-cal.ext.logrank <- hdnom.logrank(cal.ext)
+cal.ext.logrank <- logrank_test(cal.ext)
 cal.ext.logrank
 cal.ext.logrank$pval
 ```
@@ -373,7 +372,7 @@ For example, here we compare lasso and adaptive lasso by
 5-fold cross-validation:
 
 ```{r, fig.width = 8, fig.height = 6.4, out.width = 600, out.height = 480}
-cmp.val <- hdnom.compare.validate(
+cmp.val <- compare_by_validate(
   x, time, event,
   model.type = c("lasso", "alasso"),
   method = "cv", nfolds = 5, tauc.type = "UNO",
@@ -406,7 +405,7 @@ performance. To continue the example, we split the samples into five risk
 groups, and compare lasso to adaptive lasso via calibration:
 
 ```{r, fig.width = 8, fig.height = 6.4, out.width = 600, out.height = 480}
-cmp.cal <- hdnom.compare.calibrate(
+cmp.cal <- compare_by_calibrate(
   x, time, event,
   model.type = c("lasso", "alasso"),
   method = "cv", nfolds = 5,
@@ -446,28 +445,20 @@ all above plots, inspired by the colors commonly used by scientific journals.
 Users can use the `col.pal` argument to select the color palette.
 Possible values for this argument are listed in the table below:
 
-+----------+-------------------------------------------------+
-| Value    | Color Palette Related Journals                  |
-+==========+=================================================+
-| `"JCO"`    | _Journal of Clinical Oncology_                |
-+----------+-------------------------------------------------+
-| `"Lancet"` | Lancet journals, such as _Lancet Oncology_    |
-+----------+-------------------------------------------------+
-| `"NPG"`    | NPG journals, such as _Nature Reviews Cancer_ |
-+----------+-------------------------------------------------+
-| `"AAAS"`   | AAAS Journals, such as _Science_              |
-+----------+-------------------------------------------------+
++------------+-------------------------------------------------+
+| Value      | Color palette inspiration                       |
++============+=================================================+
+| `"JCO"`    | _Journal of Clinical Oncology_                  |
++------------+-------------------------------------------------+
+| `"Lancet"` | Lancet journals, such as _Lancet Oncology_      |
++------------+-------------------------------------------------+
+| `"NPG"`    | NPG journals, such as _Nature Reviews Cancer_   |
++------------+-------------------------------------------------+
+| `"AAAS"`   | AAAS Journals, such as _Science_                |
++------------+-------------------------------------------------+
 
 By default, `hdnom` will use the JCO color palette (`col.pal = "JCO"`).
 
-# Further Reading
+# Shiny app
 
-To cite our paper (preprint), please use [@hdnompreprint2016].
-For further information about the hdnom project,
-please visit:
-
-- hdnom project website: [https://nanx.me/hdnom/](https://nanx.me/hdnom/)
-- hdnom web application: [http://hdnom.io](http://hdnom.io)
-- hdnom appmaker: [https://nanx.me/hdnom/appmaker](https://nanx.me/hdnom/appmaker)
-
-# References
+[http://hdnom.io](http://hdnom.io)
