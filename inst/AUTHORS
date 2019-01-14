@@ -1,7 +1,7 @@
 The code in the three files:
-  rms-nomogram.R
-  rms-nomogram-method.R
-  rms-nomogram-misc.R
+  rms_nomogram.R
+  rms_nomogram_method.R
+  rms_nomogram_misc.R
 under the R/ subdirectory were originally written by
   Frank E Harrell Jr <f.harrell@vanderbilt.edu>
 and modified by Nan Xiao.
