@@ -33,6 +33,7 @@ fit_lasso <- function(
   rule = c("lambda.min", "lambda.1se"),
   seed = 1001) {
   call <- match.call()
+  rule <- match.arg(rule)
 
   set.seed(seed)
   lasso_cv <- cv.glmnet(x, y, family = "cox", nfolds = nfolds, alpha = 1)
@@ -101,6 +102,7 @@ fit_alasso <- function(
   rule = c("lambda.min", "lambda.1se"),
   seed = c(1001, 1002)) {
   call <- match.call()
+  rule <- match.arg(rule)
 
   # Tune lambda for the both two stages of adaptive lasso estimation
   set.seed(seed[1L])
@@ -214,6 +216,7 @@ fit_enet <- function(
   rule = c("lambda.min", "lambda.1se"),
   seed = 1001, parallel = FALSE) {
   call <- match.call()
+  rule <- match.arg(rule)
 
   enet_cv <- glmnet_tune_alpha(
     x, y,
