@@ -68,38 +68,35 @@ cal.ext <- calibrate_external(
 print(cal.ext)
 summary(cal.ext)
 plot(cal.ext, xlim = c(0.6, 1), ylim = c(0.6, 1))
-# ### Testing fused lasso, MCP, and Snet models ###
-# library("survival")
-#
-# # Load imputed SMART data
+# # Test fused lasso, MCP, and Snet models
 # data(smart)
 # # Use first 500 samples as training data
 # # (the data used for internal validation)
-# x = as.matrix(smart[, -c(1, 2)])[1:500, ]
-# time = smart$TEVENT[1:500]
-# event = smart$EVENT[1:500]
+# x <- as.matrix(smart[, -c(1, 2)])[1:500, ]
+# time <- smart$TEVENT[1:500]
+# event <- smart$EVENT[1:500]
 #
 # # Take 1000 samples as external validation data.
 # # In practice, usually use data collected in other studies.
-# x_new = as.matrix(smart[, -c(1, 2)])[1001:2000, ]
-# time_new = smart$TEVENT[1001:2000]
-# event_new = smart$EVENT[1001:2000]
+# x_new <- as.matrix(smart[, -c(1, 2)])[1001:2000, ]
+# time_new <- smart$TEVENT[1001:2000]
+# event_new <- smart$EVENT[1001:2000]
 #
-# flassofit = fit_flasso(x, Surv(time, event), nfolds = 5, seed = 11)
-# scadfit = fit_mcp(x, Surv(time, event), nfolds = 5, seed = 11)
-# mnetfit = fit_snet(x, Surv(time, event), nfolds = 5, seed = 11)
+# flassofit <- fit_flasso(x, survival::Surv(time, event), nfolds = 5, seed = 11)
+# scadfit <- fit_mcp(x, survival::Surv(time, event), nfolds = 5, seed = 11)
+# mnetfit <- fit_snet(x, survival::Surv(time, event), nfolds = 5, seed = 11)
 #
-# cal.ext1 = calibrate_external(
+# cal.ext1 <- calibrate_external(
 #   flassofit, x, time, event,
 #   x_new, time_new, event_new,
 #   pred.at = 365 * 5, ngroup = 5)
 #
-# cal.ext2 = calibrate_external(
+# cal.ext2 <- calibrate_external(
 #   scadfit, x, time, event,
 #   x_new, time_new, event_new,
 #   pred.at = 365 * 5, ngroup = 5)
 #
-# cal.ext3 = calibrate_external(
+# cal.ext3 <- calibrate_external(
 #   mnetfit, x, time, event,
 #   x_new, time_new, event_new,
 #   pred.at = 365 * 5, ngroup = 5)

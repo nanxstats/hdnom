@@ -36,16 +36,12 @@ Automatic model selection for high-dimensional Cox models
 with SCAD penalty, evaluated by penalized partial-likelihood.
 }
 \examples{
-library("survival")
-
-# Load imputed SMART data; only use the first 120 samples
 data("smart")
 x <- as.matrix(smart[, -c(1, 2)])[1:120, ]
 time <- smart$TEVENT[1:120]
 event <- smart$EVENT[1:120]
-y <- Surv(time, event)
+y <- survival::Surv(time, event)
 
-# Fit Cox model with SCAD penalty
 fit <- fit_scad(
   x, y,
   nfolds = 3, gammas = c(3.7, 5),
@@ -53,9 +49,7 @@ fit <- fit_scad(
 )
 
 nom <- as_nomogram(
-  fit$scad_model,
-  model.type = "scad",
-  x, time, event, pred.at = 365 * 2,
+  fit, x, time, event, pred.at = 365 * 2,
   funlabel = "2-Year Overall Survival Probability"
 )
 

@@ -53,25 +53,19 @@ method is more suitable for datasets with larger number of observations,
 and a higher number of cross-validation folds.
 }
 \examples{
-library("survival")
-
-# Load imputed SMART data; only use the first 120 samples
 data("smart")
 x <- as.matrix(smart[, -c(1, 2)])[1:120, ]
 time <- smart$TEVENT[1:120]
 event <- smart$EVENT[1:120]
-y <- Surv(time, event)
+y <- survival::Surv(time, event)
 
-# Fit Cox model with fused lasso penalty
 fit <- fit_flasso(x, y,
   lambda1 = c(1, 10), lambda2 = c(0.01),
   nfolds = 3, seed = 11
 )
 
 nom <- as_nomogram(
-  fit$flasso_model,
-  model.type = "flasso",
-  x, time, event, pred.at = 365 * 2,
+  fit, x, time, event, pred.at = 365 * 2,
   funlabel = "2-Year Overall Survival Probability"
 )
 

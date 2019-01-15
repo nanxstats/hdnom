@@ -2,23 +2,18 @@
 % Please edit documentation in R/2_1_nomogram.R
 \name{as_nomogram}
 \alias{as_nomogram}
-\title{Nomograms for high-dimensional Cox models}
+\title{Construct nomogram ojects for high-dimensional Cox models}
 \usage{
-as_nomogram(object, model.type = c("lasso", "alasso", "flasso", "enet",
-  "aenet", "mcp", "mnet", "scad", "snet"), x, time, event,
-  pred.at = NULL, fun.at = NULL, funlabel = NULL)
+as_nomogram(object, x, time, event, pred.at = NULL, fun.at = NULL,
+  funlabel = NULL)
 }
 \arguments{
-\item{object}{Fitted model object.}
-
-\item{model.type}{Fitted model type. Could be one of \code{"lasso"},
-\code{"alasso"}, \code{"flasso"}, \code{"enet"}, \code{"aenet"},
-\code{"mcp"}, \code{"mnet"}, \code{"scad"}, or \code{"snet"}.}
+\item{object}{Model object fitted by `hdnom::fit_*()` functions.}
 
 \item{x}{Matrix of training data used for fitting the model.}
 
-\item{time}{Survival time.
-Must be of the same length with the number of rows as \code{x}.}
+\item{time}{Survival time. Must be of the same length with
+the number of rows as \code{x}.}
 
 \item{event}{Status indicator, normally 0 = alive, 1 = dead.
 Must be of the same length with the number of rows as \code{x}.}
@@ -30,32 +25,23 @@ Must be of the same length with the number of rows as \code{x}.}
 \item{funlabel}{Label for \code{fun} axis.}
 }
 \description{
-Nomograms for high-dimensional Cox models
+Construct nomograms ojects for high-dimensional Cox models
 }
 \note{
-We will try to use the value of the automatically selected
-"optimal" penalty parameter (e.g. lambda, alpha) in the model object.
-The selected variables under the penalty parameter will be
-used to build the nomogram and make predictions.
+The nomogram visualizes the model under the automatically
+selected "optimal" hyperparameters (e.g. lambda, alpha, gamma).
 }
 \examples{
-library("hdnom")
-library("survival")
-
-# Load imputed SMART data
 data(smart)
 x <- as.matrix(smart[, -c(1, 2)])
 time <- smart$TEVENT
 event <- smart$EVENT
-y <- Surv(time, event)
+y <- survival::Surv(time, event)
 
-# Fit penalized Cox model with lasso penalty
 fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 
 nom <- as_nomogram(
-  fit$lasso_model,
-  model.type = "lasso",
-  x, time, event, pred.at = 365 * 2,
+  fit, x, time, event, pred.at = 365 * 2,
   funlabel = "2-Year Overall Survival Probability"
 )
 

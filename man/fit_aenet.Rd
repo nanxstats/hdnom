@@ -34,21 +34,17 @@ Automatic model selection for high-dimensional Cox models
 with adaptive elastic-net penalty, evaluated by penalized partial-likelihood.
 }
 \examples{
-library("survival")
-
-# Load imputed SMART data
 data("smart")
 x <- as.matrix(smart[, -c(1, 2)])
 time <- smart$TEVENT
 event <- smart$EVENT
-y <- Surv(time, event)
+y <- survival::Surv(time, event)
 
 # To enable parallel parameter tuning, first run:
 # library("doParallel")
 # registerDoParallel(detectCores())
 # then set fit_aenet(..., parallel = TRUE).
 
-# Fit Cox model with adaptive elastic-net penalty
 fit <- fit_aenet(
   x, y,
   nfolds = 3, alphas = c(0.3, 0.7),
@@ -56,9 +52,7 @@ fit <- fit_aenet(
 )
 
 nom <- as_nomogram(
-  fit$aenet_model,
-  model.type = "aenet",
-  x, time, event, pred.at = 365 * 2,
+  fit, x, time, event, pred.at = 365 * 2,
   funlabel = "2-Year Overall Survival Probability"
 )
 

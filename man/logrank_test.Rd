@@ -14,11 +14,7 @@ logrank_test(object)
 Log-rank test for internal calibration and external calibration results
 }
 \examples{
-library("survival")
-
-# Load imputed SMART data
 data("smart")
-
 # Use the first 1000 samples as training data
 # (the data used for internal validation)
 x <- as.matrix(smart[, -c(1, 2)])[1:1000, ]
@@ -33,7 +29,7 @@ event_new <- smart$EVENT[1001:2000]
 
 # Fit Cox model with lasso penalty
 fit <- fit_lasso(
-  x, Surv(time, event),
+  x, survival::Surv(time, event),
   nfolds = 5, rule = "lambda.1se", seed = 11
 )
 
@@ -41,7 +37,7 @@ fit <- fit_lasso(
 cal.int <- calibrate(
   x, time, event,
   model.type = "lasso",
-  alpha = 1, lambda = fit$lasso_best_lambda,
+  alpha = 1, lambda = fit$lambda,
   method = "cv", nfolds = 5,
   pred.at = 365 * 9, ngroup = 3
 )

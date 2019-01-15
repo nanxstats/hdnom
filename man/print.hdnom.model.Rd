@@ -15,14 +15,11 @@
 Print high-dimensional Cox model objects
 }
 \examples{
-library("survival")
-
-# Load imputed SMART data
 data("smart")
 x <- as.matrix(smart[, -c(1, 2)])
 time <- smart$TEVENT
 event <- smart$EVENT
-y <- Surv(time, event)
+y <- survival::Surv(time, event)
 
 fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 print(fit)

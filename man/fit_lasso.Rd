@@ -25,22 +25,16 @@ Automatic model selection for high-dimensional Cox models
 with lasso penalty, evaluated by penalized partial-likelihood.
 }
 \examples{
-library("survival")
-
-# Load imputed SMART data
 data("smart")
 x <- as.matrix(smart[, -c(1, 2)])
 time <- smart$TEVENT
 event <- smart$EVENT
-y <- Surv(time, event)
+y <- survival::Surv(time, event)
 
-# Fit Cox model with lasso penalty
 fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 
 nom <- as_nomogram(
-  fit$lasso_model,
-  model.type = "lasso",
-  x, time, event, pred.at = 365 * 2,
+  fit, x, time, event, pred.at = 365 * 2,
   funlabel = "2-Year Overall Survival Probability"
 )
 

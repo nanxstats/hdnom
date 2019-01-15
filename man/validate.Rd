@@ -73,16 +73,12 @@ Default is \code{TRUE}.}
 Validate high-dimensional Cox models with time-dependent AUC
 }
 \examples{
-library("survival")
-
-# Load imputed SMART data
 data(smart)
 x <- as.matrix(smart[, -c(1, 2)])[1:500, ]
 time <- smart$TEVENT[1:500]
 event <- smart$EVENT[1:500]
-y <- Surv(time, event)
+y <- survival::Surv(time, event)
 
-# Fit penalized Cox model with lasso penalty
 fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 
 # Model validation by bootstrap with time-dependent AUC
@@ -91,7 +87,7 @@ fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 val.boot <- validate(
   x, time, event,
   model.type = "lasso",
-  alpha = 1, lambda = fit$lasso_best_lambda,
+  alpha = 1, lambda = fit$lambda,
   method = "bootstrap", boot.times = 3,
   tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
   seed = 1010
@@ -101,7 +97,7 @@ val.boot <- validate(
 val.cv <- validate(
   x, time, event,
   model.type = "lasso",
-  alpha = 1, lambda = fit$lasso_best_lambda,
+  alpha = 1, lambda = fit$lambda,
   method = "cv", nfolds = 5,
   tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
   seed = 1010
@@ -111,7 +107,7 @@ val.cv <- validate(
 val.repcv <- validate(
   x, time, event,
   model.type = "lasso",
-  alpha = 1, lambda = fit$lasso_best_lambda,
+  alpha = 1, lambda = fit$lambda,
   method = "repeated.cv", nfolds = 5, rep.times = 3,
   tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
   seed = 1010
@@ -132,16 +128,13 @@ plot(val.cv)
 print(val.repcv)
 summary(val.repcv)
 plot(val.repcv)
-# # Test fused lasso, SCAD, and Mnet models ###
-# library("hdnom")
-# library("survival")
+# # Test fused lasso, SCAD, and Mnet models
 #
-# # Load imputed SMART data
 # data(smart)
 # x = as.matrix(smart[, -c(1, 2)])[1:500,]
 # time = smart$TEVENT[1:500]
 # event = smart$EVENT[1:500]
-# y = Surv(time, event)
+# y = survival::Surv(time, event)
 #
 # set.seed(1010)
 # val.boot = validate(

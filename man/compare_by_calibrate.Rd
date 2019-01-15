@@ -48,7 +48,6 @@ Default is \code{TRUE}.}
 Compare high-dimensional Cox models by model calibration
 }
 \examples{
-# Load imputed SMART data
 data(smart)
 x <- as.matrix(smart[, -c(1, 2)])
 time <- smart$TEVENT

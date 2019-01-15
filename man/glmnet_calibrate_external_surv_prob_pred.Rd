@@ -4,8 +4,7 @@
 \alias{glmnet_calibrate_external_surv_prob_pred}
 \title{Compute glmnet predicted survival probabilities for external calibration}
 \usage{
-glmnet_calibrate_external_surv_prob_pred(object, x_tr, x_te, y_tr, alpha,
-  lambda, pen.factor, pred.at)
+glmnet_calibrate_external_surv_prob_pred(object, x_tr, x_te, y_tr, pred.at)
 }
 \value{
 list containing predicted survival probability

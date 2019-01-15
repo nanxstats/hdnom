@@ -52,7 +52,6 @@ Default is \code{TRUE}.}
 Compare high-dimensional Cox models by model validation
 }
 \examples{
-# Load imputed SMART data
 data(smart)
 x <- as.matrix(smart[, -c(1, 2)])[1:1000, ]
 time <- smart$TEVENT[1:1000]
