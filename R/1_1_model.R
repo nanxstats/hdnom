@@ -23,7 +23,8 @@
 #' fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 #'
 #' nom <- as_nomogram(
-#'   fit, x, time, event, pred.at = 365 * 2,
+#'   fit, x, time, event,
+#'   pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -92,7 +93,8 @@ fit_lasso <- function(
 #' fit <- fit_alasso(x, y, nfolds = 3, rule = "lambda.1se", seed = c(7, 11))
 #'
 #' nom <- as_nomogram(
-#'   fit, x, time, event, pred.at = 365 * 2,
+#'   fit, x, time, event,
+#'   pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -200,13 +202,15 @@ fit_alasso <- function(
 #' # registerDoParallel(detectCores())
 #' # then set fit_enet(..., parallel = TRUE).
 #'
-#' fit <- fit_enet(x, y,
+#' fit <- fit_enet(
+#'   x, y,
 #'   nfolds = 3, alphas = c(0.3, 0.7),
 #'   rule = "lambda.1se", seed = 11
 #' )
 #'
 #' nom <- as_nomogram(
-#'   fit, x, time, event, pred.at = 365 * 2,
+#'   fit, x, time, event,
+#'   pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -299,7 +303,8 @@ fit_enet <- function(
 #' )
 #'
 #' nom <- as_nomogram(
-#'   fit, x, time, event, pred.at = 365 * 2,
+#'   fit, x, time, event,
+#'   pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -430,7 +435,8 @@ fit_aenet <- function(
 #' )
 #'
 #' nom <- as_nomogram(
-#'   fit, x, time, event, pred.at = 365 * 2,
+#'   fit, x, time, event,
+#'   pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -516,7 +522,8 @@ fit_scad <- function(
 #' )
 #'
 #' nom <- as_nomogram(
-#'   fit, x, time, event, pred.at = 365 * 2,
+#'   fit, x, time, event,
+#'   pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -603,7 +610,8 @@ fit_snet <- function(
 #' fit <- fit_mcp(x, y, nfolds = 3, gammas = c(2.1, 3), seed = 1001)
 #'
 #' nom <- as_nomogram(
-#'   fit, x, time, event, pred.at = 365 * 2,
+#'   fit, x, time, event,
+#'   pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -691,7 +699,8 @@ fit_mcp <- function(
 #' )
 #'
 #' nom <- as_nomogram(
-#'   fit, x, time, event, pred.at = 365 * 2,
+#'   fit, x, time, event,
+#'   pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -789,13 +798,15 @@ fit_mnet <- function(
 #' event <- smart$EVENT[1:120]
 #' y <- survival::Surv(time, event)
 #'
-#' fit <- fit_flasso(x, y,
+#' fit <- fit_flasso(
+#'   x, y,
 #'   lambda1 = c(1, 10), lambda2 = c(0.01),
 #'   nfolds = 3, seed = 11
 #' )
 #'
 #' nom <- as_nomogram(
-#'   fit, x, time, event, pred.at = 365 * 2,
+#'   fit, x, time, event,
+#'   pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'

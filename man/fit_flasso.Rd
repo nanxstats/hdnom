@@ -59,13 +59,15 @@ time <- smart$TEVENT[1:120]
 event <- smart$EVENT[1:120]
 y <- survival::Surv(time, event)
 
-fit <- fit_flasso(x, y,
+fit <- fit_flasso(
+  x, y,
   lambda1 = c(1, 10), lambda2 = c(0.01),
   nfolds = 3, seed = 11
 )
 
 nom <- as_nomogram(
-  fit, x, time, event, pred.at = 365 * 2,
+  fit, x, time, event,
+  pred.at = 365 * 2,
   funlabel = "2-Year Overall Survival Probability"
 )
 

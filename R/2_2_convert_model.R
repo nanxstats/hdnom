@@ -1,10 +1,10 @@
 # convert model object to nomogram.raw() input model object
 #
-# @param model glmnet, ncvreg or penfit model object, e.g. fit$lasso_model
+# @param model glmnet, ncvreg or penfit model object, e.g. fit$model
 # @param x predictor matrix (original, with all variables)
 #
 # @return converted model object, can be used as input
-# for nomogram.raw() to construct nomogram object
+# for as_nomogram_raw() to construct nomogram object
 convert_model <- function(model, x) {
   is_glmnet <- function(model) "glmnet" %in% class(model)
   is_ncvreg <- function(model) "ncvreg" %in% class(model)

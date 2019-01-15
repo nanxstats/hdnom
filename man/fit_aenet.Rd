@@ -52,7 +52,8 @@ fit <- fit_aenet(
 )
 
 nom <- as_nomogram(
-  fit, x, time, event, pred.at = 365 * 2,
+  fit, x, time, event,
+  pred.at = 365 * 2,
   funlabel = "2-Year Overall Survival Probability"
 )
 

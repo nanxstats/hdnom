@@ -172,7 +172,7 @@ predict.hdnom.model <- function(object, x, y, newx, pred.at, ...) {
       # # alternative method using ncvreg built-in prediction directly
       # # almost identical results, but sometimes produces NAs in practice
       # # e.g. pred.at = 1:10 * 365
-      # survfun = predict(object[[paste0(model.type, '_model')]], newx, type = 'survival')
+      # survfun = predict(model, newx, type = "survival")
       # p = matrix(NA, nrow = nrow(newx), ncol = length(pred.at))
       # for (i in 1L:nrow(newx)) p[i, ] = sapply(pred.at, survfun[[i]])
     },

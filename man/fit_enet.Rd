@@ -44,13 +44,15 @@ y <- survival::Surv(time, event)
 # registerDoParallel(detectCores())
 # then set fit_enet(..., parallel = TRUE).
 
-fit <- fit_enet(x, y,
+fit <- fit_enet(
+  x, y,
   nfolds = 3, alphas = c(0.3, 0.7),
   rule = "lambda.1se", seed = 11
 )
 
 nom <- as_nomogram(
-  fit, x, time, event, pred.at = 365 * 2,
+  fit, x, time, event,
+  pred.at = 365 * 2,
   funlabel = "2-Year Overall Survival Probability"
 )
 
