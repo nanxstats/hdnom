@@ -24,11 +24,6 @@ useful for accomplishing such tasks.
 
 `hdnom` streamlines the workflow of high-dimensional Cox model building,
 nomogram plotting, model validation, calibration, and comparison.
-To load the package in R, simply type:
-
-```{r}
-library("hdnom")
-```
 
 # Build Survival Models
 
@@ -68,40 +63,37 @@ In the next, we will use the imputed SMART study data
 to demonstrate a complete process of model building, nomogram plotting,
 model validation, calibration, and comparison with `hdnom`.
 
-Load the `smart` dataset:
+Load the packages and the `smart` dataset:
+
+```{r}
+library("hdnom")
+```
 
 ```{r}
 data("smart")
 x <- as.matrix(smart[, -c(1, 2)])
 time <- smart$TEVENT
 event <- smart$EVENT
-
-library("survival")
-y <- Surv(time, event)
+y <- survival::Surv(time, event)
 ```
 
 The dataset contains 3873 observations with corresponding survival outcome
 (`time`, `event`). 27 clinical variables (`x`) are available as the predictors.
 See `?smart` for a detailed explanation of the variables.
 
-Fit a penalized Cox model by adaptive elastic-net regularization with `fit_aenet()`:
+Fit a penalized Cox model by adaptive elastic-net regularization with `fit_aenet()` and enable the parallel parameter tuning:
 
 ```{r, eval = FALSE}
-# enable parallel parameter tuning
 suppressMessages(library("doParallel"))
 registerDoParallel(detectCores())
 
-fit <- fit_aenet(x, y,
-  nfolds = 10, rule = "lambda.1se",
-  seed = c(5, 7), parallel = TRUE
-)
+fit <- fit_aenet(x, y, nfolds = 10, rule = "lambda.1se", seed = c(5, 7), parallel = TRUE)
 names(fit)
 ```
 
 ```
-## [1] "seed"              "enet_best_alpha"   "enet_best_lambda"
-## [4] "enet_model"        "aenet_best_alpha"  "aenet_best_lambda"
-## [7] "aenet_model"       "pen_factor"
+## [1] "model"       "alpha"       "lambda"      "model_init"  "alpha_init" 
+## [6] "lambda_init" "pen_factor"  "type"        "seed"        "call"  
 ```
 
 ```{r, echo = FALSE}
@@ -117,13 +109,12 @@ coefficients in the second estimation step are all stored in the model object
 # Nomogram Visualization
 
 Before plotting the nomogram, we need to extract some necessary information
-about the model, namely, the model object and parameters,
-from the result of the last step:
+about the model: the model object and the selected hyperparameters:
 
 ```{r}
-model <- fit$aenet_model
-alpha <- fit$aenet_best_alpha
-lambda <- fit$aenet_best_lambda
+model <- fit$model
+alpha <- fit$alpha
+lambda <- fit$lambda
 adapen <- fit$pen_factor
 ```
 
@@ -131,11 +122,11 @@ Let's generate a nomogram object with `as_nomogram()` and plot it:
 
 ```{r, fig.width = 8, fig.height = 8, out.width = 600, out.height = 600}
 nom <- as_nomogram(
-  model,
-  model.type = "aenet",
-  x, time, event, pred.at = 365 * 2,
+  fit, x, time, event,
+  pred.at = 365 * 2,
   funlabel = "2-Year Overall Survival Probability"
 )
+
 plot(nom)
 ```
 
@@ -171,7 +162,7 @@ with bootstrap resampling, at every half year from the first year
 to the fifth year:
 
 ```{r}
-val.int <- validate(
+val_int <- validate(
   x, time, event,
   model.type = "aenet",
   alpha = alpha, lambda = lambda, pen.factor = adapen,
@@ -180,8 +171,8 @@ val.int <- validate(
   seed = 42, trace = FALSE
 )
 
-val.int
-summary(val.int)
+print(val_int)
+summary(val_int)
 ```
 
 The mean, median, 25%, and 75% quantiles of time-dependent AUC at each
@@ -191,8 +182,8 @@ of the model performance.
 
 It is also possible to plot the model validation result:
 
-```{r, fig.width = 8, fig.height = 8, out.width = 600, out.height = 600}
-plot(val.int)
+```{r, fig.width = 8, fig.height = 8, out.width = 500, out.height = 500}
+plot(val_int)
 ```
 
 The solid line represents the mean of the AUC, the dashed line represents
@@ -224,22 +215,21 @@ For demonstration purposes, here we draw 1000 samples from the `smart` data
 and _assume_ that they form an external validation dataset, then
 use `validate_external()` to perform external validation:
 
-```{r, fig.width = 8, fig.height = 8, out.width = 600, out.height = 600}
+```{r, fig.width = 8, fig.height = 8, out.width = 500, out.height = 500}
 x_new <- as.matrix(smart[, -c(1, 2)])[1001:2000, ]
 time_new <- smart$TEVENT[1001:2000]
 event_new <- smart$EVENT[1001:2000]
 
-# External validation with time-dependent AUC
-val.ext <- validate_external(
+val_ext <- validate_external(
   fit, x, time, event,
   x_new, time_new, event_new,
   tauc.type = "UNO",
   tauc.time = seq(0.25, 2, 0.25) * 365
 )
 
-val.ext
-summary(val.ext)
-plot(val.ext)
+print(val_ext)
+summary(val_ext)
+plot(val_ext)
 ```
 
 The time-dependent AUC on the external dataset is shown above.
@@ -261,7 +251,7 @@ bootstrap resampling, $k$-fold cross-validation, and repeated cross-validation.
 For example, to calibrate the model internally with the bootstrap method:
 
 ```{r}
-cal.int <- calibrate(
+cal_int <- calibrate(
   x, time, event,
   model.type = "aenet",
   alpha = alpha, lambda = lambda, pen.factor = adapen,
@@ -269,8 +259,9 @@ cal.int <- calibrate(
   pred.at = 365 * 5, ngroup = 3,
   seed = 42, trace = FALSE
 )
-cal.int
-summary(cal.int)
+
+print(cal_int)
+summary(cal_int)
 ```
 
 We split the samples into three risk groups. In practice, the number of
@@ -282,8 +273,8 @@ method with 95% CI) are summarized as above.
 
 Plot the calibration result:
 
-```{r, fig.width = 8, fig.height = 8, out.width = 600, out.height = 600}
-plot(cal.int, xlim = c(0.5, 1), ylim = c(0.5, 1))
+```{r, fig.width = 8, fig.height = 8, out.width = 500, out.height = 500}
+plot(cal_int, xlim = c(0.5, 1), ylim = c(0.5, 1))
 ```
 
 In practice, you may want to perform calibration for multiple time points
@@ -294,16 +285,16 @@ See `?hdnom::calibrate` for more examples about internal model calibration.
 
 To perform external calibration with an external dataset, use `calibrate_external()`:
 
-```{r, fig.width = 8, fig.height = 8, out.width = 600, out.height = 600}
-cal.ext <- calibrate_external(
+```{r, fig.width = 8, fig.height = 8, out.width = 500, out.height = 500}
+cal_ext <- calibrate_external(
   fit, x, time, event,
   x_new, time_new, event_new,
   pred.at = 365 * 5, ngroup = 3
 )
 
-cal.ext
-summary(cal.ext)
-plot(cal.ext, xlim = c(0.5, 1), ylim = c(0.5, 1))
+print(cal_ext)
+summary(cal_ext)
+plot(cal_ext, xlim = c(0.5, 1), ylim = c(0.5, 1))
 ```
 
 The external calibration results have the similar interpretations as the
@@ -323,15 +314,15 @@ For example, here we plot the Kaplan-Meier survival curves and evaluate
 the number at risk from one year to six years for the three risk groups,
 with the function `kmplot()`:
 
-```{r, fig.width = 8, fig.height = 8, out.width = 600, out.height = 600}
+```{r, fig.width = 9, fig.height = 6, out.width = 600, out.height = 400}
 kmplot(
-  cal.int,
+  cal_int,
   group.name = c("High risk", "Medium risk", "Low risk"),
   time.at = 1:6 * 365
 )
 
 kmplot(
-  cal.ext,
+  cal_ext,
   group.name = c("High risk", "Medium risk", "Low risk"),
   time.at = 1:6 * 365
 )
@@ -346,16 +337,17 @@ is often applied. `logrank_test()` performs such tests on the internal
 calibration and external calibration results:
 
 ```{r}
-cal.int.logrank <- logrank_test(cal.int)
-cal.int.logrank
-cal.int.logrank$pval
-cal.ext.logrank <- logrank_test(cal.ext)
-cal.ext.logrank
-cal.ext.logrank$pval
+cal_int_logrank <- logrank_test(cal_int)
+cal_int_logrank
+cal_int_logrank$pval
+
+cal_ext_logrank <- logrank_test(cal_ext)
+cal_ext_logrank
+cal_ext_logrank$pval
 ```
 
-The exact $p$-values for log-rank tests are stored as `cal.int.logrank$pval`
-and `cal.ext.logrank$pval`. Here $p < 0.001$ indicates significant differences
+The exact $p$-values for log-rank tests are stored as `cal_int_logrank$pval`
+and `cal_ext_logrank$pval`. Here $p < 0.001$ indicates significant differences
 between the survival curves for different risk groups.
 
 # Model Comparison
@@ -372,7 +364,7 @@ For example, here we compare lasso and adaptive lasso by
 5-fold cross-validation:
 
 ```{r, fig.width = 8, fig.height = 6.4, out.width = 600, out.height = 480}
-cmp.val <- compare_by_validate(
+cmp_val <- compare_by_validate(
   x, time, event,
   model.type = c("lasso", "alasso"),
   method = "cv", nfolds = 5, tauc.type = "UNO",
@@ -380,10 +372,10 @@ cmp.val <- compare_by_validate(
   seed = 42, trace = FALSE
 )
 
-cmp.val
-summary(cmp.val)
-plot(cmp.val)
-plot(cmp.val, interval = TRUE)
+print(cmp_val)
+summary(cmp_val)
+plot(cmp_val)
+plot(cmp_val, interval = TRUE)
 ```
 
 The solid line, dashed line and intervals have the same interpretation
@@ -405,7 +397,7 @@ performance. To continue the example, we split the samples into five risk
 groups, and compare lasso to adaptive lasso via calibration:
 
 ```{r, fig.width = 8, fig.height = 6.4, out.width = 600, out.height = 480}
-cmp.cal <- compare_by_calibrate(
+cmp_cal <- compare_by_calibrate(
   x, time, event,
   model.type = c("lasso", "alasso"),
   method = "cv", nfolds = 5,
@@ -413,9 +405,9 @@ cmp.cal <- compare_by_calibrate(
   seed = 42, trace = FALSE
 )
 
-cmp.cal
-summary(cmp.cal)
-plot(cmp.cal, xlim = c(0.3, 1), ylim = c(0.3, 1))
+print(cmp_cal)
+summary(cmp_cal)
+plot(cmp_cal, xlim = c(0.3, 1), ylim = c(0.3, 1))
 ```
 
 The summary output and the plot show the calibration results for each model
