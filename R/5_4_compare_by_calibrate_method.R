@@ -59,7 +59,7 @@ summary.hdnom.compare.calibrate <- function(object, ...) {
 #'
 #' @importFrom ggplot2 ggplot aes_string geom_errorbar
 #' geom_line geom_point geom_abline scale_colour_manual
-#' xlab ylab theme_bw
+#' xlab ylab
 #'
 #' @examples
 #' NULL
@@ -104,5 +104,5 @@ plot.hdnom.compare.calibrate <- function(
     xlab("Predicted Survival Probability") +
     ylab("Observed Survival Probability") +
     scale_colour_manual(values = col_pal) +
-    theme_bw()
+    theme_hdnom()
 }

@@ -10,97 +10,95 @@
 #' @export
 #'
 #' @examples
-#' library("survival")
-#'
-#' # Load imputed SMART data
 #' data("smart")
 #' x <- as.matrix(smart[, -c(1, 2)])
 #' time <- smart$TEVENT
 #' event <- smart$EVENT
-#' y <- Surv(time, event)
+#' y <- survival::Surv(time, event)
 #'
 #' fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 #' print(fit)
 print.hdnom.model <- function(x, ...) {
-  model.type <- gsub("hdnom.model.", "", setdiff(class(x), "hdnom.model"))
+  model <- x$model
+  model_type <- x$type
 
   switch(
 
-    model.type,
+    model_type,
 
     lasso = {
       cat("High-Dimensional Cox Model Object\n")
       cat("Random seed:", x$"seed", "\n")
       cat("Model type: lasso\n")
-      cat("Best lambda:", x$"lasso_best_lambda", "\n")
+      cat("Best lambda:", x$"lambda", "\n")
     },
 
     alasso = {
       cat("High-Dimensional Cox Model Object\n")
       cat("Random seed:", x$"seed", "\n")
       cat("Model type: adaptive lasso\n")
-      cat("First step best lambda:", x$"ridge_best_lambda", "\n")
-      cat("Second step best lambda:", x$"alasso_best_lambda", "\n")
+      cat("First step best lambda:", x$"lambda_init", "\n")
+      cat("Second step best lambda:", x$"lambda", "\n")
     },
 
     enet = {
       cat("High-Dimensional Cox Model Object\n")
       cat("Random seed:", x$"seed", "\n")
       cat("Model type: elastic-net\n")
-      cat("Best alpha:", x$"enet_best_alpha", "\n")
-      cat("Best lambda:", x$"enet_best_lambda", "\n")
+      cat("Best alpha:", x$"alpha", "\n")
+      cat("Best lambda:", x$"lambda", "\n")
     },
 
     aenet = {
       cat("High-Dimensional Cox Model Object\n")
       cat("Random seed:", x$"seed", "\n")
       cat("Model type: adaptive elastic-net\n")
-      cat("First step best alpha:", x$"enet_best_alpha", "\n")
-      cat("First step best lambda:", x$"enet_best_lambda", "\n")
-      cat("Second step best alpha:", x$"aenet_best_alpha", "\n")
-      cat("Second step best lambda:", x$"aenet_best_lambda", "\n")
+      cat("First step best alpha:", x$"alpha_init", "\n")
+      cat("First step best lambda:", x$"lambda_init", "\n")
+      cat("Second step best alpha:", x$"alpha", "\n")
+      cat("Second step best lambda:", x$"lambda", "\n")
     },
 
     mcp = {
       cat("High-Dimensional Cox Model Object\n")
       cat("Random seed:", x$"seed", "\n")
       cat("Model type: MCP\n")
-      cat("Best gamma:", x$"mcp_best_gamma", "\n")
-      cat("Best lambda:", x$"mcp_best_lambda", "\n")
+      cat("Best gamma:", x$"gamma", "\n")
+      cat("Best lambda:", x$"lambda", "\n")
     },
 
     mnet = {
       cat("High-Dimensional Cox Model Object\n")
       cat("Random seed:", x$"seed", "\n")
       cat("Model type: Mnet\n")
-      cat("Best gamma:", x$"mnet_best_gamma", "\n")
-      cat("Best alpha:", x$"mnet_best_alpha", "\n")
-      cat("Best lambda:", x$"mnet_best_lambda", "\n")
+      cat("Best gamma:", x$"gamma", "\n")
+      cat("Best alpha:", x$"alpha", "\n")
+      cat("Best lambda:", x$"lambda", "\n")
     },
 
     scad = {
       cat("High-Dimensional Cox Model Object\n")
       cat("Random seed:", x$"seed", "\n")
       cat("Model type: SCAD\n")
-      cat("Best gamma:", x$"scad_best_gamma", "\n")
-      cat("Best lambda:", x$"scad_best_lambda", "\n")
+      cat("Best gamma:", x$"gamma", "\n")
+      cat("Best lambda:", x$"lambda", "\n")
     },
 
     snet = {
       cat("High-Dimensional Cox Model Object\n")
       cat("Random seed:", x$"seed", "\n")
       cat("Model type: Snet\n")
-      cat("Best gamma:", x$"snet_best_gamma", "\n")
-      cat("Best alpha:", x$"snet_best_alpha", "\n")
-      cat("Best lambda:", x$"snet_best_lambda", "\n")
+      cat("Best gamma:", x$"gamma", "\n")
+      cat("Best alpha:", x$"alpha", "\n")
+      cat("Best lambda:", x$"lambda", "\n")
     },
 
     flasso = {
       cat("High-Dimensional Cox Model Object\n")
       cat("Random seed:", x$"seed", "\n")
       cat("Model type: fused lasso\n")
-      cat("Best lambda1:", x$"flasso_best_lambda1", "\n")
-      cat("Best lambda2:", x$"flasso_best_lambda2", "\n")
+      cat("Best lambda1:", x$"lambda1", "\n")
+      cat("Best lambda2:", x$"lambda2", "\n")
     }
   )
 
@@ -131,49 +129,45 @@ print.hdnom.model <- function(x, ...) {
 #' @export
 #'
 #' @examples
-#' library("survival")
-#'
-#' # Load imputed SMART data
 #' data("smart")
 #' x <- as.matrix(smart[, -c(1, 2)])
 #' time <- smart$TEVENT
 #' event <- smart$EVENT
-#' y <- Surv(time, event)
+#' y <- survival::Surv(time, event)
 #'
 #' fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 #' predict(fit, x, y, newx = x[101:105, ], pred.at = 1:10 * 365)
 predict.hdnom.model <- function(object, x, y, newx, pred.at, ...) {
-  model.type <- gsub("hdnom.model.", "", setdiff(class(object), "hdnom.model"))
+  model <- object$model
+  model_type <- object$type
 
   if (!("matrix" %in% class(newx))) stop("newx must be a matrix")
 
   time <- y[, 1L]
   event <- y[, 2L]
 
-  obj.type <- switch(
-    model.type,
-    lasso = "glmnet", alasso = "glmnet",
-    enet = "glmnet", aenet = "glmnet",
-    mcp = "ncvreg", mnet = "ncvreg",
-    scad = "ncvreg", snet = "ncvreg",
+  obj_type <- switch(
+    model_type,
+    lasso = "glmnet", alasso = "glmnet", enet = "glmnet", aenet = "glmnet",
+    mcp = "ncvreg", mnet = "ncvreg", scad = "ncvreg", snet = "ncvreg",
     flasso = "penalized"
   )
 
   switch(
 
-    obj.type,
+    obj_type,
 
     glmnet = {
-      lp <- predict(object[[paste0(model.type, "_model")]], x, type = "link")
+      lp <- predict(model, x, type = "link")
       basesurv <- glmnet_basesurv(time, event, lp, pred.at)
-      lpnew <- predict(object[[paste0(model.type, "_model")]], newx, type = "link")
+      lpnew <- predict(model, newx, type = "link")
       p <- exp(exp(lpnew) %*% -t(basesurv$"cumulative_base_hazard"))
     },
 
     ncvreg = {
-      lp <- predict(object[[paste0(model.type, "_model")]], x, type = "link")
+      lp <- predict(model, x, type = "link")
       basesurv <- ncvreg_basesurv(time, event, lp, pred.at)
-      lpnew <- predict(object[[paste0(model.type, "_model")]], newx, type = "link")
+      lpnew <- predict(model, newx, type = "link")
       p <- exp(exp(lpnew) %*% -t(basesurv$"cumulative_base_hazard"))
       # # alternative method using ncvreg built-in prediction directly
       # # almost identical results, but sometimes produces NAs in practice
@@ -184,14 +178,13 @@ predict.hdnom.model <- function(object, x, y, newx, pred.at, ...) {
     },
 
     penalized = {
-      pred <- predict(object[[paste0(model.type, "_model")]], newx)
+      pred <- predict(model, newx)
       p <- matrix(NA, nrow = nrow(newx), ncol = length(pred.at))
       for (i in 1L:length(pred.at)) p[, i] <- survival(pred, time = pred.at[i])
     }
   )
 
   colnames(p) <- as.character(pred.at)
-
   p
 }
 
@@ -209,57 +202,52 @@ predict.hdnom.model <- function(object, x, y, newx, pred.at, ...) {
 #' selected variables.
 #'
 #' @examples
-#' library("survival")
-#'
-#' # Load imputed SMART data
 #' data("smart")
 #' x <- as.matrix(smart[, -c(1, 2)])
 #' time <- smart$TEVENT
 #' event <- smart$EVENT
-#' y <- Surv(time, event)
+#' y <- survival::Surv(time, event)
 #'
 #' fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 #' infer_variable_type(fit, x)
 infer_variable_type <- function(object, x) {
-  model.type <- gsub("hdnom.model.", "", setdiff(class(object), "hdnom.model"))
+  model <- object$model
+  model_type <- object$type
 
-  obj.type <- switch(
-    model.type,
-    lasso = "glmnet", alasso = "glmnet",
-    enet = "glmnet", aenet = "glmnet",
-    mcp = "ncvreg", mnet = "ncvreg",
-    scad = "ncvreg", snet = "ncvreg",
+  obj_type <- switch(
+    model_type,
+    lasso = "glmnet", alasso = "glmnet", enet = "glmnet", aenet = "glmnet",
+    mcp = "ncvreg", mnet = "ncvreg", scad = "ncvreg", snet = "ncvreg",
     flasso = "penalized"
   )
 
   switch(
 
-    obj.type,
+    obj_type,
 
     glmnet = {
-      nonzero_idx <- which(as.logical(abs(object[[paste0(model.type, "_model")]][["beta"]]) > .Machine$double.eps))
-      nonzero_var <- rownames(object[[paste0(model.type, "_model")]][["beta"]])[nonzero_idx]
+      nonzero_idx <- which(as.logical(abs(model$beta) > .Machine$double.eps))
+      nonzero_var <- rownames(model$beta)[nonzero_idx]
     },
 
     ncvreg = {
-      nonzero_idx <- which(object[[paste0(model.type, "_model")]][["beta"]][-1L, ] > .Machine$double.eps)
-      nonzero_var <- names(object[[paste0(model.type, "_model")]][["beta"]][-1L, ])[nonzero_idx]
+      nonzero_idx <- which(model$beta[-1L, ] > .Machine$double.eps)
+      nonzero_var <- names(model$beta[-1L, ])[nonzero_idx]
     },
 
     penalized = {
-      nonzero_idx <- which(object[[paste0(model.type, "_model")]]@"penalized" > .Machine$double.eps)
+      nonzero_idx <- which(model@"penalized" > .Machine$double.eps)
       nonzero_var <- colnames(x)[nonzero_idx]
     }
   )
 
   res <- list("index" = NULL, "name" = NULL, "type" = NULL, "domain" = NULL)
 
-  res[["index"]] <- nonzero_idx
-  res[["name"]] <- nonzero_var
-  nvar <- length(res[["name"]])
+  res$index <- nonzero_idx
+  res$name <- nonzero_var
+  nvar <- length(res$name)
 
-  is.wholenumber <- function(
-    x, tol = .Machine$double.eps^0.5) abs(x - round(x)) < tol
+  is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) abs(x - round(x)) < tol
 
   # type: logical, categorical or continuous
   for (i in 1L:nvar) {

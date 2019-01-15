@@ -325,7 +325,7 @@ summary.hdnom.calibrate <- function(object, ...) {
 #' @export
 #'
 #' @importFrom ggplot2 ggplot aes_string geom_errorbar
-#' geom_line geom_point geom_abline xlab ylab theme_bw
+#' geom_line geom_point geom_abline xlab ylab
 #'
 #' @examples
 #' NULL
@@ -358,5 +358,5 @@ plot.hdnom.calibrate <- function(
     geom_point(size = 3, colour = col_pal) +
     xlab("Predicted Survival Probability") +
     ylab("Observed Survival Probability") +
-    theme_bw()
+    theme_hdnom()
 }

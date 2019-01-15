@@ -41,9 +41,6 @@
 #' \emph{Journal of the American Statistical Association} 102, 527--537.
 #'
 #' @examples
-#' library("survival")
-#'
-#' # Load imputed SMART data
 #' data(smart)
 #' # Use the first 1000 samples as training data
 #' # (the data used for internal validation)
@@ -59,7 +56,7 @@
 #'
 #' # Fit Cox model with lasso penalty
 #' fit <- fit_lasso(
-#'   x, Surv(time, event),
+#'   x, survival::Surv(time, event),
 #'   nfolds = 5, rule = "lambda.1se", seed = 11
 #' )
 #'
@@ -75,40 +72,37 @@
 #' summary(val.ext)
 #' plot(val.ext)
 #'
-#' # ### Testing fused lasso, MCP and Snet models ###
-#' # library("survival")
-#' #
-#' # # Load imputed SMART data
+#' # # Test fused lasso, MCP, and Snet models
 #' # data(smart)
 #' # # Use first 600 samples as training data
 #' # # (the data used for internal validation)
-#' # x = as.matrix(smart[, -c(1, 2)])[1:600, ]
-#' # time = smart$TEVENT[1:600]
-#' # event = smart$EVENT[1:600]
+#' # x <- as.matrix(smart[, -c(1, 2)])[1:600, ]
+#' # time <- smart$TEVENT[1:600]
+#' # event <- smart$EVENT[1:600]
 #' #
 #' # # Take 500 samples as external validation data.
 #' # # In practice, usually use data collected in other studies.
-#' # x_new = as.matrix(smart[, -c(1, 2)])[1001:1500, ]
-#' # time_new = smart$TEVENT[1001:1500]
-#' # event_new = smart$EVENT[1001:1500]
+#' # x_new <- as.matrix(smart[, -c(1, 2)])[1001:1500, ]
+#' # time_new <- smart$TEVENT[1001:1500]
+#' # event_new <- smart$EVENT[1001:1500]
 #' #
-#' # flassofit = fit_flasso(x, Surv(time, event), nfolds = 5, seed = 11)
-#' # scadfit = fit_mcp(x, Surv(time, event), nfolds = 5, seed = 11)
-#' # mnetfit = fit_snet(x, Surv(time, event), nfolds = 5, seed = 11)
+#' # flassofit <- fit_flasso(x, survival::Surv(time, event), nfolds = 5, seed = 11)
+#' # scadfit <- fit_mcp(x, survival::Surv(time, event), nfolds = 5, seed = 11)
+#' # mnetfit <- fit_snet(x, survival::Surv(time, event), nfolds = 5, seed = 11)
 #' #
-#' # val.ext1 = validate_external(
+#' # val.ext1 <- validate_external(
 #' #   flassofit, x, time, event,
 #' #   x_new, time_new, event_new,
 #' #   tauc.type = "UNO",
 #' #   tauc.time = seq(0.25, 2, 0.25) * 365)
 #' #
-#' # val.ext2 = validate_external(
+#' # val.ext2 <- validate_external(
 #' #   scadfit, x, time, event,
 #' #   x_new, time_new, event_new,
 #' #   tauc.type = "CD",
 #' #   tauc.time = seq(0.25, 2, 0.25) * 365)
 #' #
-#' # val.ext3 = validate_external(
+#' # val.ext3 <- validate_external(
 #' #   mnetfit, x, time, event,
 #' #   x_new, time_new, event_new,
 #' #   tauc.type = "SZ",
@@ -133,8 +127,8 @@ validate_external <- function(
     stop('object must be of class "hdnom.model"')
   }
 
-  model.type <- gsub("hdnom.model.", "", setdiff(class(object), "hdnom.model"))
-  model_object <- object[[paste0(model.type, "_model")]]
+  model <- object$model
+  model_type <- object$type
 
   if (!("matrix" %in% class(x_new))) stop("x_new must be a matrix")
 
@@ -149,53 +143,50 @@ validate_external <- function(
   event_te <- event_new
   y_te <- Surv(time_te, event_te)
 
-  if (model.type %in% c("lasso", "alasso", "enet", "aenet")) {
+  if (model_type %in% c("lasso", "alasso", "enet", "aenet")) {
     tauc <- glmnet_validate_external_tauc(
-      object = model_object, x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
-      tauc.type = tauc.type, tauc.time = tauc.time
+      model, x_tr, x_te, y_tr, y_te, tauc.type, tauc.time
     )
   }
 
-  if (model.type %in% c("mcp", "mnet", "scad", "snet")) {
+  if (model_type %in% c("mcp", "mnet", "scad", "snet")) {
     tauc <- ncvreg_validate_external_tauc(
-      object = model_object, x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
-      tauc.type = tauc.type, tauc.time = tauc.time
+      model, x_tr, x_te, y_tr, y_te, tauc.type, tauc.time
     )
   }
 
-  if (model.type %in% c("flasso")) {
+  if (model_type %in% c("flasso")) {
     tauc <- penalized_validate_external_tauc(
-      object = model_object, x_tr = x_tr, x_te = x_te, y_tr = y_tr, y_te = y_te,
-      tauc.type = tauc.type, tauc.time = tauc.time
+      model, x_tr, x_te, y_tr, y_te, tauc.type, tauc.time
     )
   }
 
-  if (model.type %in% c("lasso", "alasso", "enet", "aenet")) {
+  if (model_type %in% c("lasso", "alasso", "enet", "aenet")) {
     class(tauc) <- c(
       "hdnom.validate.external",
       "glmnet.validate.external"
     )
-    attr(tauc, "model.type") <- model.type
+    attr(tauc, "model.type") <- model_type
     attr(tauc, "tauc.type") <- tauc.type
     attr(tauc, "tauc.time") <- tauc.time
   }
 
-  if (model.type %in% c("mcp", "mnet", "scad", "snet")) {
+  if (model_type %in% c("mcp", "mnet", "scad", "snet")) {
     class(tauc) <- c(
       "hdnom.validate.external",
       "ncvreg.validate.external"
     )
-    attr(tauc, "model.type") <- model.type
+    attr(tauc, "model.type") <- model_type
     attr(tauc, "tauc.type") <- tauc.type
     attr(tauc, "tauc.time") <- tauc.time
   }
 
-  if (model.type %in% c("flasso")) {
+  if (model_type %in% c("flasso")) {
     class(tauc) <- c(
       "hdnom.validate.external",
       "penalized.validate.external"
     )
-    attr(tauc, "model.type") <- model.type
+    attr(tauc, "model.type") <- model_type
     attr(tauc, "tauc.type") <- tauc.type
     attr(tauc, "tauc.time") <- tauc.time
   }

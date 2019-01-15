@@ -14,22 +14,16 @@
 #' @export fit_lasso
 #'
 #' @examples
-#' library("survival")
-#'
-#' # Load imputed SMART data
 #' data("smart")
 #' x <- as.matrix(smart[, -c(1, 2)])
 #' time <- smart$TEVENT
 #' event <- smart$EVENT
-#' y <- Surv(time, event)
+#' y <- survival::Surv(time, event)
 #'
-#' # Fit Cox model with lasso penalty
 #' fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
 #'
 #' nom <- as_nomogram(
-#'   fit$lasso_model,
-#'   model.type = "lasso",
-#'   x, time, event, pred.at = 365 * 2,
+#'   fit, x, time, event, pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -38,35 +32,37 @@ fit_lasso <- function(
   x, y, nfolds = 5L,
   rule = c("lambda.min", "lambda.1se"),
   seed = 1001) {
+  call <- match.call()
+
   set.seed(seed)
   lasso_cv <- cv.glmnet(x, y, family = "cox", nfolds = nfolds, alpha = 1)
 
-  # fit the model on all the data use the parameters got by CV
   if (rule == "lambda.min") {
-    best_lambda_lasso <- lasso_cv$lambda.min
+    lambda_opt <- lasso_cv$lambda.min
   } else if (rule == "lambda.1se") {
-    best_lambda_lasso <- lasso_cv$lambda.1se
+    lambda_opt <- lasso_cv$lambda.1se
   }
 
   lasso_full <- glmnet(
     x, y,
     family = "cox",
-    lambda = best_lambda_lasso, alpha = 1
+    lambda = lambda_opt, alpha = 1
   )
 
   if (lasso_full$df < 0.5) {
     stop("Null model produced by the full fit (all coefficients are zero). Please try to tune rule, seed, nfolds, or increase sample size.")
   }
 
-  coxlasso_model <- list(
+  model <- list(
+    "model" = lasso_full,
+    "lambda" = lambda_opt,
+    "type" = "lasso",
     "seed" = seed,
-    "lasso_best_lambda" = best_lambda_lasso,
-    "lasso_model" = lasso_full
+    "call" = call
   )
 
-  class(coxlasso_model) <- c("hdnom.model", "hdnom.model.lasso")
-
-  coxlasso_model
+  class(model) <- c("hdnom.model", "hdnom.model.lasso")
+  model
 }
 
 #' Model selection for high-dimensional Cox models with adaptive lasso penalty
@@ -86,22 +82,16 @@ fit_lasso <- function(
 #' @export fit_alasso
 #'
 #' @examples
-#' library("survival")
-#'
-#' # Load imputed SMART data
 #' data("smart")
 #' x <- as.matrix(smart[, -c(1, 2)])
 #' time <- smart$TEVENT
 #' event <- smart$EVENT
-#' y <- Surv(time, event)
+#' y <- survival::Surv(time, event)
 #'
-#' # Fit Cox model with adaptive lasso penalty
 #' fit <- fit_alasso(x, y, nfolds = 3, rule = "lambda.1se", seed = c(7, 11))
 #'
 #' nom <- as_nomogram(
-#'   fit$alasso_model,
-#'   model.type = "alasso",
-#'   x, time, event, pred.at = 365 * 2,
+#'   fit, x, time, event, pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -110,28 +100,28 @@ fit_alasso <- function(
   x, y, nfolds = 5L,
   rule = c("lambda.min", "lambda.1se"),
   seed = c(1001, 1002)) {
+  call <- match.call()
 
-  # Tuning lambda for the both two stages of adaptive lasso estimation
+  # Tune lambda for the both two stages of adaptive lasso estimation
   set.seed(seed[1L])
   lasso_cv <- cv.glmnet(x, y, family = "cox", nfolds = nfolds, alpha = 0)
 
-  # fit the model on all the data use the parameters got by CV
   if (rule == "lambda.min") {
-    best_lambda_lasso <- lasso_cv$lambda.min
+    lambda_opt_init <- lasso_cv$lambda.min
   } else if (rule == "lambda.1se") {
-    best_lambda_lasso <- lasso_cv$lambda.1se
+    lambda_opt_init <- lasso_cv$lambda.1se
   }
 
   lasso_full <- glmnet(
     x, y,
     family = "cox",
-    lambda = best_lambda_lasso, alpha = 0
+    lambda = lambda_opt_init, alpha = 0
   )
 
   bhat <- as.matrix(lasso_full$beta)
   if (all(bhat == 0)) bhat <- rep(.Machine$double.eps * 2, length(bhat))
 
-  # adaptive penalty
+  # Compute adaptive penalty
   adpen <- (1 / pmax(abs(bhat), .Machine$double.eps))
 
   set.seed(seed[2L])
@@ -141,16 +131,15 @@ fit_alasso <- function(
     penalty.factor = adpen
   )
 
-  # fit the model on all the data use the parameters got by CV
   if (rule == "lambda.min") {
-    best_lambda_alasso <- alasso_cv$lambda.min
+    lambda_opt <- alasso_cv$lambda.min
   } else if (rule == "lambda.1se") {
-    best_lambda_alasso <- alasso_cv$lambda.1se
+    lambda_opt <- alasso_cv$lambda.1se
   }
 
   alasso_full <- glmnet(
     x, y,
-    family = "cox", lambda = best_lambda_alasso,
+    family = "cox", lambda = lambda_opt,
     alpha = 1, penalty.factor = adpen
   )
 
@@ -162,18 +151,19 @@ fit_alasso <- function(
   adpen_name <- rownames(adpen)
   names(adpen_vec) <- adpen_name
 
-  coxalasso_model <- list(
+  model <- list(
+    "model" = alasso_full,
+    "lambda" = lambda_opt,
+    "model_init" = lasso_full,
+    "lambda_init" = lambda_opt_init,
+    "pen_factor" = adpen_vec,
+    "type" = "alasso",
     "seed" = seed,
-    "ridge_best_lambda" = best_lambda_lasso,
-    "ridge_model" = lasso_full,
-    "alasso_best_lambda" = best_lambda_alasso,
-    "alasso_model" = alasso_full,
-    "pen_factor" = adpen_vec
+    "call" = call
   )
 
-  class(coxalasso_model) <- c("hdnom.model", "hdnom.model.alasso")
-
-  coxalasso_model
+  class(model) <- c("hdnom.model", "hdnom.model.alasso")
+  model
 }
 
 #' Model selection for high-dimensional Cox models with elastic-net penalty
@@ -197,30 +187,24 @@ fit_alasso <- function(
 #' @export fit_enet
 #'
 #' @examples
-#' library("survival")
-#'
-#' # Load imputed SMART data
 #' data("smart")
 #' x <- as.matrix(smart[, -c(1, 2)])
 #' time <- smart$TEVENT
 #' event <- smart$EVENT
-#' y <- Surv(time, event)
+#' y <- survival::Surv(time, event)
 #'
 #' # To enable parallel parameter tuning, first run:
 #' # library("doParallel")
 #' # registerDoParallel(detectCores())
 #' # then set fit_enet(..., parallel = TRUE).
 #'
-#' # Fit Cox model with elastic-net penalty
 #' fit <- fit_enet(x, y,
 #'   nfolds = 3, alphas = c(0.3, 0.7),
 #'   rule = "lambda.1se", seed = 11
 #' )
 #'
 #' nom <- as_nomogram(
-#'   fit$enet_model,
-#'   model.type = "enet",
-#'   x, time, event, pred.at = 365 * 2,
+#'   fit, x, time, event, pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -229,6 +213,8 @@ fit_enet <- function(
   x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
   rule = c("lambda.min", "lambda.1se"),
   seed = 1001, parallel = FALSE) {
+  call <- match.call()
+
   enet_cv <- glmnet_tune_alpha(
     x, y,
     family = "cox",
@@ -236,36 +222,36 @@ fit_enet <- function(
     seed = seed, parallel = parallel
   )
 
-  # fit the model on all the data use the parameters got by CV
-  best_alpha_enet <- enet_cv$best.alpha
+  alpha_opt <- enet_cv$best.alpha
 
   if (rule == "lambda.min") {
-    best_lambda_enet <- enet_cv$best.model$lambda.min
+    lambda_opt <- enet_cv$best.model$lambda.min
   } else if (rule == "lambda.1se") {
-    best_lambda_enet <- enet_cv$best.model$lambda.1se
+    lambda_opt <- enet_cv$best.model$lambda.1se
   }
 
   enet_full <- glmnet(
     x, y,
     family = "cox",
-    lambda = best_lambda_enet,
-    alpha = best_alpha_enet
+    lambda = lambda_opt,
+    alpha = alpha_opt
   )
 
   if (enet_full$df < 0.5) {
     stop("Null model produced by the full fit (all coefficients are zero). Please try to tune rule, alphas, seed, nfolds, or increase sample size.")
   }
 
-  coxenet_model <- list(
+  model <- list(
+    "model" = enet_full,
+    "alpha" = alpha_opt,
+    "lambda" = lambda_opt,
+    "type" = "enet",
     "seed" = seed,
-    "enet_best_alpha" = best_alpha_enet,
-    "enet_best_lambda" = best_lambda_enet,
-    "enet_model" = enet_full
+    "call" = call
   )
 
-  class(coxenet_model) <- c("hdnom.model", "hdnom.model.enet")
-
-  coxenet_model
+  class(model) <- c("hdnom.model", "hdnom.model.enet")
+  model
 }
 
 #' Model selection for high-dimensional Cox models with adaptive elastic-net penalty
@@ -292,21 +278,17 @@ fit_enet <- function(
 #' @export fit_aenet
 #'
 #' @examples
-#' library("survival")
-#'
-#' # Load imputed SMART data
 #' data("smart")
 #' x <- as.matrix(smart[, -c(1, 2)])
 #' time <- smart$TEVENT
 #' event <- smart$EVENT
-#' y <- Surv(time, event)
+#' y <- survival::Surv(time, event)
 #'
 #' # To enable parallel parameter tuning, first run:
 #' # library("doParallel")
 #' # registerDoParallel(detectCores())
 #' # then set fit_aenet(..., parallel = TRUE).
 #'
-#' # Fit Cox model with adaptive elastic-net penalty
 #' fit <- fit_aenet(
 #'   x, y,
 #'   nfolds = 3, alphas = c(0.3, 0.7),
@@ -314,9 +296,7 @@ fit_enet <- function(
 #' )
 #'
 #' nom <- as_nomogram(
-#'   fit$aenet_model,
-#'   model.type = "aenet",
-#'   x, time, event, pred.at = 365 * 2,
+#'   fit, x, time, event, pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -326,9 +306,10 @@ fit_aenet <- function(
   rule = c("lambda.min", "lambda.1se"),
   seed = c(1001, 1002),
   parallel = FALSE) {
+  call <- match.call()
   rule <- match.arg(rule)
 
-  # Tuning alpha for the both two stages of adaptive enet estimation
+  # Tune alpha for the both two stages of adaptive enet estimation
   enet_cv <- glmnet_tune_alpha(
     x, y,
     family = "cox",
@@ -336,26 +317,25 @@ fit_aenet <- function(
     seed = seed[1L], parallel = parallel
   )
 
-  # fit the model on all the data use the parameters got by CV
-  best_alpha_enet <- enet_cv$best.alpha
+  alpha_opt_init <- enet_cv$best.alpha
 
   if (rule == "lambda.min") {
-    best_lambda_enet <- enet_cv$best.model$lambda.min
+    lambda_opt_init <- enet_cv$best.model$lambda.min
   } else if (rule == "lambda.1se") {
-    best_lambda_enet <- enet_cv$best.model$lambda.1se
+    lambda_opt_init <- enet_cv$best.model$lambda.1se
   }
 
   enet_full <- glmnet(
     x, y,
     family = "cox",
-    lambda = best_lambda_enet,
-    alpha = best_alpha_enet
+    lambda = lambda_opt_init,
+    alpha = alpha_opt_init
   )
 
   bhat <- as.matrix(enet_full$beta)
   if (all(bhat == 0)) bhat <- rep(.Machine$double.eps * 2, length(bhat))
 
-  # adaptive penalty
+  # Compute adaptive penalty
   adpen <- (1 / pmax(abs(bhat), .Machine$double.eps))
 
   aenet_cv <- glmnet_tune_alpha(
@@ -368,22 +348,21 @@ fit_aenet <- function(
     parallel = parallel
   )
 
-  # fit the model on all the data use the parameters got by CV
-  best_alpha_aenet <- aenet_cv$best.alpha
+  alpha_opt <- aenet_cv$best.alpha
 
   if (rule == "lambda.min") {
-    best_lambda_aenet <- aenet_cv$best.model$lambda.min
+    lambda_opt <- aenet_cv$best.model$lambda.min
   } else if (rule == "lambda.1se") {
-    best_lambda_aenet <- aenet_cv$best.model$lambda.1se
+    lambda_opt <- aenet_cv$best.model$lambda.1se
   }
 
   aenet_full <- glmnet(
     x, y,
     family = "cox",
     exclude = which(bhat == 0),
-    lambda = best_lambda_aenet,
-    penalty.factor = adpen,
-    alpha = best_alpha_aenet
+    lambda = lambda_opt,
+    alpha = alpha_opt,
+    penalty.factor = adpen
   )
 
   if (aenet_full$df < 0.5) {
@@ -394,20 +373,21 @@ fit_aenet <- function(
   adpen_name <- rownames(adpen)
   names(adpen_vec) <- adpen_name
 
-  coxaenet_model <- list(
+  model <- list(
+    "model" = aenet_full,
+    "alpha" = alpha_opt,
+    "lambda" = lambda_opt,
+    "model_init" = enet_full,
+    "alpha_init" = alpha_opt_init,
+    "lambda_init" = lambda_opt_init,
+    "pen_factor" = adpen_vec,
+    "type" = "aenet",
     "seed" = seed,
-    "enet_best_alpha" = best_alpha_enet,
-    "enet_best_lambda" = best_lambda_enet,
-    "enet_model" = enet_full,
-    "aenet_best_alpha" = best_alpha_aenet,
-    "aenet_best_lambda" = best_lambda_aenet,
-    "aenet_model" = aenet_full,
-    "pen_factor" = adpen_vec
+    "call" = call
   )
 
-  class(coxaenet_model) <- c("hdnom.model", "hdnom.model.aenet")
-
-  coxaenet_model
+  class(model) <- c("hdnom.model", "hdnom.model.aenet")
+  model
 }
 
 #' Model selection for high-dimensional Cox models with SCAD penalty
@@ -434,16 +414,12 @@ fit_aenet <- function(
 #' @export fit_scad
 #'
 #' @examples
-#' library("survival")
-#'
-#' # Load imputed SMART data; only use the first 120 samples
 #' data("smart")
 #' x <- as.matrix(smart[, -c(1, 2)])[1:120, ]
 #' time <- smart$TEVENT[1:120]
 #' event <- smart$EVENT[1:120]
-#' y <- Surv(time, event)
+#' y <- survival::Surv(time, event)
 #'
-#' # Fit Cox model with SCAD penalty
 #' fit <- fit_scad(
 #'   x, y,
 #'   nfolds = 3, gammas = c(3.7, 5),
@@ -451,9 +427,7 @@ fit_aenet <- function(
 #' )
 #'
 #' nom <- as_nomogram(
-#'   fit$scad_model,
-#'   model.type = "scad",
-#'   x, time, event, pred.at = 365 * 2,
+#'   fit, x, time, event, pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -463,6 +437,8 @@ fit_scad <- function(
   gammas = c(2.01, 2.3, 3.7, 200),
   eps = 1e-4, max.iter = 10000L,
   seed = 1001, trace = FALSE, parallel = FALSE) {
+  call <- match.call()
+
   scad_cv <- ncvreg_tune_gamma(
     x, y,
     penalty = "SCAD", alpha = 1,
@@ -471,14 +447,13 @@ fit_scad <- function(
     seed = seed, trace = trace, parallel = parallel
   )
 
-  scad_best_gamma <- scad_cv$best.gamma
-  scad_best_lambda <- scad_cv$best.model$lambda.min
+  gamma_opt <- scad_cv$best.gamma
+  lambda_opt <- scad_cv$best.model$lambda.min
 
-  # fit the model on all the data use the parameters got by CV
   scad_full <- ncvreg::ncvsurv(
     x, y,
     penalty = "SCAD", alpha = 1,
-    gamma = scad_best_gamma, lambda = scad_best_lambda,
+    gamma = gamma_opt, lambda = lambda_opt,
     eps = eps, max.iter = max.iter
   )
 
@@ -486,16 +461,17 @@ fit_scad <- function(
     stop("Null model produced by the full fit (all coefficients are zero). Please try to tune gammas, seed, nfolds, or increase sample size.")
   }
 
-  coxscad_model <- list(
+  model <- list(
+    "model" = scad_full,
+    "gamma" = gamma_opt,
+    "lambda" = lambda_opt,
+    "type" = "scad",
     "seed" = seed,
-    "scad_best_gamma" = scad_best_gamma,
-    "scad_best_lambda" = scad_best_lambda,
-    "scad_model" = scad_full
+    "call" = call
   )
 
-  class(coxscad_model) <- c("hdnom.model", "hdnom.model.scad")
-
-  coxscad_model
+  class(model) <- c("hdnom.model", "hdnom.model.scad")
+  model
 }
 
 #' Model selection for high-dimensional Cox models with Snet penalty
@@ -523,16 +499,12 @@ fit_scad <- function(
 #' @export fit_snet
 #'
 #' @examples
-#' library("survival")
-#'
-#' # Load imputed SMART data; only use the first 120 samples
 #' data("smart")
 #' x <- as.matrix(smart[, -c(1, 2)])[1:120, ]
 #' time <- smart$TEVENT[1:120]
 #' event <- smart$EVENT[1:120]
-#' y <- Surv(time, event)
+#' y <- survival::Surv(time, event)
 #'
-#' # Fit Cox model with Snet penalty
 #' fit <- fit_snet(
 #'   x, y,
 #'   nfolds = 3,
@@ -541,9 +513,7 @@ fit_scad <- function(
 #' )
 #'
 #' nom <- as_nomogram(
-#'   fit$snet_model,
-#'   model.type = "snet",
-#'   x, time, event, pred.at = 365 * 2,
+#'   fit, x, time, event, pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -554,6 +524,8 @@ fit_snet <- function(
   alphas = seq(0.05, 0.95, 0.05),
   eps = 1e-4, max.iter = 10000L,
   seed = 1001, trace = FALSE, parallel = FALSE) {
+  call <- match.call()
+
   snet_cv <- ncvreg_tune_gamma_alpha(
     x, y,
     penalty = "SCAD",
@@ -564,17 +536,16 @@ fit_snet <- function(
     parallel = parallel
   )
 
-  snet_best_gamma <- snet_cv$best.gamma
-  snet_best_alpha <- snet_cv$best.alpha
-  snet_best_lambda <- snet_cv$best.model$lambda.min
+  gamma_opt <- snet_cv$best.gamma
+  alpha_opt <- snet_cv$best.alpha
+  lambda_opt <- snet_cv$best.model$lambda.min
 
-  # fit the model on all the data use the parameters got by CV
   snet_full <- ncvreg::ncvsurv(
     x, y,
     penalty = "SCAD",
-    gamma = snet_best_gamma,
-    alpha = snet_best_alpha,
-    lambda = snet_best_lambda,
+    gamma = gamma_opt,
+    alpha = alpha_opt,
+    lambda = lambda_opt,
     eps = eps, max.iter = max.iter
   )
 
@@ -582,17 +553,18 @@ fit_snet <- function(
     stop("Null model produced by the full fit (all coefficients are zero). Please try to tune gammas, alphas, seed, nfolds, or increase sample size.")
   }
 
-  coxsnet_model <- list(
+  model <- list(
+    "model" = snet_full,
+    "gamma" = gamma_opt,
+    "alpha" = alpha_opt,
+    "lambda" = lambda_opt,
+    "type" = "snet",
     "seed" = seed,
-    "snet_best_gamma" = snet_best_gamma,
-    "snet_best_alpha" = snet_best_alpha,
-    "snet_best_lambda" = snet_best_lambda,
-    "snet_model" = snet_full
+    "call" = call
   )
 
-  class(coxsnet_model) <- c("hdnom.model", "hdnom.model.snet")
-
-  coxsnet_model
+  class(model) <- c("hdnom.model", "hdnom.model.snet")
+  model
 }
 
 #' Model selection for high-dimensional Cox models with MCP penalty
@@ -619,22 +591,16 @@ fit_snet <- function(
 #' @export fit_mcp
 #'
 #' @examples
-#' library("survival")
-#'
-#' # Load imputed SMART data; only use the first 150 samples
 #' data("smart")
 #' x <- as.matrix(smart[, -c(1, 2)])[1:150, ]
 #' time <- smart$TEVENT[1:150]
 #' event <- smart$EVENT[1:150]
-#' y <- Surv(time, event)
+#' y <- survival::Surv(time, event)
 #'
-#' # Fit Cox model with MCP penalty
 #' fit <- fit_mcp(x, y, nfolds = 3, gammas = c(2.1, 3), seed = 1001)
 #'
 #' nom <- as_nomogram(
-#'   fit$mcp_model,
-#'   model.type = "mcp",
-#'   x, time, event, pred.at = 365 * 2,
+#'   fit, x, time, event, pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -643,6 +609,8 @@ fit_mcp <- function(
   x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
   eps = 1e-4, max.iter = 10000L,
   seed = 1001, trace = FALSE, parallel = FALSE) {
+  call <- match.call()
+
   mcp_cv <- ncvreg_tune_gamma(
     x, y,
     penalty = "MCP", alpha = 1,
@@ -651,33 +619,34 @@ fit_mcp <- function(
     seed = seed, trace = trace, parallel = parallel
   )
 
-  mcp_best_gamma <- mcp_cv$best.gamma
-  mcp_best_lambda <- mcp_cv$best.model$lambda.min
+  gamma_opt <- mcp_cv$best.gamma
+  lambda_opt <- mcp_cv$best.model$lambda.min
 
-  # fit the model on all the data use the parameters got by CV
   mcp_full <-
     ncvreg::ncvsurv(
       x, y,
       penalty = "MCP", alpha = 1,
-      gamma = mcp_best_gamma, lambda = mcp_best_lambda,
+      gamma = gamma_opt,
+      lambda = lambda_opt,
       eps = eps, max.iter = max.iter
     )
 
-  # deal with null models, thanks for the suggestion from Patrick Breheny
+  # Deal with null models, thanks for the suggestion from Prof. Patrick Breheny
   if (all(abs(mcp_full$beta[-1L, ]) < .Machine$double.eps)) {
     stop("Null model produced by the full fit (all coefficients are zero). Please try to tune gammas, seed, nfolds, or increase sample size.")
   }
 
-  coxmcp_model <- list(
+  model <- list(
+    "model" = mcp_full,
+    "gamma" = gamma_opt,
+    "lambda" = lambda_opt,
+    "type" = "mcp",
     "seed" = seed,
-    "mcp_best_gamma" = mcp_best_gamma,
-    "mcp_best_lambda" = mcp_best_lambda,
-    "mcp_model" = mcp_full
+    "call" = call
   )
 
-  class(coxmcp_model) <- c("hdnom.model", "hdnom.model.mcp")
-
-  coxmcp_model
+  class(model) <- c("hdnom.model", "hdnom.model.mcp")
+  model
 }
 
 #' Model selection for high-dimensional Cox models with Mnet penalty
@@ -705,16 +674,12 @@ fit_mcp <- function(
 #' @export fit_mnet
 #'
 #' @examples
-#' library("survival")
-#'
-#' # Load imputed SMART data; only use the first 120 samples
 #' data("smart")
 #' x <- as.matrix(smart[, -c(1, 2)])[1:120, ]
 #' time <- smart$TEVENT[1:120]
 #' event <- smart$EVENT[1:120]
-#' y <- Surv(time, event)
+#' y <- survival::Surv(time, event)
 #'
-#' # Fit Cox model with Mnet penalty
 #' fit <- fit_mnet(
 #'   x, y,
 #'   nfolds = 3,
@@ -723,9 +688,7 @@ fit_mcp <- function(
 #' )
 #'
 #' nom <- as_nomogram(
-#'   fit$mnet_model,
-#'   model.type = "mnet",
-#'   x, time, event, pred.at = 365 * 2,
+#'   fit, x, time, event, pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -736,6 +699,8 @@ fit_mnet <- function(
   alphas = seq(0.05, 0.95, 0.05),
   eps = 1e-4, max.iter = 10000L,
   seed = 1001, trace = FALSE, parallel = FALSE) {
+  call <- match.call()
+
   mnet_cv <- ncvreg_tune_gamma_alpha(
     x, y,
     penalty = "MCP",
@@ -746,36 +711,35 @@ fit_mnet <- function(
     parallel = parallel
   )
 
-  mnet_best_gamma <- mnet_cv$best.gamma
-  mnet_best_alpha <- mnet_cv$best.alpha
-  mnet_best_lambda <- mnet_cv$best.model$lambda.min
+  gamma_opt <- mnet_cv$best.gamma
+  alpha_opt <- mnet_cv$best.alpha
+  lambda_opt <- mnet_cv$best.model$lambda.min
 
-  # fit the model on all the data use the parameters got by CV
-  mnet_full <-
-    ncvreg::ncvsurv(
-      x, y,
-      penalty = "MCP",
-      gamma = mnet_best_gamma,
-      alpha = mnet_best_alpha,
-      lambda = mnet_best_lambda,
-      eps = eps, max.iter = max.iter
-    )
+  mnet_full <- ncvreg::ncvsurv(
+    x, y,
+    penalty = "MCP",
+    gamma = gamma_opt,
+    alpha = alpha_opt,
+    lambda = lambda_opt,
+    eps = eps, max.iter = max.iter
+  )
 
   if (all(abs(mnet_full$beta[-1L, ]) < .Machine$double.eps)) {
     stop("Null model produced by the full fit (all coefficients are zero). Please try to tune gammas, alphas, seed, nfolds, or increase sample size.")
   }
 
-  coxmnet_model <- list(
+  model <- list(
+    "model" = mnet_full,
+    "gamma" = gamma_opt,
+    "alpha" = alpha_opt,
+    "lambda" = lambda_opt,
+    "type" = "mnet",
     "seed" = seed,
-    "mnet_best_gamma" = mnet_best_gamma,
-    "mnet_best_alpha" = mnet_best_alpha,
-    "mnet_best_lambda" = mnet_best_lambda,
-    "mnet_model" = mnet_full
+    "call" = call
   )
 
-  class(coxmnet_model) <- c("hdnom.model", "hdnom.model.mnet")
-
-  coxmnet_model
+  class(model) <- c("hdnom.model", "hdnom.model.mnet")
+  model
 }
 
 #' Model selection for high-dimensional Cox models with fused lasso penalty
@@ -816,25 +780,19 @@ fit_mnet <- function(
 #' @export fit_flasso
 #'
 #' @examples
-#' library("survival")
-#'
-#' # Load imputed SMART data; only use the first 120 samples
 #' data("smart")
 #' x <- as.matrix(smart[, -c(1, 2)])[1:120, ]
 #' time <- smart$TEVENT[1:120]
 #' event <- smart$EVENT[1:120]
-#' y <- Surv(time, event)
+#' y <- survival::Surv(time, event)
 #'
-#' # Fit Cox model with fused lasso penalty
 #' fit <- fit_flasso(x, y,
 #'   lambda1 = c(1, 10), lambda2 = c(0.01),
 #'   nfolds = 3, seed = 11
 #' )
 #'
 #' nom <- as_nomogram(
-#'   fit$flasso_model,
-#'   model.type = "flasso",
-#'   x, time, event, pred.at = 365 * 2,
+#'   fit, x, time, event, pred.at = 365 * 2,
 #'   funlabel = "2-Year Overall Survival Probability"
 #' )
 #'
@@ -845,6 +803,8 @@ fit_flasso <- function(
   lambda2 = c(0.001, 0.01, 0.5),
   maxiter = 25, epsilon = 1e-3,
   seed = 1001, trace = FALSE, parallel = FALSE, ...) {
+  call <- match.call()
+
   if (trace) cat("Starting cross-validation...\n")
   flasso_cv <- penalized_tune_lambda(
     response = y, penalized = x, fold = nfolds,
@@ -854,15 +814,14 @@ fit_flasso <- function(
     fusedl = TRUE, standardize = TRUE, model = "cox", ...
   )
 
-  flasso_best_lambda1 <- flasso_cv$"best.lambda1"
-  flasso_best_lambda2 <- flasso_cv$"best.lambda2"
+  lambda1_opt <- flasso_cv$"best.lambda1"
+  lambda2_opt <- flasso_cv$"best.lambda2"
 
-  # fit the model on all the data use the parameters got by CV
   if (trace) cat("Fitting fused lasso model with full data...\n")
   flasso_full <- penalized(
     response = y, penalized = x,
-    lambda1 = flasso_best_lambda1,
-    lambda2 = flasso_best_lambda2,
+    lambda1 = lambda1_opt,
+    lambda2 = lambda2_opt,
     maxiter = maxiter, epsilon = epsilon,
     trace = trace,
     fusedl = TRUE, standardize = FALSE, model = "cox", ...
@@ -872,14 +831,15 @@ fit_flasso <- function(
     stop("Null model produced by the full fit (all coefficients are zero). Please try changing the seed, nfolds, or increase sample size.")
   }
 
-  coxflasso_model <- list(
+  model <- list(
+    "model" = flasso_full,
+    "lambda1" = lambda1_opt,
+    "lambda2" = lambda2_opt,
+    "type" = "flasso",
     "seed" = seed,
-    "flasso_best_lambda1" = flasso_best_lambda1,
-    "flasso_best_lambda2" = flasso_best_lambda2,
-    "flasso_model" = flasso_full
+    "call" = call
   )
 
-  class(coxflasso_model) <- c("hdnom.model", "hdnom.model.flasso")
-
-  coxflasso_model
+  class(model) <- c("hdnom.model", "hdnom.model.flasso")
+  model
 }

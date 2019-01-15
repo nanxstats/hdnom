@@ -6,10 +6,7 @@
 #' @return list containing predicted survival probability
 #'
 #' @keywords internal
-glmnet_calibrate_external_surv_prob_pred <- function(
-  object, x_tr, x_te, y_tr,
-  alpha, lambda, pen.factor,
-  pred.at) {
+glmnet_calibrate_external_surv_prob_pred <- function(object, x_tr, x_te, y_tr, pred.at) {
   lp <- as.numeric(predict(object, newx = data.matrix(x_tr), type = "link"))
   lpnew <- as.numeric(predict(object, newx = data.matrix(x_te), type = "link"))
 
@@ -42,9 +39,7 @@ glmnet_calibrate_external_surv_prob_pred <- function(
 #' @return list containing predicted survival probability
 #'
 #' @keywords internal
-ncvreg_calibrate_external_surv_prob_pred <- function(
-  object, x_tr, x_te, y_tr,
-  pred.at) {
+ncvreg_calibrate_external_surv_prob_pred <- function(object, x_tr, x_te, y_tr, pred.at) {
   lp <- as.numeric(predict(object, X = data.matrix(x_tr), type = "link"))
   lpnew <- as.numeric(predict(object, X = data.matrix(x_te), type = "link"))
 
@@ -78,9 +73,7 @@ ncvreg_calibrate_external_surv_prob_pred <- function(
 #' @return list containing predicted survival probability
 #'
 #' @keywords internal
-penalized_calibrate_external_surv_prob_pred <- function(
-  object, x_tr, x_te, y_tr,
-  pred.at) {
+penalized_calibrate_external_surv_prob_pred <- function(object, x_tr, x_te, y_tr, pred.at) {
   lp <- as.vector(data.matrix(x_tr) %*% as.matrix(object@"penalized"))
   lpnew <- as.vector(data.matrix(x_te) %*% as.matrix(object@"penalized"))
 

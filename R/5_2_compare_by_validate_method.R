@@ -59,7 +59,7 @@ summary.hdnom.compare.validate <- function(object, silent = FALSE, ...) {
 #' @method plot hdnom.compare.validate
 #'
 #' @importFrom ggplot2 ggplot aes_string geom_point geom_line
-#' scale_x_continuous scale_colour_manual theme_bw ylab coord_cartesian
+#' scale_x_continuous scale_colour_manual ylab coord_cartesian
 #'
 #' @export
 #'
@@ -115,7 +115,7 @@ plot.hdnom.compare.validate <- function(
       scale_x_continuous(breaks = df$"Time") +
       scale_colour_manual(values = col_pal) +
       coord_cartesian(ylim = ylim) +
-      theme_bw() +
+      theme_hdnom() +
       ylab("Area under ROC")
   } else {
     ggplot(
@@ -147,7 +147,7 @@ plot.hdnom.compare.validate <- function(
       scale_colour_manual(values = col_pal) +
       scale_fill_manual(values = col_pal) +
       coord_cartesian(ylim = ylim) +
-      theme_bw() +
+      theme_hdnom() +
       ylab("Area under ROC")
   }
 }

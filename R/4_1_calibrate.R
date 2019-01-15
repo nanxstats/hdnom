@@ -46,14 +46,11 @@
 #' @export calibrate
 #'
 #' @examples
-#' library("survival")
-#'
-#' # Load imputed SMART data
 #' data("smart")
 #' x <- as.matrix(smart[, -c(1, 2)])
 #' time <- smart$TEVENT
 #' event <- smart$EVENT
-#' y <- Surv(time, event)
+#' y <- survival::Surv(time, event)
 #'
 #' # Fit Cox model with lasso penalty
 #' fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
@@ -62,7 +59,7 @@
 #' cal.fitting <- calibrate(
 #'   x, time, event,
 #'   model.type = "lasso",
-#'   alpha = 1, lambda = fit$lasso_best_lambda,
+#'   alpha = 1, lambda = fit$lambda,
 #'   method = "fitting",
 #'   pred.at = 365 * 9, ngroup = 5,
 #'   seed = 1010
@@ -72,7 +69,7 @@
 #' cal.cv <- calibrate(
 #'   x, time, event,
 #'   model.type = "lasso",
-#'   alpha = 1, lambda = fit$lasso_best_lambda,
+#'   alpha = 1, lambda = fit$lambda,
 #'   method = "cv", nfolds = 5,
 #'   pred.at = 365 * 9, ngroup = 5,
 #'   seed = 1010
@@ -86,16 +83,12 @@
 #' summary(cal.cv)
 #' plot(cal.cv)
 #'
-#' # ### Testing fused lasso, SCAD, and Mnet models ###
-#' # library("hdnom")
-#' # library("survival")
-#' #
-#' # # Load imputed SMART data
+#' # # Test fused lasso, SCAD, and Mnet models
 #' # data(smart)
 #' # x = as.matrix(smart[, -c(1, 2)])[1:500, ]
 #' # time = smart$TEVENT[1:500]
 #' # event = smart$EVENT[1:500]
-#' # y = Surv(time, event)
+#' # y = survival::Surv(time, event)
 #' #
 #' # set.seed(1010)
 #' # cal.fitting = calibrate(

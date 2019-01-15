@@ -57,38 +57,35 @@
 #' print(cal.ext)
 #' summary(cal.ext)
 #' plot(cal.ext, xlim = c(0.6, 1), ylim = c(0.6, 1))
-#' # ### Testing fused lasso, MCP, and Snet models ###
-#' # library("survival")
-#' #
-#' # # Load imputed SMART data
+#' # # Test fused lasso, MCP, and Snet models
 #' # data(smart)
 #' # # Use first 500 samples as training data
 #' # # (the data used for internal validation)
-#' # x = as.matrix(smart[, -c(1, 2)])[1:500, ]
-#' # time = smart$TEVENT[1:500]
-#' # event = smart$EVENT[1:500]
+#' # x <- as.matrix(smart[, -c(1, 2)])[1:500, ]
+#' # time <- smart$TEVENT[1:500]
+#' # event <- smart$EVENT[1:500]
 #' #
 #' # # Take 1000 samples as external validation data.
 #' # # In practice, usually use data collected in other studies.
-#' # x_new = as.matrix(smart[, -c(1, 2)])[1001:2000, ]
-#' # time_new = smart$TEVENT[1001:2000]
-#' # event_new = smart$EVENT[1001:2000]
+#' # x_new <- as.matrix(smart[, -c(1, 2)])[1001:2000, ]
+#' # time_new <- smart$TEVENT[1001:2000]
+#' # event_new <- smart$EVENT[1001:2000]
 #' #
-#' # flassofit = fit_flasso(x, Surv(time, event), nfolds = 5, seed = 11)
-#' # scadfit = fit_mcp(x, Surv(time, event), nfolds = 5, seed = 11)
-#' # mnetfit = fit_snet(x, Surv(time, event), nfolds = 5, seed = 11)
+#' # flassofit <- fit_flasso(x, survival::Surv(time, event), nfolds = 5, seed = 11)
+#' # scadfit <- fit_mcp(x, survival::Surv(time, event), nfolds = 5, seed = 11)
+#' # mnetfit <- fit_snet(x, survival::Surv(time, event), nfolds = 5, seed = 11)
 #' #
-#' # cal.ext1 = calibrate_external(
+#' # cal.ext1 <- calibrate_external(
 #' #   flassofit, x, time, event,
 #' #   x_new, time_new, event_new,
 #' #   pred.at = 365 * 5, ngroup = 5)
 #' #
-#' # cal.ext2 = calibrate_external(
+#' # cal.ext2 <- calibrate_external(
 #' #   scadfit, x, time, event,
 #' #   x_new, time_new, event_new,
 #' #   pred.at = 365 * 5, ngroup = 5)
 #' #
-#' # cal.ext3 = calibrate_external(
+#' # cal.ext3 <- calibrate_external(
 #' #   mnetfit, x, time, event,
 #' #   x_new, time_new, event_new,
 #' #   pred.at = 365 * 5, ngroup = 5)
@@ -112,31 +109,28 @@ calibrate_external <- function(
     stop('object must be of class "hdnom.model"')
   }
 
-  model.type <- gsub("hdnom.model.", "", setdiff(class(object), "hdnom.model"))
-  model_object <- object[[paste0(model.type, "_model")]]
+  model <- object$model
+  model_type <- object$type
 
   if (!("matrix" %in% class(x_new))) stop("x_new must be a matrix")
 
   if (length(pred.at) != 1L) stop("pred.at should only contain 1 time point")
 
-  if (model.type %in% c("lasso", "alasso", "enet", "aenet")) {
+  if (model_type %in% c("lasso", "alasso", "enet", "aenet")) {
     pred_list <- glmnet_calibrate_external_surv_prob_pred(
-      object = model_object, x_tr = x, x_te = x_new, y_tr = Surv(time, event),
-      pred.at = pred.at
+      model, x, x_new, Surv(time, event), pred.at
     )
   }
 
-  if (model.type %in% c("mcp", "mnet", "scad", "snet")) {
+  if (model_type %in% c("mcp", "mnet", "scad", "snet")) {
     pred_list <- ncvreg_calibrate_external_surv_prob_pred(
-      object = model_object, x_tr = x, x_te = x_new, y_tr = Surv(time, event),
-      pred.at = pred.at
+      model, x, x_new, Surv(time, event), pred.at
     )
   }
 
-  if (model.type %in% c("flasso")) {
+  if (model_type %in% c("flasso")) {
     pred_list <- penalized_calibrate_external_surv_prob_pred(
-      object = model_object, x_tr = x, x_te = x_new, y_tr = Surv(time, event),
-      pred.at = pred.at
+      model, x, x_new, Surv(time, event), pred.at
     )
   }
 
@@ -153,19 +147,19 @@ calibrate_external <- function(
   prob <- cbind(pred_prob_median, true_prob)
   colnames(prob)[1L] <- "Predicted"
 
-  if (model.type %in% c("lasso", "alasso", "enet", "aenet")) {
+  if (model_type %in% c("lasso", "alasso", "enet", "aenet")) {
     class(prob) <- c("hdnom.calibrate.external", "glmnet.calibrate.external")
   }
 
-  if (model.type %in% c("mcp", "mnet", "scad", "snet")) {
+  if (model_type %in% c("mcp", "mnet", "scad", "snet")) {
     class(prob) <- c("hdnom.calibrate.external", "ncvreg.calibrate.external")
   }
 
-  if (model.type %in% c("flasso")) {
+  if (model_type %in% c("flasso")) {
     class(prob) <- c("hdnom.calibrate.external", "penalized.calibrate.external")
   }
 
-  attr(prob, "model.type") <- model.type
+  attr(prob, "model.type") <- model_type
   attr(prob, "pred.at") <- pred.at
   attr(prob, "ngroup") <- ngroup
   attr(prob, "risk.group") <- grp

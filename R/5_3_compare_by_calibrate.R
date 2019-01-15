@@ -27,7 +27,6 @@
 #' @export compare_by_calibrate
 #'
 #' @examples
-#' # Load imputed SMART data
 #' data(smart)
 #' x <- as.matrix(smart[, -c(1, 2)])
 #' time <- smart$TEVENT
@@ -68,7 +67,7 @@ compare_by_calibrate <- function(
   nmodel <- length(model.type)
   problist <- vector("list", nmodel)
 
-  # check parameters for different methods
+  # Sanity check for arguments
   if (method == "fitting") {
     if (!is.null(boot.times) || !is.null(nfolds) || !is.null(rep.times)) {
       stop('boot.times, nfolds, and rep.times must be NULL when method = "fitting"')
@@ -115,7 +114,7 @@ compare_by_calibrate <- function(
         problist[[i]] <- hdnom::calibrate(
           x, time, event,
           model.type = "lasso",
-          alpha = 1, lambda = cvfit$"lasso_best_lambda",
+          alpha = 1, lambda = cvfit$"lambda",
           method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
           pred.at = pred.at, ngroup = ngroup,
           seed = seed, trace = trace
@@ -132,7 +131,7 @@ compare_by_calibrate <- function(
         problist[[i]] <- hdnom::calibrate(
           x, time, event,
           model.type = "alasso",
-          alpha = 1, lambda = cvfit$"alasso_best_lambda", pen.factor = cvfit$"pen_factor",
+          alpha = 1, lambda = cvfit$"lambda", pen.factor = cvfit$"pen_factor",
           method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
           pred.at = pred.at, ngroup = ngroup,
           seed = seed, trace = trace
@@ -145,8 +144,8 @@ compare_by_calibrate <- function(
         problist[[i]] <- hdnom::calibrate(
           x, time, event,
           model.type = "flasso",
-          lambda1 = cvfit$"flasso_best_lambda1",
-          lambda2 = cvfit$"flasso_best_lambda2",
+          lambda1 = cvfit$"lambda1",
+          lambda2 = cvfit$"lambda2",
           method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
           pred.at = pred.at, ngroup = ngroup,
           seed = seed, trace = trace
@@ -164,7 +163,7 @@ compare_by_calibrate <- function(
         problist[[i]] <- hdnom::calibrate(
           x, time, event,
           model.type = "enet",
-          alpha = cvfit$"enet_best_alpha", lambda = cvfit$"enet_best_lambda",
+          alpha = cvfit$"alpha", lambda = cvfit$"lambda",
           method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
           pred.at = pred.at, ngroup = ngroup,
           seed = seed, trace = trace
@@ -182,7 +181,7 @@ compare_by_calibrate <- function(
         problist[[i]] <- hdnom::calibrate(
           x, time, event,
           model.type = "aenet",
-          alpha = cvfit$"aenet_best_alpha", lambda = cvfit$"aenet_best_lambda", pen.factor = cvfit$"pen_factor",
+          alpha = cvfit$"alpha", lambda = cvfit$"lambda", pen.factor = cvfit$"pen_factor",
           method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
           pred.at = pred.at, ngroup = ngroup,
           seed = seed, trace = trace
@@ -195,7 +194,7 @@ compare_by_calibrate <- function(
         problist[[i]] <- hdnom::calibrate(
           x, time, event,
           model.type = "mcp",
-          alpha = 1, gamma = cvfit$"mcp_best_gamma", lambda = cvfit$"mcp_best_lambda",
+          alpha = 1, gamma = cvfit$"gamma", lambda = cvfit$"lambda",
           method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
           pred.at = pred.at, ngroup = ngroup,
           seed = seed, trace = trace
@@ -213,7 +212,7 @@ compare_by_calibrate <- function(
         problist[[i]] <- hdnom::calibrate(
           x, time, event,
           model.type = "mnet",
-          alpha = cvfit$"mnet_best_alpha", gamma = cvfit$"mnet_best_gamma", lambda = cvfit$"mnet_best_lambda",
+          alpha = cvfit$"alpha", gamma = cvfit$"gamma", lambda = cvfit$"lambda",
           method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
           pred.at = pred.at, ngroup = ngroup,
           seed = seed, trace = trace
@@ -226,7 +225,7 @@ compare_by_calibrate <- function(
         problist[[i]] <- hdnom::calibrate(
           x, time, event,
           model.type = "scad",
-          alpha = 1, gamma = cvfit$"scad_best_gamma", lambda = cvfit$"scad_best_lambda",
+          alpha = 1, gamma = cvfit$"gamma", lambda = cvfit$"lambda",
           method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
           pred.at = pred.at, ngroup = ngroup,
           seed = seed, trace = trace
@@ -244,7 +243,7 @@ compare_by_calibrate <- function(
         problist[[i]] <- hdnom::calibrate(
           x, time, event,
           model.type = "snet",
-          alpha = cvfit$"snet_best_alpha", gamma = cvfit$"snet_best_gamma", lambda = cvfit$"snet_best_lambda",
+          alpha = cvfit$"alpha", gamma = cvfit$"gamma", lambda = cvfit$"lambda",
           method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
           pred.at = pred.at, ngroup = ngroup,
           seed = seed, trace = trace

@@ -252,7 +252,7 @@ summary.hdnom.validate <- function(object, silent = FALSE, ...) {
 #'
 #' @importFrom ggplot2 ggplot aes_string geom_point geom_line geom_point
 #' geom_ribbon scale_x_continuous scale_fill_manual scale_colour_manual
-#' theme_bw theme ylab coord_cartesian
+#' theme ylab coord_cartesian
 #'
 #' @examples
 #' NULL
@@ -298,7 +298,7 @@ plot.hdnom.validate <- function(
     ) +
     scale_x_continuous(breaks = df$"Time") +
     coord_cartesian(ylim = ylim) +
-    theme_bw() +
+    theme_hdnom() +
     theme(legend.position = "none") +
     ylab("Area under ROC")
 }

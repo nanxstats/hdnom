@@ -30,8 +30,6 @@
 #'
 #' @export compare_by_validate
 #'
-#' @importFrom ggplot2 ggplot
-#'
 #' @references
 #' Chambless, L. E. and G. Diao (2006).
 #' Estimation of time-dependent area under the ROC curve for long-term
@@ -49,7 +47,6 @@
 #' \emph{Journal of the American Statistical Association} 102, 527--537.
 #'
 #' @examples
-#' # Load imputed SMART data
 #' data(smart)
 #' x <- as.matrix(smart[, -c(1, 2)])[1:1000, ]
 #' time <- smart$TEVENT[1:1000]
@@ -91,7 +88,7 @@ compare_by_validate <- function(
   nmodel <- length(model.type)
   tauclist <- vector("list", nmodel)
 
-  # check parameters for different methods
+  # Sanity check for arguments
   if (method == "bootstrap") {
     if (!is.null(nfolds) || !is.null(rep.times)) {
       stop('nfolds and rep.times must be NULL when method = "bootstrap"')
@@ -132,7 +129,7 @@ compare_by_validate <- function(
         tauclist[[i]] <- hdnom::validate(
           x, time, event,
           model.type = "lasso",
-          alpha = 1, lambda = cvfit$"lasso_best_lambda",
+          alpha = 1, lambda = cvfit$"lambda",
           method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
           tauc.type = tauc.type, tauc.time = tauc.time,
           seed = seed, trace = trace
@@ -149,7 +146,7 @@ compare_by_validate <- function(
         tauclist[[i]] <- hdnom::validate(
           x, time, event,
           model.type = "alasso",
-          alpha = 1, lambda = cvfit$"alasso_best_lambda", pen.factor = cvfit$"pen_factor",
+          alpha = 1, lambda = cvfit$"lambda", pen.factor = cvfit$"pen_factor",
           method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
           tauc.type = tauc.type, tauc.time = tauc.time,
           seed = seed, trace = trace
@@ -162,8 +159,8 @@ compare_by_validate <- function(
         tauclist[[i]] <- hdnom::validate(
           x, time, event,
           model.type = "flasso",
-          lambda1 = cvfit$"flasso_best_lambda1",
-          lambda2 = cvfit$"flasso_best_lambda2",
+          lambda1 = cvfit$"lambda1",
+          lambda2 = cvfit$"lambda2",
           method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
           tauc.type = tauc.type, tauc.time = tauc.time,
           seed = seed, trace = trace
@@ -181,7 +178,7 @@ compare_by_validate <- function(
         tauclist[[i]] <- hdnom::validate(
           x, time, event,
           model.type = "enet",
-          alpha = cvfit$"enet_best_alpha", lambda = cvfit$"enet_best_lambda",
+          alpha = cvfit$"alpha", lambda = cvfit$"lambda",
           method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
           tauc.type = tauc.type, tauc.time = tauc.time,
           seed = seed, trace = trace
@@ -199,7 +196,7 @@ compare_by_validate <- function(
         tauclist[[i]] <- hdnom::validate(
           x, time, event,
           model.type = "aenet",
-          alpha = cvfit$"aenet_best_alpha", lambda = cvfit$"aenet_best_lambda", pen.factor = cvfit$"pen_factor",
+          alpha = cvfit$"alpha", lambda = cvfit$"lambda", pen.factor = cvfit$"pen_factor",
           method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
           tauc.type = tauc.type, tauc.time = tauc.time,
           seed = seed, trace = trace
@@ -212,7 +209,7 @@ compare_by_validate <- function(
         tauclist[[i]] <- hdnom::validate(
           x, time, event,
           model.type = "mcp",
-          alpha = 1, gamma = cvfit$"mcp_best_gamma", lambda = cvfit$"mcp_best_lambda",
+          alpha = 1, gamma = cvfit$"gamma", lambda = cvfit$"lambda",
           method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
           tauc.type = tauc.type, tauc.time = tauc.time,
           seed = seed, trace = trace
@@ -230,7 +227,7 @@ compare_by_validate <- function(
         tauclist[[i]] <- hdnom::validate(
           x, time, event,
           model.type = "mnet",
-          alpha = cvfit$"mnet_best_alpha", gamma = cvfit$"mnet_best_gamma", lambda = cvfit$"mnet_best_lambda",
+          alpha = cvfit$"alpha", gamma = cvfit$"gamma", lambda = cvfit$"lambda",
           method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
           tauc.type = tauc.type, tauc.time = tauc.time,
           seed = seed, trace = trace
@@ -243,7 +240,7 @@ compare_by_validate <- function(
         tauclist[[i]] <- hdnom::validate(
           x, time, event,
           model.type = "scad",
-          alpha = 1, gamma = cvfit$"scad_best_gamma", lambda = cvfit$"scad_best_lambda",
+          alpha = 1, gamma = cvfit$"gamma", lambda = cvfit$"lambda",
           method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
           tauc.type = tauc.type, tauc.time = tauc.time,
           seed = seed, trace = trace
@@ -261,7 +258,7 @@ compare_by_validate <- function(
         tauclist[[i]] <- hdnom::validate(
           x, time, event,
           model.type = "snet",
-          alpha = cvfit$"snet_best_alpha", gamma = cvfit$"snet_best_gamma", lambda = cvfit$"snet_best_lambda",
+          alpha = cvfit$"alpha", gamma = cvfit$"gamma", lambda = cvfit$"lambda",
           method = method, boot.times = boot.times, nfolds = nfolds, rep.times = rep.times,
           tauc.type = tauc.type, tauc.time = tauc.time,
           seed = seed, trace = trace
