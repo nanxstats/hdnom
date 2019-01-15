@@ -197,10 +197,7 @@ regression models.
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"survival"</span>)
-
-<span class='co'># Load imputed SMART data</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>smart</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>smart</span>)
 <span class='co'># Use the first 1000 samples as training data</span>
 <span class='co'># (the data used for internal validation)</span>
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='no'>smart</span>[, -<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>)])[<span class='fl'>1</span>:<span class='fl'>1000</span>, ]
@@ -215,7 +212,7 @@ regression models.
 
 <span class='co'># Fit Cox model with lasso penalty</span>
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_lasso.html'>fit_lasso</a></span>(
-  <span class='no'>x</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/survival/topics/Surv'>Surv</a></span>(<span class='no'>time</span>, <span class='no'>event</span>),
+  <span class='no'>x</span>, <span class='kw pkg'>survival</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/survival/topics/Surv'>Surv</a></span>(<span class='no'>time</span>, <span class='no'>event</span>),
   <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>rule</span> <span class='kw'>=</span> <span class='st'>"lambda.1se"</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>11</span>
 )
 
@@ -238,40 +235,37 @@ regression models.
 #&gt; AUC 0.5146531 0.5771193 0.6329524 0.6168784 0.636541 0.6482618 0.6526306
 #&gt;           730
 #&gt; AUC 0.6576868</div><div class='img'><img src='validate_external-1.png' alt='' width='700' height='433' /></div><div class='input'>
-# ### Testing fused lasso, MCP and Snet models ###
-# library("survival")
-#
-# # Load imputed SMART data
+# # Test fused lasso, MCP, and Snet models
 # data(smart)
 # # Use first 600 samples as training data
 # # (the data used for internal validation)
-# x = as.matrix(smart[, -c(1, 2)])[1:600, ]
-# time = smart$TEVENT[1:600]
-# event = smart$EVENT[1:600]
+# x <- as.matrix(smart[, -c(1, 2)])[1:600, ]
+# time <- smart$TEVENT[1:600]
+# event <- smart$EVENT[1:600]
 #
 # # Take 500 samples as external validation data.
 # # In practice, usually use data collected in other studies.
-# x_new = as.matrix(smart[, -c(1, 2)])[1001:1500, ]
-# time_new = smart$TEVENT[1001:1500]
-# event_new = smart$EVENT[1001:1500]
+# x_new <- as.matrix(smart[, -c(1, 2)])[1001:1500, ]
+# time_new <- smart$TEVENT[1001:1500]
+# event_new <- smart$EVENT[1001:1500]
 #
-# flassofit = fit_flasso(x, Surv(time, event), nfolds = 5, seed = 11)
-# scadfit = fit_mcp(x, Surv(time, event), nfolds = 5, seed = 11)
-# mnetfit = fit_snet(x, Surv(time, event), nfolds = 5, seed = 11)
+# flassofit <- fit_flasso(x, survival::Surv(time, event), nfolds = 5, seed = 11)
+# scadfit <- fit_mcp(x, survival::Surv(time, event), nfolds = 5, seed = 11)
+# mnetfit <- fit_snet(x, survival::Surv(time, event), nfolds = 5, seed = 11)
 #
-# val.ext1 = validate_external(
+# val.ext1 <- validate_external(
 #   flassofit, x, time, event,
 #   x_new, time_new, event_new,
 #   tauc.type = "UNO",
 #   tauc.time = seq(0.25, 2, 0.25) * 365)
 #
-# val.ext2 = validate_external(
+# val.ext2 <- validate_external(
 #   scadfit, x, time, event,
 #   x_new, time_new, event_new,
 #   tauc.type = "CD",
 #   tauc.time = seq(0.25, 2, 0.25) * 365)
 #
-# val.ext3 = validate_external(
+# val.ext3 <- validate_external(
 #   mnetfit, x, time, event,
 #   x_new, time_new, event_new,
 #   tauc.type = "SZ",

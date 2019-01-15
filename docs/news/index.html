@@ -128,17 +128,16 @@
 <h3 class="hasAnchor">
 <a href="#general" class="anchor"></a>General</h3>
 <ul>
-<li>Function renaming: dot to underscore, also shorter. For example, <code>hdcox.*()</code> to <code>fit_*()</code>; <code>hdnom.nomogram()</code> to <code><a href="../reference/as_nomogram.html">as_nomogram()</a></code>; <code>hdnom.validate()</code> to <code><a href="../reference/validate.html">validate()</a></code>, etc.</li>
+<li>Renamed exported functions. Most of the exported function have been renamed to be more meaningful and succinct. For example, <code>hdcox.*()</code> are renamed as <code>fit_*()</code>, <code>hdnom.nomogram()</code> is renamed as <code><a href="../reference/as_nomogram.html">as_nomogram()</a></code>, <code>hdnom.validate()</code> is renamed as <code><a href="../reference/validate.html">validate()</a></code>, and so on.</li>
 <li>Removed the dependency on <code>rms</code>, by reusing a minimal set of code from <code>rms</code> for nomogram construction and plotting. This results in clearer code structure, better maintainability, and faster package installation/loading speed. Also removed other non-essential package dependencies.</li>
-<li>The first argument are now returned invisbily for functions with side-effects (mostly print and summary), to make it easier to use them in a pipe.</li>
+<li>The first argument for <code>print</code> functions are now returned invisbily, to make it easier to use them in a pipe.</li>
 </ul>
 </div>
 <div id="model-fitting" class="section level3">
 <h3 class="hasAnchor">
 <a href="#model-fitting" class="anchor"></a>Model Fitting</h3>
 <ul>
-<li>unified the name of the returned model with a single <code>$model</code>. the previous <code>$lasso_model</code> has been deprecated. For adptive estimation methods, we unified the initial estimation model object named as <code>model_init</code>.</li>
-<li>Added a new component <code>model_type</code> to <code>fit_.*</code> returns.</li>
+<li>The components in the model fitting function returns are now unified across model types. For example, the model object can all be accessed by <code>fit$model</code>, and the selected “optimal” hyperparameters can be accessed by <code>fit$lambda</code>. The model type is now stored explicitly as <code>fit$type</code>.</li>
 </ul>
 </div>
 <div id="nomograms" class="section level3">
@@ -146,9 +145,16 @@
 <a href="#nomograms" class="anchor"></a>Nomograms</h3>
 <ul>
 <li>
-<code>hdnom.nomogram()</code> now accepts the fitted model objects directly instead of the <code>$model</code> component. It now will recognize the model type automatically, thus the previous arguments <code>model.type</code> has been deprecated. so that it is easier to chain the function calls together using <code>magrittr</code>.</li>
-<li>In <code>hdnom.nomogram()</code>, the previous <code>ddist</code> argument is not needed anymore and has been removed. There is also no more need to set a <code>datadist</code> object as a into the global options variable (which was required in the <code>rms</code> user flow).</li>
+<code>as_nomogram</code> (previously <code>hdnom.nomogram()</code>) now accepts the fitted model objects directly instead of the <code>$model</code> component. It now will recognize the model type automatically, thus the previous arguments <code>model.type</code> has been deprecated. so that it is easier to chain the function calls together using <code>magrittr</code>.</li>
+<li>In <code>as_nomogram</code>, the previous <code>ddist</code> argument is not needed anymore and has been removed. There is also no more need to set a <code>datadist</code> object as a into the global options variable (which was required in the <code>rms</code> user flow).</li>
 <li>The new nomogram implementation prints and plots the nomogram for the penalized regression models directly. This supersedes the old implementation, which fits an OLS model to regress the linear predictors on the same set of predictors selected by the penalized Cox regression model, aiming to approximate the penalized model. The numerical or visual difference is minimal, though.</li>
+</ul>
+</div>
+<div id="visualizations" class="section level3">
+<h3 class="hasAnchor">
+<a href="#visualizations" class="anchor"></a>Visualizations</h3>
+<ul>
+<li>Add a new ggplot2 theme <code><a href="../reference/theme_hdnom.html">theme_hdnom()</a></code> and applies it to most of the validation, calibration, and comparison plots for a consistent, cleaner look across plots within the package.</li>
 </ul>
 </div>
 </div>

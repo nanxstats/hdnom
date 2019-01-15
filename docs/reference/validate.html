@@ -248,16 +248,12 @@ regression models.
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"survival"</span>)
-
-<span class='co'># Load imputed SMART data</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>smart</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>smart</span>)
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='no'>smart</span>[, -<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>)])[<span class='fl'>1</span>:<span class='fl'>500</span>, ]
 <span class='no'>time</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>TEVENT</span>[<span class='fl'>1</span>:<span class='fl'>500</span>]
 <span class='no'>event</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>EVENT</span>[<span class='fl'>1</span>:<span class='fl'>500</span>]
-<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/survival/topics/Surv'>Surv</a></span>(<span class='no'>time</span>, <span class='no'>event</span>)
+<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>survival</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/survival/topics/Surv'>Surv</a></span>(<span class='no'>time</span>, <span class='no'>event</span>)
 
-<span class='co'># Fit penalized Cox model with lasso penalty</span>
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_lasso.html'>fit_lasso</a></span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>rule</span> <span class='kw'>=</span> <span class='st'>"lambda.1se"</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>11</span>)
 
 <span class='co'># Model validation by bootstrap with time-dependent AUC</span>
@@ -266,7 +262,7 @@ regression models.
 <span class='no'>val.boot</span> <span class='kw'>&lt;-</span> <span class='fu'>validate</span>(
   <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>,
   <span class='kw'>model.type</span> <span class='kw'>=</span> <span class='st'>"lasso"</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='no'>fit</span>$<span class='no'>lasso_best_lambda</span>,
+  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='no'>fit</span>$<span class='no'>lambda</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"bootstrap"</span>, <span class='kw'>boot.times</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='kw'>tauc.type</span> <span class='kw'>=</span> <span class='st'>"UNO"</span>, <span class='kw'>tauc.time</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='fl'>0.25</span>, <span class='fl'>2</span>, <span class='fl'>0.25</span>) * <span class='fl'>365</span>,
   <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1010</span>
@@ -277,7 +273,7 @@ regression models.
 <span class='no'>val.cv</span> <span class='kw'>&lt;-</span> <span class='fu'>validate</span>(
   <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>,
   <span class='kw'>model.type</span> <span class='kw'>=</span> <span class='st'>"lasso"</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='no'>fit</span>$<span class='no'>lasso_best_lambda</span>,
+  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='no'>fit</span>$<span class='no'>lambda</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"cv"</span>, <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>tauc.type</span> <span class='kw'>=</span> <span class='st'>"UNO"</span>, <span class='kw'>tauc.time</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='fl'>0.25</span>, <span class='fl'>2</span>, <span class='fl'>0.25</span>) * <span class='fl'>365</span>,
   <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1010</span>
@@ -290,7 +286,7 @@ regression models.
 <span class='no'>val.repcv</span> <span class='kw'>&lt;-</span> <span class='fu'>validate</span>(
   <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>,
   <span class='kw'>model.type</span> <span class='kw'>=</span> <span class='st'>"lasso"</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='no'>fit</span>$<span class='no'>lasso_best_lambda</span>,
+  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='no'>fit</span>$<span class='no'>lambda</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"repeated.cv"</span>, <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>rep.times</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='kw'>tauc.type</span> <span class='kw'>=</span> <span class='st'>"UNO"</span>, <span class='kw'>tauc.time</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='fl'>0.25</span>, <span class='fl'>2</span>, <span class='fl'>0.25</span>) * <span class='fl'>365</span>,
   <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1010</span>
@@ -426,16 +422,13 @@ regression models.
 #&gt; Mean of 0.25 Qt. 0.6498740 0.6488383
 #&gt; Mean of Median   0.7156659 0.7076146
 #&gt; Mean of 0.75 Qt. 0.8139573 0.7821154
-#&gt; Mean of Max      0.8764099 0.8755320</div><div class='img'><img src='validate-3.png' alt='' width='700' height='433' /></div><div class='input'># # Test fused lasso, SCAD, and Mnet models ###
-# library("hdnom")
-# library("survival")
+#&gt; Mean of Max      0.8764099 0.8755320</div><div class='img'><img src='validate-3.png' alt='' width='700' height='433' /></div><div class='input'># # Test fused lasso, SCAD, and Mnet models
 #
-# # Load imputed SMART data
 # data(smart)
 # x = as.matrix(smart[, -c(1, 2)])[1:500,]
 # time = smart$TEVENT[1:500]
 # event = smart$EVENT[1:500]
-# y = Surv(time, event)
+# y = survival::Surv(time, event)
 #
 # set.seed(1010)
 # val.boot = validate(

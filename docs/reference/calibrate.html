@@ -229,14 +229,11 @@ Default is <code>TRUE</code>.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='st'>"survival"</span>)
-
-<span class='co'># Load imputed SMART data</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"smart"</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"smart"</span>)
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='no'>smart</span>[, -<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>)])
 <span class='no'>time</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>TEVENT</span>
 <span class='no'>event</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>EVENT</span>
-<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/survival/topics/Surv'>Surv</a></span>(<span class='no'>time</span>, <span class='no'>event</span>)
+<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>survival</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/survival/topics/Surv'>Surv</a></span>(<span class='no'>time</span>, <span class='no'>event</span>)
 
 <span class='co'># Fit Cox model with lasso penalty</span>
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_lasso.html'>fit_lasso</a></span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>rule</span> <span class='kw'>=</span> <span class='st'>"lambda.1se"</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>11</span>)
@@ -245,7 +242,7 @@ Default is <code>TRUE</code>.</p></td>
 <span class='no'>cal.fitting</span> <span class='kw'>&lt;-</span> <span class='fu'>calibrate</span>(
   <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>,
   <span class='kw'>model.type</span> <span class='kw'>=</span> <span class='st'>"lasso"</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='no'>fit</span>$<span class='no'>lasso_best_lambda</span>,
+  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='no'>fit</span>$<span class='no'>lambda</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"fitting"</span>,
   <span class='kw'>pred.at</span> <span class='kw'>=</span> <span class='fl'>365</span> * <span class='fl'>9</span>, <span class='kw'>ngroup</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1010</span>
@@ -254,7 +251,7 @@ Default is <code>TRUE</code>.</p></td>
 <span class='no'>cal.cv</span> <span class='kw'>&lt;-</span> <span class='fu'>calibrate</span>(
   <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>,
   <span class='kw'>model.type</span> <span class='kw'>=</span> <span class='st'>"lasso"</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='no'>fit</span>$<span class='no'>lasso_best_lambda</span>,
+  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='no'>fit</span>$<span class='no'>lambda</span>,
   <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"cv"</span>, <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>pred.at</span> <span class='kw'>=</span> <span class='fl'>365</span> * <span class='fl'>9</span>, <span class='kw'>ngroup</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1010</span>
@@ -294,16 +291,12 @@ Default is <code>TRUE</code>.</p></td>
 #&gt; 3 0.7566084 0.8315265 0.7875912 0.8779128
 #&gt; 4 0.7975700 0.7993794 0.7070266 0.9037955
 #&gt; 5 0.8387503 0.9090449 0.8776173 0.9415978</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>cal.cv</span>)</div><div class='img'><img src='calibrate-2.png' alt='' width='700' height='433' /></div><div class='input'>
-# ### Testing fused lasso, SCAD, and Mnet models ###
-# library("hdnom")
-# library("survival")
-#
-# # Load imputed SMART data
+# # Test fused lasso, SCAD, and Mnet models
 # data(smart)
 # x = as.matrix(smart[, -c(1, 2)])[1:500, ]
 # time = smart$TEVENT[1:500]
 # event = smart$EVENT[1:500]
-# y = Surv(time, event)
+# y = survival::Surv(time, event)
 #
 # set.seed(1010)
 # cal.fitting = calibrate(

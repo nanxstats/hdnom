@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Model selection for high-dimensional Cox models with lasso penalty — fit_lasso • hdnom</title>
+<title>Plot theme (ggplot2) for hdnom — theme_hdnom • hdnom</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,9 @@
 
 
 
-<meta property="og:title" content="Model selection for high-dimensional Cox models with lasso penalty — fit_lasso" />
+<meta property="og:title" content="Plot theme (ggplot2) for hdnom — theme_hdnom" />
 
-<meta property="og:description" content="Automatic model selection for high-dimensional Cox models
-with lasso penalty, evaluated by penalized partial-likelihood." />
+<meta property="og:description" content="Plot theme (ggplot2) for hdnom" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -116,72 +115,35 @@ with lasso penalty, evaluated by penalized partial-likelihood." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Model selection for high-dimensional Cox models with lasso penalty</h1>
-    <small class="dont-index">Source: <a href='https://github.com/road2stat/hdnom/blob/master/R/1_1_model.R'><code>R/1_1_model.R</code></a></small>
-    <div class="hidden name"><code>fit_lasso.Rd</code></div>
+    <h1>Plot theme (ggplot2) for hdnom</h1>
+    <small class="dont-index">Source: <a href='https://github.com/road2stat/hdnom/blob/master/R/theme_hdnom.R'><code>R/theme_hdnom.R</code></a></small>
+    <div class="hidden name"><code>theme_hdnom.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Automatic model selection for high-dimensional Cox models
-with lasso penalty, evaluated by penalized partial-likelihood.</p>
+    <p>Plot theme (ggplot2) for hdnom</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>fit_lasso</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5L</span>, <span class='kw'>rule</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"lambda.min"</span>, <span class='st'>"lambda.1se"</span>),
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1001</span>)</pre>
+    <pre class="usage"><span class='fu'>theme_hdnom</span>(<span class='kw'>base_size</span> <span class='kw'>=</span> <span class='fl'>14</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>Data matrix.</p></td>
-    </tr>
-    <tr>
-      <th>y</th>
-      <td><p>Response matrix made by <code><a href='https://www.rdocumentation.org/packages/survival/topics/Surv'>Surv</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>nfolds</th>
-      <td><p>Fold numbers of cross-validation.</p></td>
-    </tr>
-    <tr>
-      <th>rule</th>
-      <td><p>Model selection criterion, <code>"lambda.min"</code> or
-<code>"lambda.1se"</code>. See <code><a href='https://www.rdocumentation.org/packages/glmnet/topics/cv.glmnet'>cv.glmnet</a></code>
-for details.</p></td>
-    </tr>
-    <tr>
-      <th>seed</th>
-      <td><p>A random seed for cross-validation fold division.</p></td>
+      <th>base_size</th>
+      <td><p>base font size</p></td>
     </tr>
     </table>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"smart"</span>)
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='no'>smart</span>[, -<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>)])
-<span class='no'>time</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>TEVENT</span>
-<span class='no'>event</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>EVENT</span>
-<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>survival</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/survival/topics/Surv'>Surv</a></span>(<span class='no'>time</span>, <span class='no'>event</span>)
-
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>fit_lasso</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>rule</span> <span class='kw'>=</span> <span class='st'>"lambda.1se"</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>11</span>)
-
-<span class='no'>nom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='as_nomogram.html'>as_nomogram</a></span>(
-  <span class='no'>fit</span>, <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>, <span class='kw'>pred.at</span> <span class='kw'>=</span> <span class='fl'>365</span> * <span class='fl'>2</span>,
-  <span class='kw'>funlabel</span> <span class='kw'>=</span> <span class='st'>"2-Year Overall Survival Probability"</span>
-)
-
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nom</span>)</div><div class='img'><img src='fit_lasso-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>
