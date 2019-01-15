@@ -28,15 +28,15 @@ Browse [the vignettes](https://nanx.me/hdnom/articles/) to start.
 
 ### Nomogram Visualization / Kaplan-Meier Plot with Number at Risk Table
 
-<img src="https://i.imgur.com/oGveFQm.png" width="100%" alt="hdnom-nomogram-kmplot">
+<img src="https://i.imgur.com/EK0mr4t.png" width="100%" alt="hdnom-nomogram-kmplot">
 
 ### Model Validation / Model Calibration
 
-<img src="https://i.imgur.com/7AKmJWh.png" width="100%" alt="hdnom-validation-calibration">
+<img src="https://i.imgur.com/VE3Dhkd.png" width="100%" alt="hdnom-validation-calibration">
 
-### Model Comparison via Validation / Calibration
+### Model Comparison by Validation / Calibration
 
-<img src="https://i.imgur.com/wdCZoMH.png" width="100%" alt="hdnom-compare">
+<img src="https://i.imgur.com/Ep8tinv.png" width="100%" alt="hdnom-compare">
 
 ## Links
 
