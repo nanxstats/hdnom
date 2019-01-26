@@ -48,16 +48,6 @@ with adaptive lasso penalty, evaluated by penalized partial-likelihood." />
 <![endif]-->
 
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66394392-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-66394392-1');
-</script>
-
   </head>
 
   <body>
@@ -170,7 +160,8 @@ in two estimation steps.</p></td>
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>fit_alasso</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>rule</span> <span class='kw'>=</span> <span class='st'>"lambda.1se"</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>7</span>, <span class='fl'>11</span>))
 
 <span class='no'>nom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='as_nomogram.html'>as_nomogram</a></span>(
-  <span class='no'>fit</span>, <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>, <span class='kw'>pred.at</span> <span class='kw'>=</span> <span class='fl'>365</span> * <span class='fl'>2</span>,
+  <span class='no'>fit</span>, <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>,
+  <span class='kw'>pred.at</span> <span class='kw'>=</span> <span class='fl'>365</span> * <span class='fl'>2</span>,
   <span class='kw'>funlabel</span> <span class='kw'>=</span> <span class='st'>"2-Year Overall Survival Probability"</span>
 )
 

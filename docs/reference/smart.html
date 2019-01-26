@@ -47,16 +47,6 @@
 <![endif]-->
 
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66394392-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-66394392-1');
-</script>
-
   </head>
 
   <body>
@@ -171,6 +161,10 @@
 </ul></li>
 </ul>
     
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>See <code>data-raw/smart.R</code> for the code to generate this data.</p>
+    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Steyerberg, E. W. (2008). Clinical prediction models:
@@ -180,31 +174,15 @@ Springer Science &amp; Business Media.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>smart</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/dim'>dim</a></span>(<span class='no'>smart</span>)</div><div class='output co'>#&gt; [1] 3873   29</div><div class='input'>
-# # Code for generating the smart dataset by imputing the smarto data
-# library("mice")
-# library("Hmisc")
-# data(smarto)
-# set.seed(1000)
-# smarti = aregImpute(~ I(TEVENT) + EVENT + SEX + I(AGE) +
-#   DIABETES + CEREBRAL + CARDIAC + AAA + PERIPH +
-#   STENOSIS + SYSTBP + DIASTBP + SYSTH + DIASTH +
-#   I(LENGTH) + I(WEIGHT) + I(BMI) +
-#   I(CHOL) + I(HDL) + I(LDL) + I(TRIG) + I(HOMOC) + I(GLUT) + I(CREAT) + I(IMT) +
-#   as.factor(ALBUMIN) + as.factor(SMOKING) + I(PACKYRS) + as.factor(ALCOHOL),
-#   n.impute = 10, data = smarto)
-# imputed = impute.transcan(smarti, imputation = 1, data = smarto,
-#   list.out = TRUE, pr = FALSE, check = FALSE)
-# smart = smarto
-# smart[names(imputed)] = imputed
-# str(smart)
-</div></pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/dim'>dim</a></span>(<span class='no'>smart</span>)</div><div class='output co'>#&gt; [1] 3873   29</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
       <li><a href="#format">Format</a></li>
+
+      <li><a href="#note">Note</a></li>
 
       <li><a href="#references">References</a></li>
       

@@ -48,16 +48,6 @@ with fused lasso penalty, evaluated by cross-validated likelihood." />
 <![endif]-->
 
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66394392-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-66394392-1');
-</script>
-
   </head>
 
   <body>
@@ -207,12 +197,14 @@ and a higher number of cross-validation folds.</p>
 <span class='no'>event</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>EVENT</span>[<span class='fl'>1</span>:<span class='fl'>120</span>]
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>survival</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/survival/topics/Surv'>Surv</a></span>(<span class='no'>time</span>, <span class='no'>event</span>)
 
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>fit_flasso</span>(<span class='no'>x</span>, <span class='no'>y</span>,
+<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>fit_flasso</span>(
+  <span class='no'>x</span>, <span class='no'>y</span>,
   <span class='kw'>lambda1</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>10</span>), <span class='kw'>lambda2</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.01</span>),
   <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>11</span>
 )</div><div class='output co'>#&gt; 123123</div><div class='input'>
 <span class='no'>nom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='as_nomogram.html'>as_nomogram</a></span>(
-  <span class='no'>fit</span>, <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>, <span class='kw'>pred.at</span> <span class='kw'>=</span> <span class='fl'>365</span> * <span class='fl'>2</span>,
+  <span class='no'>fit</span>, <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>,
+  <span class='kw'>pred.at</span> <span class='kw'>=</span> <span class='fl'>365</span> * <span class='fl'>2</span>,
   <span class='kw'>funlabel</span> <span class='kw'>=</span> <span class='st'>"2-Year Overall Survival Probability"</span>
 )
 
