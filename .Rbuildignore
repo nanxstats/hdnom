@@ -3,6 +3,8 @@
 ^\.travis\.yml$
 ^appveyor\.yml$
 ^_pkgdown\.yml$
+^pkgdown$
+^data-raw$
 ^docs$
 ^CONDUCT\.md$
 ^CONTRIBUTING\.md$
