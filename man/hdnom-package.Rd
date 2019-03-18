@@ -14,9 +14,9 @@ Creates nomogram visualizations for penalized Cox regression
 Useful links:
 \itemize{
   \item \url{https://nanx.me/hdnom/}
-  \item \url{https://github.com/road2stat/hdnom}
+  \item \url{https://github.com/nanxstats/hdnom}
   \item \url{http://hdnom.io}
-  \item Report bugs at \url{https://github.com/road2stat/hdnom/issues}
+  \item Report bugs at \url{https://github.com/nanxstats/hdnom/issues}
 }
 
 }

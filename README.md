@@ -1,7 +1,7 @@
 # hdnom  <a href="https://nanx.me/hdnom/"><img src="https://i.imgur.com/i4ksNHx.png" align="right" alt="logo" height="180" width="180" /></a>
 
-[![Build Status](https://travis-ci.org/road2stat/hdnom.svg?branch=master)](https://travis-ci.org/road2stat/hdnom)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/road2stat/hdnom?branch=master&svg=true)](https://ci.appveyor.com/project/road2stat/hdnom)
+[![Build Status](https://travis-ci.org/nanxstats/hdnom.svg?branch=master)](https://travis-ci.org/nanxstats/hdnom)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/nanxstats/hdnom?branch=master&svg=true)](https://ci.appveyor.com/project/nanxstats/hdnom)
 [![CRAN Version](https://www.r-pkg.org/badges/version/hdnom)](https://cran.r-project.org/package=hdnom)
 [![Downloads from the RStudio CRAN mirror](https://cranlogs.r-pkg.org/badges/hdnom)](https://cranlogs.r-pkg.org/badges/hdnom)
 
@@ -19,7 +19,7 @@ Or try the development version on GitHub:
 
 ```r
 # install.packages("devtools")
-devtools::install_github("road2stat/hdnom")
+devtools::install_github("nanxstats/hdnom")
 ```
 
 Browse [the vignettes](https://nanx.me/hdnom/articles/) to start.
@@ -42,7 +42,7 @@ Browse [the vignettes](https://nanx.me/hdnom/articles/) to start.
 
 * Documentation: [https://nanx.me/hdnom/](https://nanx.me/hdnom/)
 * Shiny app: [http://hdnom.io](http://hdnom.io)
-* App maker: [https://github.com/road2stat/hdnom-appmaker](https://github.com/road2stat/hdnom-appmaker)
+* App maker: [https://github.com/nanxstats/hdnom-appmaker](https://github.com/nanxstats/hdnom-appmaker)
 
 ## Contribute
 

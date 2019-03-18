@@ -16,8 +16,8 @@ Description: Creates nomogram visualizations for penalized Cox regression
 License: GPL-3 | file LICENSE
 LazyData: TRUE
 VignetteBuilder: knitr
-URL: https://nanx.me/hdnom/, https://github.com/road2stat/hdnom, http://hdnom.io
-BugReports: https://github.com/road2stat/hdnom/issues
+URL: https://nanx.me/hdnom/, https://github.com/nanxstats/hdnom, http://hdnom.io
+BugReports: https://github.com/nanxstats/hdnom/issues
 Depends:
     R (>= 3.0.2)
 Imports:

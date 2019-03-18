@@ -57,7 +57,7 @@ This version is a major refactor of the package, with several technical adjustme
 ## Bug Fixes
 
 - Fixed issues in parameter tuning and cross-validation procedures for
-fused lasso models ([afc49c9](https://github.com/road2stat/hdnom/commit/afc49c9ad952edd5881a3e2f14a3503981d213c7)).
+fused lasso models ([afc49c9](https://github.com/nanxstats/hdnom/commit/afc49c9ad952edd5881a3e2f14a3503981d213c7)).
 The user-visible change is that two parameters `lambda1` and `lambda2`
 instead of a single "lambda" are now required to fit, validate, and
 calibrate fused lasso models.
@@ -94,7 +94,7 @@ substantially higher value (5e+4).
 - More concrete examples for several functions.
 - Introduce argument `ylim` for `plot.hdnom.validate()`,
   `plot.hdnom.external.validate()`, and `plot.hdnom.compare.validate()`
-  ([#4](https://github.com/road2stat/hdnom/issues/4)).
+  ([#4](https://github.com/nanxstats/hdnom/issues/4)).
 
 # hdnom 3.7 (2016-03-25)
 
