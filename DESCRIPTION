@@ -19,15 +19,15 @@ VignetteBuilder: knitr
 URL: https://nanx.me/hdnom/, https://github.com/nanxstats/hdnom, http://hdnom.io
 BugReports: https://github.com/nanxstats/hdnom/issues
 Depends:
-    R (>= 3.0.2)
+    R (>= 3.5.0)
 Imports:
     survival,
     glmnet,
     penalized,
-    ncvreg (>= 3.8-0),
+    ncvreg,
     foreach,
     survAUC,
-    ggplot2 (>= 2.2.1),
+    ggplot2,
     gridExtra
 Suggests:
     knitr,
