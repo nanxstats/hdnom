@@ -1,6 +1,6 @@
-# hdnom 5.9.9000
+# hdnom 6.0.0
 
-This version is a major refactor of the package, with several technical adjustments to improve the function interface, code structure, and performance. As a result, a few API-breaking changes have been made. Please update your previous code that calls hdnom accordingly. For the detailed changes, check the updated items below.
+This version is a major refactor of the package, with several technical adjustments to improve the functional interface, code structure, and execution performance. As a result, a few critical API-breaking changes have been made. Please update your previous code that calls hdnom accordingly. For the detailed changes, please check the updated items below.
 
 ## Improvements
 
