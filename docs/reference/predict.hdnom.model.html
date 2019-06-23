@@ -66,7 +66,7 @@ from fitted Cox models." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hdnom</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.9.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">6.0.0</span>
       </span>
     </div>
 
@@ -168,17 +168,17 @@ overall survival probablity.</p>
 
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_lasso.html'>fit_lasso</a></span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>rule</span> <span class='kw'>=</span> <span class='st'>"lambda.1se"</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>11</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>fit</span>, <span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>newx</span> <span class='kw'>=</span> <span class='no'>x</span>[<span class='fl'>101</span>:<span class='fl'>105</span>, ], <span class='kw'>pred.at</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>10</span> * <span class='fl'>365</span>)</div><div class='output co'>#&gt;            365       730      1095      1460      1825      2190      2555
-#&gt; [1,] 0.9426815 0.9126720 0.8774868 0.8431967 0.7994927 0.7640509 0.7198655
-#&gt; [2,] 0.9617984 0.9414832 0.9173726 0.8935568 0.8627192 0.8372884 0.8050140
-#&gt; [3,] 0.9752150 0.9618922 0.9459469 0.9300495 0.9092393 0.8918778 0.8695718
-#&gt; [4,] 0.9208795 0.8802028 0.8331825 0.7880717 0.7316247 0.6867360 0.6319216
-#&gt; [5,] 0.9688175 0.9521411 0.9322616 0.9125292 0.8868323 0.8655117 0.8382784
+#&gt; [1,] 0.9505106 0.9244130 0.8937525 0.8639318 0.8258156 0.7948918 0.7558564
+#&gt; [2,] 0.9598401 0.9385010 0.9132821 0.8885938 0.8567972 0.8307927 0.7976866
+#&gt; [3,] 0.9701127 0.9541001 0.9350538 0.9162754 0.8918892 0.8717701 0.8459181
+#&gt; [4,] 0.9398176 0.9083591 0.8716530 0.8362204 0.7913278 0.7552431 0.7101392
+#&gt; [5,] 0.9649662 0.9462737 0.9241112 0.9023378 0.8741790 0.8510486 0.8214647
 #&gt;           2920      3285      3650
-#&gt; [1,] 0.6780845 0.6212863 0.6212863
-#&gt; [2,] 0.7738700 0.7304625 0.7304625
-#&gt; [3,] 0.8477434 0.8167907 0.8167907
-#&gt; [4,] 0.5813016 0.5144566 0.5144566
-#&gt; [5,] 0.8118050 0.7745720 0.7745720</div></pre>
+#&gt; [1,] 0.7181251 0.6653801 0.6653801
+#&gt; [2,] 0.7653725 0.7196446 0.7196446
+#&gt; [3,] 0.8204144 0.7838397 0.7838397
+#&gt; [4,] 0.6670329 0.6076202 0.6076202
+#&gt; [5,] 0.7924343 0.7510783 0.7510783</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

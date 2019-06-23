@@ -66,7 +66,7 @@ high-dimensional Cox models." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hdnom</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.9.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">6.0.0</span>
       </span>
     </div>
 
@@ -150,14 +150,13 @@ selected variables.</p>
 
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_lasso.html'>fit_lasso</a></span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>rule</span> <span class='kw'>=</span> <span class='st'>"lambda.1se"</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>11</span>)
 <span class='fu'>infer_variable_type</span>(<span class='no'>fit</span>, <span class='no'>x</span>)</div><div class='output co'>#&gt; $index
-#&gt; [1]  2  6  8 22 23 24
+#&gt; [1]  2  6 22 23 24
 #&gt; 
 #&gt; $name
-#&gt; [1] "AGE"      "AAA"      "STENOSIS" "CREAT"    "IMT"      "ALBUMIN" 
+#&gt; [1] "AGE"     "AAA"     "CREAT"   "IMT"     "ALBUMIN"
 #&gt; 
 #&gt; $type
-#&gt; [1] "categorical" "logical"     "logical"     "categorical" "continuous" 
-#&gt; [6] "categorical"
+#&gt; [1] "categorical" "logical"     "categorical" "continuous"  "categorical"
 #&gt; 
 #&gt; $domain
 #&gt; $domain[[1]]
@@ -167,15 +166,12 @@ selected variables.</p>
 #&gt; [1] 0 1
 #&gt; 
 #&gt; $domain[[3]]
-#&gt; [1] 0 1
-#&gt; 
-#&gt; $domain[[4]]
 #&gt; [1]   33 1343
 #&gt; 
-#&gt; $domain[[5]]
+#&gt; $domain[[4]]
 #&gt; [1] 0.36 4.52
 #&gt; 
-#&gt; $domain[[6]]
+#&gt; $domain[[5]]
 #&gt; [1] 1 3
 #&gt; 
 #&gt; 

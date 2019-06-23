@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hdnom</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">5.9.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">6.0.0</span>
       </span>
     </div>
 
@@ -204,11 +204,11 @@ Must be of the same length with the number of rows as <code>x_new</code>.</p></t
 #&gt; Calibration time point: 1825 
 #&gt; Number of groups formed for calibration: 5 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>cal.ext</span>)</div><div class='output co'>#&gt;   External Calibration Summary Table
 #&gt;   Predicted  Observed Lower 95% Upper 95%
-#&gt; 1 0.7867982 0.6822816 0.6167482 0.7547785
-#&gt; 2 0.8289112 0.8308652 0.7775687 0.8878148
-#&gt; 3 0.8542307 0.9122714 0.8741931 0.9520084
-#&gt; 4 0.8751486 0.9005033 0.8589700 0.9440448
-#&gt; 5 0.8949158 0.9452770 0.9103990 0.9814912</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>cal.ext</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.6</span>, <span class='fl'>1</span>), <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.6</span>, <span class='fl'>1</span>))</div><div class='img'><img src='calibrate_external-1.png' alt='' width='700' height='433' /></div><div class='input'># # Test fused lasso, MCP, and Snet models
+#&gt; 1 0.7681344 0.6808896 0.6146940 0.7542139
+#&gt; 2 0.8288544 0.8470977 0.7968794 0.9004807
+#&gt; 3 0.8600458 0.8896987 0.8458439 0.9358272
+#&gt; 4 0.8821125 0.9016144 0.8604081 0.9447941
+#&gt; 5 0.9044463 0.9480250 0.9149331 0.9823138</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>cal.ext</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.6</span>, <span class='fl'>1</span>), <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.6</span>, <span class='fl'>1</span>))</div><div class='img'><img src='calibrate_external-1.png' alt='' width='700' height='433' /></div><div class='input'># # Test fused lasso, MCP, and Snet models
 # data(smart)
 # # Use first 500 samples as training data
 # # (the data used for internal validation)
