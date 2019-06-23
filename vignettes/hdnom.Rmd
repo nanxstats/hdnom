@@ -8,8 +8,8 @@ output:
     toc_float: true
     toc_depth: 4
     number_sections: true
-    theme: "flatly"
     highlight: "textmate"
+    css: "custom.css"
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{An Introduction to hdnom}
