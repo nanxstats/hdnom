@@ -4,9 +4,18 @@
 \alias{fit_mnet}
 \title{Model selection for high-dimensional Cox models with Mnet penalty}
 \usage{
-fit_mnet(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
-  alphas = seq(0.05, 0.95, 0.05), eps = 1e-04, max.iter = 10000L,
-  seed = 1001, trace = FALSE, parallel = FALSE)
+fit_mnet(
+  x,
+  y,
+  nfolds = 5L,
+  gammas = c(1.01, 1.7, 3, 100),
+  alphas = seq(0.05, 0.95, 0.05),
+  eps = 1e-04,
+  max.iter = 10000L,
+  seed = 1001,
+  trace = FALSE,
+  parallel = FALSE
+)
 }
 \arguments{
 \item{x}{Data matrix.}

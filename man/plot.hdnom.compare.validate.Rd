@@ -4,8 +4,13 @@
 \alias{plot.hdnom.compare.validate}
 \title{Plot model comparison by validation results}
 \usage{
-\method{plot}{hdnom.compare.validate}(x, interval = FALSE,
-  col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ylim = NULL, ...)
+\method{plot}{hdnom.compare.validate}(
+  x,
+  interval = FALSE,
+  col.pal = c("JCO", "Lancet", "NPG", "AAAS"),
+  ylim = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{An object returned by \code{\link{compare_by_validate}}.}

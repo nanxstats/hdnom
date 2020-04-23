@@ -4,8 +4,13 @@
 \alias{plot.hdnom.compare.calibrate}
 \title{Plot model comparison by calibration results}
 \usage{
-\method{plot}{hdnom.compare.calibrate}(x, xlim = c(0, 1), ylim = c(0,
-  1), col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ...)
+\method{plot}{hdnom.compare.calibrate}(
+  x,
+  xlim = c(0, 1),
+  ylim = c(0, 1),
+  col.pal = c("JCO", "Lancet", "NPG", "AAAS"),
+  ...
+)
 }
 \arguments{
 \item{x}{An object returned by \code{\link{compare_by_calibrate}}.}

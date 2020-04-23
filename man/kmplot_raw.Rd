@@ -4,8 +4,13 @@
 \alias{kmplot_raw}
 \title{Kaplan-Meier Plot with Number at Risk Table}
 \usage{
-kmplot_raw(fit, group.name = NULL, time.at = NULL, surv.df = NULL,
-  col.pal = NULL)
+kmplot_raw(
+  fit,
+  group.name = NULL,
+  time.at = NULL,
+  surv.df = NULL,
+  col.pal = NULL
+)
 }
 \arguments{
 \item{fit}{a \code{\link[survival]{survfit}} object}

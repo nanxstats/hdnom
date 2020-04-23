@@ -4,8 +4,15 @@
 \alias{glmnet_calibrate_surv_prob_pred}
 \title{Compute glmnet predicted survival probabilities for calibration}
 \usage{
-glmnet_calibrate_surv_prob_pred(x_tr, x_te, y_tr, alpha, lambda,
-  pen.factor, pred.at)
+glmnet_calibrate_surv_prob_pred(
+  x_tr,
+  x_te,
+  y_tr,
+  alpha,
+  lambda,
+  pen.factor,
+  pred.at
+)
 }
 \value{
 list containing predicted survival probability

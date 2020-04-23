@@ -4,9 +4,17 @@
 \alias{fit_mcp}
 \title{Model selection for high-dimensional Cox models with MCP penalty}
 \usage{
-fit_mcp(x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
-  eps = 1e-04, max.iter = 10000L, seed = 1001, trace = FALSE,
-  parallel = FALSE)
+fit_mcp(
+  x,
+  y,
+  nfolds = 5L,
+  gammas = c(1.01, 1.7, 3, 100),
+  eps = 1e-04,
+  max.iter = 10000L,
+  seed = 1001,
+  trace = FALSE,
+  parallel = FALSE
+)
 }
 \arguments{
 \item{x}{Data matrix.}

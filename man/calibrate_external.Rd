@@ -4,8 +4,17 @@
 \alias{calibrate_external}
 \title{Externally calibrate high-dimensional Cox models}
 \usage{
-calibrate_external(object, x, time, event, x_new, time_new, event_new,
-  pred.at, ngroup = 5)
+calibrate_external(
+  object,
+  x,
+  time,
+  event,
+  x_new,
+  time_new,
+  event_new,
+  pred.at,
+  ngroup = 5
+)
 }
 \arguments{
 \item{object}{Model object fitted by \code{hdnom::fit_*()}.}

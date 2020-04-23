@@ -4,8 +4,17 @@
 \alias{validate_external}
 \title{Externally validate high-dimensional Cox models with time-dependent AUC}
 \usage{
-validate_external(object, x, time, event, x_new, time_new, event_new,
-  tauc.type = c("CD", "SZ", "UNO"), tauc.time)
+validate_external(
+  object,
+  x,
+  time,
+  event,
+  x_new,
+  time_new,
+  event_new,
+  tauc.type = c("CD", "SZ", "UNO"),
+  tauc.time
+)
 }
 \arguments{
 \item{object}{Model object fitted by \code{hdnom::fit_*()}.}

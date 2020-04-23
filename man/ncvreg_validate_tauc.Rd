@@ -4,8 +4,18 @@
 \alias{ncvreg_validate_tauc}
 \title{Compute validation measures for ncvreg model objects}
 \usage{
-ncvreg_validate_tauc(x_tr, x_te, y_tr, y_te, model.type, gamma, alpha,
-  lambda, tauc.type, tauc.time)
+ncvreg_validate_tauc(
+  x_tr,
+  x_te,
+  y_tr,
+  y_te,
+  model.type,
+  gamma,
+  alpha,
+  lambda,
+  tauc.type,
+  tauc.time
+)
 }
 \value{
 time-dependent AUC (tAUC) value

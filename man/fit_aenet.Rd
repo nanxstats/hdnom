@@ -4,9 +4,15 @@
 \alias{fit_aenet}
 \title{Model selection for high-dimensional Cox models with adaptive elastic-net penalty}
 \usage{
-fit_aenet(x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
-  rule = c("lambda.min", "lambda.1se"), seed = c(1001, 1002),
-  parallel = FALSE)
+fit_aenet(
+  x,
+  y,
+  nfolds = 5L,
+  alphas = seq(0.05, 0.95, 0.05),
+  rule = c("lambda.min", "lambda.1se"),
+  seed = c(1001, 1002),
+  parallel = FALSE
+)
 }
 \arguments{
 \item{x}{Data matrix.}

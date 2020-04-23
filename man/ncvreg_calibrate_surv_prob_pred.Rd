@@ -4,8 +4,16 @@
 \alias{ncvreg_calibrate_surv_prob_pred}
 \title{Compute ncvreg predicted survival probabilities for calibration}
 \usage{
-ncvreg_calibrate_surv_prob_pred(x_tr, x_te, y_tr, model.type, alpha,
-  lambda, gamma, pred.at)
+ncvreg_calibrate_surv_prob_pred(
+  x_tr,
+  x_te,
+  y_tr,
+  model.type,
+  alpha,
+  lambda,
+  gamma,
+  pred.at
+)
 }
 \value{
 list containing predicted survival probability

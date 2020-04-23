@@ -4,8 +4,13 @@
 \alias{fit_alasso}
 \title{Model selection for high-dimensional Cox models with adaptive lasso penalty}
 \usage{
-fit_alasso(x, y, nfolds = 5L, rule = c("lambda.min", "lambda.1se"),
-  seed = c(1001, 1002))
+fit_alasso(
+  x,
+  y,
+  nfolds = 5L,
+  rule = c("lambda.min", "lambda.1se"),
+  seed = c(1001, 1002)
+)
 }
 \arguments{
 \item{x}{Data matrix.}

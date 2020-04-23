@@ -4,12 +4,27 @@
 \alias{validate}
 \title{Validate high-dimensional Cox models with time-dependent AUC}
 \usage{
-validate(x, time, event, model.type = c("lasso", "alasso", "flasso",
-  "enet", "aenet", "mcp", "mnet", "scad", "snet"), alpha, lambda,
-  pen.factor = NULL, gamma, lambda1, lambda2, method = c("bootstrap",
-  "cv", "repeated.cv"), boot.times = NULL, nfolds = NULL,
-  rep.times = NULL, tauc.type = c("CD", "SZ", "UNO"), tauc.time,
-  seed = 1001, trace = TRUE)
+validate(
+  x,
+  time,
+  event,
+  model.type = c("lasso", "alasso", "flasso", "enet", "aenet", "mcp", "mnet", "scad",
+    "snet"),
+  alpha,
+  lambda,
+  pen.factor = NULL,
+  gamma,
+  lambda1,
+  lambda2,
+  method = c("bootstrap", "cv", "repeated.cv"),
+  boot.times = NULL,
+  nfolds = NULL,
+  rep.times = NULL,
+  tauc.type = c("CD", "SZ", "UNO"),
+  tauc.time,
+  seed = 1001,
+  trace = TRUE
+)
 }
 \arguments{
 \item{x}{Matrix of training data used for fitting the model;

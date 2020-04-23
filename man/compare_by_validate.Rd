@@ -4,11 +4,21 @@
 \alias{compare_by_validate}
 \title{Compare high-dimensional Cox models by model validation}
 \usage{
-compare_by_validate(x, time, event, model.type = c("lasso", "alasso",
-  "flasso", "enet", "aenet", "mcp", "mnet", "scad", "snet"),
-  method = c("bootstrap", "cv", "repeated.cv"), boot.times = NULL,
-  nfolds = NULL, rep.times = NULL, tauc.type = c("CD", "SZ", "UNO"),
-  tauc.time, seed = 1001, trace = TRUE)
+compare_by_validate(
+  x,
+  time,
+  event,
+  model.type = c("lasso", "alasso", "flasso", "enet", "aenet", "mcp", "mnet", "scad",
+    "snet"),
+  method = c("bootstrap", "cv", "repeated.cv"),
+  boot.times = NULL,
+  nfolds = NULL,
+  rep.times = NULL,
+  tauc.type = c("CD", "SZ", "UNO"),
+  tauc.time,
+  seed = 1001,
+  trace = TRUE
+)
 }
 \arguments{
 \item{x}{Matrix of training data used for fitting the model;

@@ -4,8 +4,7 @@
 \alias{penalized_basesurv}
 \title{Breslow baseline hazard estimator for penfit objects}
 \usage{
-penalized_basesurv(time, event, lp, times.eval = NULL,
-  centered = FALSE)
+penalized_basesurv(time, event, lp, times.eval = NULL, centered = FALSE)
 }
 \arguments{
 \item{time}{Survival time}

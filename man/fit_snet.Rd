@@ -4,9 +4,18 @@
 \alias{fit_snet}
 \title{Model selection for high-dimensional Cox models with Snet penalty}
 \usage{
-fit_snet(x, y, nfolds = 5L, gammas = c(2.01, 2.3, 3.7, 200),
-  alphas = seq(0.05, 0.95, 0.05), eps = 1e-04, max.iter = 10000L,
-  seed = 1001, trace = FALSE, parallel = FALSE)
+fit_snet(
+  x,
+  y,
+  nfolds = 5L,
+  gammas = c(2.01, 2.3, 3.7, 200),
+  alphas = seq(0.05, 0.95, 0.05),
+  eps = 1e-04,
+  max.iter = 10000L,
+  seed = 1001,
+  trace = FALSE,
+  parallel = FALSE
+)
 }
 \arguments{
 \item{x}{Data matrix.}

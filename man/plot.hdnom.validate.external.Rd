@@ -4,8 +4,7 @@
 \alias{plot.hdnom.validate.external}
 \title{Plot time-dependent discrimination curves for external validation}
 \usage{
-\method{plot}{hdnom.validate.external}(x, col.pal = c("JCO", "Lancet",
-  "NPG", "AAAS"), ylim = NULL, ...)
+\method{plot}{hdnom.validate.external}(x, col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ylim = NULL, ...)
 }
 \arguments{
 \item{x}{An object returned by \code{\link{validate_external}}.}

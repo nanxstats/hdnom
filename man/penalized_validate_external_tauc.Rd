@@ -4,8 +4,15 @@
 \alias{penalized_validate_external_tauc}
 \title{Compute external validation measures for penfit model objects}
 \usage{
-penalized_validate_external_tauc(object, x_tr, x_te, y_tr, y_te, tauc.type,
-  tauc.time)
+penalized_validate_external_tauc(
+  object,
+  x_tr,
+  x_te,
+  y_tr,
+  y_te,
+  tauc.type,
+  tauc.time
+)
 }
 \value{
 time-dependent AUC (tAUC) value

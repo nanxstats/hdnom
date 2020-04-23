@@ -4,8 +4,15 @@
 \alias{as_nomogram}
 \title{Construct nomogram ojects for high-dimensional Cox models}
 \usage{
-as_nomogram(object, x, time, event, pred.at = NULL, fun.at = NULL,
-  funlabel = NULL)
+as_nomogram(
+  object,
+  x,
+  time,
+  event,
+  pred.at = NULL,
+  fun.at = NULL,
+  funlabel = NULL
+)
 }
 \arguments{
 \item{object}{Model object fitted by `hdnom::fit_*()` functions.}

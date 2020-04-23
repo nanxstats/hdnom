@@ -4,8 +4,16 @@
 \alias{penalized_validate_tauc}
 \title{Compute validation measures for penfit model objects}
 \usage{
-penalized_validate_tauc(x_tr, x_te, y_tr, y_te, lambda1, lambda2,
-  tauc.type, tauc.time)
+penalized_validate_tauc(
+  x_tr,
+  x_te,
+  y_tr,
+  y_te,
+  lambda1,
+  lambda2,
+  tauc.type,
+  tauc.time
+)
 }
 \value{
 time-dependent AUC (tAUC) value

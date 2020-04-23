@@ -4,8 +4,7 @@
 \alias{penalized_calibrate_surv_prob_pred}
 \title{Compute penfit predicted survival probabilities for calibration}
 \usage{
-penalized_calibrate_surv_prob_pred(x_tr, x_te, y_tr, lambda1, lambda2,
-  pred.at)
+penalized_calibrate_surv_prob_pred(x_tr, x_te, y_tr, lambda1, lambda2, pred.at)
 }
 \value{
 list containing predicted survival probability

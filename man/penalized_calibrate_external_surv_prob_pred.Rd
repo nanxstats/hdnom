@@ -4,8 +4,7 @@
 \alias{penalized_calibrate_external_surv_prob_pred}
 \title{Compute penfit predicted survival probabilities for external calibration}
 \usage{
-penalized_calibrate_external_surv_prob_pred(object, x_tr, x_te, y_tr,
-  pred.at)
+penalized_calibrate_external_surv_prob_pred(object, x_tr, x_te, y_tr, pred.at)
 }
 \value{
 list containing predicted survival probability

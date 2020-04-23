@@ -4,11 +4,21 @@
 \alias{compare_by_calibrate}
 \title{Compare high-dimensional Cox models by model calibration}
 \usage{
-compare_by_calibrate(x, time, event, model.type = c("lasso", "alasso",
-  "flasso", "enet", "aenet", "mcp", "mnet", "scad", "snet"),
+compare_by_calibrate(
+  x,
+  time,
+  event,
+  model.type = c("lasso", "alasso", "flasso", "enet", "aenet", "mcp", "mnet", "scad",
+    "snet"),
   method = c("fitting", "bootstrap", "cv", "repeated.cv"),
-  boot.times = NULL, nfolds = NULL, rep.times = NULL, pred.at,
-  ngroup = 5, seed = 1001, trace = TRUE)
+  boot.times = NULL,
+  nfolds = NULL,
+  rep.times = NULL,
+  pred.at,
+  ngroup = 5,
+  seed = 1001,
+  trace = TRUE
+)
 }
 \arguments{
 \item{x}{Matrix of training data used for fitting the model;

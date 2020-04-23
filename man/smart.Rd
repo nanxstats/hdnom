@@ -4,7 +4,8 @@
 \name{smart}
 \alias{smart}
 \title{Imputed SMART study data}
-\format{A numeric matrix with 3873 samples, and 29 variables
+\format{
+A numeric matrix with 3873 samples, and 29 variables
 (27 variables + time variable + event variable):
 \itemize{
 \item Demographics
@@ -50,7 +51,8 @@
 \item IMT - Intima media thickness, in mm
 \item STENOSIS - Carotid artery stenosis > 50\%
 }
-}}
+}
+}
 \usage{
 data(smart)
 }

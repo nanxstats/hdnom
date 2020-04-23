@@ -4,9 +4,19 @@
 \alias{fit_flasso}
 \title{Model selection for high-dimensional Cox models with fused lasso penalty}
 \usage{
-fit_flasso(x, y, nfolds = 5L, lambda1 = c(0.001, 0.05, 0.5, 1, 5),
-  lambda2 = c(0.001, 0.01, 0.5), maxiter = 25, epsilon = 0.001,
-  seed = 1001, trace = FALSE, parallel = FALSE, ...)
+fit_flasso(
+  x,
+  y,
+  nfolds = 5L,
+  lambda1 = c(0.001, 0.05, 0.5, 1, 5),
+  lambda2 = c(0.001, 0.01, 0.5),
+  maxiter = 25,
+  epsilon = 0.001,
+  seed = 1001,
+  trace = FALSE,
+  parallel = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{Data matrix.}

@@ -5,8 +5,12 @@
 \title{Kaplan-Meier plot with number at risk table for internal calibration and
 external calibration results}
 \usage{
-kmplot(object, group.name = NULL, time.at = NULL, col.pal = c("JCO",
-  "Lancet", "NPG", "AAAS"))
+kmplot(
+  object,
+  group.name = NULL,
+  time.at = NULL,
+  col.pal = c("JCO", "Lancet", "NPG", "AAAS")
+)
 }
 \arguments{
 \item{object}{An object returned by \code{\link{calibrate}} or

@@ -4,8 +4,14 @@
 \alias{calibrate_external_surv_prob_true}
 \title{Compute Kaplan-Meier estimated survival probabilities for external calibration}
 \usage{
-calibrate_external_surv_prob_true(pred_prob, grp, time_new, event_new,
-  pred.at, ngroup)
+calibrate_external_surv_prob_true(
+  pred_prob,
+  grp,
+  time_new,
+  event_new,
+  pred.at,
+  ngroup
+)
 }
 \value{
 list

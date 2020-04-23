@@ -4,8 +4,7 @@
 \alias{fit_lasso}
 \title{Model selection for high-dimensional Cox models with lasso penalty}
 \usage{
-fit_lasso(x, y, nfolds = 5L, rule = c("lambda.min", "lambda.1se"),
-  seed = 1001)
+fit_lasso(x, y, nfolds = 5L, rule = c("lambda.min", "lambda.1se"), seed = 1001)
 }
 \arguments{
 \item{x}{Data matrix.}
