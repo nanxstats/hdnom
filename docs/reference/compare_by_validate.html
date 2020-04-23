@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -39,7 +43,6 @@
 
 <meta property="og:title" content="Compare high-dimensional Cox models by model validation — compare_by_validate" />
 <meta property="og:description" content="Compare high-dimensional Cox models by model validation" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -57,7 +60,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -95,7 +98,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/nanxstats/hdnom">
+  <a href="https://github.com/nanxstats/hdnom/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -122,11 +125,21 @@
     <p>Compare high-dimensional Cox models by model validation</p>
     </div>
 
-    <pre class="usage"><span class='fu'>compare_by_validate</span>(<span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>, <span class='kw'>model.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lasso"</span>, <span class='st'>"alasso"</span>,
-  <span class='st'>"flasso"</span>, <span class='st'>"enet"</span>, <span class='st'>"aenet"</span>, <span class='st'>"mcp"</span>, <span class='st'>"mnet"</span>, <span class='st'>"scad"</span>, <span class='st'>"snet"</span>),
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"bootstrap"</span>, <span class='st'>"cv"</span>, <span class='st'>"repeated.cv"</span>), <span class='kw'>boot.times</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>rep.times</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tauc.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"CD"</span>, <span class='st'>"SZ"</span>, <span class='st'>"UNO"</span>),
-  <span class='no'>tauc.time</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1001</span>, <span class='kw'>trace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>compare_by_validate</span>(
+  <span class='no'>x</span>,
+  <span class='no'>time</span>,
+  <span class='no'>event</span>,
+  <span class='kw'>model.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lasso"</span>, <span class='st'>"alasso"</span>, <span class='st'>"flasso"</span>, <span class='st'>"enet"</span>, <span class='st'>"aenet"</span>, <span class='st'>"mcp"</span>, <span class='st'>"mnet"</span>, <span class='st'>"scad"</span>,
+    <span class='st'>"snet"</span>),
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"bootstrap"</span>, <span class='st'>"cv"</span>, <span class='st'>"repeated.cv"</span>),
+  <span class='kw'>boot.times</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>rep.times</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>tauc.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"CD"</span>, <span class='st'>"SZ"</span>, <span class='st'>"UNO"</span>),
+  <span class='no'>tauc.time</span>,
+  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1001</span>,
+  <span class='kw'>trace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -239,7 +252,7 @@ regression models.
 #&gt; Cross-validation folds: 5 
 #&gt; Model type: lasso 
 #&gt; glmnet model alpha: 1 
-#&gt; glmnet model lambda: 0.04689341 
+#&gt; glmnet model lambda: 0.03893173 
 #&gt; glmnet model penalty factor: not specified
 #&gt; Time-dependent AUC type: UNO 
 #&gt; Evaluation time points for tAUC: 91.25 182.5 273.75 365 456.25 547.5 638.75 730
@@ -250,133 +263,129 @@ regression models.
 #&gt; Cross-validation folds: 5 
 #&gt; Model type: alasso 
 #&gt; glmnet model alpha: 1 
-#&gt; glmnet model lambda: 2.271354 
+#&gt; glmnet model lambda: 3.330828 
 #&gt; glmnet model penalty factor: specified
 #&gt; Time-dependent AUC type: UNO 
 #&gt; Evaluation time points for tAUC: 91.25 182.5 273.75 365 456.25 547.5 638.75 730
 #&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>cmp.val.cv</span>)</div><div class='output co'>#&gt; Model type: lasso 
 #&gt;              91.25     182.5    273.75       365    456.25     547.5    638.75
-#&gt; Mean     0.5546125 0.5678476 0.5866985 0.6433717 0.6253248 0.6546131 0.6412598
-#&gt; Min      0.2146465 0.3698184 0.4332008 0.5231675 0.4989873 0.5431649 0.5447190
-#&gt; 0.25 Qt. 0.4046392 0.4338931 0.5067680 0.5341944 0.5341944 0.5798726 0.5796730
-#&gt; Median   0.6429780 0.5348530 0.5168911 0.5383005 0.5359732 0.5856121 0.6091936
-#&gt; 0.75 Qt. 0.6489899 0.6879083 0.6725940 0.8047412 0.7384567 0.7440038 0.6906375
-#&gt; Max      0.8618090 0.8127651 0.8040383 0.8164548 0.8190123 0.8204120 0.7820760
+#&gt; Mean     0.5514232 0.5750925 0.5908706 0.6486018 0.6315953 0.6615158 0.6475695
+#&gt; Min      0.1919192 0.3720636 0.4318947 0.5247777 0.4999633 0.5416780 0.5432238
+#&gt; 0.25 Qt. 0.4054983 0.4326005 0.5056009 0.5330110 0.5330110 0.5819999 0.5859288
+#&gt; Median   0.6362098 0.5369578 0.5155505 0.5450753 0.5461533 0.5949445 0.6091759
+#&gt; 0.75 Qt. 0.6742424 0.7018313 0.6757791 0.8073438 0.7434037 0.7520246 0.6958370
+#&gt; Max      0.8492462 0.8320093 0.8255278 0.8328010 0.8354450 0.8369321 0.8036820
 #&gt;                730
-#&gt; Mean     0.6221681
-#&gt; Min      0.5554676
-#&gt; 0.25 Qt. 0.5861475
-#&gt; Median   0.6106038
-#&gt; 0.75 Qt. 0.6677270
-#&gt; Max      0.6908945
+#&gt; Mean     0.6292095
+#&gt; Min      0.5569337
+#&gt; 0.25 Qt. 0.5915718
+#&gt; Median   0.6105764
+#&gt; 0.75 Qt. 0.6746757
+#&gt; Max      0.7122901
 #&gt;              91.25     182.5    273.75       365    456.25     547.5    638.75
-#&gt; Mean     0.5546125 0.5678476 0.5866985 0.6433717 0.6253248 0.6546131 0.6412598
-#&gt; Min      0.2146465 0.3698184 0.4332008 0.5231675 0.4989873 0.5431649 0.5447190
-#&gt; 0.25 Qt. 0.4046392 0.4338931 0.5067680 0.5341944 0.5341944 0.5798726 0.5796730
-#&gt; Median   0.6429780 0.5348530 0.5168911 0.5383005 0.5359732 0.5856121 0.6091936
-#&gt; 0.75 Qt. 0.6489899 0.6879083 0.6725940 0.8047412 0.7384567 0.7440038 0.6906375
-#&gt; Max      0.8618090 0.8127651 0.8040383 0.8164548 0.8190123 0.8204120 0.7820760
+#&gt; Mean     0.5514232 0.5750925 0.5908706 0.6486018 0.6315953 0.6615158 0.6475695
+#&gt; Min      0.1919192 0.3720636 0.4318947 0.5247777 0.4999633 0.5416780 0.5432238
+#&gt; 0.25 Qt. 0.4054983 0.4326005 0.5056009 0.5330110 0.5330110 0.5819999 0.5859288
+#&gt; Median   0.6362098 0.5369578 0.5155505 0.5450753 0.5461533 0.5949445 0.6091759
+#&gt; 0.75 Qt. 0.6742424 0.7018313 0.6757791 0.8073438 0.7434037 0.7520246 0.6958370
+#&gt; Max      0.8492462 0.8320093 0.8255278 0.8328010 0.8354450 0.8369321 0.8036820
 #&gt;                730
-#&gt; Mean     0.6221681
-#&gt; Min      0.5554676
-#&gt; 0.25 Qt. 0.5861475
-#&gt; Median   0.6106038
-#&gt; 0.75 Qt. 0.6677270
-#&gt; Max      0.6908945
+#&gt; Mean     0.6292095
+#&gt; Min      0.5569337
+#&gt; 0.25 Qt. 0.5915718
+#&gt; Median   0.6105764
+#&gt; 0.75 Qt. 0.6746757
+#&gt; Max      0.7122901
 #&gt; 
 #&gt; Model type: alasso 
-#&gt;               91.25     182.5    273.75       365    456.25     547.5    638.75
-#&gt; Mean     0.52609112 0.6127558 0.6119666 0.6424363 0.6331504 0.6594532 0.6518703
-#&gt; Min      0.08585859 0.4316338 0.5116936 0.5179722 0.5179722 0.5259185 0.5273758
-#&gt; 0.25 Qt. 0.34621993 0.4869598 0.5365780 0.5637256 0.5307245 0.5991830 0.5975950
-#&gt; Median   0.68939394 0.5552154 0.5557936 0.5682358 0.5736528 0.6101860 0.6270515
-#&gt; 0.75 Qt. 0.69849246 0.7816682 0.6713148 0.7786779 0.7568607 0.7742094 0.7280674
-#&gt; Max      0.81049069 0.8083015 0.7844528 0.7835702 0.7865419 0.7877688 0.7792616
+#&gt;              91.25     182.5    273.75       365    456.25     547.5    638.75
+#&gt; Mean     0.5438734 0.6253119 0.6246102 0.6566693 0.6505558 0.6767926 0.6664697
+#&gt; Min      0.1161616 0.4108091 0.5219790 0.5361901 0.5334362 0.5378952 0.5394197
+#&gt; 0.25 Qt. 0.3891753 0.5148460 0.5289428 0.5577034 0.5361901 0.6129380 0.6162614
+#&gt; Median   0.7121212 0.5690552 0.5697782 0.5913443 0.6003684 0.6309677 0.6296160
+#&gt; 0.75 Qt. 0.7286432 0.8005930 0.6859652 0.7864692 0.7680248 0.7872057 0.7359087
+#&gt; Max      0.7732657 0.8312563 0.8163858 0.8116394 0.8147596 0.8149562 0.8111427
 #&gt;                730
-#&gt; Mean     0.6476818
-#&gt; Min      0.5535564
-#&gt; 0.25 Qt. 0.6049312
-#&gt; Median   0.6299294
-#&gt; 0.75 Qt. 0.7228661
-#&gt; Max      0.7271258
-#&gt;               91.25     182.5    273.75       365    456.25     547.5    638.75
-#&gt; Mean     0.52609112 0.6127558 0.6119666 0.6424363 0.6331504 0.6594532 0.6518703
-#&gt; Min      0.08585859 0.4316338 0.5116936 0.5179722 0.5179722 0.5259185 0.5273758
-#&gt; 0.25 Qt. 0.34621993 0.4869598 0.5365780 0.5637256 0.5307245 0.5991830 0.5975950
-#&gt; Median   0.68939394 0.5552154 0.5557936 0.5682358 0.5736528 0.6101860 0.6270515
-#&gt; 0.75 Qt. 0.69849246 0.7816682 0.6713148 0.7786779 0.7568607 0.7742094 0.7280674
-#&gt; Max      0.81049069 0.8083015 0.7844528 0.7835702 0.7865419 0.7877688 0.7792616
+#&gt; Mean     0.6646070
+#&gt; Min      0.5620190
+#&gt; 0.25 Qt. 0.6241618
+#&gt; Median   0.6301660
+#&gt; 0.75 Qt. 0.7335408
+#&gt; Max      0.7731476
+#&gt;              91.25     182.5    273.75       365    456.25     547.5    638.75
+#&gt; Mean     0.5438734 0.6253119 0.6246102 0.6566693 0.6505558 0.6767926 0.6664697
+#&gt; Min      0.1161616 0.4108091 0.5219790 0.5361901 0.5334362 0.5378952 0.5394197
+#&gt; 0.25 Qt. 0.3891753 0.5148460 0.5289428 0.5577034 0.5361901 0.6129380 0.6162614
+#&gt; Median   0.7121212 0.5690552 0.5697782 0.5913443 0.6003684 0.6309677 0.6296160
+#&gt; 0.75 Qt. 0.7286432 0.8005930 0.6859652 0.7864692 0.7680248 0.7872057 0.7359087
+#&gt; Max      0.7732657 0.8312563 0.8163858 0.8116394 0.8147596 0.8149562 0.8111427
 #&gt;                730
-#&gt; Mean     0.6476818
-#&gt; Min      0.5535564
-#&gt; 0.25 Qt. 0.6049312
-#&gt; Median   0.6299294
-#&gt; 0.75 Qt. 0.7228661
-#&gt; Max      0.7271258
+#&gt; Mean     0.6646070
+#&gt; Min      0.5620190
+#&gt; 0.25 Qt. 0.6241618
+#&gt; Median   0.6301660
+#&gt; 0.75 Qt. 0.7335408
+#&gt; Max      0.7731476
 #&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>cmp.val.cv</span>)</div><div class='output co'>#&gt;              91.25     182.5    273.75       365    456.25     547.5    638.75
-#&gt; Mean     0.5546125 0.5678476 0.5866985 0.6433717 0.6253248 0.6546131 0.6412598
-#&gt; Min      0.2146465 0.3698184 0.4332008 0.5231675 0.4989873 0.5431649 0.5447190
-#&gt; 0.25 Qt. 0.4046392 0.4338931 0.5067680 0.5341944 0.5341944 0.5798726 0.5796730
-#&gt; Median   0.6429780 0.5348530 0.5168911 0.5383005 0.5359732 0.5856121 0.6091936
-#&gt; 0.75 Qt. 0.6489899 0.6879083 0.6725940 0.8047412 0.7384567 0.7440038 0.6906375
-#&gt; Max      0.8618090 0.8127651 0.8040383 0.8164548 0.8190123 0.8204120 0.7820760
+#&gt; Mean     0.5514232 0.5750925 0.5908706 0.6486018 0.6315953 0.6615158 0.6475695
+#&gt; Min      0.1919192 0.3720636 0.4318947 0.5247777 0.4999633 0.5416780 0.5432238
+#&gt; 0.25 Qt. 0.4054983 0.4326005 0.5056009 0.5330110 0.5330110 0.5819999 0.5859288
+#&gt; Median   0.6362098 0.5369578 0.5155505 0.5450753 0.5461533 0.5949445 0.6091759
+#&gt; 0.75 Qt. 0.6742424 0.7018313 0.6757791 0.8073438 0.7434037 0.7520246 0.6958370
+#&gt; Max      0.8492462 0.8320093 0.8255278 0.8328010 0.8354450 0.8369321 0.8036820
 #&gt;                730
-#&gt; Mean     0.6221681
-#&gt; Min      0.5554676
-#&gt; 0.25 Qt. 0.5861475
-#&gt; Median   0.6106038
-#&gt; 0.75 Qt. 0.6677270
-#&gt; Max      0.6908945
-#&gt;               91.25     182.5    273.75       365    456.25     547.5    638.75
-#&gt; Mean     0.52609112 0.6127558 0.6119666 0.6424363 0.6331504 0.6594532 0.6518703
-#&gt; Min      0.08585859 0.4316338 0.5116936 0.5179722 0.5179722 0.5259185 0.5273758
-#&gt; 0.25 Qt. 0.34621993 0.4869598 0.5365780 0.5637256 0.5307245 0.5991830 0.5975950
-#&gt; Median   0.68939394 0.5552154 0.5557936 0.5682358 0.5736528 0.6101860 0.6270515
-#&gt; 0.75 Qt. 0.69849246 0.7816682 0.6713148 0.7786779 0.7568607 0.7742094 0.7280674
-#&gt; Max      0.81049069 0.8083015 0.7844528 0.7835702 0.7865419 0.7877688 0.7792616
+#&gt; Mean     0.6292095
+#&gt; Min      0.5569337
+#&gt; 0.25 Qt. 0.5915718
+#&gt; Median   0.6105764
+#&gt; 0.75 Qt. 0.6746757
+#&gt; Max      0.7122901
+#&gt;              91.25     182.5    273.75       365    456.25     547.5    638.75
+#&gt; Mean     0.5438734 0.6253119 0.6246102 0.6566693 0.6505558 0.6767926 0.6664697
+#&gt; Min      0.1161616 0.4108091 0.5219790 0.5361901 0.5334362 0.5378952 0.5394197
+#&gt; 0.25 Qt. 0.3891753 0.5148460 0.5289428 0.5577034 0.5361901 0.6129380 0.6162614
+#&gt; Median   0.7121212 0.5690552 0.5697782 0.5913443 0.6003684 0.6309677 0.6296160
+#&gt; 0.75 Qt. 0.7286432 0.8005930 0.6859652 0.7864692 0.7680248 0.7872057 0.7359087
+#&gt; Max      0.7732657 0.8312563 0.8163858 0.8116394 0.8147596 0.8149562 0.8111427
 #&gt;                730
-#&gt; Mean     0.6476818
-#&gt; Min      0.5535564
-#&gt; 0.25 Qt. 0.6049312
-#&gt; Median   0.6299294
-#&gt; 0.75 Qt. 0.7228661
-#&gt; Max      0.7271258</div><div class='img'><img src='compare_by_validate-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>cmp.val.cv</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;              91.25     182.5    273.75       365    456.25     547.5    638.75
-#&gt; Mean     0.5546125 0.5678476 0.5866985 0.6433717 0.6253248 0.6546131 0.6412598
-#&gt; Min      0.2146465 0.3698184 0.4332008 0.5231675 0.4989873 0.5431649 0.5447190
-#&gt; 0.25 Qt. 0.4046392 0.4338931 0.5067680 0.5341944 0.5341944 0.5798726 0.5796730
-#&gt; Median   0.6429780 0.5348530 0.5168911 0.5383005 0.5359732 0.5856121 0.6091936
-#&gt; 0.75 Qt. 0.6489899 0.6879083 0.6725940 0.8047412 0.7384567 0.7440038 0.6906375
-#&gt; Max      0.8618090 0.8127651 0.8040383 0.8164548 0.8190123 0.8204120 0.7820760
+#&gt; Mean     0.6646070
+#&gt; Min      0.5620190
+#&gt; 0.25 Qt. 0.6241618
+#&gt; Median   0.6301660
+#&gt; 0.75 Qt. 0.7335408
+#&gt; Max      0.7731476</div><div class='img'><img src='compare_by_validate-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>cmp.val.cv</span>, <span class='kw'>interval</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;              91.25     182.5    273.75       365    456.25     547.5    638.75
+#&gt; Mean     0.5514232 0.5750925 0.5908706 0.6486018 0.6315953 0.6615158 0.6475695
+#&gt; Min      0.1919192 0.3720636 0.4318947 0.5247777 0.4999633 0.5416780 0.5432238
+#&gt; 0.25 Qt. 0.4054983 0.4326005 0.5056009 0.5330110 0.5330110 0.5819999 0.5859288
+#&gt; Median   0.6362098 0.5369578 0.5155505 0.5450753 0.5461533 0.5949445 0.6091759
+#&gt; 0.75 Qt. 0.6742424 0.7018313 0.6757791 0.8073438 0.7434037 0.7520246 0.6958370
+#&gt; Max      0.8492462 0.8320093 0.8255278 0.8328010 0.8354450 0.8369321 0.8036820
 #&gt;                730
-#&gt; Mean     0.6221681
-#&gt; Min      0.5554676
-#&gt; 0.25 Qt. 0.5861475
-#&gt; Median   0.6106038
-#&gt; 0.75 Qt. 0.6677270
-#&gt; Max      0.6908945
-#&gt;               91.25     182.5    273.75       365    456.25     547.5    638.75
-#&gt; Mean     0.52609112 0.6127558 0.6119666 0.6424363 0.6331504 0.6594532 0.6518703
-#&gt; Min      0.08585859 0.4316338 0.5116936 0.5179722 0.5179722 0.5259185 0.5273758
-#&gt; 0.25 Qt. 0.34621993 0.4869598 0.5365780 0.5637256 0.5307245 0.5991830 0.5975950
-#&gt; Median   0.68939394 0.5552154 0.5557936 0.5682358 0.5736528 0.6101860 0.6270515
-#&gt; 0.75 Qt. 0.69849246 0.7816682 0.6713148 0.7786779 0.7568607 0.7742094 0.7280674
-#&gt; Max      0.81049069 0.8083015 0.7844528 0.7835702 0.7865419 0.7877688 0.7792616
+#&gt; Mean     0.6292095
+#&gt; Min      0.5569337
+#&gt; 0.25 Qt. 0.5915718
+#&gt; Median   0.6105764
+#&gt; 0.75 Qt. 0.6746757
+#&gt; Max      0.7122901
+#&gt;              91.25     182.5    273.75       365    456.25     547.5    638.75
+#&gt; Mean     0.5438734 0.6253119 0.6246102 0.6566693 0.6505558 0.6767926 0.6664697
+#&gt; Min      0.1161616 0.4108091 0.5219790 0.5361901 0.5334362 0.5378952 0.5394197
+#&gt; 0.25 Qt. 0.3891753 0.5148460 0.5289428 0.5577034 0.5361901 0.6129380 0.6162614
+#&gt; Median   0.7121212 0.5690552 0.5697782 0.5913443 0.6003684 0.6309677 0.6296160
+#&gt; 0.75 Qt. 0.7286432 0.8005930 0.6859652 0.7864692 0.7680248 0.7872057 0.7359087
+#&gt; Max      0.7732657 0.8312563 0.8163858 0.8116394 0.8147596 0.8149562 0.8111427
 #&gt;                730
-#&gt; Mean     0.6476818
-#&gt; Min      0.5535564
-#&gt; 0.25 Qt. 0.6049312
-#&gt; Median   0.6299294
-#&gt; 0.75 Qt. 0.7228661
-#&gt; Max      0.7271258</div><div class='img'><img src='compare_by_validate-2.png' alt='' width='700' height='433' /></div></pre>
+#&gt; Mean     0.6646070
+#&gt; Min      0.5620190
+#&gt; 0.25 Qt. 0.6241618
+#&gt; Median   0.6301660
+#&gt; 0.75 Qt. 0.7335408
+#&gt; Max      0.7731476</div><div class='img'><img src='compare_by_validate-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -387,7 +396,7 @@ regression models.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

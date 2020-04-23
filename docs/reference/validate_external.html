@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -39,7 +43,6 @@
 
 <meta property="og:title" content="Externally validate high-dimensional Cox models with time-dependent AUC — validate_external" />
 <meta property="og:description" content="Externally validate high-dimensional Cox models with time-dependent AUC" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -57,7 +60,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -95,7 +98,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/nanxstats/hdnom">
+  <a href="https://github.com/nanxstats/hdnom/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -122,8 +125,17 @@
     <p>Externally validate high-dimensional Cox models with time-dependent AUC</p>
     </div>
 
-    <pre class="usage"><span class='fu'>validate_external</span>(<span class='no'>object</span>, <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>, <span class='no'>x_new</span>, <span class='no'>time_new</span>, <span class='no'>event_new</span>,
-  <span class='kw'>tauc.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"CD"</span>, <span class='st'>"SZ"</span>, <span class='st'>"UNO"</span>), <span class='no'>tauc.time</span>)</pre>
+    <pre class="usage"><span class='fu'>validate_external</span>(
+  <span class='no'>object</span>,
+  <span class='no'>x</span>,
+  <span class='no'>time</span>,
+  <span class='no'>event</span>,
+  <span class='no'>x_new</span>,
+  <span class='no'>time_new</span>,
+  <span class='no'>event_new</span>,
+  <span class='kw'>tauc.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"CD"</span>, <span class='st'>"SZ"</span>, <span class='st'>"UNO"</span>),
+  <span class='no'>tauc.time</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -224,43 +236,43 @@ regression models.
 #&gt; Time-dependent AUC type: UNO 
 #&gt; Evaluation time points for tAUC: 91.25 182.5 273.75 365 456.25 547.5 638.75 730</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>val.ext</span>)</div><div class='output co'>#&gt; Time-Dependent AUC Summary at Evaluation Time Points
 #&gt;         91.25     182.5    273.75       365    456.25     547.5    638.75
-#&gt; AUC 0.4978342 0.5676975 0.6271558 0.6119897 0.6326652 0.6458574 0.6505486
+#&gt; AUC 0.4971912 0.5710299 0.6293697 0.6144638 0.6352992 0.6495091 0.6544655
 #&gt;           730
-#&gt; AUC 0.6565034</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>val.ext</span>)</div><div class='output co'>#&gt;         91.25     182.5    273.75       365    456.25     547.5    638.75
-#&gt; AUC 0.4978342 0.5676975 0.6271558 0.6119897 0.6326652 0.6458574 0.6505486
+#&gt; AUC 0.6602009</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>val.ext</span>)</div><div class='output co'>#&gt;         91.25     182.5    273.75       365    456.25     547.5    638.75
+#&gt; AUC 0.4971912 0.5710299 0.6293697 0.6144638 0.6352992 0.6495091 0.6544655
 #&gt;           730
-#&gt; AUC 0.6565034</div><div class='img'><img src='validate_external-1.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; AUC 0.6602009</div><div class='img'><img src='validate_external-1.png' alt='' width='700' height='433' /></div><div class='input'>
 # # Test fused lasso, MCP, and Snet models
 # data(smart)
 # # Use first 600 samples as training data
 # # (the data used for internal validation)
-# x <- as.matrix(smart[, -c(1, 2)])[1:600, ]
-# time <- smart$TEVENT[1:600]
-# event <- smart$EVENT[1:600]
+# x &lt;- as.matrix(smart[, -c(1, 2)])[1:600, ]
+# time &lt;- smart$TEVENT[1:600]
+# event &lt;- smart$EVENT[1:600]
 #
 # # Take 500 samples as external validation data.
 # # In practice, usually use data collected in other studies.
-# x_new <- as.matrix(smart[, -c(1, 2)])[1001:1500, ]
-# time_new <- smart$TEVENT[1001:1500]
-# event_new <- smart$EVENT[1001:1500]
+# x_new &lt;- as.matrix(smart[, -c(1, 2)])[1001:1500, ]
+# time_new &lt;- smart$TEVENT[1001:1500]
+# event_new &lt;- smart$EVENT[1001:1500]
 #
-# flassofit <- fit_flasso(x, survival::Surv(time, event), nfolds = 5, seed = 11)
-# scadfit <- fit_mcp(x, survival::Surv(time, event), nfolds = 5, seed = 11)
-# mnetfit <- fit_snet(x, survival::Surv(time, event), nfolds = 5, seed = 11)
+# flassofit &lt;- fit_flasso(x, survival::Surv(time, event), nfolds = 5, seed = 11)
+# scadfit &lt;- fit_mcp(x, survival::Surv(time, event), nfolds = 5, seed = 11)
+# mnetfit &lt;- fit_snet(x, survival::Surv(time, event), nfolds = 5, seed = 11)
 #
-# val.ext1 <- validate_external(
+# val.ext1 &lt;- validate_external(
 #   flassofit, x, time, event,
 #   x_new, time_new, event_new,
 #   tauc.type = "UNO",
 #   tauc.time = seq(0.25, 2, 0.25) * 365)
 #
-# val.ext2 <- validate_external(
+# val.ext2 &lt;- validate_external(
 #   scadfit, x, time, event,
 #   x_new, time_new, event_new,
 #   tauc.type = "CD",
 #   tauc.time = seq(0.25, 2, 0.25) * 365)
 #
-# val.ext3 <- validate_external(
+# val.ext3 &lt;- validate_external(
 #   mnetfit, x, time, event,
 #   x_new, time_new, event_new,
 #   tauc.type = "SZ",
@@ -279,14 +291,10 @@ regression models.
 # plot(val.ext3)
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -297,7 +305,7 @@ regression models.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
