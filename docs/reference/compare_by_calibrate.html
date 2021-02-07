@@ -8,6 +8,13 @@
 
 <title>Compare high-dimensional Cox models by model calibration — compare_by_calibrate • hdnom</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -43,6 +50,7 @@
 
 <meta property="og:title" content="Compare high-dimensional Cox models by model calibration — compare_by_calibrate" />
 <meta property="og:description" content="Compare high-dimensional Cox models by model calibration" />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -82,7 +90,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -99,7 +107,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/nanxstats/hdnom/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -125,21 +133,21 @@
     <p>Compare high-dimensional Cox models by model calibration</p>
     </div>
 
-    <pre class="usage"><span class='fu'>compare_by_calibrate</span>(
-  <span class='no'>x</span>,
-  <span class='no'>time</span>,
-  <span class='no'>event</span>,
-  <span class='kw'>model.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lasso"</span>, <span class='st'>"alasso"</span>, <span class='st'>"flasso"</span>, <span class='st'>"enet"</span>, <span class='st'>"aenet"</span>, <span class='st'>"mcp"</span>, <span class='st'>"mnet"</span>, <span class='st'>"scad"</span>,
-    <span class='st'>"snet"</span>),
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"fitting"</span>, <span class='st'>"bootstrap"</span>, <span class='st'>"cv"</span>, <span class='st'>"repeated.cv"</span>),
-  <span class='kw'>boot.times</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>rep.times</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>pred.at</span>,
-  <span class='kw'>ngroup</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1001</span>,
-  <span class='kw'>trace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>compare_by_calibrate</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>time</span>,
+  <span class='va'>event</span>,
+  model.type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"lasso"</span>, <span class='st'>"alasso"</span>, <span class='st'>"flasso"</span>, <span class='st'>"enet"</span>, <span class='st'>"aenet"</span>, <span class='st'>"mcp"</span>, <span class='st'>"mnet"</span>, <span class='st'>"scad"</span>,
+    <span class='st'>"snet"</span><span class='op'>)</span>,
+  method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"fitting"</span>, <span class='st'>"bootstrap"</span>, <span class='st'>"cv"</span>, <span class='st'>"repeated.cv"</span><span class='op'>)</span>,
+  boot.times <span class='op'>=</span> <span class='cn'>NULL</span>,
+  nfolds <span class='op'>=</span> <span class='cn'>NULL</span>,
+  rep.times <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>pred.at</span>,
+  ngroup <span class='op'>=</span> <span class='fl'>5</span>,
+  seed <span class='op'>=</span> <span class='fl'>1001</span>,
+  trace <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -205,22 +213,24 @@ Default is <code>TRUE</code>.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>smart</span>)
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='no'>smart</span>[, -<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>)])
-<span class='no'>time</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>TEVENT</span>
-<span class='no'>event</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>EVENT</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>smart</span><span class='op'>)</span>
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>smart</span><span class='op'>[</span>, <span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span>
+<span class='va'>time</span> <span class='op'>&lt;-</span> <span class='va'>smart</span><span class='op'>$</span><span class='va'>TEVENT</span>
+<span class='va'>event</span> <span class='op'>&lt;-</span> <span class='va'>smart</span><span class='op'>$</span><span class='va'>EVENT</span>
 
 <span class='co'># Compare lasso and adaptive lasso by 5-fold cross-validation</span>
-<span class='no'>cmp.cal.cv</span> <span class='kw'>&lt;-</span> <span class='fu'>compare_by_calibrate</span>(
-  <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>,
-  <span class='kw'>model.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lasso"</span>, <span class='st'>"alasso"</span>),
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"fitting"</span>,
-  <span class='kw'>pred.at</span> <span class='kw'>=</span> <span class='fl'>365</span> * <span class='fl'>9</span>, <span class='kw'>ngroup</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1001</span>
-)</div><div class='output co'>#&gt; Starting model 1 : lasso 
+<span class='va'>cmp.cal.cv</span> <span class='op'>&lt;-</span> <span class='fu'>compare_by_calibrate</span><span class='op'>(</span>
+  <span class='va'>x</span>, <span class='va'>time</span>, <span class='va'>event</span>,
+  model.type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"lasso"</span>, <span class='st'>"alasso"</span><span class='op'>)</span>,
+  method <span class='op'>=</span> <span class='st'>"fitting"</span>,
+  pred.at <span class='op'>=</span> <span class='fl'>365</span> <span class='op'>*</span> <span class='fl'>9</span>, ngroup <span class='op'>=</span> <span class='fl'>5</span>, seed <span class='op'>=</span> <span class='fl'>1001</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; Starting model 1 : lasso 
 #&gt; Start fitting ...
 #&gt; Starting model 2 : alasso 
 #&gt; Start fitting ...</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>cmp.cal.cv</span>)</div><div class='output co'>#&gt; High-Dimensional Cox Model Calibration Object
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>cmp.cal.cv</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; High-Dimensional Cox Model Calibration Object
 #&gt; Random seed: 1001 
 #&gt; Calibration method: fitting
 #&gt; Model type: lasso 
@@ -239,7 +249,8 @@ Default is <code>TRUE</code>.</p></td>
 #&gt; glmnet model penalty factor: specified
 #&gt; Calibration time point: 3285 
 #&gt; Number of groups formed for calibration: 5 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>cmp.cal.cv</span>)</div><div class='output co'>#&gt;   Model type: lasso 
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>cmp.cal.cv</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   Model type: lasso 
 #&gt;   Calibration Summary Table
 #&gt;   Predicted  Observed Lower 95% Upper 95%
 #&gt; 1 0.5721389 0.4704003 0.4008863 0.5519681
@@ -256,7 +267,8 @@ Default is <code>TRUE</code>.</p></td>
 #&gt; 3 0.7933952 0.8360191 0.7855318 0.8897513
 #&gt; 4 0.8365830 0.8180967 0.7180537 0.9320781
 #&gt; 5 0.8770442 0.9234083 0.8925803 0.9553010
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>cmp.cal.cv</span>)</div><div class='img'><img src='compare_by_calibrate-1.png' alt='' width='700' height='433' /></div></pre>
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>cmp.cal.cv</span><span class='op'>)</span>
+</div><div class='img'><img src='compare_by_calibrate-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -272,7 +284,7 @@ Default is <code>TRUE</code>.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

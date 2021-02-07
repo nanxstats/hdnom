@@ -8,6 +8,13 @@
 
 <title>Validate high-dimensional Cox models with time-dependent AUC — validate • hdnom</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -43,6 +50,7 @@
 
 <meta property="og:title" content="Validate high-dimensional Cox models with time-dependent AUC — validate" />
 <meta property="og:description" content="Validate high-dimensional Cox models with time-dependent AUC" />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -82,7 +90,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -99,7 +107,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/nanxstats/hdnom/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -125,27 +133,27 @@
     <p>Validate high-dimensional Cox models with time-dependent AUC</p>
     </div>
 
-    <pre class="usage"><span class='fu'>validate</span>(
-  <span class='no'>x</span>,
-  <span class='no'>time</span>,
-  <span class='no'>event</span>,
-  <span class='kw'>model.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lasso"</span>, <span class='st'>"alasso"</span>, <span class='st'>"flasso"</span>, <span class='st'>"enet"</span>, <span class='st'>"aenet"</span>, <span class='st'>"mcp"</span>, <span class='st'>"mnet"</span>, <span class='st'>"scad"</span>,
-    <span class='st'>"snet"</span>),
-  <span class='no'>alpha</span>,
-  <span class='no'>lambda</span>,
-  <span class='kw'>pen.factor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>gamma</span>,
-  <span class='no'>lambda1</span>,
-  <span class='no'>lambda2</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"bootstrap"</span>, <span class='st'>"cv"</span>, <span class='st'>"repeated.cv"</span>),
-  <span class='kw'>boot.times</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>rep.times</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>tauc.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"CD"</span>, <span class='st'>"SZ"</span>, <span class='st'>"UNO"</span>),
-  <span class='no'>tauc.time</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1001</span>,
-  <span class='kw'>trace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>validate</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>time</span>,
+  <span class='va'>event</span>,
+  model.type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"lasso"</span>, <span class='st'>"alasso"</span>, <span class='st'>"flasso"</span>, <span class='st'>"enet"</span>, <span class='st'>"aenet"</span>, <span class='st'>"mcp"</span>, <span class='st'>"mnet"</span>, <span class='st'>"scad"</span>,
+    <span class='st'>"snet"</span><span class='op'>)</span>,
+  <span class='va'>alpha</span>,
+  <span class='va'>lambda</span>,
+  pen.factor <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>gamma</span>,
+  <span class='va'>lambda1</span>,
+  <span class='va'>lambda2</span>,
+  method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"bootstrap"</span>, <span class='st'>"cv"</span>, <span class='st'>"repeated.cv"</span><span class='op'>)</span>,
+  boot.times <span class='op'>=</span> <span class='cn'>NULL</span>,
+  nfolds <span class='op'>=</span> <span class='cn'>NULL</span>,
+  rep.times <span class='op'>=</span> <span class='cn'>NULL</span>,
+  tauc.type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"CD"</span>, <span class='st'>"SZ"</span>, <span class='st'>"UNO"</span><span class='op'>)</span>,
+  <span class='va'>tauc.time</span>,
+  seed <span class='op'>=</span> <span class='fl'>1001</span>,
+  trace <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -261,49 +269,52 @@ regression models.
 <em>Journal of the American Statistical Association</em> 102, 527--537.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>smart</span>)
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='no'>smart</span>[, -<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>)])[<span class='fl'>1</span>:<span class='fl'>500</span>, ]
-<span class='no'>time</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>TEVENT</span>[<span class='fl'>1</span>:<span class='fl'>500</span>]
-<span class='no'>event</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>EVENT</span>[<span class='fl'>1</span>:<span class='fl'>500</span>]
-<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>survival</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/survival/man/Surv.html'>Surv</a></span>(<span class='no'>time</span>, <span class='no'>event</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>smart</span><span class='op'>)</span>
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>smart</span><span class='op'>[</span>, <span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>500</span>, <span class='op'>]</span>
+<span class='va'>time</span> <span class='op'>&lt;-</span> <span class='va'>smart</span><span class='op'>$</span><span class='va'>TEVENT</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>500</span><span class='op'>]</span>
+<span class='va'>event</span> <span class='op'>&lt;-</span> <span class='va'>smart</span><span class='op'>$</span><span class='va'>EVENT</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>500</span><span class='op'>]</span>
+<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'>survival</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/survival/man/Surv.html'>Surv</a></span><span class='op'>(</span><span class='va'>time</span>, <span class='va'>event</span><span class='op'>)</span>
 
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_lasso.html'>fit_lasso</a></span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>rule</span> <span class='kw'>=</span> <span class='st'>"lambda.1se"</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>11</span>)
+<span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fit_lasso.html'>fit_lasso</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, nfolds <span class='op'>=</span> <span class='fl'>5</span>, rule <span class='op'>=</span> <span class='st'>"lambda.1se"</span>, seed <span class='op'>=</span> <span class='fl'>11</span><span class='op'>)</span>
 
 <span class='co'># Model validation by bootstrap with time-dependent AUC</span>
 <span class='co'># Normally boot.times should be set to 200 or more,</span>
 <span class='co'># we set it to 3 here only to save example running time.</span>
-<span class='no'>val.boot</span> <span class='kw'>&lt;-</span> <span class='fu'>validate</span>(
-  <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>,
-  <span class='kw'>model.type</span> <span class='kw'>=</span> <span class='st'>"lasso"</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='no'>fit</span>$<span class='no'>lambda</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"bootstrap"</span>, <span class='kw'>boot.times</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>tauc.type</span> <span class='kw'>=</span> <span class='st'>"UNO"</span>, <span class='kw'>tauc.time</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0.25</span>, <span class='fl'>2</span>, <span class='fl'>0.25</span>) * <span class='fl'>365</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1010</span>
-)</div><div class='output co'>#&gt; Start bootstrap sample 1 
+<span class='va'>val.boot</span> <span class='op'>&lt;-</span> <span class='fu'>validate</span><span class='op'>(</span>
+  <span class='va'>x</span>, <span class='va'>time</span>, <span class='va'>event</span>,
+  model.type <span class='op'>=</span> <span class='st'>"lasso"</span>,
+  alpha <span class='op'>=</span> <span class='fl'>1</span>, lambda <span class='op'>=</span> <span class='va'>fit</span><span class='op'>$</span><span class='va'>lambda</span>,
+  method <span class='op'>=</span> <span class='st'>"bootstrap"</span>, boot.times <span class='op'>=</span> <span class='fl'>3</span>,
+  tauc.type <span class='op'>=</span> <span class='st'>"UNO"</span>, tauc.time <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0.25</span>, <span class='fl'>2</span>, <span class='fl'>0.25</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>365</span>,
+  seed <span class='op'>=</span> <span class='fl'>1010</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; Start bootstrap sample 1 
 #&gt; Start bootstrap sample 2 
 #&gt; Start bootstrap sample 3 </div><div class='input'>
 <span class='co'># Model validation by 5-fold cross-validation with time-dependent AUC</span>
-<span class='no'>val.cv</span> <span class='kw'>&lt;-</span> <span class='fu'>validate</span>(
-  <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>,
-  <span class='kw'>model.type</span> <span class='kw'>=</span> <span class='st'>"lasso"</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='no'>fit</span>$<span class='no'>lambda</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"cv"</span>, <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>tauc.type</span> <span class='kw'>=</span> <span class='st'>"UNO"</span>, <span class='kw'>tauc.time</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0.25</span>, <span class='fl'>2</span>, <span class='fl'>0.25</span>) * <span class='fl'>365</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1010</span>
-)</div><div class='output co'>#&gt; Start fold 1 
+<span class='va'>val.cv</span> <span class='op'>&lt;-</span> <span class='fu'>validate</span><span class='op'>(</span>
+  <span class='va'>x</span>, <span class='va'>time</span>, <span class='va'>event</span>,
+  model.type <span class='op'>=</span> <span class='st'>"lasso"</span>,
+  alpha <span class='op'>=</span> <span class='fl'>1</span>, lambda <span class='op'>=</span> <span class='va'>fit</span><span class='op'>$</span><span class='va'>lambda</span>,
+  method <span class='op'>=</span> <span class='st'>"cv"</span>, nfolds <span class='op'>=</span> <span class='fl'>5</span>,
+  tauc.type <span class='op'>=</span> <span class='st'>"UNO"</span>, tauc.time <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0.25</span>, <span class='fl'>2</span>, <span class='fl'>0.25</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>365</span>,
+  seed <span class='op'>=</span> <span class='fl'>1010</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; Start fold 1 
 #&gt; Start fold 2 
 #&gt; Start fold 3 
 #&gt; Start fold 4 
 #&gt; Start fold 5 </div><div class='input'>
 <span class='co'># Model validation by repeated cross-validation with time-dependent AUC</span>
-<span class='no'>val.repcv</span> <span class='kw'>&lt;-</span> <span class='fu'>validate</span>(
-  <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>,
-  <span class='kw'>model.type</span> <span class='kw'>=</span> <span class='st'>"lasso"</span>,
-  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='no'>fit</span>$<span class='no'>lambda</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"repeated.cv"</span>, <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>rep.times</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>tauc.type</span> <span class='kw'>=</span> <span class='st'>"UNO"</span>, <span class='kw'>tauc.time</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0.25</span>, <span class='fl'>2</span>, <span class='fl'>0.25</span>) * <span class='fl'>365</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1010</span>
-)</div><div class='output co'>#&gt; Start repeat round 1 fold 1 
+<span class='va'>val.repcv</span> <span class='op'>&lt;-</span> <span class='fu'>validate</span><span class='op'>(</span>
+  <span class='va'>x</span>, <span class='va'>time</span>, <span class='va'>event</span>,
+  model.type <span class='op'>=</span> <span class='st'>"lasso"</span>,
+  alpha <span class='op'>=</span> <span class='fl'>1</span>, lambda <span class='op'>=</span> <span class='va'>fit</span><span class='op'>$</span><span class='va'>lambda</span>,
+  method <span class='op'>=</span> <span class='st'>"repeated.cv"</span>, nfolds <span class='op'>=</span> <span class='fl'>5</span>, rep.times <span class='op'>=</span> <span class='fl'>3</span>,
+  tauc.type <span class='op'>=</span> <span class='st'>"UNO"</span>, tauc.time <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0.25</span>, <span class='fl'>2</span>, <span class='fl'>0.25</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>365</span>,
+  seed <span class='op'>=</span> <span class='fl'>1010</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; Start repeat round 1 fold 1 
 #&gt; Start repeat round 1 fold 2 
 #&gt; Start repeat round 1 fold 3 
 #&gt; Start repeat round 1 fold 4 
@@ -319,7 +330,8 @@ regression models.
 #&gt; Start repeat round 3 fold 4 
 #&gt; Start repeat round 3 fold 5 </div><div class='input'>
 <span class='co'># bootstrap-based discrimination curves has a very narrow band</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>val.boot</span>)</div><div class='output co'>#&gt; High-Dimensional Cox Model Validation Object
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>val.boot</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; High-Dimensional Cox Model Validation Object
 #&gt; Random seed: 1010 
 #&gt; Validation method: bootstrap
 #&gt; Bootstrap samples: 3 
@@ -328,7 +340,8 @@ regression models.
 #&gt; glmnet model lambda: 0.0466592 
 #&gt; glmnet model penalty factor: not specified
 #&gt; Time-dependent AUC type: UNO 
-#&gt; Evaluation time points for tAUC: 91.25 182.5 273.75 365 456.25 547.5 638.75 730</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>val.boot</span>)</div><div class='output co'>#&gt; Time-Dependent AUC Summary at Evaluation Time Points
+#&gt; Evaluation time points for tAUC: 91.25 182.5 273.75 365 456.25 547.5 638.75 730</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>val.boot</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Time-Dependent AUC Summary at Evaluation Time Points
 #&gt;              91.25     182.5    273.75       365    456.25     547.5    638.75
 #&gt; Mean     0.6076768 0.6770503 0.7310150 0.7669546 0.7678797 0.7805710 0.7592774
 #&gt; Min      0.5741414 0.6582779 0.7163194 0.7479257 0.7491532 0.7607504 0.7495020
@@ -342,7 +355,8 @@ regression models.
 #&gt; 0.25 Qt. 0.7485221
 #&gt; Median   0.7505299
 #&gt; 0.75 Qt. 0.7522723
-#&gt; Max      0.7540147</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>val.boot</span>)</div><div class='output co'>#&gt;              91.25     182.5    273.75       365    456.25     547.5    638.75
+#&gt; Max      0.7540147</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>val.boot</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;              91.25     182.5    273.75       365    456.25     547.5    638.75
 #&gt; Mean     0.6076768 0.6770503 0.7310150 0.7669546 0.7678797 0.7805710 0.7592774
 #&gt; Min      0.5741414 0.6582779 0.7163194 0.7479257 0.7491532 0.7607504 0.7495020
 #&gt; 0.25 Qt. 0.5818182 0.6594434 0.7209654 0.7549788 0.7560774 0.7678429 0.7512654
@@ -357,7 +371,8 @@ regression models.
 #&gt; 0.75 Qt. 0.7522723
 #&gt; Max      0.7540147</div><div class='img'><img src='validate-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># k-fold cv provides a more strict evaluation than bootstrap</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>val.cv</span>)</div><div class='output co'>#&gt; High-Dimensional Cox Model Validation Object
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>val.cv</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; High-Dimensional Cox Model Validation Object
 #&gt; Random seed: 1010 
 #&gt; Validation method: k-fold cross-validation
 #&gt; Cross-validation folds: 5 
@@ -366,7 +381,8 @@ regression models.
 #&gt; glmnet model lambda: 0.0466592 
 #&gt; glmnet model penalty factor: not specified
 #&gt; Time-dependent AUC type: UNO 
-#&gt; Evaluation time points for tAUC: 91.25 182.5 273.75 365 456.25 547.5 638.75 730</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>val.cv</span>)</div><div class='output co'>#&gt; Time-Dependent AUC Summary at Evaluation Time Points
+#&gt; Evaluation time points for tAUC: 91.25 182.5 273.75 365 456.25 547.5 638.75 730</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>val.cv</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Time-Dependent AUC Summary at Evaluation Time Points
 #&gt;              91.25     182.5    273.75       365    456.25     547.5    638.75
 #&gt; Mean     0.3594933 0.5725705 0.7359625 0.7898166 0.7913584 0.7995129 0.7911661
 #&gt; Min      0.0050000 0.0050000 0.5871406 0.5874762 0.5874762 0.5888388 0.5204137
@@ -380,7 +396,8 @@ regression models.
 #&gt; 0.25 Qt. 0.7854386
 #&gt; Median   0.7926118
 #&gt; 0.75 Qt. 0.8200499
-#&gt; Max      0.8902918</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>val.cv</span>)</div><div class='output co'>#&gt;              91.25     182.5    273.75       365    456.25     547.5    638.75
+#&gt; Max      0.8902918</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>val.cv</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;              91.25     182.5    273.75       365    456.25     547.5    638.75
 #&gt; Mean     0.3594933 0.5725705 0.7359625 0.7898166 0.7913584 0.7995129 0.7911661
 #&gt; Min      0.0050000 0.0050000 0.5871406 0.5874762 0.5874762 0.5888388 0.5204137
 #&gt; 0.25 Qt. 0.0050000 0.4276249 0.6262626 0.7323377 0.7400465 0.7499517 0.7992726
@@ -396,7 +413,8 @@ regression models.
 #&gt; Max      0.8902918</div><div class='img'><img src='validate-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># repeated cv provides similar results as k-fold cv</span>
 <span class='co'># but more robust than k-fold cv</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>val.repcv</span>)</div><div class='output co'>#&gt; High-Dimensional Cox Model Validation Object
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>val.repcv</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; High-Dimensional Cox Model Validation Object
 #&gt; Random seed: 1010 
 #&gt; Validation method: repeated cross-validation
 #&gt; Cross-validation folds: 5 
@@ -406,7 +424,8 @@ regression models.
 #&gt; glmnet model lambda: 0.0466592 
 #&gt; glmnet model penalty factor: not specified
 #&gt; Time-dependent AUC type: UNO 
-#&gt; Evaluation time points for tAUC: 91.25 182.5 273.75 365 456.25 547.5 638.75 730</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>val.repcv</span>)</div><div class='output co'>#&gt; Note: for repeated CV, we evaluated quantile statistic tables for
+#&gt; Evaluation time points for tAUC: 91.25 182.5 273.75 365 456.25 547.5 638.75 730</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>val.repcv</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Note: for repeated CV, we evaluated quantile statistic tables for
 #&gt; each CV repeat, then calculated element-wise mean across all tables.
 #&gt; Time-Dependent AUC Summary at Evaluation Time Points
 #&gt;                      91.25     182.5    273.75       365    456.25     547.5
@@ -422,7 +441,8 @@ regression models.
 #&gt; Mean of 0.25 Qt. 0.6638718 0.6775897
 #&gt; Mean of Median   0.8185457 0.7557037
 #&gt; Mean of 0.75 Qt. 0.8941499 0.8607948
-#&gt; Mean of Max      0.9304813 0.9099070</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>val.repcv</span>)</div><div class='output co'>#&gt;                      91.25     182.5    273.75       365    456.25     547.5
+#&gt; Mean of Max      0.9304813 0.9099070</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>val.repcv</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                      91.25     182.5    273.75       365    456.25     547.5
 #&gt; Mean of Mean     0.3610550 0.6420535 0.7360920 0.7818087 0.7829022 0.7915698
 #&gt; Mean of Min      0.0050000 0.2655556 0.5455362 0.5748210 0.5748210 0.5937272
 #&gt; Mean of 0.25 Qt. 0.0050000 0.5541139 0.6359196 0.7380272 0.7416286 0.7373083
@@ -435,47 +455,47 @@ regression models.
 #&gt; Mean of 0.25 Qt. 0.6638718 0.6775897
 #&gt; Mean of Median   0.8185457 0.7557037
 #&gt; Mean of 0.75 Qt. 0.8941499 0.8607948
-#&gt; Mean of Max      0.9304813 0.9099070</div><div class='img'><img src='validate-3.png' alt='' width='700' height='433' /></div><div class='input'># # Test fused lasso, SCAD, and Mnet models
-#
-# data(smart)
-# x = as.matrix(smart[, -c(1, 2)])[1:500,]
-# time = smart$TEVENT[1:500]
-# event = smart$EVENT[1:500]
-# y = survival::Surv(time, event)
-#
-# set.seed(1010)
-# val.boot = validate(
-#   x, time, event, model.type = "flasso",
-#   lambda1 = 5, lambda2 = 2,
-#   method = "bootstrap", boot.times = 10,
-#   tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
-#   seed = 1010)
-#
-# val.cv = validate(
-#   x, time, event, model.type = "scad",
-#   gamma = 3.7, alpha = 1, lambda = 0.05,
-#   method = "cv", nfolds = 5,
-#   tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
-#   seed = 1010)
-#
-# val.repcv = validate(
-#   x, time, event, model.type = "mnet",
-#   gamma = 3, alpha = 0.3, lambda = 0.05,
-#   method = "repeated.cv", nfolds = 5, rep.times = 3,
-#   tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,
-#   seed = 1010)
-#
-# print(val.boot)
-# summary(val.boot)
-# plot(val.boot)
-#
-# print(val.cv)
-# summary(val.cv)
-# plot(val.cv)
-#
-# print(val.repcv)
-# summary(val.repcv)
-# plot(val.repcv)
+#&gt; Mean of Max      0.9304813 0.9099070</div><div class='img'><img src='validate-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># # Test fused lasso, SCAD, and Mnet models</span>
+<span class='co'>#</span>
+<span class='co'># data(smart)</span>
+<span class='co'># x = as.matrix(smart[, -c(1, 2)])[1:500,]</span>
+<span class='co'># time = smart$TEVENT[1:500]</span>
+<span class='co'># event = smart$EVENT[1:500]</span>
+<span class='co'># y = survival::Surv(time, event)</span>
+<span class='co'>#</span>
+<span class='co'># set.seed(1010)</span>
+<span class='co'># val.boot = validate(</span>
+<span class='co'>#   x, time, event, model.type = "flasso",</span>
+<span class='co'>#   lambda1 = 5, lambda2 = 2,</span>
+<span class='co'>#   method = "bootstrap", boot.times = 10,</span>
+<span class='co'>#   tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,</span>
+<span class='co'>#   seed = 1010)</span>
+<span class='co'>#</span>
+<span class='co'># val.cv = validate(</span>
+<span class='co'>#   x, time, event, model.type = "scad",</span>
+<span class='co'>#   gamma = 3.7, alpha = 1, lambda = 0.05,</span>
+<span class='co'>#   method = "cv", nfolds = 5,</span>
+<span class='co'>#   tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,</span>
+<span class='co'>#   seed = 1010)</span>
+<span class='co'>#</span>
+<span class='co'># val.repcv = validate(</span>
+<span class='co'>#   x, time, event, model.type = "mnet",</span>
+<span class='co'>#   gamma = 3, alpha = 0.3, lambda = 0.05,</span>
+<span class='co'>#   method = "repeated.cv", nfolds = 5, rep.times = 3,</span>
+<span class='co'>#   tauc.type = "UNO", tauc.time = seq(0.25, 2, 0.25) * 365,</span>
+<span class='co'>#   seed = 1010)</span>
+<span class='co'>#</span>
+<span class='co'># print(val.boot)</span>
+<span class='co'># summary(val.boot)</span>
+<span class='co'># plot(val.boot)</span>
+<span class='co'>#</span>
+<span class='co'># print(val.cv)</span>
+<span class='co'># summary(val.cv)</span>
+<span class='co'># plot(val.cv)</span>
+<span class='co'>#</span>
+<span class='co'># print(val.repcv)</span>
+<span class='co'># summary(val.repcv)</span>
+<span class='co'># plot(val.repcv)</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -492,7 +512,7 @@ regression models.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

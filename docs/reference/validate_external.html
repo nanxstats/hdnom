@@ -8,6 +8,13 @@
 
 <title>Externally validate high-dimensional Cox models with time-dependent AUC — validate_external • hdnom</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -43,6 +50,7 @@
 
 <meta property="og:title" content="Externally validate high-dimensional Cox models with time-dependent AUC — validate_external" />
 <meta property="og:description" content="Externally validate high-dimensional Cox models with time-dependent AUC" />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -82,7 +90,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -99,7 +107,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/nanxstats/hdnom/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -125,17 +133,17 @@
     <p>Externally validate high-dimensional Cox models with time-dependent AUC</p>
     </div>
 
-    <pre class="usage"><span class='fu'>validate_external</span>(
-  <span class='no'>object</span>,
-  <span class='no'>x</span>,
-  <span class='no'>time</span>,
-  <span class='no'>event</span>,
-  <span class='no'>x_new</span>,
-  <span class='no'>time_new</span>,
-  <span class='no'>event_new</span>,
-  <span class='kw'>tauc.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"CD"</span>, <span class='st'>"SZ"</span>, <span class='st'>"UNO"</span>),
-  <span class='no'>tauc.time</span>
-)</pre>
+    <pre class="usage"><span class='fu'>validate_external</span><span class='op'>(</span>
+  <span class='va'>object</span>,
+  <span class='va'>x</span>,
+  <span class='va'>time</span>,
+  <span class='va'>event</span>,
+  <span class='va'>x_new</span>,
+  <span class='va'>time_new</span>,
+  <span class='va'>event_new</span>,
+  tauc.type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"CD"</span>, <span class='st'>"SZ"</span>, <span class='st'>"UNO"</span><span class='op'>)</span>,
+  <span class='va'>tauc.time</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -204,91 +212,94 @@ regression models.
 <em>Journal of the American Statistical Association</em> 102, 527--537.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>smart</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>smart</span><span class='op'>)</span>
 <span class='co'># Use the first 1000 samples as training data</span>
 <span class='co'># (the data used for internal validation)</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='no'>smart</span>[, -<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>)])[<span class='fl'>1</span>:<span class='fl'>1000</span>, ]
-<span class='no'>time</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>TEVENT</span>[<span class='fl'>1</span>:<span class='fl'>1000</span>]
-<span class='no'>event</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>EVENT</span>[<span class='fl'>1</span>:<span class='fl'>1000</span>]
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>smart</span><span class='op'>[</span>, <span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span>, <span class='op'>]</span>
+<span class='va'>time</span> <span class='op'>&lt;-</span> <span class='va'>smart</span><span class='op'>$</span><span class='va'>TEVENT</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span><span class='op'>]</span>
+<span class='va'>event</span> <span class='op'>&lt;-</span> <span class='va'>smart</span><span class='op'>$</span><span class='va'>EVENT</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span><span class='op'>]</span>
 
 <span class='co'># Take the next 1000 samples as external validation data</span>
 <span class='co'># In practice, usually use data collected in other studies</span>
-<span class='no'>x_new</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='no'>smart</span>[, -<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>)])[<span class='fl'>1001</span>:<span class='fl'>2000</span>, ]
-<span class='no'>time_new</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>TEVENT</span>[<span class='fl'>1001</span>:<span class='fl'>2000</span>]
-<span class='no'>event_new</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>EVENT</span>[<span class='fl'>1001</span>:<span class='fl'>2000</span>]
+<span class='va'>x_new</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>smart</span><span class='op'>[</span>, <span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1001</span><span class='op'>:</span><span class='fl'>2000</span>, <span class='op'>]</span>
+<span class='va'>time_new</span> <span class='op'>&lt;-</span> <span class='va'>smart</span><span class='op'>$</span><span class='va'>TEVENT</span><span class='op'>[</span><span class='fl'>1001</span><span class='op'>:</span><span class='fl'>2000</span><span class='op'>]</span>
+<span class='va'>event_new</span> <span class='op'>&lt;-</span> <span class='va'>smart</span><span class='op'>$</span><span class='va'>EVENT</span><span class='op'>[</span><span class='fl'>1001</span><span class='op'>:</span><span class='fl'>2000</span><span class='op'>]</span>
 
 <span class='co'># Fit Cox model with lasso penalty</span>
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_lasso.html'>fit_lasso</a></span>(
-  <span class='no'>x</span>, <span class='kw pkg'>survival</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/survival/man/Surv.html'>Surv</a></span>(<span class='no'>time</span>, <span class='no'>event</span>),
-  <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>rule</span> <span class='kw'>=</span> <span class='st'>"lambda.1se"</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>11</span>
-)
+<span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fit_lasso.html'>fit_lasso</a></span><span class='op'>(</span>
+  <span class='va'>x</span>, <span class='fu'>survival</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/survival/man/Surv.html'>Surv</a></span><span class='op'>(</span><span class='va'>time</span>, <span class='va'>event</span><span class='op'>)</span>,
+  nfolds <span class='op'>=</span> <span class='fl'>5</span>, rule <span class='op'>=</span> <span class='st'>"lambda.1se"</span>, seed <span class='op'>=</span> <span class='fl'>11</span>
+<span class='op'>)</span>
 
 <span class='co'># External validation with time-dependent AUC</span>
-<span class='no'>val.ext</span> <span class='kw'>&lt;-</span> <span class='fu'>validate_external</span>(
-  <span class='no'>fit</span>, <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>,
-  <span class='no'>x_new</span>, <span class='no'>time_new</span>, <span class='no'>event_new</span>,
-  <span class='kw'>tauc.type</span> <span class='kw'>=</span> <span class='st'>"UNO"</span>,
-  <span class='kw'>tauc.time</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0.25</span>, <span class='fl'>2</span>, <span class='fl'>0.25</span>) * <span class='fl'>365</span>
-)
+<span class='va'>val.ext</span> <span class='op'>&lt;-</span> <span class='fu'>validate_external</span><span class='op'>(</span>
+  <span class='va'>fit</span>, <span class='va'>x</span>, <span class='va'>time</span>, <span class='va'>event</span>,
+  <span class='va'>x_new</span>, <span class='va'>time_new</span>, <span class='va'>event_new</span>,
+  tauc.type <span class='op'>=</span> <span class='st'>"UNO"</span>,
+  tauc.time <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0.25</span>, <span class='fl'>2</span>, <span class='fl'>0.25</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>365</span>
+<span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>val.ext</span>)</div><div class='output co'>#&gt; High-Dimensional Cox Model External Validation Object
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>val.ext</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; High-Dimensional Cox Model External Validation Object
 #&gt; Model type: lasso 
 #&gt; Time-dependent AUC type: UNO 
-#&gt; Evaluation time points for tAUC: 91.25 182.5 273.75 365 456.25 547.5 638.75 730</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>val.ext</span>)</div><div class='output co'>#&gt; Time-Dependent AUC Summary at Evaluation Time Points
+#&gt; Evaluation time points for tAUC: 91.25 182.5 273.75 365 456.25 547.5 638.75 730</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>val.ext</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Time-Dependent AUC Summary at Evaluation Time Points
 #&gt;         91.25     182.5    273.75       365    456.25     547.5    638.75
 #&gt; AUC 0.4971912 0.5710299 0.6293697 0.6144638 0.6352992 0.6495091 0.6544655
 #&gt;           730
-#&gt; AUC 0.6602009</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>val.ext</span>)</div><div class='output co'>#&gt;         91.25     182.5    273.75       365    456.25     547.5    638.75
+#&gt; AUC 0.6602009</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>val.ext</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;         91.25     182.5    273.75       365    456.25     547.5    638.75
 #&gt; AUC 0.4971912 0.5710299 0.6293697 0.6144638 0.6352992 0.6495091 0.6544655
 #&gt;           730
 #&gt; AUC 0.6602009</div><div class='img'><img src='validate_external-1.png' alt='' width='700' height='433' /></div><div class='input'>
-# # Test fused lasso, MCP, and Snet models
-# data(smart)
-# # Use first 600 samples as training data
-# # (the data used for internal validation)
-# x &lt;- as.matrix(smart[, -c(1, 2)])[1:600, ]
-# time &lt;- smart$TEVENT[1:600]
-# event &lt;- smart$EVENT[1:600]
-#
-# # Take 500 samples as external validation data.
-# # In practice, usually use data collected in other studies.
-# x_new &lt;- as.matrix(smart[, -c(1, 2)])[1001:1500, ]
-# time_new &lt;- smart$TEVENT[1001:1500]
-# event_new &lt;- smart$EVENT[1001:1500]
-#
-# flassofit &lt;- fit_flasso(x, survival::Surv(time, event), nfolds = 5, seed = 11)
-# scadfit &lt;- fit_mcp(x, survival::Surv(time, event), nfolds = 5, seed = 11)
-# mnetfit &lt;- fit_snet(x, survival::Surv(time, event), nfolds = 5, seed = 11)
-#
-# val.ext1 &lt;- validate_external(
-#   flassofit, x, time, event,
-#   x_new, time_new, event_new,
-#   tauc.type = "UNO",
-#   tauc.time = seq(0.25, 2, 0.25) * 365)
-#
-# val.ext2 &lt;- validate_external(
-#   scadfit, x, time, event,
-#   x_new, time_new, event_new,
-#   tauc.type = "CD",
-#   tauc.time = seq(0.25, 2, 0.25) * 365)
-#
-# val.ext3 &lt;- validate_external(
-#   mnetfit, x, time, event,
-#   x_new, time_new, event_new,
-#   tauc.type = "SZ",
-#   tauc.time = seq(0.25, 2, 0.25) * 365)
-#
-# print(val.ext1)
-# summary(val.ext1)
-# plot(val.ext1)
-#
-# print(val.ext2)
-# summary(val.ext2)
-# plot(val.ext2)
-#
-# print(val.ext3)
-# summary(val.ext3)
-# plot(val.ext3)
+<span class='co'># # Test fused lasso, MCP, and Snet models</span>
+<span class='co'># data(smart)</span>
+<span class='co'># # Use first 600 samples as training data</span>
+<span class='co'># # (the data used for internal validation)</span>
+<span class='co'># x &lt;- as.matrix(smart[, -c(1, 2)])[1:600, ]</span>
+<span class='co'># time &lt;- smart$TEVENT[1:600]</span>
+<span class='co'># event &lt;- smart$EVENT[1:600]</span>
+<span class='co'>#</span>
+<span class='co'># # Take 500 samples as external validation data.</span>
+<span class='co'># # In practice, usually use data collected in other studies.</span>
+<span class='co'># x_new &lt;- as.matrix(smart[, -c(1, 2)])[1001:1500, ]</span>
+<span class='co'># time_new &lt;- smart$TEVENT[1001:1500]</span>
+<span class='co'># event_new &lt;- smart$EVENT[1001:1500]</span>
+<span class='co'>#</span>
+<span class='co'># flassofit &lt;- fit_flasso(x, survival::Surv(time, event), nfolds = 5, seed = 11)</span>
+<span class='co'># scadfit &lt;- fit_mcp(x, survival::Surv(time, event), nfolds = 5, seed = 11)</span>
+<span class='co'># mnetfit &lt;- fit_snet(x, survival::Surv(time, event), nfolds = 5, seed = 11)</span>
+<span class='co'>#</span>
+<span class='co'># val.ext1 &lt;- validate_external(</span>
+<span class='co'>#   flassofit, x, time, event,</span>
+<span class='co'>#   x_new, time_new, event_new,</span>
+<span class='co'>#   tauc.type = "UNO",</span>
+<span class='co'>#   tauc.time = seq(0.25, 2, 0.25) * 365)</span>
+<span class='co'>#</span>
+<span class='co'># val.ext2 &lt;- validate_external(</span>
+<span class='co'>#   scadfit, x, time, event,</span>
+<span class='co'>#   x_new, time_new, event_new,</span>
+<span class='co'>#   tauc.type = "CD",</span>
+<span class='co'>#   tauc.time = seq(0.25, 2, 0.25) * 365)</span>
+<span class='co'>#</span>
+<span class='co'># val.ext3 &lt;- validate_external(</span>
+<span class='co'>#   mnetfit, x, time, event,</span>
+<span class='co'>#   x_new, time_new, event_new,</span>
+<span class='co'>#   tauc.type = "SZ",</span>
+<span class='co'>#   tauc.time = seq(0.25, 2, 0.25) * 365)</span>
+<span class='co'>#</span>
+<span class='co'># print(val.ext1)</span>
+<span class='co'># summary(val.ext1)</span>
+<span class='co'># plot(val.ext1)</span>
+<span class='co'>#</span>
+<span class='co'># print(val.ext2)</span>
+<span class='co'># summary(val.ext2)</span>
+<span class='co'># plot(val.ext2)</span>
+<span class='co'>#</span>
+<span class='co'># print(val.ext3)</span>
+<span class='co'># summary(val.ext3)</span>
+<span class='co'># plot(val.ext3)</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -305,7 +316,7 @@ regression models.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -8,6 +8,13 @@
 
 <title>Externally calibrate high-dimensional Cox models — calibrate_external • hdnom</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -43,6 +50,7 @@
 
 <meta property="og:title" content="Externally calibrate high-dimensional Cox models — calibrate_external" />
 <meta property="og:description" content="Externally calibrate high-dimensional Cox models" />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -82,7 +90,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -99,7 +107,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/nanxstats/hdnom/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -125,17 +133,17 @@
     <p>Externally calibrate high-dimensional Cox models</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calibrate_external</span>(
-  <span class='no'>object</span>,
-  <span class='no'>x</span>,
-  <span class='no'>time</span>,
-  <span class='no'>event</span>,
-  <span class='no'>x_new</span>,
-  <span class='no'>time_new</span>,
-  <span class='no'>event_new</span>,
-  <span class='no'>pred.at</span>,
-  <span class='kw'>ngroup</span> <span class='kw'>=</span> <span class='fl'>5</span>
-)</pre>
+    <pre class="usage"><span class='fu'>calibrate_external</span><span class='op'>(</span>
+  <span class='va'>object</span>,
+  <span class='va'>x</span>,
+  <span class='va'>time</span>,
+  <span class='va'>event</span>,
+  <span class='va'>x_new</span>,
+  <span class='va'>time_new</span>,
+  <span class='va'>event_new</span>,
+  <span class='va'>pred.at</span>,
+  ngroup <span class='op'>=</span> <span class='fl'>5</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,88 +194,91 @@ Must be of the same length with the number of rows as <code>x_new</code>.</p></t
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='st'>"survival"</span>)
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/therneau/survival'>"survival"</a></span><span class='op'>)</span>
 
 <span class='co'># Load imputed SMART data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>smart</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>smart</span><span class='op'>)</span>
 <span class='co'># Use the first 1000 samples as training data</span>
 <span class='co'># (the data used for internal validation)</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='no'>smart</span>[, -<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>)])[<span class='fl'>1</span>:<span class='fl'>1000</span>, ]
-<span class='no'>time</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>TEVENT</span>[<span class='fl'>1</span>:<span class='fl'>1000</span>]
-<span class='no'>event</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>EVENT</span>[<span class='fl'>1</span>:<span class='fl'>1000</span>]
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>smart</span><span class='op'>[</span>, <span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span>, <span class='op'>]</span>
+<span class='va'>time</span> <span class='op'>&lt;-</span> <span class='va'>smart</span><span class='op'>$</span><span class='va'>TEVENT</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span><span class='op'>]</span>
+<span class='va'>event</span> <span class='op'>&lt;-</span> <span class='va'>smart</span><span class='op'>$</span><span class='va'>EVENT</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>1000</span><span class='op'>]</span>
 
 <span class='co'># Take the next 1000 samples as external calibration data</span>
 <span class='co'># In practice, usually use data collected in other studies</span>
-<span class='no'>x_new</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='no'>smart</span>[, -<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>)])[<span class='fl'>1001</span>:<span class='fl'>2000</span>, ]
-<span class='no'>time_new</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>TEVENT</span>[<span class='fl'>1001</span>:<span class='fl'>2000</span>]
-<span class='no'>event_new</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>EVENT</span>[<span class='fl'>1001</span>:<span class='fl'>2000</span>]
+<span class='va'>x_new</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>smart</span><span class='op'>[</span>, <span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1001</span><span class='op'>:</span><span class='fl'>2000</span>, <span class='op'>]</span>
+<span class='va'>time_new</span> <span class='op'>&lt;-</span> <span class='va'>smart</span><span class='op'>$</span><span class='va'>TEVENT</span><span class='op'>[</span><span class='fl'>1001</span><span class='op'>:</span><span class='fl'>2000</span><span class='op'>]</span>
+<span class='va'>event_new</span> <span class='op'>&lt;-</span> <span class='va'>smart</span><span class='op'>$</span><span class='va'>EVENT</span><span class='op'>[</span><span class='fl'>1001</span><span class='op'>:</span><span class='fl'>2000</span><span class='op'>]</span>
 
 <span class='co'># Fit Cox model with lasso penalty</span>
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fit_lasso.html'>fit_lasso</a></span>(
-  <span class='no'>x</span>, <span class='fu'><a href='https://rdrr.io/pkg/survival/man/Surv.html'>Surv</a></span>(<span class='no'>time</span>, <span class='no'>event</span>),
-  <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>rule</span> <span class='kw'>=</span> <span class='st'>"lambda.1se"</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>11</span>
-)
+<span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='fit_lasso.html'>fit_lasso</a></span><span class='op'>(</span>
+  <span class='va'>x</span>, <span class='fu'><a href='https://rdrr.io/pkg/survival/man/Surv.html'>Surv</a></span><span class='op'>(</span><span class='va'>time</span>, <span class='va'>event</span><span class='op'>)</span>,
+  nfolds <span class='op'>=</span> <span class='fl'>5</span>, rule <span class='op'>=</span> <span class='st'>"lambda.1se"</span>, seed <span class='op'>=</span> <span class='fl'>11</span>
+<span class='op'>)</span>
 
 <span class='co'># External calibration</span>
-<span class='no'>cal.ext</span> <span class='kw'>&lt;-</span> <span class='fu'>calibrate_external</span>(
-  <span class='no'>fit</span>, <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>,
-  <span class='no'>x_new</span>, <span class='no'>time_new</span>, <span class='no'>event_new</span>,
-  <span class='kw'>pred.at</span> <span class='kw'>=</span> <span class='fl'>365</span> * <span class='fl'>5</span>, <span class='kw'>ngroup</span> <span class='kw'>=</span> <span class='fl'>5</span>
-)
+<span class='va'>cal.ext</span> <span class='op'>&lt;-</span> <span class='fu'>calibrate_external</span><span class='op'>(</span>
+  <span class='va'>fit</span>, <span class='va'>x</span>, <span class='va'>time</span>, <span class='va'>event</span>,
+  <span class='va'>x_new</span>, <span class='va'>time_new</span>, <span class='va'>event_new</span>,
+  pred.at <span class='op'>=</span> <span class='fl'>365</span> <span class='op'>*</span> <span class='fl'>5</span>, ngroup <span class='op'>=</span> <span class='fl'>5</span>
+<span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>cal.ext</span>)</div><div class='output co'>#&gt; High-Dimensional Cox Model External Calibration Object
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>cal.ext</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; High-Dimensional Cox Model External Calibration Object
 #&gt; Model type: lasso 
 #&gt; Calibration time point: 1825 
-#&gt; Number of groups formed for calibration: 5 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>cal.ext</span>)</div><div class='output co'>#&gt;   External Calibration Summary Table
+#&gt; Number of groups formed for calibration: 5 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>cal.ext</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   External Calibration Summary Table
 #&gt;   Predicted  Observed Lower 95% Upper 95%
 #&gt; 1 0.7636781 0.6778444 0.6118535 0.7509528
 #&gt; 2 0.8292888 0.8558495 0.8064183 0.9083108
 #&gt; 3 0.8622023 0.8743564 0.8281000 0.9231966
 #&gt; 4 0.8851549 0.9169032 0.8785888 0.9568884
-#&gt; 5 0.9084455 0.9429391 0.9085910 0.9785858</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>cal.ext</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.6</span>, <span class='fl'>1</span>), <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.6</span>, <span class='fl'>1</span>))</div><div class='img'><img src='calibrate_external-1.png' alt='' width='700' height='433' /></div><div class='input'># # Test fused lasso, MCP, and Snet models
-# data(smart)
-# # Use first 500 samples as training data
-# # (the data used for internal validation)
-# x &lt;- as.matrix(smart[, -c(1, 2)])[1:500, ]
-# time &lt;- smart$TEVENT[1:500]
-# event &lt;- smart$EVENT[1:500]
-#
-# # Take 1000 samples as external validation data.
-# # In practice, usually use data collected in other studies.
-# x_new &lt;- as.matrix(smart[, -c(1, 2)])[1001:2000, ]
-# time_new &lt;- smart$TEVENT[1001:2000]
-# event_new &lt;- smart$EVENT[1001:2000]
-#
-# flassofit &lt;- fit_flasso(x, survival::Surv(time, event), nfolds = 5, seed = 11)
-# scadfit &lt;- fit_mcp(x, survival::Surv(time, event), nfolds = 5, seed = 11)
-# mnetfit &lt;- fit_snet(x, survival::Surv(time, event), nfolds = 5, seed = 11)
-#
-# cal.ext1 &lt;- calibrate_external(
-#   flassofit, x, time, event,
-#   x_new, time_new, event_new,
-#   pred.at = 365 * 5, ngroup = 5)
-#
-# cal.ext2 &lt;- calibrate_external(
-#   scadfit, x, time, event,
-#   x_new, time_new, event_new,
-#   pred.at = 365 * 5, ngroup = 5)
-#
-# cal.ext3 &lt;- calibrate_external(
-#   mnetfit, x, time, event,
-#   x_new, time_new, event_new,
-#   pred.at = 365 * 5, ngroup = 5)
-#
-# print(cal.ext1)
-# summary(cal.ext1)
-# plot(cal.ext1)
-#
-# print(cal.ext2)
-# summary(cal.ext2)
-# plot(cal.ext2)
-#
-# print(cal.ext3)
-# summary(cal.ext3)
-# plot(cal.ext3)
+#&gt; 5 0.9084455 0.9429391 0.9085910 0.9785858</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>cal.ext</span>, xlim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.6</span>, <span class='fl'>1</span><span class='op'>)</span>, ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.6</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='calibrate_external-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># # Test fused lasso, MCP, and Snet models</span>
+<span class='co'># data(smart)</span>
+<span class='co'># # Use first 500 samples as training data</span>
+<span class='co'># # (the data used for internal validation)</span>
+<span class='co'># x &lt;- as.matrix(smart[, -c(1, 2)])[1:500, ]</span>
+<span class='co'># time &lt;- smart$TEVENT[1:500]</span>
+<span class='co'># event &lt;- smart$EVENT[1:500]</span>
+<span class='co'>#</span>
+<span class='co'># # Take 1000 samples as external validation data.</span>
+<span class='co'># # In practice, usually use data collected in other studies.</span>
+<span class='co'># x_new &lt;- as.matrix(smart[, -c(1, 2)])[1001:2000, ]</span>
+<span class='co'># time_new &lt;- smart$TEVENT[1001:2000]</span>
+<span class='co'># event_new &lt;- smart$EVENT[1001:2000]</span>
+<span class='co'>#</span>
+<span class='co'># flassofit &lt;- fit_flasso(x, survival::Surv(time, event), nfolds = 5, seed = 11)</span>
+<span class='co'># scadfit &lt;- fit_mcp(x, survival::Surv(time, event), nfolds = 5, seed = 11)</span>
+<span class='co'># mnetfit &lt;- fit_snet(x, survival::Surv(time, event), nfolds = 5, seed = 11)</span>
+<span class='co'>#</span>
+<span class='co'># cal.ext1 &lt;- calibrate_external(</span>
+<span class='co'>#   flassofit, x, time, event,</span>
+<span class='co'>#   x_new, time_new, event_new,</span>
+<span class='co'>#   pred.at = 365 * 5, ngroup = 5)</span>
+<span class='co'>#</span>
+<span class='co'># cal.ext2 &lt;- calibrate_external(</span>
+<span class='co'>#   scadfit, x, time, event,</span>
+<span class='co'>#   x_new, time_new, event_new,</span>
+<span class='co'>#   pred.at = 365 * 5, ngroup = 5)</span>
+<span class='co'>#</span>
+<span class='co'># cal.ext3 &lt;- calibrate_external(</span>
+<span class='co'>#   mnetfit, x, time, event,</span>
+<span class='co'>#   x_new, time_new, event_new,</span>
+<span class='co'>#   pred.at = 365 * 5, ngroup = 5)</span>
+<span class='co'>#</span>
+<span class='co'># print(cal.ext1)</span>
+<span class='co'># summary(cal.ext1)</span>
+<span class='co'># plot(cal.ext1)</span>
+<span class='co'>#</span>
+<span class='co'># print(cal.ext2)</span>
+<span class='co'># summary(cal.ext2)</span>
+<span class='co'># plot(cal.ext2)</span>
+<span class='co'>#</span>
+<span class='co'># print(cal.ext3)</span>
+<span class='co'># summary(cal.ext3)</span>
+<span class='co'># plot(cal.ext3)</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -284,7 +295,7 @@ Must be of the same length with the number of rows as <code>x_new</code>.</p></t
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

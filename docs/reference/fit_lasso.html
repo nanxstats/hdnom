@@ -8,6 +8,13 @@
 
 <title>Model selection for high-dimensional Cox models with lasso penalty — fit_lasso • hdnom</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -44,6 +51,7 @@
 <meta property="og:title" content="Model selection for high-dimensional Cox models with lasso penalty — fit_lasso" />
 <meta property="og:description" content="Automatic model selection for high-dimensional Cox models
 with lasso penalty, evaluated by penalized partial-likelihood." />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -83,7 +91,7 @@ with lasso penalty, evaluated by penalized partial-likelihood." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,7 +108,7 @@ with lasso penalty, evaluated by penalized partial-likelihood." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/nanxstats/hdnom/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -127,7 +135,7 @@ with lasso penalty, evaluated by penalized partial-likelihood." />
 with lasso penalty, evaluated by penalized partial-likelihood.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>fit_lasso</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5L</span>, <span class='kw'>rule</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lambda.min"</span>, <span class='st'>"lambda.1se"</span>), <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>1001</span>)</pre>
+    <pre class="usage"><span class='fu'>fit_lasso</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, nfolds <span class='op'>=</span> <span class='fl'>5L</span>, rule <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"lambda.min"</span>, <span class='st'>"lambda.1se"</span><span class='op'>)</span>, seed <span class='op'>=</span> <span class='fl'>1001</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -147,7 +155,7 @@ with lasso penalty, evaluated by penalized partial-likelihood.</p>
     <tr>
       <th>rule</th>
       <td><p>Model selection criterion, <code>"lambda.min"</code> or
-<code>"lambda.1se"</code>. See <code><a href='https://rdrr.io/pkg/glmnet/man/cv.glmnet.html'>cv.glmnet</a></code>
+<code>"lambda.1se"</code>. See <code><a href='https://glmnet.stanford.edu/reference/cv.glmnet.html'>cv.glmnet</a></code>
 for details.</p></td>
     </tr>
     <tr>
@@ -158,21 +166,22 @@ for details.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"smart"</span>)
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='no'>smart</span>[, -<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>)])
-<span class='no'>time</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>TEVENT</span>
-<span class='no'>event</span> <span class='kw'>&lt;-</span> <span class='no'>smart</span>$<span class='no'>EVENT</span>
-<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>survival</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/survival/man/Surv.html'>Surv</a></span>(<span class='no'>time</span>, <span class='no'>event</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"smart"</span><span class='op'>)</span>
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>smart</span><span class='op'>[</span>, <span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span>
+<span class='va'>time</span> <span class='op'>&lt;-</span> <span class='va'>smart</span><span class='op'>$</span><span class='va'>TEVENT</span>
+<span class='va'>event</span> <span class='op'>&lt;-</span> <span class='va'>smart</span><span class='op'>$</span><span class='va'>EVENT</span>
+<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'>survival</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/survival/man/Surv.html'>Surv</a></span><span class='op'>(</span><span class='va'>time</span>, <span class='va'>event</span><span class='op'>)</span>
 
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>fit_lasso</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>nfolds</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>rule</span> <span class='kw'>=</span> <span class='st'>"lambda.1se"</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>11</span>)
+<span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'>fit_lasso</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, nfolds <span class='op'>=</span> <span class='fl'>5</span>, rule <span class='op'>=</span> <span class='st'>"lambda.1se"</span>, seed <span class='op'>=</span> <span class='fl'>11</span><span class='op'>)</span>
 
-<span class='no'>nom</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='as_nomogram.html'>as_nomogram</a></span>(
-  <span class='no'>fit</span>, <span class='no'>x</span>, <span class='no'>time</span>, <span class='no'>event</span>,
-  <span class='kw'>pred.at</span> <span class='kw'>=</span> <span class='fl'>365</span> * <span class='fl'>2</span>,
-  <span class='kw'>funlabel</span> <span class='kw'>=</span> <span class='st'>"2-Year Overall Survival Probability"</span>
-)
+<span class='va'>nom</span> <span class='op'>&lt;-</span> <span class='fu'><a href='as_nomogram.html'>as_nomogram</a></span><span class='op'>(</span>
+  <span class='va'>fit</span>, <span class='va'>x</span>, <span class='va'>time</span>, <span class='va'>event</span>,
+  pred.at <span class='op'>=</span> <span class='fl'>365</span> <span class='op'>*</span> <span class='fl'>2</span>,
+  funlabel <span class='op'>=</span> <span class='st'>"2-Year Overall Survival Probability"</span>
+<span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>nom</span>)</div><div class='img'><img src='fit_lasso-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>nom</span><span class='op'>)</span>
+</div><div class='img'><img src='fit_lasso-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -188,7 +197,7 @@ for details.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
