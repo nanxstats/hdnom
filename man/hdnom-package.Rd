@@ -6,6 +6,8 @@
 \alias{hdnom-package}
 \title{hdnom: Benchmarking and Visualization Toolkit for Penalized Cox Models}
 \description{
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+
 Creates nomogram visualizations for penalized Cox regression
     models, with the support of reproducible survival model building,
     validation, calibration, and comparison for high-dimensional data.
