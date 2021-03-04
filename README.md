@@ -1,7 +1,5 @@
 # hdnom  <a href="https://nanx.me/hdnom/"><img src="man/figures/logo.png" align="right" height="180" /></a>
 
-[![Build Status](https://travis-ci.org/nanxstats/hdnom.svg?branch=master)](https://travis-ci.org/nanxstats/hdnom)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/nanxstats/hdnom?branch=master&svg=true)](https://ci.appveyor.com/project/nanxstats/hdnom)
 [![CRAN Version](https://www.r-pkg.org/badges/version/hdnom)](https://cran.r-project.org/package=hdnom)
 [![Downloads from the RStudio CRAN mirror](https://cranlogs.r-pkg.org/badges/hdnom)](https://cranlogs.r-pkg.org/badges/hdnom)
 
