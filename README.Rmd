@@ -1,0 +1,188 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::knit_hooks$set(optipng = knitr::hook_optipng)
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%",
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  optipng = "-o1"
+)
+```
+
+# hdnom <a href="https://nanx.me/hdnom/"><img src="man/figures/logo.png" align="right" height="180" /></a>
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/nanxstats/hdnom/workflows/R-CMD-check/badge.svg)](https://github.com/nanxstats/hdnom/actions)
+[![CRAN Version](https://www.r-pkg.org/badges/version/hdnom)](https://cran.r-project.org/package=hdnom)
+[![Downloads from the RStudio CRAN mirror](https://cranlogs.r-pkg.org/badges/hdnom)](https://cranlogs.r-pkg.org/badges/hdnom)
+<!-- badges: end -->
+
+`hdnom` creates nomogram visualizations for penalized Cox regression models, with the support of reproducible survival model building, validation, calibration, and comparison for high-dimensional data.
+
+## Installation
+
+You can install `hdnom` from CRAN:
+
+```r
+install.packages("hdnom")
+```
+
+Or try the development version on GitHub:
+
+```r
+remotes::install_github("nanxstats/hdnom")
+```
+
+Browse [the vignettes](https://nanx.me/hdnom/articles/) to get started.
+
+## Gallery
+
+### Nomogram
+
+```{r, nomogram, fig.width=10, fig.height=6, dpi=227}
+library("hdnom")
+library("survival")
+library("gridExtra")
+library("cowplot")
+library("ggplot2")
+
+data(smart)
+
+x <- as.matrix(smart[, -c(1, 2)])
+time <- smart$TEVENT
+event <- smart$EVENT
+y <- Surv(time, event)
+
+# Fit penalized Cox model with lasso penalty
+lassofit <- fit_lasso(x, y, nfolds = 10, rule = "lambda.1se", seed = 11)
+
+# Plot nomogram
+nom <- as_nomogram(
+  lassofit, x, time, event,
+  pred.at = 365 * 2,
+  funlabel = "2-Year Overall Survival Probability"
+)
+
+plot(nom)
+```
+
+### Kaplan-Meier plot with number at risk table
+
+```{r, kmplot, fig.width=10, fig.height=6, dpi=227}
+# Internal calibration
+cal.int <- calibrate(
+  x, time, event,
+  model.type = "lasso",
+  alpha = 1, lambda = lassofit$"lambda",
+  method = "repeated.cv", nfolds = 10, rep.times = 20,
+  pred.at = 365 * 9, ngroup = 3,
+  trace = FALSE
+)
+
+kmplot(
+  cal.int,
+  group.name = c("High risk", "Medium risk", "Low risk"),
+  time.at = 1:8 * 365
+)
+```
+
+### Model validation and calibration
+
+```{r, model-validation-calibration, fig.width=15, fig.height=6, dpi=227}
+x <- as.matrix(smart[, -c(1, 2)])[1:500, ]
+time <- smart$TEVENT[1:500]
+event <- smart$EVENT[1:500]
+y <- Surv(time, event)
+
+# Fit penalized Cox model
+lassofit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+
+# Model validation by repeated cross-validation with time-dependent AUC
+val.repcv <- validate(
+  x, time, event,
+  model.type = "lasso",
+  alpha = 1, lambda = lassofit$"lambda",
+  method = "repeated.cv", nfolds = 5, rep.times = 20,
+  tauc.type = "UNO", tauc.time = seq(0.5, 2, 0.25) * 365,
+  seed = 1010,
+  trace = FALSE
+)
+
+# Model calibration by repeated cross-validation
+cal.repcv <- calibrate(
+  x, time, event,
+  model.type = "lasso",
+  alpha = 1, lambda = lassofit$"lambda",
+  method = "repeated.cv", nfolds = 10, rep.times = 20,
+  pred.at = 365 * 9, ngroup = 5,
+  seed = 1010,
+  trace = FALSE
+)
+
+invisible(capture.output(
+  p1 <- plot(val.repcv, ylim = c(0.3, 0.9)) +
+    theme_cowplot()
+))
+invisible(capture.output(
+  p2 <- plot(cal.repcv) +
+    theme_cowplot()
+))
+
+grid.arrange(p1, p2, ncol = 2)
+```
+
+### Model comparison by validation or calibration
+
+```{r, model-comparison, fig.width=15, fig.height=6, dpi=227}
+# Compare lasso and adaptive lasso by 5-fold cross-validation
+cmp.val.cv <- compare_by_validate(
+  x, time, event,
+  model.type = c("lasso", "alasso"),
+  method = "repeated.cv", nfolds = 10, rep.times = 20,
+  tauc.type = "UNO",
+  tauc.time = seq(1, 4, 0.5) * 365, seed = 1001,
+  trace = FALSE
+)
+
+# Compare lasso and adaptive lasso by 5-fold cross-validation
+cmp.cal.cv <- compare_by_calibrate(
+  x, time, event,
+  model.type = c("lasso", "alasso"),
+  method = "fitting",
+  pred.at = 365 * 9, ngroup = 5, seed = 1001,
+  trace = FALSE
+)
+
+invisible(capture.output(
+  p3 <- plot(cmp.val.cv, interval = TRUE) +
+    theme_cowplot() +
+    theme(legend.position = "bottom")
+))
+invisible(capture.output(
+  p4 <- plot(cmp.cal.cv) +
+    theme_cowplot() +
+    theme(legend.position = "bottom")
+))
+
+grid.arrange(p3, p4, ncol = 2)
+```
+
+## Links
+
+- Documentation: [https://nanx.me/hdnom/](https://nanx.me/hdnom/)
+- Shiny app: [http://hdnom.io](http://hdnom.io)
+- App maker: [https://github.com/nanxstats/hdnom-appmaker](https://github.com/nanxstats/hdnom-appmaker)
+
+## Contribute
+
+To contribute to this project, please take a look at the [Contributing Guidelines](https://github.com/nanxstats/hdnom/blob/master/CONTRIBUTING.md) first. Please note that this project is released with a [Contributor Code of Conduct](https://github.com/nanxstats/hdnom/blob/master/CONDUCT.md). By participating in this project you agree to abide by its terms.
