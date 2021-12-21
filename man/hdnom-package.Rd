@@ -8,9 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
-Creates nomogram visualizations for penalized Cox regression
-    models, with the support of reproducible survival model building,
-    validation, calibration, and comparison for high-dimensional data.
+Creates nomogram visualizations for penalized Cox regression models, with the support of reproducible survival model building, validation, calibration, and comparison for high-dimensional data.
 }
 \seealso{
 Useful links:

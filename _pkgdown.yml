@@ -1,5 +1,10 @@
+url: https://nanx.me/hdnom/
+
+template:
+  bootstrap: 5
+
 reference:
-  - title: "Building Cox Models"
+  - title: "Building Cox models"
     desc: "Functions for building penalized Cox models."
     contents:
       - fit_lasso
@@ -14,7 +19,7 @@ reference:
       - print.hdnom.model
       - predict.hdnom.model
       - infer_variable_type
-  - title: "Nomogram Visualization"
+  - title: "Nomogram visualization"
     desc: >
       Functions for nomogram visualization of the penalized
       Cox models
@@ -22,7 +27,7 @@ reference:
       - as_nomogram
       - print.hdnom.nomogram
       - plot.hdnom.nomogram
-  - title: "Model Validation"
+  - title: "Model validation"
     desc: >
       Functions for model validation using bootstrap,
       k-fold cross-validation, and repeated k-fold cross-validation.
@@ -36,7 +41,7 @@ reference:
       - print.hdnom.validate.external
       - summary.hdnom.validate.external
       - plot.hdnom.validate.external
-  - title: "Model Calibration"
+  - title: "Model calibration"
     desc: >
       Functions for model calibration using direct fitting,
       bootstrap resampling, k-fold cross-validation, and
@@ -52,7 +57,7 @@ reference:
       - plot.hdnom.calibrate.external
       - kmplot
       - logrank_test
-  - title: "Model Comparison"
+  - title: "Model comparison"
     desc: >
       Functions for model comparison in terms of validation and
       calibration performance.

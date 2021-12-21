@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# hdnom <a href="https://nanx.me/hdnom/"><img src="man/figures/logo.png" align="right" height="180" /></a>
+# hdnom <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/nanxstats/hdnom/workflows/R-CMD-check/badge.svg)](https://github.com/nanxstats/hdnom/actions)

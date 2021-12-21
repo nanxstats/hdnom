@@ -5,7 +5,7 @@ output:
     toc: true
     toc_float: true
     toc_depth: 4
-    number_sections: true
+    number_sections: false
     highlight: "textmate"
     css: "custom.css"
 vignette: >
@@ -13,7 +13,14 @@ vignette: >
   %\VignetteIndexEntry{An Introduction to hdnom}
 ---
 
-# Introduction
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE
+)
+```
+
+## Introduction
 
 It is a challenging task to model the emerging high-dimensional clinical
 data with survival outcomes.
@@ -23,7 +30,7 @@ useful for accomplishing such tasks.
 `hdnom` streamlines the workflow of high-dimensional Cox model building,
 nomogram plotting, model validation, calibration, and comparison.
 
-# Build Survival Models
+## Build survival models
 
 To build a penalized Cox model with good predictive performance,
 some parameter tuning is usually needed.
@@ -104,7 +111,7 @@ the model fitted for each estimation step, and the penalty factor for the model
 coefficients in the second estimation step are all stored in the model object
 `fit`.
 
-# Nomogram Visualization
+## Nomogram visualization
 
 Before plotting the nomogram, we need to extract some necessary information
 about the model: the model object and the selected hyperparameters:
@@ -135,7 +142,7 @@ Information about the nomogram itself, such as the point-linear predictor
 unit mapping and total points-survival probability mapping, can be viewed
 by printing the `nom` object directly.
 
-# Model Validation
+## Model validation
 
 It is a common practice to utilize resampling-based methods to validate the
 predictive performance of a penalized Cox model.
@@ -149,7 +156,7 @@ with the above resampling-based methods, while external validation
 evaluates the model's predictive performance on a dataset which is
 independent to the dataset used in model building.
 
-## Internal Validation
+### Internal validation
 
 `validate()` allows us to assess the model performance internally by
 time-dependent AUC (Area Under the ROC Curve) with the above three
@@ -201,7 +208,7 @@ similar results as $k$-fold cross-validation, and usually more robust.
 These two methods are more applied by the machine learning community.
 Check `?hdnom::validate` for more examples about internal model validation.
 
-## External Validation
+### External validation
 
 Now we have the internally validated model. To perform external validation,
 we usually need an independent dataset (preferably, collected in other studies),
@@ -232,7 +239,7 @@ plot(val_ext)
 
 The time-dependent AUC on the external dataset is shown above.
 
-# Model Calibration
+## Model calibration
 
 Measuring how far the model predictions are from actual survival outcomes
 is known as _calibration_. Calibration can be assessed by plotting the
@@ -240,7 +247,7 @@ predicted probabilities from the model versus actual survival probabilities.
 Similar to model validation, both internal model calibration and
 external model calibration are supported in `hdnom`.
 
-## Internal Calibration
+### Internal calibration
 
 `calibrate()` provides non-resampling and resampling
 methods for internal model calibration, including direct fitting,
@@ -279,7 +286,7 @@ In practice, you may want to perform calibration for multiple time points
 separately, and put the plots together in one figure.
 See `?hdnom::calibrate` for more examples about internal model calibration.
 
-## External Calibration
+### External calibration
 
 To perform external calibration with an external dataset, use `calibrate_external()`:
 
@@ -299,7 +306,7 @@ The external calibration results have the similar interpretations as the
 internal calibration results, except the fact that external calibration
 is performed on the external dataset.
 
-## Kaplan-Meier Analysis for Risk Groups
+### Kaplan-Meier analysis for risk groups
 
 Internal calibration and external calibration both classify the testing set
 into different risk groups. For internal calibration, the testing set means
@@ -328,7 +335,7 @@ kmplot(
 
 The $p$-value of the log-rank test is also shown in the plot.
 
-## Log-Rank Test for Risk Groups
+### Log-rank test for risk groups
 
 To compare the differences between the survival curves, log-rank test
 is often applied. `logrank_test()` performs such tests on the internal
@@ -348,13 +355,13 @@ The exact $p$-values for log-rank tests are stored as `cal_int_logrank$pval`
 and `cal_ext_logrank$pval`. Here $p < 0.001$ indicates significant differences
 between the survival curves for different risk groups.
 
-# Model Comparison
+## Model comparison
 
 Given all the available model types, it is a natural question to ask: which type
 of model performs the best for my data? Such questions about model type
 selection can be answered by built-in model comparison functions in `hdnom`.
 
-## Model Comparison by Validation
+### Model comparison by validation
 
 We can compare the model performance using time-dependent AUC by
 the same (internal) model validation approach as before.
@@ -388,7 +395,7 @@ design so you do not have to set the parameters for each model type manually.
 The functions will try to determine the best parameter settings
 automatically for each model type to achieve the best performance.
 
-## Model Comparison by Calibration
+### Model comparison by calibration
 
 We can compare the models by comparing their (internal) model calibration
 performance. To continue the example, we split the samples into five risk 
@@ -414,7 +421,7 @@ in this case, since their predicted overall survival probabilities are
 both close to the observed survival probabilities in a similar degree.
 Adaptive lasso seems to be slightly more stable than lasso in calibration.
 
-# Prediction on New Data
+## Prediction on new data
 
 To predict the overall survival probability on certain time points for 
 new samples with the established models, simply use `predict()` on
@@ -428,7 +435,7 @@ survival probability from one year to ten years:
 predict(fit, x, y, newx = x[101:105, ], pred.at = 1:10 * 365)
 ```
 
-# Customize Color Palette
+## Customize color palette
 
 The `hdnom` package has 4 unique built-in color palettes available for
 all above plots, inspired by the colors commonly used by scientific journals.
@@ -449,6 +456,6 @@ Possible values for this argument are listed in the table below:
 
 By default, `hdnom` will use the JCO color palette (`col.pal = "JCO"`).
 
-# Shiny app
+## Shiny app
 
 [http://hdnom.io](http://hdnom.io)

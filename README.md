@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# hdnom <a href="https://nanx.me/hdnom/"><img src="man/figures/logo.png" align="right" height="180" /></a>
+# hdnom <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
 
