@@ -1,6 +1,5 @@
 #' Compute external validation measures for glmnet objects
 #'
-#' @importFrom survAUC AUC.cd AUC.sh AUC.uno
 #' @importFrom glmnet glmnet
 #' @importFrom survival Surv
 #'
@@ -47,7 +46,6 @@ glmnet_validate_external_tauc <- function(
 
 #' Compute external validation measures for ncvreg model objects
 #'
-#' @importFrom survAUC AUC.cd AUC.sh AUC.uno
 #' @importFrom survival Surv
 #'
 #' @return time-dependent AUC (tAUC) value
@@ -93,7 +91,6 @@ ncvreg_validate_external_tauc <- function(
 
 #' Compute external validation measures for penfit model objects
 #'
-#' @importFrom survAUC AUC.cd AUC.sh AUC.uno
 #' @importFrom penalized penalized
 #' @importFrom survival Surv
 #'

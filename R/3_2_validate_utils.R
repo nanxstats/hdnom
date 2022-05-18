@@ -1,6 +1,5 @@
 #' Compute validation measures for glmnet objects
 #'
-#' @importFrom survAUC AUC.cd AUC.sh AUC.uno
 #' @importFrom glmnet glmnet
 #' @importFrom survival Surv
 #'
@@ -61,7 +60,6 @@ glmnet_validate_tauc <- function(
 
 #' Compute validation measures for ncvreg model objects
 #'
-#' @importFrom survAUC AUC.cd AUC.sh AUC.uno
 #' @importFrom ncvreg ncvsurv
 #' @importFrom survival Surv
 #'
@@ -141,7 +139,6 @@ ncvreg_validate_tauc <- function(
 
 #' Compute validation measures for penfit model objects
 #'
-#' @importFrom survAUC AUC.cd AUC.sh AUC.uno
 #' @importFrom penalized penalized
 #' @importFrom survival Surv
 #'

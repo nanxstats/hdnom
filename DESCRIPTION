@@ -25,7 +25,6 @@ Imports:
     penalized,
     ncvreg,
     foreach,
-    survAUC,
     ggplot2,
     gridExtra
 Suggests:
