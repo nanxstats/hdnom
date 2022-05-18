@@ -7,7 +7,10 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-0250-5673")),
     person("Qing-Song", "Xu", email = "qsxu@csu.edu.cn", role = c("aut")),
     person("Miao-Zhu", "Li", email = "miaozhu.li@duke.edu", role = c("aut")),
-    person("Frank", "Harrell", email = "f.harrell@vanderbilt.edu", role = c("ctb"))
+    person("Frank", "Harrell", email = "f.harrell@vanderbilt.edu", role = c("ctb"), comment = "rms author"),
+    person("Sergej", "Potapov", role = c("ctb"), comment = "survAUC author"),
+    person("Werner", "Adler", role = c("ctb"), comment = "survAUC author"),
+    person("Matthias", "Schmid", role = c("ctb"), comment = "survAUC author")
     )
 Description: Creates nomogram visualizations for penalized Cox regression
     models, with the support of reproducible survival model building,

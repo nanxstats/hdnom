@@ -30,7 +30,10 @@ Authors:
 
 Other contributors:
 \itemize{
-  \item Frank Harrell \email{f.harrell@vanderbilt.edu} [contributor]
+  \item Frank Harrell \email{f.harrell@vanderbilt.edu} (rms author) [contributor]
+  \item Sergej Potapov (survAUC author) [contributor]
+  \item Werner Adler (survAUC author) [contributor]
+  \item Matthias Schmid (survAUC author) [contributor]
 }
 
 }
