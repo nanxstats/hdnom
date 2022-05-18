@@ -8,7 +8,7 @@ citEntry(
   author = "Nan Xiao and Qing-Song Xu and Miao-Zhu Li",
   doi = "10.1101/065524",
   publisher = "Cold Spring Harbor Labs Journals",
-  URL = "https://www.biorxiv.org/content/early/2016/08/23/065524",
-  eprint = "https://www.biorxiv.org/content/biorxiv/early/2016/08/23/065524.full.pdf",
+  URL = "https://www.biorxiv.org/content/10.1101/065524v1",
+  eprint = "https://www.biorxiv.org/content/10.1101/065524v1.full.pdf",
   textVersion = "Nan Xiao, Qing-Song Xu, and Miao-Zhu Li. (2016). hdnom: Building Nomograms for Penalized Cox Models with High-Dimensional Survival Data. bioRxiv, 065524."
 )
