@@ -50,11 +50,10 @@ Browse [the vignettes](https://nanx.me/hdnom/articles/) to get started.
 
 <img src="man/figures/README-model-comparison-1.png" width="100%" />
 
-## Links
+## Shiny app
 
--   Documentation: <https://nanx.me/hdnom/>
--   Shiny app: <http://hdnom.io>
--   App maker: <https://github.com/nanxstats/hdnom-appmaker>
+-   Shiny app: <https://github.com/nanxstats/hdnom-app>
+-   Shiny app maker: <https://github.com/nanxstats/hdnom-appmaker>
 
 ## Contribute
 

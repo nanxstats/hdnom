@@ -177,11 +177,10 @@ invisible(capture.output(
 grid.arrange(p3, p4, ncol = 2)
 ```
 
-## Links
+## Shiny app
 
-- Documentation: [https://nanx.me/hdnom/](https://nanx.me/hdnom/)
-- Shiny app: [http://hdnom.io](http://hdnom.io)
-- App maker: [https://github.com/nanxstats/hdnom-appmaker](https://github.com/nanxstats/hdnom-appmaker)
+- Shiny app: <https://github.com/nanxstats/hdnom-app>
+- Shiny app maker: <https://github.com/nanxstats/hdnom-appmaker>
 
 ## Contribute
 

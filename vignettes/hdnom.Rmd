@@ -458,4 +458,4 @@ By default, `hdnom` will use the JCO color palette (`col.pal = "JCO"`).
 
 ## Shiny app
 
-[http://hdnom.io](http://hdnom.io)
+<https://github.com/nanxstats/hdnom-app>

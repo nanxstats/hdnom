@@ -85,7 +85,7 @@ substantially higher value (5e+4).
 ## Improvements
 
 - Added Windows continuous integration using AppVeyor.
-- New website design for project website: consistent with the web application hdnom.io.
+- New website design for project website: consistent with the web application.
 
 # hdnom 4.0 (2016-07-05)
 
@@ -154,7 +154,7 @@ substantially higher value (5e+4).
 ## New Features
 
 - New documentation website.
-- New Shiny web application (http://hdnom.io).
+- New Shiny web application.
 
 ## Improvements
 
