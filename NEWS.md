@@ -1,3 +1,12 @@
+# hdnom 6.0.2
+
+## Improvements
+
+- Use all samples instead of a much smaller set of samples in some code examples
+  as a temporary fix for reverse dependency check errors which result in the
+  null model. A proper fix will involve updating the logic to use `ncvsurv()`
+  in a pathwise manner instead of with a single value of lambda.
+
 # hdnom 6.0.1
 
 ## Improvements
