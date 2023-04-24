@@ -44,10 +44,11 @@ Automatic model selection for high-dimensional Cox models
 with MCP penalty, evaluated by penalized partial-likelihood.
 }
 \examples{
+\donttest{
 data("smart")
-x <- as.matrix(smart[, -c(1, 2)])[1:150, ]
-time <- smart$TEVENT[1:150]
-event <- smart$EVENT[1:150]
+x <- as.matrix(smart[, -c(1, 2)])
+time <- smart$TEVENT
+event <- smart$EVENT
 y <- survival::Surv(time, event)
 
 fit <- fit_mcp(x, y, nfolds = 3, gammas = c(2.1, 3), seed = 1001)
@@ -59,4 +60,5 @@ nom <- as_nomogram(
 )
 
 plot(nom)
+}
 }

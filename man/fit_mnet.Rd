@@ -47,16 +47,17 @@ Automatic model selection for high-dimensional Cox models
 with Mnet penalty, evaluated by penalized partial-likelihood.
 }
 \examples{
+\donttest{
 data("smart")
-x <- as.matrix(smart[, -c(1, 2)])[1:120, ]
-time <- smart$TEVENT[1:120]
-event <- smart$EVENT[1:120]
+x <- as.matrix(smart[, -c(1, 2)])
+time <- smart$TEVENT
+event <- smart$EVENT
 y <- survival::Surv(time, event)
 
 fit <- fit_mnet(
   x, y,
   nfolds = 3,
-  gammas = 3, alphas = c(0.3, 0.8),
+  gammas = 3, alphas = c(0.3, 0.6, 0.9),
   max.iter = 15000, seed = 1010
 )
 
@@ -67,4 +68,5 @@ nom <- as_nomogram(
 )
 
 plot(nom)
+}
 }

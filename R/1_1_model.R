@@ -30,9 +30,9 @@
 #'
 #' plot(nom)
 fit_lasso <- function(
-  x, y, nfolds = 5L,
-  rule = c("lambda.min", "lambda.1se"),
-  seed = 1001) {
+    x, y, nfolds = 5L,
+    rule = c("lambda.min", "lambda.1se"),
+    seed = 1001) {
   call <- match.call()
   rule <- match.arg(rule)
 
@@ -100,9 +100,9 @@ fit_lasso <- function(
 #'
 #' plot(nom)
 fit_alasso <- function(
-  x, y, nfolds = 5L,
-  rule = c("lambda.min", "lambda.1se"),
-  seed = c(1001, 1002)) {
+    x, y, nfolds = 5L,
+    rule = c("lambda.min", "lambda.1se"),
+    seed = c(1001, 1002)) {
   call <- match.call()
   rule <- match.arg(rule)
 
@@ -216,9 +216,9 @@ fit_alasso <- function(
 #'
 #' plot(nom)
 fit_enet <- function(
-  x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
-  rule = c("lambda.min", "lambda.1se"),
-  seed = 1001, parallel = FALSE) {
+    x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
+    rule = c("lambda.min", "lambda.1se"),
+    seed = 1001, parallel = FALSE) {
   call <- match.call()
   rule <- match.arg(rule)
 
@@ -310,10 +310,10 @@ fit_enet <- function(
 #'
 #' plot(nom)
 fit_aenet <- function(
-  x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
-  rule = c("lambda.min", "lambda.1se"),
-  seed = c(1001, 1002),
-  parallel = FALSE) {
+    x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
+    rule = c("lambda.min", "lambda.1se"),
+    seed = c(1001, 1002),
+    parallel = FALSE) {
   call <- match.call()
   rule <- match.arg(rule)
 
@@ -422,10 +422,11 @@ fit_aenet <- function(
 #' @export fit_scad
 #'
 #' @examples
+#' \donttest{
 #' data("smart")
-#' x <- as.matrix(smart[, -c(1, 2)])[1:120, ]
-#' time <- smart$TEVENT[1:120]
-#' event <- smart$EVENT[1:120]
+#' x <- as.matrix(smart[, -c(1, 2)])
+#' time <- smart$TEVENT
+#' event <- smart$EVENT
 #' y <- survival::Surv(time, event)
 #'
 #' fit <- fit_scad(
@@ -441,11 +442,12 @@ fit_aenet <- function(
 #' )
 #'
 #' plot(nom)
+#' }
 fit_scad <- function(
-  x, y, nfolds = 5L,
-  gammas = c(2.01, 2.3, 3.7, 200),
-  eps = 1e-4, max.iter = 10000L,
-  seed = 1001, trace = FALSE, parallel = FALSE) {
+    x, y, nfolds = 5L,
+    gammas = c(2.01, 2.3, 3.7, 200),
+    eps = 1e-4, max.iter = 10000L,
+    seed = 1001, trace = FALSE, parallel = FALSE) {
   call <- match.call()
 
   scad_cv <- ncvreg_tune_gamma(
@@ -508,10 +510,11 @@ fit_scad <- function(
 #' @export fit_snet
 #'
 #' @examples
+#' \donttest{
 #' data("smart")
-#' x <- as.matrix(smart[, -c(1, 2)])[1:120, ]
-#' time <- smart$TEVENT[1:120]
-#' event <- smart$EVENT[1:120]
+#' x <- as.matrix(smart[, -c(1, 2)])
+#' time <- smart$TEVENT
+#' event <- smart$EVENT
 #' y <- survival::Surv(time, event)
 #'
 #' fit <- fit_snet(
@@ -528,12 +531,13 @@ fit_scad <- function(
 #' )
 #'
 #' plot(nom)
+#' }
 fit_snet <- function(
-  x, y, nfolds = 5L,
-  gammas = c(2.01, 2.3, 3.7, 200),
-  alphas = seq(0.05, 0.95, 0.05),
-  eps = 1e-4, max.iter = 10000L,
-  seed = 1001, trace = FALSE, parallel = FALSE) {
+    x, y, nfolds = 5L,
+    gammas = c(2.01, 2.3, 3.7, 200),
+    alphas = seq(0.05, 0.95, 0.05),
+    eps = 1e-4, max.iter = 10000L,
+    seed = 1001, trace = FALSE, parallel = FALSE) {
   call <- match.call()
 
   snet_cv <- ncvreg_tune_gamma_alpha(
@@ -601,10 +605,11 @@ fit_snet <- function(
 #' @export fit_mcp
 #'
 #' @examples
+#' \donttest{
 #' data("smart")
-#' x <- as.matrix(smart[, -c(1, 2)])[1:150, ]
-#' time <- smart$TEVENT[1:150]
-#' event <- smart$EVENT[1:150]
+#' x <- as.matrix(smart[, -c(1, 2)])
+#' time <- smart$TEVENT
+#' event <- smart$EVENT
 #' y <- survival::Surv(time, event)
 #'
 #' fit <- fit_mcp(x, y, nfolds = 3, gammas = c(2.1, 3), seed = 1001)
@@ -616,10 +621,11 @@ fit_snet <- function(
 #' )
 #'
 #' plot(nom)
+#' }
 fit_mcp <- function(
-  x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
-  eps = 1e-4, max.iter = 10000L,
-  seed = 1001, trace = FALSE, parallel = FALSE) {
+    x, y, nfolds = 5L, gammas = c(1.01, 1.7, 3, 100),
+    eps = 1e-4, max.iter = 10000L,
+    seed = 1001, trace = FALSE, parallel = FALSE) {
   call <- match.call()
 
   mcp_cv <- ncvreg_tune_gamma(
@@ -685,16 +691,17 @@ fit_mcp <- function(
 #' @export fit_mnet
 #'
 #' @examples
+#' \donttest{
 #' data("smart")
-#' x <- as.matrix(smart[, -c(1, 2)])[1:120, ]
-#' time <- smart$TEVENT[1:120]
-#' event <- smart$EVENT[1:120]
+#' x <- as.matrix(smart[, -c(1, 2)])
+#' time <- smart$TEVENT
+#' event <- smart$EVENT
 #' y <- survival::Surv(time, event)
 #'
 #' fit <- fit_mnet(
 #'   x, y,
 #'   nfolds = 3,
-#'   gammas = 3, alphas = c(0.3, 0.8),
+#'   gammas = 3, alphas = c(0.3, 0.6, 0.9),
 #'   max.iter = 15000, seed = 1010
 #' )
 #'
@@ -705,12 +712,13 @@ fit_mcp <- function(
 #' )
 #'
 #' plot(nom)
+#' }
 fit_mnet <- function(
-  x, y, nfolds = 5L,
-  gammas = c(1.01, 1.7, 3, 100),
-  alphas = seq(0.05, 0.95, 0.05),
-  eps = 1e-4, max.iter = 10000L,
-  seed = 1001, trace = FALSE, parallel = FALSE) {
+    x, y, nfolds = 5L,
+    gammas = c(1.01, 1.7, 3, 100),
+    alphas = seq(0.05, 0.95, 0.05),
+    eps = 1e-4, max.iter = 10000L,
+    seed = 1001, trace = FALSE, parallel = FALSE) {
   call <- match.call()
 
   mnet_cv <- ncvreg_tune_gamma_alpha(
@@ -812,11 +820,11 @@ fit_mnet <- function(
 #'
 #' plot(nom)
 fit_flasso <- function(
-  x, y, nfolds = 5L,
-  lambda1 = c(0.001, 0.05, 0.5, 1, 5),
-  lambda2 = c(0.001, 0.01, 0.5),
-  maxiter = 25, epsilon = 1e-3,
-  seed = 1001, trace = FALSE, parallel = FALSE, ...) {
+    x, y, nfolds = 5L,
+    lambda1 = c(0.001, 0.05, 0.5, 1, 5),
+    lambda2 = c(0.001, 0.01, 0.5),
+    maxiter = 25, epsilon = 1e-3,
+    seed = 1001, trace = FALSE, parallel = FALSE, ...) {
   call <- match.call()
 
   if (trace) cat("Starting cross-validation...\n")

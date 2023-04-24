@@ -47,10 +47,11 @@ Automatic model selection for high-dimensional Cox models
 with Snet penalty, evaluated by penalized partial-likelihood.
 }
 \examples{
+\donttest{
 data("smart")
-x <- as.matrix(smart[, -c(1, 2)])[1:120, ]
-time <- smart$TEVENT[1:120]
-event <- smart$EVENT[1:120]
+x <- as.matrix(smart[, -c(1, 2)])
+time <- smart$TEVENT
+event <- smart$EVENT
 y <- survival::Surv(time, event)
 
 fit <- fit_snet(
@@ -67,4 +68,5 @@ nom <- as_nomogram(
 )
 
 plot(nom)
+}
 }
