@@ -32,6 +32,7 @@ Imports:
     gridExtra
 Suggests:
     knitr,
+    ragg,
     rmarkdown,
     doParallel
 Encoding: UTF-8
