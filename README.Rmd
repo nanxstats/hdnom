@@ -4,7 +4,7 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
+```{r, include=FALSE}
 knitr::knit_hooks$set(optipng = knitr::hook_optipng)
 
 knitr::opts_chunk$set(
@@ -15,7 +15,12 @@ knitr::opts_chunk$set(
   echo = FALSE,
   message = FALSE,
   warning = FALSE,
-  optipng = "-o1"
+  dev = "ragg_png",
+  dpi = 72,
+  fig.retina = 2,
+  fig.align = "center",
+  out.width = "100%",
+  pngquant = "--speed=1 --quality=50"
 )
 ```
 
@@ -49,7 +54,7 @@ Browse [the vignettes](https://nanx.me/hdnom/articles/) to get started.
 
 ### Nomogram
 
-```{r, nomogram, fig.width=10, fig.height=6, dpi=227}
+```{r, nomogram, fig.width=10, fig.height=6}
 library("hdnom")
 library("survival")
 library("gridExtra")
@@ -78,7 +83,7 @@ plot(nom)
 
 ### Kaplan-Meier plot with number at risk table
 
-```{r, kmplot, fig.width=10, fig.height=6, dpi=227}
+```{r, kmplot, fig.width=10, fig.height=6}
 # Internal calibration
 cal.int <- calibrate(
   x, time, event,
@@ -98,7 +103,7 @@ kmplot(
 
 ### Model validation and calibration
 
-```{r, model-validation-calibration, fig.width=15, fig.height=6, dpi=227}
+```{r, model-validation-calibration, fig.width=15, fig.height=6}
 x <- as.matrix(smart[, -c(1, 2)])[1:500, ]
 time <- smart$TEVENT[1:500]
 event <- smart$EVENT[1:500]
@@ -143,7 +148,7 @@ grid.arrange(p1, p2, ncol = 2)
 
 ### Model comparison by validation or calibration
 
-```{r, model-comparison, fig.width=15, fig.height=6, dpi=227}
+```{r, model-comparison, fig.width=15, fig.height=6}
 # Compare lasso and adaptive lasso by 5-fold cross-validation
 cmp.val.cv <- compare_by_validate(
   x, time, event,

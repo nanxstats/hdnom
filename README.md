@@ -36,24 +36,24 @@ Browse [the vignettes](https://nanx.me/hdnom/articles/) to get started.
 
 ### Nomogram
 
-<img src="man/figures/README-nomogram-1.png" width="100%" />
+<img src="man/figures/README-nomogram-1.png" width="100%" style="display: block; margin: auto;" />
 
 ### Kaplan-Meier plot with number at risk table
 
-<img src="man/figures/README-kmplot-1.png" width="100%" />
+<img src="man/figures/README-kmplot-1.png" width="100%" style="display: block; margin: auto;" />
 
 ### Model validation and calibration
 
-<img src="man/figures/README-model-validation-calibration-1.png" width="100%" />
+<img src="man/figures/README-model-validation-calibration-1.png" width="100%" style="display: block; margin: auto;" />
 
 ### Model comparison by validation or calibration
 
-<img src="man/figures/README-model-comparison-1.png" width="100%" />
+<img src="man/figures/README-model-comparison-1.png" width="100%" style="display: block; margin: auto;" />
 
 ## Shiny app
 
--   Shiny app: <https://github.com/nanxstats/hdnom-app>
--   Shiny app maker: <https://github.com/nanxstats/hdnom-appmaker>
+- Shiny app: <https://github.com/nanxstats/hdnom-app>
+- Shiny app maker: <https://github.com/nanxstats/hdnom-appmaker>
 
 ## Contribute
 
