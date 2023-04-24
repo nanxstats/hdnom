@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/nanxstats/hdnom/workflows/R-CMD-check/badge.svg)](https://github.com/nanxstats/hdnom/actions)
+[![R-CMD-check](https://github.com/nanxstats/hdnom/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nanxstats/hdnom/actions/workflows/R-CMD-check.yaml)
 [![CRAN
 Version](https://www.r-pkg.org/badges/version/hdnom)](https://cran.r-project.org/package=hdnom)
 [![Downloads from the RStudio CRAN
