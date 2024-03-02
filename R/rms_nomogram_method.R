@@ -5,6 +5,7 @@
 # which is a part of the R package rms released under GPL,
 # originally written by Frank E Harrell Jr.
 
+#' @export
 print.nomogram.raw <- function(x, dec = 0, ...) {
   obj <- x
   w <- diff(range(obj$lp$x)) / diff(range(obj$lp$x.real))
