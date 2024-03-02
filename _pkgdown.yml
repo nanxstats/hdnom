@@ -2,6 +2,8 @@ url: https://nanx.me/hdnom/
 
 template:
   bootstrap: 5
+  bslib:
+    preset: "bootstrap"
 
 reference:
   - title: "Building Cox models"
