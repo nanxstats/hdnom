@@ -31,7 +31,7 @@ for details.}
 in two estimation steps.}
 
 \item{parallel}{Logical. Enable parallel parameter tuning or not,
-default is {FALSE}. To enable parallel tuning, load the
+default is \code{FALSE}. To enable parallel tuning, load the
 \code{doParallel} package and run \code{registerDoParallel()}
 with the number of CPU cores before calling this function.}
 }

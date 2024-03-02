@@ -184,7 +184,7 @@ fit_alasso <- function(
 #' for details.
 #' @param seed A random seed for cross-validation fold division.
 #' @param parallel Logical. Enable parallel parameter tuning or not,
-#' default is {FALSE}. To enable parallel tuning, load the
+#' default is \code{FALSE}. To enable parallel tuning, load the
 #' \code{doParallel} package and run \code{registerDoParallel()}
 #' with the number of CPU cores before calling this function.
 #'
@@ -276,7 +276,7 @@ fit_enet <- function(
 #' @param seed Two random seeds for cross-validation fold division
 #' in two estimation steps.
 #' @param parallel Logical. Enable parallel parameter tuning or not,
-#' default is {FALSE}. To enable parallel tuning, load the
+#' default is \code{FALSE}. To enable parallel tuning, load the
 #' \code{doParallel} package and run \code{registerDoParallel()}
 #' with the number of CPU cores before calling this function.
 #'
@@ -413,7 +413,7 @@ fit_aenet <- function(
 #' @param trace Output the cross-validation parameter tuning
 #' progress or not. Default is \code{FALSE}.
 #' @param parallel Logical. Enable parallel parameter tuning or not,
-#' default is {FALSE}. To enable parallel tuning, load the
+#' default is \code{FALSE}. To enable parallel tuning, load the
 #' \code{doParallel} package and run \code{registerDoParallel()}
 #' with the number of CPU cores before calling this function.
 #'
@@ -501,7 +501,7 @@ fit_scad <- function(
 #' @param trace Output the cross-validation parameter tuning
 #' progress or not. Default is \code{FALSE}.
 #' @param parallel Logical. Enable parallel parameter tuning or not,
-#' default is {FALSE}. To enable parallel tuning, load the
+#' default is \code{FALSE}. To enable parallel tuning, load the
 #' \code{doParallel} package and run \code{registerDoParallel()}
 #' with the number of CPU cores before calling this function.
 #'
@@ -596,7 +596,7 @@ fit_snet <- function(
 #' @param trace Output the cross-validation parameter tuning
 #' progress or not. Default is \code{FALSE}.
 #' @param parallel Logical. Enable parallel parameter tuning or not,
-#' default is {FALSE}. To enable parallel tuning, load the
+#' default is \code{FALSE}. To enable parallel tuning, load the
 #' \code{doParallel} package and run \code{registerDoParallel()}
 #' with the number of CPU cores before calling this function.
 #'
@@ -682,7 +682,7 @@ fit_mcp <- function(
 #' @param trace Output the cross-validation parameter tuning
 #' progress or not. Default is \code{FALSE}.
 #' @param parallel Logical. Enable parallel parameter tuning or not,
-#' default is {FALSE}. To enable parallel tuning, load the
+#' default is \code{FALSE}. To enable parallel tuning, load the
 #' \code{doParallel} package and run \code{registerDoParallel()}
 #' with the number of CPU cores before calling this function.
 #'
@@ -782,7 +782,7 @@ fit_mnet <- function(
 #' @param trace Output the cross-validation parameter tuning
 #' progress or not. Default is \code{FALSE}.
 #' @param parallel Logical. Enable parallel parameter tuning or not,
-#' default is {FALSE}. To enable parallel tuning, load the
+#' default is \code{FALSE}. To enable parallel tuning, load the
 #' \code{doParallel} package and run \code{registerDoParallel()}
 #' with the number of CPU cores before calling this function.
 #' @param ... other parameters to \code{\link[penalized]{cvl}}
