@@ -23,17 +23,17 @@ BugReports: https://github.com/nanxstats/hdnom/issues
 Depends:
     R (>= 3.5.0)
 Imports:
-    survival,
-    glmnet,
-    penalized,
-    ncvreg,
     foreach,
     ggplot2,
-    gridExtra
+    glmnet,
+    gridExtra,
+    ncvreg,
+    penalized,
+    survival
 Suggests:
+    doParallel,
     knitr,
     ragg,
-    rmarkdown,
-    doParallel
+    rmarkdown
 Encoding: UTF-8
 RoxygenNote: 7.3.1
