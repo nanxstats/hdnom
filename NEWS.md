@@ -1,3 +1,12 @@
+# hdnom 6.0.3
+
+## Improvements
+
+- Fix "lost braces" check notes on r-devel.
+- Export S3 method per guidelines in roxygen2 7.3.0.
+- Use GitHub Actions to build the pkgdown site.
+- Fix code linting issues.
+
 # hdnom 6.0.2
 
 ## Improvements
