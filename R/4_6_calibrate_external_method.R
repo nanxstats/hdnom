@@ -76,18 +76,19 @@ summary.hdnom.calibrate.external <- function(object, ...) {
 #' @examples
 #' NULL
 plot.hdnom.calibrate.external <- function(
-  x, xlim = c(0, 1), ylim = c(0, 1),
-  col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ...) {
+    x, xlim = c(0, 1), ylim = c(0, 1),
+    col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ...) {
   df <- data.frame(
     "pre" = x[, "Predicted"], "obs" = x[, "Observed"],
     "ll" = x[, "Lower 95%"], "ul" = x[, "Upper 95%"]
   )
 
   col.pal <- match.arg(col.pal)
-  col_pal <- switch(
-    col.pal,
-    JCO = palette_jco()[1], Lancet = palette_lancet()[1],
-    NPG = palette_npg()[1], AAAS = palette_aaas()[1]
+  col_pal <- switch(col.pal,
+    JCO = palette_jco()[1],
+    Lancet = palette_lancet()[1],
+    NPG = palette_npg()[1],
+    AAAS = palette_aaas()[1]
   )
 
   ggplot(

@@ -158,17 +158,17 @@
 #' # summary(val.repcv)
 #' # plot(val.repcv)
 validate <- function(
-  x, time, event,
-  model.type = c(
-    "lasso", "alasso", "flasso", "enet", "aenet",
-    "mcp", "mnet", "scad", "snet"
-  ),
-  alpha, lambda, pen.factor = NULL, gamma,
-  lambda1, lambda2,
-  method = c("bootstrap", "cv", "repeated.cv"),
-  boot.times = NULL, nfolds = NULL, rep.times = NULL,
-  tauc.type = c("CD", "SZ", "UNO"), tauc.time,
-  seed = 1001, trace = TRUE) {
+    x, time, event,
+    model.type = c(
+      "lasso", "alasso", "flasso", "enet", "aenet",
+      "mcp", "mnet", "scad", "snet"
+    ),
+    alpha, lambda, pen.factor = NULL, gamma,
+    lambda1, lambda2,
+    method = c("bootstrap", "cv", "repeated.cv"),
+    boot.times = NULL, nfolds = NULL, rep.times = NULL,
+    tauc.type = c("CD", "SZ", "UNO"), tauc.time,
+    seed = 1001, trace = TRUE) {
   model.type <- match.arg(model.type)
   method <- match.arg(method)
   tauc.type <- match.arg(tauc.type)
@@ -184,11 +184,11 @@ validate <- function(
 
     # generate bootstrap sample index
     samp_mat <- matrix(NA, nrow(x), boot.times)
-    for (i in 1L:boot.times) samp_mat[, i] <- sample(1L:nrow(x), replace = TRUE)
+    for (i in 1L:boot.times) samp_mat[, i] <- sample(seq_len(nrow(x)), replace = TRUE)
 
     # bootstrap validation main loop
     tauc <- vector("list", boot.times)
-    for (i in 1L:ncol(samp_mat)) {
+    for (i in seq_len(ncol(samp_mat))) {
       if (trace) cat("Start bootstrap sample", i, "\n")
 
       samp_idx <- samp_mat[, i]
@@ -344,10 +344,7 @@ validate <- function(
     stop('method must be one of "bootstrap", cv", or "repeated.cv"')
   }
 
-  switch(
-
-    method,
-
+  switch(method,
     bootstrap = {
       if (model.type %in% c("lasso", "alasso", "enet", "aenet")) {
         class(tauc) <- c(
@@ -393,7 +390,6 @@ validate <- function(
         attr(tauc, "seed") <- seed
       }
     },
-
     cv = {
       if (model.type %in% c("lasso", "alasso", "enet", "aenet")) {
         class(tauc) <- c(
@@ -439,7 +435,6 @@ validate <- function(
         attr(tauc, "seed") <- seed
       }
     },
-
     repeated.cv = {
       if (model.type %in% c("lasso", "alasso", "enet", "aenet")) {
         class(tauc) <- c(

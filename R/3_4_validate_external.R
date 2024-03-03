@@ -120,9 +120,9 @@
 #' # summary(val.ext3)
 #' # plot(val.ext3)
 validate_external <- function(
-  object, x, time, event,
-  x_new, time_new, event_new,
-  tauc.type = c("CD", "SZ", "UNO"), tauc.time) {
+    object, x, time, event,
+    x_new, time_new, event_new,
+    tauc.type = c("CD", "SZ", "UNO"), tauc.time) {
   if (!("hdnom.model" %in% class(object))) {
     stop('object must be of class "hdnom.model"')
   }

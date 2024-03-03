@@ -12,7 +12,7 @@
 #' @examples
 #' NULL
 print.hdnom.compare.calibrate <- function(x, ...) {
-  for (i in 1L:length(x)) {
+  for (i in seq_along(x)) {
     print(x[[i]])
     cat("\n")
   }
@@ -33,7 +33,7 @@ print.hdnom.compare.calibrate <- function(x, ...) {
 #' @examples
 #' NULL
 summary.hdnom.compare.calibrate <- function(object, ...) {
-  for (i in 1L:length(object)) {
+  for (i in seq_along(object)) {
     cat("  Model type:", names(object)[i], "\n")
     summary(object[[i]])
     cat("\n")
@@ -64,8 +64,8 @@ summary.hdnom.compare.calibrate <- function(object, ...) {
 #' @examples
 #' NULL
 plot.hdnom.compare.calibrate <- function(
-  x, xlim = c(0, 1), ylim = c(0, 1),
-  col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ...) {
+    x, xlim = c(0, 1), ylim = c(0, 1),
+    col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ...) {
   n <- length(x)
   dflist <- vector("list", n)
 
@@ -82,10 +82,11 @@ plot.hdnom.compare.calibrate <- function(
   df <- Reduce("rbind", dflist)
 
   col.pal <- match.arg(col.pal)
-  col_pal <- switch(
-    col.pal,
-    JCO = palette_jco(), Lancet = palette_lancet(),
-    NPG = palette_npg(), AAAS = palette_aaas()
+  col_pal <- switch(col.pal,
+    JCO = palette_jco(),
+    Lancet = palette_lancet(),
+    NPG = palette_npg(),
+    AAAS = palette_aaas()
   )
 
   ggplot(

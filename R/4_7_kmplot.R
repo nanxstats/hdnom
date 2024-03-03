@@ -64,8 +64,8 @@
 #'   time.at = 1:6 * 365
 #' )
 kmplot <- function(
-  object, group.name = NULL, time.at = NULL,
-  col.pal = c("JCO", "Lancet", "NPG", "AAAS")) {
+    object, group.name = NULL, time.at = NULL,
+    col.pal = c("JCO", "Lancet", "NPG", "AAAS")) {
   if (!(any(c("hdnom.calibrate", "hdnom.calibrate.external") %in% class(object)))) {
     stop('object class must be "hdnom.calibrate" or "hdnom.calibrate.external"')
   }
@@ -100,8 +100,8 @@ kmplot <- function(
 #'
 #' @keywords internal
 kmplot_raw <- function(
-  fit, group.name = NULL, time.at = NULL,
-  surv.df = NULL, col.pal = NULL) {
+    fit, group.name = NULL, time.at = NULL,
+    surv.df = NULL, col.pal = NULL) {
   if (is.null(group.name)) {
     group.name <- paste("Group", gsub("grp=", "", levels(summary(fit)$"strata")))
   }
@@ -126,10 +126,11 @@ kmplot_raw <- function(
 
   if (is.null(col.pal)) stop("col.pal must be specified")
 
-  col_pal <- switch(
-    col.pal,
-    JCO = palette_jco(), Lancet = palette_lancet(),
-    NPG = palette_npg(), AAAS = palette_aaas()
+  col_pal <- switch(col.pal,
+    JCO = palette_jco(),
+    Lancet = palette_lancet(),
+    NPG = palette_npg(),
+    AAAS = palette_aaas()
   )
 
   # kaplan-meier plot

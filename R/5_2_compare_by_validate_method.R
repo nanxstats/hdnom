@@ -12,7 +12,7 @@
 #' @examples
 #' NULL
 print.hdnom.compare.validate <- function(x, ...) {
-  for (i in 1L:length(x)) {
+  for (i in seq_along(x)) {
     print(x[[i]])
     cat("\n\n")
   }
@@ -35,7 +35,7 @@ print.hdnom.compare.validate <- function(x, ...) {
 #' @examples
 #' NULL
 summary.hdnom.compare.validate <- function(object, silent = FALSE, ...) {
-  for (i in 1L:length(object)) {
+  for (i in seq_along(object)) {
     cat("Model type:", names(object)[i], "\n")
     print(summary(object[[i]], silent = TRUE))
     cat("\n")
@@ -66,9 +66,9 @@ summary.hdnom.compare.validate <- function(object, silent = FALSE, ...) {
 #' @examples
 #' NULL
 plot.hdnom.compare.validate <- function(
-  x, interval = FALSE,
-  col.pal = c("JCO", "Lancet", "NPG", "AAAS"),
-  ylim = NULL, ...) {
+    x, interval = FALSE,
+    col.pal = c("JCO", "Lancet", "NPG", "AAAS"),
+    ylim = NULL, ...) {
   n <- length(x)
   dflist <- vector("list", n)
 
@@ -90,10 +90,11 @@ plot.hdnom.compare.validate <- function(
   df <- Reduce("rbind", dflist)
 
   col.pal <- match.arg(col.pal)
-  col_pal <- switch(
-    col.pal,
-    JCO = palette_jco(), Lancet = palette_lancet(),
-    NPG = palette_npg(), AAAS = palette_aaas()
+  col_pal <- switch(col.pal,
+    JCO = palette_jco(),
+    Lancet = palette_lancet(),
+    NPG = palette_npg(),
+    AAAS = palette_aaas()
   )
 
   if (!interval) {

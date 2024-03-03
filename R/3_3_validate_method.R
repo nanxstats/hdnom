@@ -14,10 +14,7 @@
 print.hdnom.validate <- function(x, ...) {
   method <- setdiff(class(x), "hdnom.validate")
 
-  switch(
-
-    method,
-
+  switch(method,
     glmnet.validate.bootstrap = {
       cat("High-Dimensional Cox Model Validation Object\n")
       cat("Random seed:", attr(x, "seed"), "\n")
@@ -34,7 +31,6 @@ print.hdnom.validate <- function(x, ...) {
       cat("Time-dependent AUC type:", attr(x, "tauc.type"), "\n")
       cat("Evaluation time points for tAUC:", attr(x, "tauc.time"))
     },
-
     glmnet.validate.cv = {
       cat("High-Dimensional Cox Model Validation Object\n")
       cat("Random seed:", attr(x, "seed"), "\n")
@@ -51,7 +47,6 @@ print.hdnom.validate <- function(x, ...) {
       cat("Time-dependent AUC type:", attr(x, "tauc.type"), "\n")
       cat("Evaluation time points for tAUC:", attr(x, "tauc.time"))
     },
-
     glmnet.validate.repeated.cv = {
       cat("High-Dimensional Cox Model Validation Object\n")
       cat("Random seed:", attr(x, "seed"), "\n")
@@ -69,7 +64,6 @@ print.hdnom.validate <- function(x, ...) {
       cat("Time-dependent AUC type:", attr(x, "tauc.type"), "\n")
       cat("Evaluation time points for tAUC:", attr(x, "tauc.time"))
     },
-
     ncvreg.validate.bootstrap = {
       cat("High-Dimensional Cox Model Validation Object\n")
       cat("Random seed:", attr(x, "seed"), "\n")
@@ -82,7 +76,6 @@ print.hdnom.validate <- function(x, ...) {
       cat("Time-dependent AUC type:", attr(x, "tauc.type"), "\n")
       cat("Evaluation time points for tAUC:", attr(x, "tauc.time"))
     },
-
     ncvreg.validate.cv = {
       cat("High-Dimensional Cox Model Validation Object\n")
       cat("Random seed:", attr(x, "seed"), "\n")
@@ -95,7 +88,6 @@ print.hdnom.validate <- function(x, ...) {
       cat("Time-dependent AUC type:", attr(x, "tauc.type"), "\n")
       cat("Evaluation time points for tAUC:", attr(x, "tauc.time"))
     },
-
     ncvreg.validate.repeated.cv = {
       cat("High-Dimensional Cox Model Validation Object\n")
       cat("Random seed:", attr(x, "seed"), "\n")
@@ -109,7 +101,6 @@ print.hdnom.validate <- function(x, ...) {
       cat("Time-dependent AUC type:", attr(x, "tauc.type"), "\n")
       cat("Evaluation time points for tAUC:", attr(x, "tauc.time"))
     },
-
     penalized.validate.bootstrap = {
       cat("High-Dimensional Cox Model Validation Object\n")
       cat("Random seed:", attr(x, "seed"), "\n")
@@ -121,7 +112,6 @@ print.hdnom.validate <- function(x, ...) {
       cat("Time-dependent AUC type:", attr(x, "tauc.type"), "\n")
       cat("Evaluation time points for tAUC:", attr(x, "tauc.time"))
     },
-
     penalized.validate.cv = {
       cat("High-Dimensional Cox Model Validation Object\n")
       cat("Random seed:", attr(x, "seed"), "\n")
@@ -133,7 +123,6 @@ print.hdnom.validate <- function(x, ...) {
       cat("Time-dependent AUC type:", attr(x, "tauc.type"), "\n")
       cat("Evaluation time points for tAUC:", attr(x, "tauc.time"))
     },
-
     penalized.validate.repeated.cv = {
       cat("High-Dimensional Cox Model Validation Object\n")
       cat("Random seed:", attr(x, "seed"), "\n")
@@ -257,7 +246,7 @@ summary.hdnom.validate <- function(object, silent = FALSE, ...) {
 #' @examples
 #' NULL
 plot.hdnom.validate <- function(
-  x, col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ylim = NULL, ...) {
+    x, col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ylim = NULL, ...) {
   df <- as.data.frame(t(summary(x, silent = TRUE)))
   tauc_time <- attr(x, "tauc.time")
 
@@ -271,10 +260,11 @@ plot.hdnom.validate <- function(
   names(df)[which(names(df) == "0.75 Qt.")] <- "Qt75"
 
   col.pal <- match.arg(col.pal)
-  col_pal <- switch(
-    col.pal,
-    JCO = palette_jco()[1], Lancet = palette_lancet()[1],
-    NPG = palette_npg()[1], AAAS = palette_aaas()[1]
+  col_pal <- switch(col.pal,
+    JCO = palette_jco()[1],
+    Lancet = palette_lancet()[1],
+    NPG = palette_npg()[1],
+    AAAS = palette_aaas()[1]
   )
 
   ggplot(data = df, aes_string(x = "Time", y = "Mean")) +

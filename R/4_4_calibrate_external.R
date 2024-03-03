@@ -102,9 +102,9 @@
 #' # summary(cal.ext3)
 #' # plot(cal.ext3)
 calibrate_external <- function(
-  object, x, time, event,
-  x_new, time_new, event_new,
-  pred.at, ngroup = 5) {
+    object, x, time, event,
+    x_new, time_new, event_new,
+    pred.at, ngroup = 5) {
   if (!("hdnom.model" %in% class(object))) {
     stop('object must be of class "hdnom.model"')
   }
@@ -135,7 +135,7 @@ calibrate_external <- function(
   }
 
   pred_prob <- rep(NA, nrow(x_new))
-  for (i in 1L:length(pred_prob)) pred_prob[i] <- pred_list$p[i, pred_list$idx]
+  for (i in seq_along(pred_prob)) pred_prob[i] <- pred_list$p[i, pred_list$idx]
   grp <- cut(pred_prob, quantile(pred_prob, seq(0, 1, 1 / ngroup)), labels = 1L:ngroup)
 
   pred_prob_median <- tapply(pred_prob, grp, median)

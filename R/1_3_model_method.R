@@ -169,9 +169,10 @@ predict.hdnom.model <- function(object, x, y, newx, pred.at, ...) {
       basesurv <- ncvreg_basesurv(time, event, lp, pred.at)
       lpnew <- predict(model, newx, type = "link")
       p <- exp(exp(lpnew) %*% -t(basesurv$"cumulative_base_hazard"))
-      # # alternative method using ncvreg built-in prediction directly
-      # # almost identical results, but sometimes produces NAs in practice
-      # # e.g. pred.at = 1:10 * 365
+      # # Alternative method using ncvreg built-in prediction directly
+      # # almost identical results, but sometimes produces NAs in practice.
+      # # For example:
+      # pred.at = 1:10 * 365
       # survfun = predict(model, newx, type = "survival")
       # p = matrix(NA, nrow = nrow(newx), ncol = length(pred.at))
       # for (i in 1L:nrow(newx)) p[i, ] = sapply(pred.at, survfun[[i]])
@@ -180,7 +181,7 @@ predict.hdnom.model <- function(object, x, y, newx, pred.at, ...) {
     penalized = {
       pred <- predict(model, newx)
       p <- matrix(NA, nrow = nrow(newx), ncol = length(pred.at))
-      for (i in 1L:length(pred.at)) p[, i] <- survival(pred, time = pred.at[i])
+      for (i in seq_along(pred.at)) p[, i] <- survival(pred, time = pred.at[i])
     }
   )
 
@@ -252,10 +253,10 @@ infer_variable_type <- function(object, x) {
   # type: logical, categorical or continuous
   for (i in 1L:nvar) {
     var <- x[, res[["name"]][i]]
-    if (all(is.wholenumber(var)) & nlevels(as.factor(var)) == 2L) {
+    if (all(is.wholenumber(var)) && nlevels(as.factor(var)) == 2L) {
       res[["type"]][i] <- "logical"
       res[["domain"]][[i]] <- unique(var)
-    } else if (all(is.wholenumber(var)) & nlevels(as.factor(var)) > 2L) {
+    } else if (all(is.wholenumber(var)) && nlevels(as.factor(var)) > 2L) {
       res[["type"]][i] <- "categorical"
       res[["domain"]][[i]] <- c(min(var), max(var))
     } else if (any(!is.wholenumber(var))) {

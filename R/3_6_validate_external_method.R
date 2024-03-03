@@ -14,24 +14,19 @@
 print.hdnom.validate.external <- function(x, ...) {
   method <- setdiff(class(x), "hdnom.validate.external")
 
-  switch(
-
-    method,
-
+  switch(method,
     glmnet.validate.external = {
       cat("High-Dimensional Cox Model External Validation Object\n")
       cat("Model type:", attr(x, "model.type"), "\n")
       cat("Time-dependent AUC type:", attr(x, "tauc.type"), "\n")
       cat("Evaluation time points for tAUC:", attr(x, "tauc.time"))
     },
-
     ncvreg.validate.external = {
       cat("High-Dimensional Cox Model External Validation Object\n")
       cat("Model type:", attr(x, "model.type"), "\n")
       cat("Time-dependent AUC type:", attr(x, "tauc.type"), "\n")
       cat("Evaluation time points for tAUC:", attr(x, "tauc.time"))
     },
-
     penalized.validate.external = {
       cat("High-Dimensional Cox Model External Validation Object\n")
       cat("Model type:", attr(x, "model.type"), "\n")
@@ -93,17 +88,18 @@ summary.hdnom.validate.external <- function(object, silent = FALSE, ...) {
 #' @examples
 #' NULL
 plot.hdnom.validate.external <- function(
-  x, col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ylim = NULL, ...) {
+    x, col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ylim = NULL, ...) {
   df <- as.data.frame(t(summary(x, silent = TRUE)))
   tauc_time <- attr(x, "tauc.time")
 
   df[, "Time"] <- tauc_time
 
   col.pal <- match.arg(col.pal)
-  col_pal <- switch(
-    col.pal,
-    JCO = palette_jco()[1], Lancet = palette_lancet()[1],
-    NPG = palette_npg()[1], AAAS = palette_aaas()[1]
+  col_pal <- switch(col.pal,
+    JCO = palette_jco()[1],
+    Lancet = palette_lancet()[1],
+    NPG = palette_npg()[1],
+    AAAS = palette_aaas()[1]
   )
 
   ggplot(data = df, aes_string(x = "Time", y = "AUC")) +

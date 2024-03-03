@@ -14,7 +14,7 @@
 glmnet_tune_alpha <- function(..., alphas, seed, parallel) {
   if (!parallel) {
     model_list <- vector("list", length(alphas))
-    for (i in 1L:length(alphas)) {
+    for (i in seq_along(alphas)) {
       set.seed(seed)
       model_list[[i]] <- cv.glmnet(..., alpha = alphas[i])
     }
@@ -47,7 +47,7 @@ glmnet_tune_alpha <- function(..., alphas, seed, parallel) {
 ncvreg_tune_gamma <- function(..., gammas, eps, max.iter, seed, parallel) {
   if (!parallel) {
     model_list <- vector("list", length(gammas))
-    for (i in 1L:length(gammas)) {
+    for (i in seq_along(gammas)) {
       set.seed(seed)
       model_list[[i]] <- cv.ncvsurv(
         ...,
@@ -86,16 +86,15 @@ ncvreg_tune_gamma <- function(..., gammas, eps, max.iter, seed, parallel) {
 #' @importFrom foreach foreach
 #'
 #' @keywords internal
-ncvreg_tune_gamma_alpha <- function(
-  ..., gammas, alphas, eps, max.iter, seed, parallel) {
+ncvreg_tune_gamma_alpha <- function(..., gammas, alphas, eps, max.iter, seed, parallel) {
   if (!parallel) {
     model_list <- vector("list", length(gammas))
-    for (k in 1L:length(model_list)) {
+    for (k in seq_along(model_list)) {
       model_list[[k]] <- vector("list", length(alphas))
     }
 
-    for (i in 1L:length(gammas)) {
-      for (j in 1L:length(alphas)) {
+    for (i in seq_along(gammas)) {
+      for (j in seq_along(alphas)) {
         set.seed(seed)
         model_list[[i]][[j]] <-
           cv.ncvsurv(

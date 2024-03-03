@@ -52,14 +52,14 @@ glmnet_survcurve <- function(object, time, event, x, survtime) {
 #' @examples
 #' NULL
 glmnet_basesurv <- function(
-  time, event, lp,
-  times.eval = NULL, centered = FALSE) {
+    time, event, lp,
+    times.eval = NULL, centered = FALSE) {
   if (is.null(times.eval)) times.eval <- sort(unique(time))
 
   t.unique <- sort(unique(time[event == 1L]))
   alpha <- length(t.unique)
 
-  for (i in 1L:length(t.unique)) {
+  for (i in seq_along(t.unique)) {
     alpha[i] <- sum(
       time[event == 1L] == t.unique[i]
     ) / sum(exp(lp[time >= t.unique[i]]))
@@ -125,14 +125,14 @@ ncvreg_survcurve <- function(object, time, event, x, survtime) {
 #' @examples
 #' NULL
 ncvreg_basesurv <- function(
-  time, event, lp,
-  times.eval = NULL, centered = FALSE) {
+    time, event, lp,
+    times.eval = NULL, centered = FALSE) {
   if (is.null(times.eval)) times.eval <- sort(unique(time))
 
   t.unique <- sort(unique(time[event == 1L]))
   alpha <- length(t.unique)
 
-  for (i in 1L:length(t.unique)) {
+  for (i in seq_along(t.unique)) {
     alpha[i] <- sum(
       time[event == 1L] == t.unique[i]
     ) / sum(exp(lp[time >= t.unique[i]]))
@@ -198,14 +198,14 @@ penalized_survcurve <- function(object, time, event, x, survtime) {
 #' @examples
 #' NULL
 penalized_basesurv <- function(
-  time, event, lp,
-  times.eval = NULL, centered = FALSE) {
+    time, event, lp,
+    times.eval = NULL, centered = FALSE) {
   if (is.null(times.eval)) times.eval <- sort(unique(time))
 
   t.unique <- sort(unique(time[event == 1L]))
   alpha <- length(t.unique)
 
-  for (i in 1L:length(t.unique)) {
+  for (i in seq_along(t.unique)) {
     alpha[i] <- sum(
       time[event == 1L] == t.unique[i]
     ) / sum(exp(lp[time >= t.unique[i]]))

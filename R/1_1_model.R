@@ -52,7 +52,12 @@ fit_lasso <- function(
   )
 
   if (lasso_full$df < 0.5) {
-    stop("Null model produced by the full fit (all coefficients are zero). Please try to tune rule, seed, nfolds, or increase sample size.")
+    stop(
+      paste0(
+        "Null model produced by the full fit (all coefficients are zero). ",
+        "Please try to tune rule, seed, nfolds, or increase sample size."
+      )
+    )
   }
 
   model <- list(
@@ -148,7 +153,12 @@ fit_alasso <- function(
   )
 
   if (alasso_full$df < 0.5) {
-    stop("Null model produced by the full fit (all coefficients are zero). Please try to tune rule, seed, nfolds, or increase sample size.")
+    stop(
+      paste0(
+        "Null model produced by the full fit (all coefficients are zero). ",
+        "Please try to tune rule, seed, nfolds, or increase sample size."
+      )
+    )
   }
 
   adpen_vec <- as.vector(adpen)
@@ -245,7 +255,12 @@ fit_enet <- function(
   )
 
   if (enet_full$df < 0.5) {
-    stop("Null model produced by the full fit (all coefficients are zero). Please try to tune rule, alphas, seed, nfolds, or increase sample size.")
+    stop(
+      paste0(
+        "Null model produced by the full fit (all coefficients are zero). ",
+        "Please try to tune rule, alphas, seed, nfolds, or increase sample size."
+      )
+    )
   }
 
   model <- list(
@@ -374,7 +389,12 @@ fit_aenet <- function(
   )
 
   if (aenet_full$df < 0.5) {
-    stop("Null model produced by the full fit (all coefficients are zero). Please try to tune rule, alphas, seed, nfolds, or increase sample size.")
+    stop(
+      paste0(
+        "Null model produced by the full fit (all coefficients are zero). ",
+        "Please try to tune rule, alphas, seed, nfolds, or increase sample size."
+      )
+    )
   }
 
   adpen_vec <- as.vector(adpen)
@@ -469,7 +489,12 @@ fit_scad <- function(
   )
 
   if (all(abs(scad_full$beta[-1L, ]) < .Machine$double.eps)) {
-    stop("Null model produced by the full fit (all coefficients are zero). Please try to tune gammas, seed, nfolds, or increase sample size.")
+    stop(
+      paste0(
+        "Null model produced by the full fit (all coefficients are zero). ",
+        "Please try to tune gammas, seed, nfolds, or increase sample size."
+      )
+    )
   }
 
   model <- list(
@@ -564,7 +589,12 @@ fit_snet <- function(
   )
 
   if (all(abs(snet_full$beta[-1L, ]) < .Machine$double.eps)) {
-    stop("Null model produced by the full fit (all coefficients are zero). Please try to tune gammas, alphas, seed, nfolds, or increase sample size.")
+    stop(
+      paste0(
+        "Null model produced by the full fit (all coefficients are zero). ",
+        "Please try to tune gammas, alphas, seed, nfolds, or increase sample size."
+      )
+    )
   }
 
   model <- list(
@@ -650,7 +680,12 @@ fit_mcp <- function(
 
   # Deal with null models, thanks for the suggestion from Prof. Patrick Breheny
   if (all(abs(mcp_full$beta[-1L, ]) < .Machine$double.eps)) {
-    stop("Null model produced by the full fit (all coefficients are zero). Please try to tune gammas, seed, nfolds, or increase sample size.")
+    stop(
+      paste0(
+        "Null model produced by the full fit (all coefficients are zero). ",
+        "Please try to tune gammas, seed, nfolds, or increase sample size."
+      )
+    )
   }
 
   model <- list(
@@ -745,7 +780,12 @@ fit_mnet <- function(
   )
 
   if (all(abs(mnet_full$beta[-1L, ]) < .Machine$double.eps)) {
-    stop("Null model produced by the full fit (all coefficients are zero). Please try to tune gammas, alphas, seed, nfolds, or increase sample size.")
+    stop(
+      paste0(
+        "Null model produced by the full fit (all coefficients are zero). ",
+        "Please try to tune gammas, alphas, seed, nfolds, or increase sample size."
+      )
+    )
   }
 
   model <- list(
@@ -850,7 +890,12 @@ fit_flasso <- function(
   )
 
   if (all(abs(flasso_full@penalized) < .Machine$double.eps)) {
-    stop("Null model produced by the full fit (all coefficients are zero). Please try changing the seed, nfolds, or increase sample size.")
+    stop(
+      paste0(
+        "Null model produced by the full fit (all coefficients are zero). ",
+        "Please try changing the seed, nfolds, or increase sample size."
+      )
+    )
   }
 
   model <- list(

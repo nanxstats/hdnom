@@ -108,9 +108,9 @@ penalized_calibrate_external_surv_prob_pred <- function(object, x_tr, x_te, y_tr
 #'
 #' @keywords internal
 calibrate_external_surv_prob_true <- function(
-  pred_prob, grp,
-  time_new, event_new,
-  pred.at, ngroup) {
+    pred_prob, grp,
+    time_new, event_new,
+    pred.at, ngroup) {
   true_prob <- matrix(NA, ncol = 3L, nrow = ngroup)
   colnames(true_prob) <- c("Observed", "Lower 95%", "Upper 95%")
 

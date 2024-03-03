@@ -14,10 +14,7 @@
 print.hdnom.calibrate <- function(x, ...) {
   method <- setdiff(class(x), "hdnom.calibrate")
 
-  switch(
-
-    method,
-
+  switch(method,
     glmnet.calibrate.fitting = {
       cat("High-Dimensional Cox Model Calibration Object\n")
       cat("Random seed:", attr(x, "seed"), "\n")
@@ -33,7 +30,6 @@ print.hdnom.calibrate <- function(x, ...) {
       cat("Calibration time point:", attr(x, "pred.at"), "\n")
       cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
     },
-
     glmnet.calibrate.bootstrap = {
       cat("High-Dimensional Cox Model Calibration Object\n")
       cat("Random seed:", attr(x, "seed"), "\n")
@@ -50,7 +46,6 @@ print.hdnom.calibrate <- function(x, ...) {
       cat("Calibration time point:", attr(x, "pred.at"), "\n")
       cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
     },
-
     glmnet.calibrate.cv = {
       cat("High-Dimensional Cox Model Calibration Object\n")
       cat("Random seed:", attr(x, "seed"), "\n")
@@ -67,7 +62,6 @@ print.hdnom.calibrate <- function(x, ...) {
       cat("Calibration time point:", attr(x, "pred.at"), "\n")
       cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
     },
-
     glmnet.calibrate.repeated.cv = {
       cat("High-Dimensional Cox Model Calibration Object\n")
       cat("Random seed:", attr(x, "seed"), "\n")
@@ -85,7 +79,6 @@ print.hdnom.calibrate <- function(x, ...) {
       cat("Calibration time point:", attr(x, "pred.at"), "\n")
       cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
     },
-
     ncvreg.calibrate.fitting = {
       cat("High-Dimensional Cox Model Calibration Object\n")
       cat("Random seed:", attr(x, "seed"), "\n")
@@ -97,7 +90,6 @@ print.hdnom.calibrate <- function(x, ...) {
       cat("Calibration time point:", attr(x, "pred.at"), "\n")
       cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
     },
-
     ncvreg.calibrate.bootstrap = {
       cat("High-Dimensional Cox Model Calibration Object\n")
       cat("Random seed:", attr(x, "seed"), "\n")
@@ -110,7 +102,6 @@ print.hdnom.calibrate <- function(x, ...) {
       cat("Calibration time point:", attr(x, "pred.at"), "\n")
       cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
     },
-
     ncvreg.calibrate.cv = {
       cat("High-Dimensional Cox Model Calibration Object\n")
       cat("Random seed:", attr(x, "seed"), "\n")
@@ -123,7 +114,6 @@ print.hdnom.calibrate <- function(x, ...) {
       cat("Calibration time point:", attr(x, "pred.at"), "\n")
       cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
     },
-
     ncvreg.calibrate.repeated.cv = {
       cat("High-Dimensional Cox Model Calibration Object\n")
       cat("Random seed:", attr(x, "seed"), "\n")
@@ -137,7 +127,6 @@ print.hdnom.calibrate <- function(x, ...) {
       cat("Calibration time point:", attr(x, "pred.at"), "\n")
       cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
     },
-
     penalized.calibrate.fitting = {
       cat("High-Dimensional Cox Model Calibration Object\n")
       cat("Random seed:", attr(x, "seed"), "\n")
@@ -148,7 +137,6 @@ print.hdnom.calibrate <- function(x, ...) {
       cat("Calibration time point:", attr(x, "pred.at"), "\n")
       cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
     },
-
     penalized.calibrate.bootstrap = {
       cat("High-Dimensional Cox Model Calibration Object\n")
       cat("Random seed:", attr(x, "seed"), "\n")
@@ -160,7 +148,6 @@ print.hdnom.calibrate <- function(x, ...) {
       cat("Calibration time point:", attr(x, "pred.at"), "\n")
       cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
     },
-
     penalized.calibrate.cv = {
       cat("High-Dimensional Cox Model Calibration Object\n")
       cat("Random seed:", attr(x, "seed"), "\n")
@@ -172,7 +159,6 @@ print.hdnom.calibrate <- function(x, ...) {
       cat("Calibration time point:", attr(x, "pred.at"), "\n")
       cat("Number of groups formed for calibration:", attr(x, "ngroup"), "\n")
     },
-
     penalized.calibrate.repeated.cv = {
       cat("High-Dimensional Cox Model Calibration Object\n")
       cat("Random seed:", attr(x, "seed"), "\n")
@@ -208,30 +194,24 @@ summary.hdnom.calibrate <- function(object, ...) {
 
   x <- object
 
-  switch(
-
-    method,
-
+  switch(method,
     glmnet.calibrate.fitting = {
       attr(x, "alpha") <- NULL
       attr(x, "lambda") <- NULL
       attr(x, "pen.factor") <- NULL
     },
-
     glmnet.calibrate.bootstrap = {
       attr(x, "boot.times") <- NULL
       attr(x, "alpha") <- NULL
       attr(x, "lambda") <- NULL
       attr(x, "pen.factor") <- NULL
     },
-
     glmnet.calibrate.cv = {
       attr(x, "nfolds") <- NULL
       attr(x, "alpha") <- NULL
       attr(x, "lambda") <- NULL
       attr(x, "pen.factor") <- NULL
     },
-
     glmnet.calibrate.repeated.cv = {
       attr(x, "nfolds") <- NULL
       attr(x, "rep.times") <- NULL
@@ -239,27 +219,23 @@ summary.hdnom.calibrate <- function(object, ...) {
       attr(x, "lambda") <- NULL
       attr(x, "pen.factor") <- NULL
     },
-
     ncvreg.calibrate.fitting = {
       attr(x, "alpha") <- NULL
       attr(x, "lambda") <- NULL
       attr(x, "gamma") <- NULL
     },
-
     ncvreg.calibrate.bootstrap = {
       attr(x, "alpha") <- NULL
       attr(x, "lambda") <- NULL
       attr(x, "gamma") <- NULL
       attr(x, "boot.times") <- NULL
     },
-
     ncvreg.calibrate.cv = {
       attr(x, "alpha") <- NULL
       attr(x, "lambda") <- NULL
       attr(x, "gamma") <- NULL
       attr(x, "nfolds") <- NULL
     },
-
     ncvreg.calibrate.repeated.cv = {
       attr(x, "alpha") <- NULL
       attr(x, "lambda") <- NULL
@@ -267,24 +243,20 @@ summary.hdnom.calibrate <- function(object, ...) {
       attr(x, "nfolds") <- NULL
       attr(x, "rep.times") <- NULL
     },
-
     penalized.calibrate.fitting = {
       attr(x, "lambda1") <- NULL
       attr(x, "lambda2") <- NULL
     },
-
     penalized.calibrate.bootstrap = {
       attr(x, "lambda1") <- NULL
       attr(x, "lambda2") <- NULL
       attr(x, "boot.times") <- NULL
     },
-
     penalized.calibrate.cv = {
       attr(x, "lambda1") <- NULL
       attr(x, "lambda2") <- NULL
       attr(x, "nfolds") <- NULL
     },
-
     penalized.calibrate.repeated.cv = {
       attr(x, "lambda1") <- NULL
       attr(x, "lambda2") <- NULL
@@ -330,18 +302,19 @@ summary.hdnom.calibrate <- function(object, ...) {
 #' @examples
 #' NULL
 plot.hdnom.calibrate <- function(
-  x, xlim = c(0, 1), ylim = c(0, 1),
-  col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ...) {
+    x, xlim = c(0, 1), ylim = c(0, 1),
+    col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ...) {
   df <- data.frame(
     "pre" = x[, "Predicted"], "obs" = x[, "Observed"],
     "ll" = x[, "Lower 95%"], "ul" = x[, "Upper 95%"]
   )
 
   col.pal <- match.arg(col.pal)
-  col_pal <- switch(
-    col.pal,
-    JCO = palette_jco()[1], Lancet = palette_lancet()[1],
-    NPG = palette_npg()[1], AAAS = palette_aaas()[1]
+  col_pal <- switch(col.pal,
+    JCO = palette_jco()[1],
+    Lancet = palette_lancet()[1],
+    NPG = palette_npg()[1],
+    AAAS = palette_aaas()[1]
   )
 
   ggplot(

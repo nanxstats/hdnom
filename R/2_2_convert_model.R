@@ -20,8 +20,12 @@ convert_model <- function(model, x) {
   # data required by nomogram.raw()
 
   # $coefficients
-  if (is_glmnet(model) | is_ncvreg(model)) res$coefficients <- c("Intercept" = 0.0, model$beta[as.vector(model$beta) != 0, 1L])
-  if (is_penalized(model)) res$coefficients <- c("Intercept" = 0.0, model@penalized[model@penalized != 0])
+  if (is_glmnet(model) || is_ncvreg(model)) {
+    res$coefficients <- c("Intercept" = 0.0, model$beta[as.vector(model$beta) != 0, 1L])
+  }
+  if (is_penalized(model)) {
+    res$coefficients <- c("Intercept" = 0.0, model@penalized[model@penalized != 0])
+  }
 
   # $non.slopes
   res$non.slopes <- 1
@@ -49,7 +53,7 @@ convert_model <- function(model, x) {
   )
 
   # focus on non-zero variables
-  if (is_glmnet(model) | is_ncvreg(model)) idx_nzv <- which(as.vector(model$beta) != 0)
+  if (is_glmnet(model) || is_ncvreg(model)) idx_nzv <- which(as.vector(model$beta) != 0)
   if (is_penalized(model)) idx_nzv <- which(model@penalized != 0)
   x_nzv <- as.data.frame(x[, idx_nzv, drop = FALSE])
   n_nzv <- length(idx_nzv)

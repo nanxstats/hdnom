@@ -44,16 +44,15 @@
 #' summary(cmp.cal.cv)
 #' plot(cmp.cal.cv)
 compare_by_calibrate <- function(
-  x, time, event,
-  model.type =
-    c(
+    x, time, event,
+    model.type = c(
       "lasso", "alasso", "flasso", "enet", "aenet",
       "mcp", "mnet", "scad", "snet"
     ),
-  method = c("fitting", "bootstrap", "cv", "repeated.cv"),
-  boot.times = NULL, nfolds = NULL, rep.times = NULL,
-  pred.at, ngroup = 5,
-  seed = 1001, trace = TRUE) {
+    method = c("fitting", "bootstrap", "cv", "repeated.cv"),
+    boot.times = NULL, nfolds = NULL, rep.times = NULL,
+    pred.at, ngroup = 5,
+    seed = 1001, trace = TRUE) {
   method <- match.arg(method)
   if (length(pred.at) != 1L) stop("pred.at should only contain 1 time point")
 
@@ -100,10 +99,7 @@ compare_by_calibrate <- function(
   for (i in 1L:nmodel) {
     if (trace) cat("Starting model", i, ":", model.type[i], "\n")
 
-    switch(
-
-      model.type[i],
-
+    switch(model.type[i],
       lasso = {
         cvfit <- fit_lasso(
           x, Surv(time, event),
@@ -120,7 +116,6 @@ compare_by_calibrate <- function(
           seed = seed, trace = trace
         )
       },
-
       alasso = {
         cvfit <- fit_alasso(
           x, Surv(time, event),
@@ -137,7 +132,6 @@ compare_by_calibrate <- function(
           seed = seed, trace = trace
         )
       },
-
       flasso = {
         cvfit <- fit_flasso(x, Surv(time, event), nfolds = 5L, seed = seed)
 
@@ -151,7 +145,6 @@ compare_by_calibrate <- function(
           seed = seed, trace = trace
         )
       },
-
       enet = {
         cvfit <- fit_enet(
           x, Surv(time, event),
@@ -169,7 +162,6 @@ compare_by_calibrate <- function(
           seed = seed, trace = trace
         )
       },
-
       aenet = {
         cvfit <- fit_aenet(
           x, Surv(time, event),
@@ -187,7 +179,6 @@ compare_by_calibrate <- function(
           seed = seed, trace = trace
         )
       },
-
       mcp = {
         cvfit <- fit_mcp(x, Surv(time, event), nfolds = 5L, seed = seed)
 
@@ -200,7 +191,6 @@ compare_by_calibrate <- function(
           seed = seed, trace = trace
         )
       },
-
       mnet = {
         cvfit <- fit_mnet(
           x, Surv(time, event),
@@ -218,7 +208,6 @@ compare_by_calibrate <- function(
           seed = seed, trace = trace
         )
       },
-
       scad = {
         cvfit <- fit_scad(x, Surv(time, event), nfolds = 5L, seed = seed)
 
@@ -231,7 +220,6 @@ compare_by_calibrate <- function(
           seed = seed, trace = trace
         )
       },
-
       snet = {
         cvfit <- fit_snet(
           x, Surv(time, event),

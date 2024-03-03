@@ -135,18 +135,17 @@
 #' # summary(cal.repcv)
 #' # plot(cal.repcv)
 calibrate <- function(
-  x, time, event,
-  model.type =
-    c(
+    x, time, event,
+    model.type = c(
       "lasso", "alasso", "flasso", "enet", "aenet",
       "mcp", "mnet", "scad", "snet"
     ),
-  alpha, lambda, pen.factor = NULL, gamma,
-  lambda1, lambda2,
-  method = c("fitting", "bootstrap", "cv", "repeated.cv"),
-  boot.times = NULL, nfolds = NULL, rep.times = NULL,
-  pred.at, ngroup = 5,
-  seed = 1001, trace = TRUE) {
+    alpha, lambda, pen.factor = NULL, gamma,
+    lambda1, lambda2,
+    method = c("fitting", "bootstrap", "cv", "repeated.cv"),
+    boot.times = NULL, nfolds = NULL, rep.times = NULL,
+    pred.at, ngroup = 5,
+    seed = 1001, trace = TRUE) {
   model.type <- match.arg(model.type)
   method <- match.arg(method)
   if (length(pred.at) != 1L) stop("pred.at should only contain 1 time point")
@@ -186,7 +185,7 @@ calibrate <- function(
     }
 
     pred_prob <- rep(NA, nrow(x))
-    for (i in 1L:length(pred_prob)) pred_prob[i] <- pred_list$p[i, pred_list$idx]
+    for (i in seq_along(pred_prob)) pred_prob[i] <- pred_list$p[i, pred_list$idx]
     grp <- cut(pred_prob, quantile(pred_prob, seq(0, 1, 1 / ngroup)), labels = 1L:ngroup)
 
     pred_prob_median <- tapply(pred_prob, grp, median)
@@ -206,11 +205,11 @@ calibrate <- function(
 
     # generate bootstrap sample index
     samp_mat <- matrix(NA, nrow(x), boot.times)
-    for (i in 1L:boot.times) samp_mat[, i] <- sample(1L:nrow(x), replace = TRUE)
+    for (i in 1L:boot.times) samp_mat[, i] <- sample(seq_len(nrow(x)), replace = TRUE)
 
     # bootstrap validation main loop
     pred_list_list <- vector("list", boot.times)
-    for (i in 1L:ncol(samp_mat)) {
+    for (i in seq_len(ncol(samp_mat))) {
       if (trace) cat("Start bootstrap sample", i, "\n")
 
       samp_idx <- samp_mat[, i]
@@ -435,10 +434,7 @@ calibrate <- function(
     stop('method must be one of "fitting", "bootstrap", "cv", or "repeated.cv"')
   }
 
-  switch(
-
-    method,
-
+  switch(method,
     fitting = {
       if (model.type %in% c("lasso", "alasso", "enet", "aenet")) {
         class(prob) <- c(
@@ -469,7 +465,6 @@ calibrate <- function(
         attr(prob, "lambda2") <- lambda2
       }
     },
-
     bootstrap = {
       if (model.type %in% c("lasso", "alasso", "enet", "aenet")) {
         class(prob) <- c(
@@ -503,7 +498,6 @@ calibrate <- function(
         attr(prob, "boot.times") <- boot.times
       }
     },
-
     cv = {
       if (model.type %in% c("lasso", "alasso", "enet", "aenet")) {
         class(prob) <- c(
@@ -537,7 +531,6 @@ calibrate <- function(
         attr(prob, "nfolds") <- nfolds
       }
     },
-
     repeated.cv = {
       if (model.type %in% c("lasso", "alasso", "enet", "aenet")) {
         class(prob) <- c(
