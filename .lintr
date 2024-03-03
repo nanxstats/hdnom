@@ -1,0 +1,16 @@
+linters:
+    linters_with_defaults(
+      line_length_linter(120),
+      object_name_linter(styles = c("snake_case", "dotted.case")),
+      object_length_linter(50),
+      cyclocomp_linter(100)
+    )
+exclusions:
+    list(
+      "R/rms_nomogram.R",
+      "R/rms_nomogram_method.R",
+      "R/rms_nomogram_misc.R",
+      "R/survAUC_ChamDiao.R",
+      "R/survAUC_Song_Zhou.R",
+      "R/survAUC_Uno.R"
+    )
