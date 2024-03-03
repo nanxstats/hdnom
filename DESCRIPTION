@@ -1,7 +1,7 @@
 Package: hdnom
 Type: Package
 Title: Benchmarking and Visualization Toolkit for Penalized Cox Models
-Version: 6.0.2
+Version: 6.0.3
 Authors@R: c(
     person("Nan", "Xiao", email = "me@nanx.me", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0250-5673")),
@@ -17,7 +17,6 @@ Description: Creates nomogram visualizations for penalized Cox regression
     validation, calibration, and comparison for high-dimensional data.
 License: GPL-3 | file LICENSE
 LazyData: TRUE
-VignetteBuilder: knitr
 URL: https://nanx.me/hdnom/, https://github.com/nanxstats/hdnom
 BugReports: https://github.com/nanxstats/hdnom/issues
 Depends:
@@ -35,5 +34,6 @@ Suggests:
     knitr,
     ragg,
     rmarkdown
+VignetteBuilder: knitr
 Encoding: UTF-8
 RoxygenNote: 7.3.1
