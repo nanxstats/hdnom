@@ -58,8 +58,7 @@ Browse [the vignettes](https://nanx.me/hdnom/articles/) to get started.
 ## Contribute
 
 To contribute to this project, please take a look at the [Contributing
-Guidelines](https://github.com/nanxstats/hdnom/blob/master/CONTRIBUTING.md)
-first. Please note that this project is released with a [Contributor
-Code of
-Conduct](https://github.com/nanxstats/hdnom/blob/master/CONDUCT.md). By
-participating in this project you agree to abide by its terms.
+Guidelines](https://nanx.me/hdnom/CONTRIBUTING.html) first. Please note
+that the hdnom project is released with a [Contributor Code of
+Conduct](https://nanx.me/hdnom/CODE_OF_CONDUCT.html). By contributing to
+this project, you agree to abide by its terms.
