@@ -5,7 +5,7 @@ output: github_document
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, include=FALSE}
-knitr::knit_hooks$set(optipng = knitr::hook_optipng)
+knitr::knit_hooks$set(pngquant = knitr::hook_pngquant)
 
 knitr::opts_chunk$set(
   collapse = TRUE,
