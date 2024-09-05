@@ -5,7 +5,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="hdnom">
 <title>An Introduction to hdnom • hdnom</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
@@ -15,58 +14,40 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="An Introduction to hdnom">
-<meta property="og:description" content="hdnom">
-<meta property="og:image" content="https://nanx.me/hdnom/logo.png">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="An Introduction to hdnom">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light" data-bs-theme="light"><div class="container">
-    
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">hdnom</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">6.0.3</small>
 
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="active nav-item">
-  <a class="nav-link" href="../articles/hdnom.html">Get started</a>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="../news/index.html">Changelog</a>
-</li>
+<li class="active nav-item"><a class="nav-link" href="../articles/hdnom.html">Get started</a></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/nanxstats/hdnom/" aria-label="github">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/nanxstats/hdnom/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
-    
+
   </div>
 </nav><div class="container template-article">
 
@@ -78,7 +59,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>An Introduction to hdnom</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/nanxstats/hdnom/blob/HEAD/vignettes/hdnom.Rmd" class="external-link"><code>vignettes/hdnom.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/nanxstats/hdnom/blob/master/vignettes/hdnom.Rmd" class="external-link"><code>vignettes/hdnom.Rmd</code></a></small>
       <div class="d-none name"><code>hdnom.Rmd</code></div>
     </div>
 
@@ -100,8 +81,12 @@ comparison.</p>
 </h2>
 <p>To build a penalized Cox model with good predictive performance, some
 parameter tuning is usually needed. For example, the elastic-net model
-requires to tune the <span class="math inline">\(\ell_1\)</span>-<span class="math inline">\(\ell_2\)</span> penalty trade-off parameter <span class="math inline">\(\alpha\)</span>, and the regularization parameter
-<span class="math inline">\(\lambda\)</span>.</p>
+requires to tune the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mo>ℓ</mo><mn>1</mn></msub><annotation encoding="application/x-tex">\ell_1</annotation></semantics></math>-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mo>ℓ</mo><mn>2</mn></msub><annotation encoding="application/x-tex">\ell_2</annotation></semantics></math>
+penalty trade-off parameter
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>,
+and the regularization parameter
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>.</p>
 <p>To free the users from the tedious and error-prone parameter tuning
 process, <code>hdnom</code> provides several functions for automatic
 parameter tuning and model selection, including the following model
@@ -121,60 +106,71 @@ types:</p>
 <tr class="odd">
 <td><code><a href="../reference/fit_lasso.html">fit_lasso()</a></code></td>
 <td>Lasso</td>
-<td><span class="math inline">\(\lambda\)</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math></td>
 </tr>
 <tr class="even">
 <td><code><a href="../reference/fit_alasso.html">fit_alasso()</a></code></td>
 <td>Adaptive lasso</td>
-<td><span class="math inline">\(\lambda\)</span></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math></td>
 </tr>
 <tr class="odd">
 <td><code><a href="../reference/fit_enet.html">fit_enet()</a></code></td>
 <td>Elastic-net</td>
 <td>
-<span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\alpha\)</span>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
 </td>
 </tr>
 <tr class="even">
 <td><code><a href="../reference/fit_aenet.html">fit_aenet()</a></code></td>
 <td>Adaptive elastic-net</td>
 <td>
-<span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\alpha\)</span>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
 </td>
 </tr>
 <tr class="odd">
 <td><code><a href="../reference/fit_mcp.html">fit_mcp()</a></code></td>
 <td>MCP</td>
 <td>
-<span class="math inline">\(\gamma\)</span>, <span class="math inline">\(\lambda\)</span>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>
 </td>
 </tr>
 <tr class="even">
 <td><code><a href="../reference/fit_mnet.html">fit_mnet()</a></code></td>
-<td>Mnet (MCP + <span class="math inline">\(\ell_2\)</span>)</td>
+<td>Mnet (MCP +
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mo>ℓ</mo><mn>2</mn></msub><annotation encoding="application/x-tex">\ell_2</annotation></semantics></math>)</td>
 <td>
-<span class="math inline">\(\gamma\)</span>, <span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\alpha\)</span>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
 </td>
 </tr>
 <tr class="odd">
 <td><code><a href="../reference/fit_scad.html">fit_scad()</a></code></td>
 <td>SCAD</td>
 <td>
-<span class="math inline">\(\gamma\)</span>, <span class="math inline">\(\lambda\)</span>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>
 </td>
 </tr>
 <tr class="even">
 <td><code><a href="../reference/fit_snet.html">fit_snet()</a></code></td>
-<td>Snet (SCAD + <span class="math inline">\(\ell_2\)</span>)</td>
+<td>Snet (SCAD +
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mo>ℓ</mo><mn>2</mn></msub><annotation encoding="application/x-tex">\ell_2</annotation></semantics></math>)</td>
 <td>
-<span class="math inline">\(\gamma\)</span>, <span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\alpha\)</span>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
 </td>
 </tr>
 <tr class="odd">
 <td><code><a href="../reference/fit_flasso.html">fit_flasso()</a></code></td>
 <td>Fused lasso</td>
 <td>
-<span class="math inline">\(\lambda_1\)</span>, <span class="math inline">\(\lambda_2\)</span>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>λ</mi><mn>1</mn></msub><annotation encoding="application/x-tex">\lambda_1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>λ</mi><mn>2</mn></msub><annotation encoding="application/x-tex">\lambda_2</annotation></semantics></math>
 </td>
 </tr>
 </tbody>
@@ -206,10 +202,13 @@ outcome (<code>time</code>, <code>event</code>). 27 clinical variables
 <pre><code><span><span class="co">## [1] "model"       "alpha"       "lambda"      "model_init"  "alpha_init" </span></span>
 <span><span class="co">## [6] "lambda_init" "pen_factor"  "type"        "seed"        "call"  </span></span></code></pre>
 <p>Adaptive elastic-net includes two estimation steps. The random seed
-used for parameter tuning, the selected best <span class="math inline">\(\alpha\)</span>, the selected best <span class="math inline">\(\lambda\)</span>, the model fitted for each
-estimation step, and the penalty factor for the model coefficients in
-the second estimation step are all stored in the model object
-<code>fit</code>.</p>
+used for parameter tuning, the selected best
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>,
+the selected best
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>,
+the model fitted for each estimation step, and the penalty factor for
+the model coefficients in the second estimation step are all stored in
+the model object <code>fit</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="nomogram-visualization">Nomogram visualization<a class="anchor" aria-label="anchor" href="#nomogram-visualization"></a>
@@ -245,9 +244,10 @@ can be viewed by printing the <code>nom</code> object directly.</p>
 </h2>
 <p>It is a common practice to utilize resampling-based methods to
 validate the predictive performance of a penalized Cox model. Bootstrap,
-<span class="math inline">\(k\)</span>-fold cross-validation, and
-repeated <span class="math inline">\(k\)</span>-fold cross-validation
-are the most employed methods for such purpose.</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-fold
+cross-validation, and repeated
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-fold
+cross-validation are the most employed methods for such purpose.</p>
 <p><code>hdnom</code> supports both internal model validation and
 external model validation. Internal validation takes the dataset used to
 build the model and evaluates the predictive performance on the data
@@ -332,9 +332,11 @@ median and the mean value at each evaluation time point are close; the
 point.</p>
 <p>Bootstrap-based validation often gives relatively stable results.
 Many of the established nomograms in clinical oncology research are
-validated by bootstrap methods. <span class="math inline">\(K\)</span>-fold cross-validation provides a more
-strict evaluation scheme than bootstrap. Repeated cross-validation gives
-similar results as <span class="math inline">\(k\)</span>-fold
+validated by bootstrap methods.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>K</mi><annotation encoding="application/x-tex">K</annotation></semantics></math>-fold
+cross-validation provides a more strict evaluation scheme than
+bootstrap. Repeated cross-validation gives similar results as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-fold
 cross-validation, and usually more robust. These two methods are more
 applied by the machine learning community. Check
 <code><a href="../reference/validate.html">?hdnom::validate</a></code> for more examples about internal model
@@ -399,7 +401,8 @@ calibration and external model calibration are supported in
 </h3>
 <p><code><a href="../reference/calibrate.html">calibrate()</a></code> provides non-resampling and resampling
 methods for internal model calibration, including direct fitting,
-bootstrap resampling, <span class="math inline">\(k\)</span>-fold
+bootstrap resampling,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-fold
 cross-validation, and repeated cross-validation.</p>
 <p>For example, to calibrate the model internally with the bootstrap
 method:</p>
@@ -501,8 +504,9 @@ risk groups, with the function <code><a href="../reference/kmplot.html">kmplot()
 <span>  time.at <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span> <span class="op">*</span> <span class="fl">365</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="hdnom_files/figure-html/unnamed-chunk-14-2.png" width="600" height="400" style="display: block; margin: auto;"></p>
-<p>The <span class="math inline">\(p\)</span>-value of the log-rank test
-is also shown in the plot.</p>
+<p>The
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>-value
+of the log-rank test is also shown in the plot.</p>
 </div>
 <div class="section level3">
 <h3 id="log-rank-test-for-risk-groups">Log-rank test for risk groups<a class="anchor" aria-label="anchor" href="#log-rank-test-for-risk-groups"></a>
@@ -542,11 +546,13 @@ internal calibration and external calibration results:</p>
 <span><span class="co">#&gt;  Chisq= 49.5  on 2 degrees of freedom, p= 2e-11</span></span>
 <span><span class="va">cal_ext_logrank</span><span class="op">$</span><span class="va">pval</span></span>
 <span><span class="co">#&gt; [1] 1.761037e-11</span></span></code></pre></div>
-<p>The exact <span class="math inline">\(p\)</span>-values for log-rank
-tests are stored as <code>cal_int_logrank$pval</code> and
-<code>cal_ext_logrank$pval</code>. Here <span class="math inline">\(p
-&lt; 0.001\)</span> indicates significant differences between the
-survival curves for different risk groups.</p>
+<p>The exact
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>-values
+for log-rank tests are stored as <code>cal_int_logrank$pval</code> and
+<code>cal_ext_logrank$pval</code>. Here
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>&lt;</mo><mn>0.001</mn></mrow><annotation encoding="application/x-tex">p &lt; 0.001</annotation></semantics></math>
+indicates significant differences between the survival curves for
+different risk groups.</p>
 </div>
 </div>
 <div class="section level2">
@@ -716,11 +722,12 @@ we compare lasso and adaptive lasso by 5-fold cross-validation:</p>
 <p><img src="hdnom_files/figure-html/unnamed-chunk-16-2.png" width="600" height="480" style="display: block; margin: auto;"></p>
 <p>The solid line, dashed line and intervals have the same
 interpretation as above. For this comparison, there seems to be no
-substantial difference (AUC difference <span class="math inline">\(&lt;
-5\%\)</span>) between lasso and adaptive lasso in predictive
-performance, although lasso performs slightly better than adaptive lasso
-for the first three time points, adaptive lasso performs slightly better
-than lasso for the last few time points.</p>
+substantial difference (AUC difference
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><mn>5</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">&lt; 5\%</annotation></semantics></math>)
+between lasso and adaptive lasso in predictive performance, although
+lasso performs slightly better than adaptive lasso for the first three
+time points, adaptive lasso performs slightly better than lasso for the
+last few time points.</p>
 <p>The model comparison functions in <code>hdnom</code> have a minimal
 input design so you do not have to set the parameters for each model
 type manually. The functions will try to determine the best parameter
@@ -864,7 +871,7 @@ in the table below:</p>
 </h2>
 <p><a href="https://github.com/nanxstats/hdnom-app" class="external-link uri">https://github.com/nanxstats/hdnom-app</a></p>
 </div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
 
@@ -875,15 +882,15 @@ in the table below:</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
     </footer>
 </div>
 
-  
 
-  
+
+
 
   </body>
 </html>
