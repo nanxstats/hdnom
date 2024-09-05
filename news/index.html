@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">hdnom</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">6.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">6.0.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,6 +32,17 @@
       <small>Source: <a href="https://github.com/nanxstats/hdnom/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="6.0.4" id="hdnom-604">hdnom 6.0.4<a class="anchor" aria-label="anchor" href="#hdnom-604"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-6-0-4">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-6-0-4"></a></h3>
+<ul><li>Fixed C code compatibility issues with <code>_R_USE_STRICT_R_HEADERS_</code> (upcoming default in R 4.5.0) (<a href="https://github.com/nanxstats/hdnom/issues/13" class="external-link">#13</a>):
+<ul><li>Defined <code>STRICT_R_HEADERS</code>.</li>
+<li>Replaced <code>Calloc</code> and <code>Free</code> with <code>R_Calloc</code> and <code>R_Free</code>.</li>
+<li>Included <code>float.h</code> for <code>FLT_EPSILON</code>.</li>
+</ul></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="6.0.3" id="hdnom-603">hdnom 6.0.3<a class="anchor" aria-label="anchor" href="#hdnom-603"></a></h2><p class="text-muted">CRAN release: 2024-03-03</p>
 <div class="section level3">
