@@ -14,6 +14,8 @@
 #define FCONE
 #endif
 
+#include <float.h> // For FLT_EPSILON
+
 #include <R.h>
 #include <Rmath.h>
 #include <Rinternals.h>

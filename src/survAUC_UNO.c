@@ -7,6 +7,8 @@
  *
  */
 
+#define STRICT_R_HEADERS
+
 #include <Rinternals.h>
 #include <Rdefines.h>
 #include <R.h>
@@ -42,11 +44,11 @@ void auc_uno(double *auc, double *i_auc, double *sens, double *spec, double *sur
 	rsort_with_x(surv_time, status, *n_surv);
 
 	double *SProb;
-	SProb = Calloc(*n_surv, double);
+	SProb = R_Calloc(*n_surv, double);
 	km_Daim(SProb, surv_time, status, n_surv);
 
 	double *G;
-	G = Calloc(*n_new_data, double);
+	G = R_Calloc(*n_new_data, double);
 	step_eval2(G, new_surv_t, SProb, surv_time, *n_new_data, *n_surv);
 
 	for (k = 1; k < *n_th + 1; k++)
@@ -75,8 +77,8 @@ void auc_uno(double *auc, double *i_auc, double *sens, double *spec, double *sur
 			}
 		}
 	}
-	Free(SProb);
-	Free(G);
+	R_Free(SProb);
+	R_Free(G);
 	/* Calculation of specificity */
 	double Ivec_zsp, Ivec_nsp, tmp_Ivec_zsp = 0.0;
 
@@ -111,9 +113,9 @@ void auc_uno(double *auc, double *i_auc, double *sens, double *spec, double *sur
 	}
 	/* Calculation of iAUC */
 	double *f, *S, *S_new;
-	f = Calloc(*n_t, double);
-	S_new = Calloc(*n_new_data, double);
-	S = Calloc(*n_t, double);
+	f = R_Calloc(*n_t, double);
+	S_new = R_Calloc(*n_new_data, double);
+	S = R_Calloc(*n_t, double);
 	km_Daim(S_new, new_surv_t, new_event, n_new_data);
 	step_eval2(S, t, S_new, new_surv_t, *n_t, *n_new_data);
 
@@ -141,7 +143,7 @@ void auc_uno(double *auc, double *i_auc, double *sens, double *spec, double *sur
 			}
 		}
 	}
-	Free(f);
-	Free(S);
-	Free(S_new);
+	R_Free(f);
+	R_Free(S);
+	R_Free(S_new);
 }

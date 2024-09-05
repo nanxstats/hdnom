@@ -7,6 +7,8 @@
  *
  */
 
+#define STRICT_R_HEADERS
+
 #include <Rinternals.h>
 #include <Rdefines.h>
 #include <R.h>
@@ -22,7 +24,7 @@ SEXP auc_SZ(SEXP THRESH, SEXP T, SEXP STIME, SEXP EVENT, SEXP N_TIME,
 	SEXP S1a, xdims, spec;
 
 	double *lp_new;
-	lp_new = Calloc(INTEGER(N_LPNEW)[0], double);
+	lp_new = R_Calloc(INTEGER(N_LPNEW)[0], double);
 	for (i = 0; i < INTEGER(N_LPNEW)[0]; i++)
 	{
 		lp_new[i] = REAL(LPNEW)[i];
@@ -35,7 +37,7 @@ SEXP auc_SZ(SEXP THRESH, SEXP T, SEXP STIME, SEXP EVENT, SEXP N_TIME,
 
 	int N_times = LENGTH(T);
 	double *surv_new;
-	surv_new = Calloc(N_times * ncx, double);
+	surv_new = R_Calloc(N_times * ncx, double);
 
 	step_eval3(surv_new, REAL(T), REAL(VECTOR_ELT(S1a, 0)), REAL(VECTOR_ELT(S1a, 1)), N_times, ncx, nrx);
 	UNPROTECT(1);
@@ -140,8 +142,8 @@ SEXP auc_SZ(SEXP THRESH, SEXP T, SEXP STIME, SEXP EVENT, SEXP N_TIME,
 		}
 	}
 
-	Free(lp_new);
-	Free(surv_new);
+	R_Free(lp_new);
+	R_Free(surv_new);
 	/* Calculation of AUC */
 	SEXP AUC;
 	PROTECT(AUC = allocVector(REALSXP, N_times));
@@ -165,9 +167,9 @@ SEXP auc_SZ(SEXP THRESH, SEXP T, SEXP STIME, SEXP EVENT, SEXP N_TIME,
 	double *f, *S, *S_new;
 	int n_new_data = INTEGER(N_TIME_NEW)[0];
 
-	f = Calloc(N_times, double);
-	S_new = Calloc(n_new_data, double);
-	S = Calloc(N_times, double);
+	f = R_Calloc(N_times, double);
+	S_new = R_Calloc(n_new_data, double);
+	S = R_Calloc(N_times, double);
 	km_Daim(S_new, REAL(STIME_NEW), REAL(EVENT_NEW), INTEGER(N_TIME_NEW));
 	step_eval2(S, REAL(T), S_new, REAL(STIME_NEW), N_times, n_new_data);
 
@@ -218,9 +220,9 @@ SEXP auc_SZ(SEXP THRESH, SEXP T, SEXP STIME, SEXP EVENT, SEXP N_TIME,
 			}
 		}
 	}
-	Free(f);
-	Free(S);
-	Free(S_new);
+	R_Free(f);
+	R_Free(S);
+	R_Free(S_new);
 
 	SEXP result, names_result;
 	PROTECT(result = allocVector(VECSXP, 5));
