@@ -1,3 +1,13 @@
+# hdnom 6.0.4
+
+## Bug fixes
+
+- Fixed C code compatibility issues with `_R_USE_STRICT_R_HEADERS_`
+  (upcoming default in R 4.5.0) (#13):
+  - Defined `STRICT_R_HEADERS`.
+  - Replaced `Calloc` and `Free` with `R_Calloc` and `R_Free`.
+  - Included `float.h` for `FLT_EPSILON`.
+
 # hdnom 6.0.3
 
 ## Improvements
