@@ -92,7 +92,7 @@ event <- smart$EVENT
 y <- survival::Surv(time, event)
 
 # Fit Cox model with lasso penalty
-fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 1001)
 
 # Model calibration by fitting the original data directly
 cal.fitting <- calibrate(

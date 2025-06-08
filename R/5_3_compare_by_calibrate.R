@@ -20,6 +20,8 @@
 #' @param rep.times Number of repeated times for repeated cross-validation.
 #' @param pred.at Time point at which calibration should take place.
 #' @param ngroup Number of groups to be formed for calibration.
+#' @param rule Model selection criterion for glmnet models,
+#' `"lambda.min"` or `"lambda.1se"`. Defaults to `"lambda.min"`.
 #' @param seed A random seed for cross-validation fold division.
 #' @param trace Logical. Output the calibration progress or not.
 #' Default is \code{TRUE}.
@@ -52,8 +54,11 @@ compare_by_calibrate <- function(
     method = c("fitting", "bootstrap", "cv", "repeated.cv"),
     boot.times = NULL, nfolds = NULL, rep.times = NULL,
     pred.at, ngroup = 5,
+    rule = c("lambda.min", "lambda.1se"),
     seed = 1001, trace = TRUE) {
   method <- match.arg(method)
+  rule <- match.arg(rule)
+
   if (length(pred.at) != 1L) stop("pred.at should only contain 1 time point")
 
   if (!all(model.type %in% c(
@@ -104,7 +109,7 @@ compare_by_calibrate <- function(
         cvfit <- fit_lasso(
           x, Surv(time, event),
           nfolds = 5L,
-          rule = "lambda.1se", seed = seed
+          rule = rule, seed = seed
         )
 
         problist[[i]] <- hdnom::calibrate(
@@ -120,7 +125,7 @@ compare_by_calibrate <- function(
         cvfit <- fit_alasso(
           x, Surv(time, event),
           nfolds = 5L,
-          rule = "lambda.1se", seed = rep(seed, 2)
+          rule = rule, seed = rep(seed, 2)
         )
 
         problist[[i]] <- hdnom::calibrate(
@@ -150,7 +155,7 @@ compare_by_calibrate <- function(
           x, Surv(time, event),
           nfolds = 5L,
           alphas = c(0.1, 0.25, 0.5, 0.75, 0.9), # to reduce computation time
-          rule = "lambda.1se", seed = seed
+          rule = rule, seed = seed
         )
 
         problist[[i]] <- hdnom::calibrate(
@@ -167,7 +172,7 @@ compare_by_calibrate <- function(
           x, Surv(time, event),
           nfolds = 5L,
           alphas = c(0.1, 0.25, 0.5, 0.75, 0.9), # to reduce computation time
-          rule = "lambda.1se", seed = rep(seed, 2)
+          rule = rule, seed = rep(seed, 2)
         )
 
         problist[[i]] <- hdnom::calibrate(

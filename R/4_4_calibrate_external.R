@@ -44,7 +44,7 @@
 #' # Fit Cox model with lasso penalty
 #' fit <- fit_lasso(
 #'   x, Surv(time, event),
-#'   nfolds = 5, rule = "lambda.1se", seed = 11
+#'   nfolds = 5, rule = "lambda.min", seed = 1001
 #' )
 #'
 #' # External calibration

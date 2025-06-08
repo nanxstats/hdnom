@@ -53,7 +53,7 @@ y <- survival::Surv(time, event)
 fit <- fit_enet(
   x, y,
   nfolds = 3, alphas = c(0.3, 0.7),
-  rule = "lambda.1se", seed = 11
+  rule = "lambda.min", seed = 3
 )
 
 nom <- as_nomogram(
