@@ -16,6 +16,7 @@ compare_by_validate(
   rep.times = NULL,
   tauc.type = c("CD", "SZ", "UNO"),
   tauc.time,
+  rule = c("lambda.min", "lambda.1se"),
   seed = 1001,
   trace = TRUE
 )
@@ -52,6 +53,9 @@ Including \code{"CD"} proposed by Chambless and Diao (2006).,
 
 \item{tauc.time}{Numeric vector. Time points at which to evaluate
 the time-dependent AUC.}
+
+\item{rule}{Model selection criterion for glmnet models,
+`"lambda.min"` or `"lambda.1se"`. Defaults to `"lambda.min"`.}
 
 \item{seed}{A random seed for cross-validation fold division.}
 

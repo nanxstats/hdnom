@@ -16,6 +16,7 @@ compare_by_calibrate(
   rep.times = NULL,
   pred.at,
   ngroup = 5,
+  rule = c("lambda.min", "lambda.1se"),
   seed = 1001,
   trace = TRUE
 )
@@ -48,6 +49,9 @@ repeated cross-validation.}
 \item{pred.at}{Time point at which calibration should take place.}
 
 \item{ngroup}{Number of groups to be formed for calibration.}
+
+\item{rule}{Model selection criterion for glmnet models,
+`"lambda.min"` or `"lambda.1se"`. Defaults to `"lambda.min"`.}
 
 \item{seed}{A random seed for cross-validation fold division.}
 
