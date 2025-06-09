@@ -26,7 +26,7 @@
 #' event <- smart$EVENT
 #' y <- survival::Surv(time, event)
 #'
-#' fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+#' fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 1001)
 #'
 #' nom <- as_nomogram(
 #'   fit, x, time, event, pred.at = 365 * 2,

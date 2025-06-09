@@ -26,6 +26,6 @@ time <- smart$TEVENT
 event <- smart$EVENT
 y <- survival::Surv(time, event)
 
-fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+fit <- fit_lasso(x, y, nfolds = 3, rule = "lambda.min", seed = 11)
 infer_variable_type(fit, x)
 }

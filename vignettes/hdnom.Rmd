@@ -98,7 +98,7 @@ Fit a penalized Cox model by adaptive elastic-net regularization with `fit_aenet
 suppressMessages(library("doParallel"))
 registerDoParallel(detectCores())
 
-fit <- fit_aenet(x, y, nfolds = 10, rule = "lambda.1se", seed = c(5, 7), parallel = TRUE)
+fit <- fit_aenet(x, y, nfolds = 10, rule = "lambda.min", seed = c(5, 7), parallel = TRUE)
 names(fit)
 ```
 
@@ -141,8 +141,8 @@ nom <- as_nomogram(
 plot(nom)
 ```
 
-According to the nomogram, the adaptive elastic-net model selected 6 variables
-from the original set of 27 variables, effectively reduced the model complexity.
+According to the nomogram, the adaptive elastic-net model selected 18 variables
+from the original set of 27 variables and reduced the model complexity.
 
 Information about the nomogram itself, such as the point-linear predictor
 unit mapping and total points-survival probability mapping, can be viewed

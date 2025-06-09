@@ -65,7 +65,7 @@ event_new <- smart$EVENT[1001:2000]
 # Fit Cox model with lasso penalty
 fit <- fit_lasso(
   x, survival::Surv(time, event),
-  nfolds = 5, rule = "lambda.1se", seed = 11
+  nfolds = 5, rule = "lambda.min", seed = 11
 )
 
 # External validation with time-dependent AUC

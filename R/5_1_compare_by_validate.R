@@ -24,6 +24,8 @@
 #' \code{"UNO"} proposed by Uno et al. (2007).
 #' @param tauc.time Numeric vector. Time points at which to evaluate
 #' the time-dependent AUC.
+#' @param rule Model selection criterion for glmnet models,
+#' `"lambda.min"` or `"lambda.1se"`. Defaults to `"lambda.min"`.
 #' @param seed A random seed for cross-validation fold division.
 #' @param trace Logical. Output the validation progress or not.
 #' Default is \code{TRUE}.
@@ -73,9 +75,11 @@ compare_by_validate <- function(
     method = c("bootstrap", "cv", "repeated.cv"),
     boot.times = NULL, nfolds = NULL, rep.times = NULL,
     tauc.type = c("CD", "SZ", "UNO"), tauc.time,
+    rule = c("lambda.min", "lambda.1se"),
     seed = 1001, trace = TRUE) {
   method <- match.arg(method)
   tauc.type <- match.arg(tauc.type)
+  rule <- match.arg(rule)
 
   if (!all(model.type %in% c(
     "lasso", "alasso", "flasso", "enet", "aenet",
@@ -119,7 +123,7 @@ compare_by_validate <- function(
         cvfit <- fit_lasso(
           x, Surv(time, event),
           nfolds = 5L,
-          rule = "lambda.1se", seed = seed
+          rule = rule, seed = seed
         )
 
         tauclist[[i]] <- hdnom::validate(
@@ -135,7 +139,7 @@ compare_by_validate <- function(
         cvfit <- fit_alasso(
           x, Surv(time, event),
           nfolds = 5L,
-          rule = "lambda.1se", seed = rep(seed, 2)
+          rule = rule, seed = rep(seed, 2)
         )
 
         tauclist[[i]] <- hdnom::validate(
@@ -165,7 +169,7 @@ compare_by_validate <- function(
           x, Surv(time, event),
           nfolds = 5L,
           alphas = c(0.1, 0.25, 0.5, 0.75, 0.9), # to reduce computation time
-          rule = "lambda.1se", seed = seed
+          rule = rule, seed = seed
         )
 
         tauclist[[i]] <- hdnom::validate(
@@ -182,7 +186,7 @@ compare_by_validate <- function(
           x, Surv(time, event),
           nfolds = 5L,
           alphas = c(0.1, 0.25, 0.5, 0.75, 0.9), # to reduce computation time
-          rule = "lambda.1se", seed = rep(seed, 2)
+          rule = rule, seed = rep(seed, 2)
         )
 
         tauclist[[i]] <- hdnom::validate(

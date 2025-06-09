@@ -37,7 +37,7 @@ time <- smart$TEVENT
 event <- smart$EVENT
 y <- survival::Surv(time, event)
 
-fit <- fit_alasso(x, y, nfolds = 3, rule = "lambda.1se", seed = c(7, 11))
+fit <- fit_alasso(x, y, nfolds = 3, rule = "lambda.min", seed = c(7, 11))
 
 nom <- as_nomogram(
   fit, x, time, event,

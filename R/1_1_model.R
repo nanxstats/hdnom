@@ -20,7 +20,7 @@
 #' event <- smart$EVENT
 #' y <- survival::Surv(time, event)
 #'
-#' fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+#' fit <- fit_lasso(x, y, nfolds = 3, rule = "lambda.min", seed = 11)
 #'
 #' nom <- as_nomogram(
 #'   fit, x, time, event,
@@ -95,7 +95,7 @@ fit_lasso <- function(
 #' event <- smart$EVENT
 #' y <- survival::Surv(time, event)
 #'
-#' fit <- fit_alasso(x, y, nfolds = 3, rule = "lambda.1se", seed = c(7, 11))
+#' fit <- fit_alasso(x, y, nfolds = 3, rule = "lambda.min", seed = c(7, 11))
 #'
 #' nom <- as_nomogram(
 #'   fit, x, time, event,
@@ -215,7 +215,7 @@ fit_alasso <- function(
 #' fit <- fit_enet(
 #'   x, y,
 #'   nfolds = 3, alphas = c(0.3, 0.7),
-#'   rule = "lambda.1se", seed = 11
+#'   rule = "lambda.min", seed = 3
 #' )
 #'
 #' nom <- as_nomogram(
@@ -314,7 +314,7 @@ fit_enet <- function(
 #' fit <- fit_aenet(
 #'   x, y,
 #'   nfolds = 3, alphas = c(0.3, 0.7),
-#'   rule = "lambda.1se", seed = c(5, 7)
+#'   rule = "lambda.min", seed = c(3, 7)
 #' )
 #'
 #' nom <- as_nomogram(
