@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">hdnom</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">6.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">6.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,6 +32,17 @@
       <small>Source: <a href="https://github.com/nanxstats/hdnom/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="6.1.0" id="hdnom-610">hdnom 6.1.0<a class="anchor" aria-label="anchor" href="#hdnom-610"></a></h2>
+<div class="section level3">
+<h3 id="breaking-changes-6-1-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-6-1-0"></a></h3>
+<ul><li>
+<p>Updated functions and code examples to work with glmnet &gt;= 4.1-9 (<a href="https://github.com/nanxstats/hdnom/issues/20" class="external-link">#20</a>).</p>
+<p>Specifically, <code><a href="../reference/compare_by_validate.html">compare_by_validate()</a></code> and <code><a href="../reference/compare_by_calibrate.html">compare_by_calibrate()</a></code> now gain a new argument <code>rule</code> for selecting lambda in glmnet models and defaults to <code>lambda.min</code>. Previously, this is not tunable and defaulted to <code>lambda.1se</code>. Code examples involving glmnet models are updated to use the <code>lambda.min</code> rule instead of <code>lambda.1se</code> so they won’t generate null models.</p>
+<p>In glmnet 4.1-9, using the <code>lambda.1se</code> rule for choosing lambda from Cox model cross-validation results can generate null models more easily. Previously, cross-validation errors for Cox models were normalized by the sum of weights times event indicators per fold. In glmnet 4.1-9, cross-validation errors are normalized by the sum of all weights per fold. This change means that CV errors are divided by larger values (since censored observations now contribute to normalization), and it produces smaller CV error values and potentially smaller standard errors. It could make the 1SE rule more conservative and lead to selecting larger penalty values, hence sparser models or complete null models. This particularly affects datasets with low event rates or many censored observations, where the denominator change is most significant.</p>
+</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="6.0.4" id="hdnom-604">hdnom 6.0.4<a class="anchor" aria-label="anchor" href="#hdnom-604"></a></h2><p class="text-muted">CRAN release: 2024-09-05</p>
 <div class="section level3">
