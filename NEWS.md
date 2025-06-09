@@ -1,3 +1,30 @@
+# hdnom 6.1.0
+
+## Breaking changes
+
+- Updated functions and code examples to work with glmnet >= 4.1-9 (#20).
+
+  Specifically, `compare_by_validate()` and `compare_by_calibrate()` now
+  gain a new argument `rule` for selecting lambda in glmnet models and
+  defaults to `lambda.min`. Previously, this is not tunable and
+  defaulted to `lambda.1se`.
+  Code examples involving glmnet models are updated to use the `lambda.min`
+  rule instead of `lambda.1se` so they won't generate null models.
+
+  In glmnet 4.1-9, using the `lambda.1se` rule for choosing lambda from
+  Cox model cross-validation results can generate null models more easily.
+  Previously, cross-validation errors for Cox models were normalized by the
+  sum of weights times event indicators per fold.
+  In glmnet 4.1-9, cross-validation errors are normalized by the sum of all
+  weights per fold.
+  This change means that CV errors are divided by larger values
+  (since censored observations now contribute to normalization), and
+  it produces smaller CV error values and potentially smaller standard errors.
+  It could make the 1SE rule more conservative and lead to selecting larger
+  penalty values, hence sparser models or complete null models.
+  This particularly affects datasets with low event rates or many censored
+  observations, where the denominator change is most significant.
+
 # hdnom 6.0.4
 
 ## Bug fixes
