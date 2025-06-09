@@ -98,7 +98,7 @@ selected "optimal" hyperparameters (e.g. lambda, alpha, gamma).</p>
 <span class="r-in"><span><span class="va">event</span> <span class="op">&lt;-</span> <span class="va">smart</span><span class="op">$</span><span class="va">EVENT</span></span></span>
 <span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu">survival</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">event</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="fit_lasso.html">fit_lasso</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, nfolds <span class="op">=</span> <span class="fl">5</span>, rule <span class="op">=</span> <span class="st">"lambda.1se"</span>, seed <span class="op">=</span> <span class="fl">11</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="fit_lasso.html">fit_lasso</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, nfolds <span class="op">=</span> <span class="fl">5</span>, rule <span class="op">=</span> <span class="st">"lambda.1se"</span>, seed <span class="op">=</span> <span class="fl">1001</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">nom</span> <span class="op">&lt;-</span> <span class="fu">as_nomogram</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">fit</span>, <span class="va">x</span>, <span class="va">time</span>, <span class="va">event</span>, pred.at <span class="op">=</span> <span class="fl">365</span> <span class="op">*</span> <span class="fl">2</span>,</span></span>
@@ -106,36 +106,31 @@ selected "optimal" hyperparameters (e.g. lambda, alpha, gamma).</p>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">nom</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Points per unit of linear predictor: 55.97875 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Linear predictor units per point   : 0.01786392 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Points per unit of linear predictor: 100.9146 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Linear predictor units per point   : 0.009909369 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  AGE Points</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  15   0    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  20   5    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  25   9    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  30  14    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  35  19    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  40  23    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  45  28    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  50  32    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  55  37    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  60  42    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  65  46    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  70  51    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  75  56    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  80  60    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  85  65    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  25  11    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  30  16    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  35  21    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  40  27    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  45  32    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  50  38    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  55  43    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  60  48    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  65  54    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  70  59    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  75  64    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  80  70    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  85  75    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  AAA Points</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0    0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1   17    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  STENOSIS Points</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0        0     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1        0     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1   13    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  CREAT Points</span>
@@ -158,30 +153,27 @@ selected "optimal" hyperparameters (e.g. lambda, alpha, gamma).</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  IMT Points</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.0  0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.5  8    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1.0 15    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1.5 23    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2.0 30    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2.5 38    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3.0 46    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3.5 53    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  4.0 61    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  4.5 69    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  5.0 76    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.5  4    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1.0  9    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1.5 13    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2.0 17    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2.5 22    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3.0 26    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3.5 30    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4.0 35    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4.5 39    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5.0 44    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  ALBUMIN Points</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1        0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2       14    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3       29    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2       18    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3       36    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Total Points 2-Year Overall Survival Probability</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           189                                0.60</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           168                                0.70</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           142                                0.80</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           100                                0.90</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            60                                0.95</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           122                                0.90</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            50                                0.95</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nom</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="as_nomogram-1.png" alt="" width="700" height="433"></span>

@@ -136,7 +136,7 @@ regression models.
 <span class="r-in"><span><span class="co"># Fit Cox model with lasso penalty</span></span></span>
 <span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="fit_lasso.html">fit_lasso</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">x</span>, <span class="fu">survival</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">event</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  nfolds <span class="op">=</span> <span class="fl">5</span>, rule <span class="op">=</span> <span class="st">"lambda.1se"</span>, seed <span class="op">=</span> <span class="fl">11</span></span></span>
+<span class="r-in"><span>  nfolds <span class="op">=</span> <span class="fl">5</span>, rule <span class="op">=</span> <span class="st">"lambda.min"</span>, seed <span class="op">=</span> <span class="fl">11</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># External validation with time-dependent AUC</span></span></span>
@@ -155,14 +155,14 @@ regression models.
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">val.ext</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Time-Dependent AUC Summary at Evaluation Time Points</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         91.25     182.5    273.75       365    456.25     547.5    638.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AUC 0.4971912 0.5710299 0.6293697 0.6144638 0.6352992 0.6495091 0.6544655</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AUC 0.4717428 0.5628139 0.6267896 0.6164705 0.6380467 0.6554616 0.6608047</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           730</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AUC 0.6602009</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AUC 0.6667299</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">val.ext</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         91.25     182.5    273.75       365    456.25     547.5    638.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AUC 0.4971912 0.5710299 0.6293697 0.6144638 0.6352992 0.6495091 0.6544655</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AUC 0.4717428 0.5628139 0.6267896 0.6164705 0.6380467 0.6554616 0.6608047</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           730</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AUC 0.6602009</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AUC 0.6667299</span>
 <span class="r-plt img"><img src="validate_external-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># # Test fused lasso, MCP, and Snet models</span></span></span>

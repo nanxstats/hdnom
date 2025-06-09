@@ -51,6 +51,7 @@
 <span>  rep.times <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">pred.at</span>,</span>
 <span>  ngroup <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  rule <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lambda.min"</span>, <span class="st">"lambda.1se"</span><span class="op">)</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fl">1001</span>,</span>
 <span>  trace <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -108,6 +109,11 @@ repeated cross-validation.</p></dd>
 <dd><p>Number of groups to be formed for calibration.</p></dd>
 
 
+<dt id="arg-rule">rule<a class="anchor" aria-label="anchor" href="#arg-rule"></a></dt>
+<dd><p>Model selection criterion for glmnet models,
+`"lambda.min"` or `"lambda.1se"`. Defaults to `"lambda.min"`.</p></dd>
+
+
 <dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
 <dd><p>A random seed for cross-validation fold division.</p></dd>
 
@@ -143,7 +149,7 @@ Default is <code>TRUE</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Calibration method: fitting</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model type: lasso </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model alpha: 1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model lambda: 0.01226207 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model lambda: 0.002767573 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model penalty factor: not specified</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Calibration time point: 3285 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of groups formed for calibration: 5 </span>
@@ -153,7 +159,7 @@ Default is <code>TRUE</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Calibration method: fitting</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model type: alasso </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model alpha: 1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model lambda: 0.03827431 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model lambda: 0.001769366 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model penalty factor: specified</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Calibration time point: 3285 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of groups formed for calibration: 5 </span>
@@ -162,20 +168,20 @@ Default is <code>TRUE</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Model type: lasso </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Calibration Summary Table</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Predicted  Observed Lower 95% Upper 95%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.5721389 0.4704003 0.4008863 0.5519681</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.7055872 0.6935569 0.5661697 0.8496059</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.7649804 0.8020453 0.7475810 0.8604775</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.8085048 0.8355332 0.7474947 0.9339408</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.8518968 0.9086230 0.8763437 0.9420912</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.5420008 0.4469568 0.3681894 0.5425751</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.7165334 0.7567249 0.6955663 0.8232608</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.7901613 0.7870803 0.7124101 0.8695768</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.8408859 0.8919718 0.8514594 0.9344117</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.8894957 0.9228286 0.8912396 0.9555373</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Model type: alasso </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Calibration Summary Table</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Predicted  Observed Lower 95% Upper 95%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.5495367 0.4698499 0.3941648 0.5600675</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.7209324 0.7187952 0.6535857 0.7905109</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.7933952 0.8360191 0.7855318 0.8897513</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.8365830 0.8180967 0.7180537 0.9320781</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.8770442 0.9234083 0.8925803 0.9553010</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.5343091 0.4483935 0.3676640 0.5468490</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.7242445 0.7489438 0.6896464 0.8133396</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.8011894 0.8030839 0.7253344 0.8891673</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.8515505 0.8872493 0.8446693 0.9319758</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.8996483 0.9225448 0.8903529 0.9559006</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cmp.cal.cv</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="compare_by_calibrate-1.png" alt="" width="700" height="433"></span>

@@ -166,7 +166,7 @@ Default is <code>TRUE</code>.</p></dd>
 <span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu">survival</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">event</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Fit Cox model with lasso penalty</span></span></span>
-<span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="fit_lasso.html">fit_lasso</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, nfolds <span class="op">=</span> <span class="fl">5</span>, rule <span class="op">=</span> <span class="st">"lambda.1se"</span>, seed <span class="op">=</span> <span class="fl">11</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="fit_lasso.html">fit_lasso</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, nfolds <span class="op">=</span> <span class="fl">5</span>, rule <span class="op">=</span> <span class="st">"lambda.1se"</span>, seed <span class="op">=</span> <span class="fl">1001</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Model calibration by fitting the original data directly</span></span></span>
 <span class="r-in"><span><span class="va">cal.fitting</span> <span class="op">&lt;-</span> <span class="fu">calibrate</span><span class="op">(</span></span></span>
@@ -200,18 +200,18 @@ Default is <code>TRUE</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Calibration method: fitting</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model type: lasso </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model alpha: 1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model lambda: 0.02581047 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model lambda: 0.03744658 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model penalty factor: not specified</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Calibration time point: 3285 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of groups formed for calibration: 5 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cal.fitting</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Calibration Summary Table</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Predicted  Observed Lower 95% Upper 95%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.6158701 0.4719854 0.3976380 0.5602336</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.7018983 0.6721901 0.5366629 0.8419427</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.7426685 0.8123688 0.7649860 0.8626864</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.7744025 0.8212207 0.7321243 0.9211598</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.8095739 0.8875319 0.8496029 0.9271542</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.6609428 0.4601632 0.3836063 0.5519988</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.7078401 0.7520519 0.6977012 0.8106366</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.7317541 0.7441680 0.6364450 0.8701239</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.7512392 0.8413863 0.7660086 0.9241814</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.7741434 0.8938572 0.8568490 0.9324639</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cal.fitting</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="calibrate-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
@@ -222,18 +222,18 @@ Default is <code>TRUE</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Cross-validation folds: 5 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model type: lasso </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model alpha: 1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model lambda: 0.02581047 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model lambda: 0.03744658 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model penalty factor: not specified</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Calibration time point: 3285 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of groups formed for calibration: 5 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cal.cv</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Calibration Summary Table</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Predicted  Observed Lower 95% Upper 95%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.6153221 0.4935001 0.4218929 0.5772611</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.7031538 0.6876453 0.5678162 0.8327626</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.7450765 0.7955637 0.7364360 0.8594387</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.7757004 0.8274510 0.7484363 0.9148076</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.8097056 0.8838732 0.8466946 0.9226844</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.6588508 0.5078961 0.4309993 0.5985125</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.7099409 0.7212081 0.6604775 0.7875229</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.7341094 0.7168790 0.5481497 0.9375459</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.7530252 0.8275354 0.7520007 0.9106571</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.7745243 0.8569103 0.7987051 0.9193573</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cal.cv</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="calibrate-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>

@@ -51,6 +51,7 @@
 <span>  rep.times <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  tauc.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CD"</span>, <span class="st">"SZ"</span>, <span class="st">"UNO"</span><span class="op">)</span>,</span>
 <span>  <span class="va">tauc.time</span>,</span>
+<span>  rule <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lambda.min"</span>, <span class="st">"lambda.1se"</span><span class="op">)</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fl">1001</span>,</span>
 <span>  trace <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -112,6 +113,11 @@ Including <code>"CD"</code> proposed by Chambless and Diao (2006).,
 the time-dependent AUC.</p></dd>
 
 
+<dt id="arg-rule">rule<a class="anchor" aria-label="anchor" href="#arg-rule"></a></dt>
+<dd><p>Model selection criterion for glmnet models,
+`"lambda.min"` or `"lambda.1se"`. Defaults to `"lambda.min"`.</p></dd>
+
+
 <dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
 <dd><p>A random seed for cross-validation fold division.</p></dd>
 
@@ -171,7 +177,7 @@ regression models.
 <span class="r-out co"><span class="r-pr">#&gt;</span> Cross-validation folds: 5 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model type: lasso </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model alpha: 1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model lambda: 0.03893173 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model lambda: 0.01685262 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model penalty factor: not specified</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Time-dependent AUC type: UNO </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Evaluation time points for tAUC: 91.25 182.5 273.75 365 456.25 547.5 638.75 730</span>
@@ -182,7 +188,7 @@ regression models.
 <span class="r-out co"><span class="r-pr">#&gt;</span> Cross-validation folds: 5 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model type: alasso </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model alpha: 1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model lambda: 3.330828 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model lambda: 0.1086075 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> glmnet model penalty factor: specified</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Time-dependent AUC type: UNO </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Evaluation time points for tAUC: 91.25 182.5 273.75 365 456.25 547.5 638.75 730</span>
@@ -190,123 +196,123 @@ regression models.
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cmp.val.cv</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model type: lasso </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              91.25     182.5    273.75       365    456.25     547.5    638.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.5514232 0.5750925 0.5908706 0.6486018 0.6315953 0.6615158 0.6475695</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.1919192 0.3720636 0.4318947 0.5247777 0.4999633 0.5416780 0.5432238</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.4054983 0.4326005 0.5056009 0.5330110 0.5330110 0.5819999 0.5859288</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6362098 0.5369578 0.5155505 0.5450753 0.5461533 0.5949445 0.6091759</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.6742424 0.7018313 0.6757791 0.8073438 0.7434037 0.7520246 0.6958370</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.8492462 0.8320093 0.8255278 0.8328010 0.8354450 0.8369321 0.8036820</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.5512447 0.5892787 0.6118296 0.6703934 0.6522846 0.6827941 0.6663543</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.1969697 0.3638949 0.4933239 0.5227411 0.5015440 0.5406118 0.5414032</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.3883162 0.5121101 0.5066906 0.5287065 0.5287065 0.5808059 0.6044632</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6446701 0.5253751 0.5113647 0.6234958 0.6227553 0.6684507 0.6421704</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.7272727 0.6715544 0.6681714 0.8021683 0.7318710 0.7476227 0.6869896</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7989950 0.8734591 0.8795973 0.8748553 0.8765461 0.8764793 0.8567451</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                730</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.6292095</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.5569337</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.5915718</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6105764</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.6746757</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7122901</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.6497359</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.5685657</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.6045935</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6472902</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.6660511</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7621791</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              91.25     182.5    273.75       365    456.25     547.5    638.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.5514232 0.5750925 0.5908706 0.6486018 0.6315953 0.6615158 0.6475695</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.1919192 0.3720636 0.4318947 0.5247777 0.4999633 0.5416780 0.5432238</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.4054983 0.4326005 0.5056009 0.5330110 0.5330110 0.5819999 0.5859288</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6362098 0.5369578 0.5155505 0.5450753 0.5461533 0.5949445 0.6091759</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.6742424 0.7018313 0.6757791 0.8073438 0.7434037 0.7520246 0.6958370</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.8492462 0.8320093 0.8255278 0.8328010 0.8354450 0.8369321 0.8036820</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.5512447 0.5892787 0.6118296 0.6703934 0.6522846 0.6827941 0.6663543</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.1969697 0.3638949 0.4933239 0.5227411 0.5015440 0.5406118 0.5414032</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.3883162 0.5121101 0.5066906 0.5287065 0.5287065 0.5808059 0.6044632</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6446701 0.5253751 0.5113647 0.6234958 0.6227553 0.6684507 0.6421704</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.7272727 0.6715544 0.6681714 0.8021683 0.7318710 0.7476227 0.6869896</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7989950 0.8734591 0.8795973 0.8748553 0.8765461 0.8764793 0.8567451</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                730</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.6292095</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.5569337</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.5915718</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6105764</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.6746757</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7122901</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.6497359</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.5685657</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.6045935</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6472902</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.6660511</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7621791</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model type: alasso </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              91.25     182.5    273.75       365    456.25     547.5    638.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.5438734 0.6253119 0.6246102 0.6566693 0.6505558 0.6767926 0.6664697</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.1161616 0.4108091 0.5219790 0.5361901 0.5334362 0.5378952 0.5394197</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.3891753 0.5148460 0.5289428 0.5577034 0.5361901 0.6129380 0.6162614</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.7121212 0.5690552 0.5697782 0.5913443 0.6003684 0.6309677 0.6296160</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.7286432 0.8005930 0.6859652 0.7864692 0.7680248 0.7872057 0.7359087</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7732657 0.8312563 0.8163858 0.8116394 0.8147596 0.8149562 0.8111427</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.5507595 0.5930334 0.6119896 0.6708129 0.6531152 0.6855229 0.6689000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.1969697 0.3483014 0.4834263 0.5191235 0.4992296 0.5515548 0.5520277</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.3840206 0.5043381 0.5043835 0.5302921 0.5302921 0.5741340 0.5934681</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6362098 0.5201011 0.5120325 0.6202395 0.6167865 0.6642097 0.6377153</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.7537688 0.7019551 0.6681626 0.8014144 0.7345390 0.7536005 0.6947551</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7828283 0.8904711 0.8919432 0.8829948 0.8847287 0.8841155 0.8665338</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                730</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.6646070</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.5620190</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.6241618</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6301660</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.7335408</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7731476</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.6501607</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.5536751</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.5934151</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6453506</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.6715423</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7868205</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              91.25     182.5    273.75       365    456.25     547.5    638.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.5438734 0.6253119 0.6246102 0.6566693 0.6505558 0.6767926 0.6664697</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.1161616 0.4108091 0.5219790 0.5361901 0.5334362 0.5378952 0.5394197</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.3891753 0.5148460 0.5289428 0.5577034 0.5361901 0.6129380 0.6162614</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.7121212 0.5690552 0.5697782 0.5913443 0.6003684 0.6309677 0.6296160</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.7286432 0.8005930 0.6859652 0.7864692 0.7680248 0.7872057 0.7359087</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7732657 0.8312563 0.8163858 0.8116394 0.8147596 0.8149562 0.8111427</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.5507595 0.5930334 0.6119896 0.6708129 0.6531152 0.6855229 0.6689000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.1969697 0.3483014 0.4834263 0.5191235 0.4992296 0.5515548 0.5520277</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.3840206 0.5043381 0.5043835 0.5302921 0.5302921 0.5741340 0.5934681</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6362098 0.5201011 0.5120325 0.6202395 0.6167865 0.6642097 0.6377153</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.7537688 0.7019551 0.6681626 0.8014144 0.7345390 0.7536005 0.6947551</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7828283 0.8904711 0.8919432 0.8829948 0.8847287 0.8841155 0.8665338</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                730</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.6646070</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.5620190</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.6241618</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6301660</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.7335408</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7731476</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.6501607</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.5536751</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.5934151</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6453506</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.6715423</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7868205</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cmp.val.cv</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              91.25     182.5    273.75       365    456.25     547.5    638.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.5514232 0.5750925 0.5908706 0.6486018 0.6315953 0.6615158 0.6475695</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.1919192 0.3720636 0.4318947 0.5247777 0.4999633 0.5416780 0.5432238</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.4054983 0.4326005 0.5056009 0.5330110 0.5330110 0.5819999 0.5859288</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6362098 0.5369578 0.5155505 0.5450753 0.5461533 0.5949445 0.6091759</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.6742424 0.7018313 0.6757791 0.8073438 0.7434037 0.7520246 0.6958370</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.8492462 0.8320093 0.8255278 0.8328010 0.8354450 0.8369321 0.8036820</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.5512447 0.5892787 0.6118296 0.6703934 0.6522846 0.6827941 0.6663543</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.1969697 0.3638949 0.4933239 0.5227411 0.5015440 0.5406118 0.5414032</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.3883162 0.5121101 0.5066906 0.5287065 0.5287065 0.5808059 0.6044632</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6446701 0.5253751 0.5113647 0.6234958 0.6227553 0.6684507 0.6421704</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.7272727 0.6715544 0.6681714 0.8021683 0.7318710 0.7476227 0.6869896</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7989950 0.8734591 0.8795973 0.8748553 0.8765461 0.8764793 0.8567451</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                730</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.6292095</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.5569337</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.5915718</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6105764</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.6746757</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7122901</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.6497359</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.5685657</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.6045935</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6472902</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.6660511</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7621791</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              91.25     182.5    273.75       365    456.25     547.5    638.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.5438734 0.6253119 0.6246102 0.6566693 0.6505558 0.6767926 0.6664697</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.1161616 0.4108091 0.5219790 0.5361901 0.5334362 0.5378952 0.5394197</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.3891753 0.5148460 0.5289428 0.5577034 0.5361901 0.6129380 0.6162614</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.7121212 0.5690552 0.5697782 0.5913443 0.6003684 0.6309677 0.6296160</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.7286432 0.8005930 0.6859652 0.7864692 0.7680248 0.7872057 0.7359087</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7732657 0.8312563 0.8163858 0.8116394 0.8147596 0.8149562 0.8111427</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.5507595 0.5930334 0.6119896 0.6708129 0.6531152 0.6855229 0.6689000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.1969697 0.3483014 0.4834263 0.5191235 0.4992296 0.5515548 0.5520277</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.3840206 0.5043381 0.5043835 0.5302921 0.5302921 0.5741340 0.5934681</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6362098 0.5201011 0.5120325 0.6202395 0.6167865 0.6642097 0.6377153</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.7537688 0.7019551 0.6681626 0.8014144 0.7345390 0.7536005 0.6947551</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7828283 0.8904711 0.8919432 0.8829948 0.8847287 0.8841155 0.8665338</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                730</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.6646070</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.5620190</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.6241618</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6301660</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.7335408</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7731476</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.6501607</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.5536751</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.5934151</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6453506</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.6715423</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7868205</span>
 <span class="r-plt img"><img src="compare_by_validate-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cmp.val.cv</span>, interval <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              91.25     182.5    273.75       365    456.25     547.5    638.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.5514232 0.5750925 0.5908706 0.6486018 0.6315953 0.6615158 0.6475695</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.1919192 0.3720636 0.4318947 0.5247777 0.4999633 0.5416780 0.5432238</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.4054983 0.4326005 0.5056009 0.5330110 0.5330110 0.5819999 0.5859288</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6362098 0.5369578 0.5155505 0.5450753 0.5461533 0.5949445 0.6091759</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.6742424 0.7018313 0.6757791 0.8073438 0.7434037 0.7520246 0.6958370</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.8492462 0.8320093 0.8255278 0.8328010 0.8354450 0.8369321 0.8036820</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.5512447 0.5892787 0.6118296 0.6703934 0.6522846 0.6827941 0.6663543</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.1969697 0.3638949 0.4933239 0.5227411 0.5015440 0.5406118 0.5414032</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.3883162 0.5121101 0.5066906 0.5287065 0.5287065 0.5808059 0.6044632</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6446701 0.5253751 0.5113647 0.6234958 0.6227553 0.6684507 0.6421704</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.7272727 0.6715544 0.6681714 0.8021683 0.7318710 0.7476227 0.6869896</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7989950 0.8734591 0.8795973 0.8748553 0.8765461 0.8764793 0.8567451</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                730</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.6292095</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.5569337</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.5915718</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6105764</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.6746757</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7122901</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.6497359</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.5685657</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.6045935</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6472902</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.6660511</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7621791</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              91.25     182.5    273.75       365    456.25     547.5    638.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.5438734 0.6253119 0.6246102 0.6566693 0.6505558 0.6767926 0.6664697</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.1161616 0.4108091 0.5219790 0.5361901 0.5334362 0.5378952 0.5394197</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.3891753 0.5148460 0.5289428 0.5577034 0.5361901 0.6129380 0.6162614</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.7121212 0.5690552 0.5697782 0.5913443 0.6003684 0.6309677 0.6296160</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.7286432 0.8005930 0.6859652 0.7864692 0.7680248 0.7872057 0.7359087</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7732657 0.8312563 0.8163858 0.8116394 0.8147596 0.8149562 0.8111427</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.5507595 0.5930334 0.6119896 0.6708129 0.6531152 0.6855229 0.6689000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.1969697 0.3483014 0.4834263 0.5191235 0.4992296 0.5515548 0.5520277</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.3840206 0.5043381 0.5043835 0.5302921 0.5302921 0.5741340 0.5934681</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6362098 0.5201011 0.5120325 0.6202395 0.6167865 0.6642097 0.6377153</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.7537688 0.7019551 0.6681626 0.8014144 0.7345390 0.7536005 0.6947551</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7828283 0.8904711 0.8919432 0.8829948 0.8847287 0.8841155 0.8665338</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                730</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.6646070</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.5620190</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.6241618</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6301660</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.7335408</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7731476</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mean     0.6501607</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Min      0.5536751</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.25 Qt. 0.5934151</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Median   0.6453506</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.75 Qt. 0.6715423</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Max      0.7868205</span>
 <span class="r-plt img"><img src="compare_by_validate-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>

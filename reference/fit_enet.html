@@ -70,12 +70,12 @@ with elastic-net penalty, evaluated by penalized partial-likelihood.</p>
 
 
 <dt id="arg-alphas">alphas<a class="anchor" aria-label="anchor" href="#arg-alphas"></a></dt>
-<dd><p>Alphas to tune in <code><a href="https://rdrr.io/pkg/glmnet/man/cv.glmnet.html" class="external-link">cv.glmnet</a></code>.</p></dd>
+<dd><p>Alphas to tune in <code><a href="https://glmnet.stanford.edu/reference/cv.glmnet.html" class="external-link">cv.glmnet</a></code>.</p></dd>
 
 
 <dt id="arg-rule">rule<a class="anchor" aria-label="anchor" href="#arg-rule"></a></dt>
 <dd><p>Model selection criterion, <code>"lambda.min"</code> or
-<code>"lambda.1se"</code>. See <code><a href="https://rdrr.io/pkg/glmnet/man/cv.glmnet.html" class="external-link">cv.glmnet</a></code>
+<code>"lambda.1se"</code>. See <code><a href="https://glmnet.stanford.edu/reference/cv.glmnet.html" class="external-link">cv.glmnet</a></code>
 for details.</p></dd>
 
 
@@ -107,7 +107,7 @@ with the number of CPU cores before calling this function.</p></dd>
 <span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">fit_enet</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">x</span>, <span class="va">y</span>,</span></span>
 <span class="r-in"><span>  nfolds <span class="op">=</span> <span class="fl">3</span>, alphas <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.7</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  rule <span class="op">=</span> <span class="st">"lambda.1se"</span>, seed <span class="op">=</span> <span class="fl">11</span></span></span>
+<span class="r-in"><span>  rule <span class="op">=</span> <span class="st">"lambda.min"</span>, seed <span class="op">=</span> <span class="fl">3</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">nom</span> <span class="op">&lt;-</span> <span class="fu"><a href="as_nomogram.html">as_nomogram</a></span><span class="op">(</span></span></span>

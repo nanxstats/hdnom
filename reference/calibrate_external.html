@@ -120,7 +120,7 @@ Must be of the same length with the number of rows as <code>x_new</code>.</p></d
 <span class="r-in"><span><span class="co"># Fit Cox model with lasso penalty</span></span></span>
 <span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="fit_lasso.html">fit_lasso</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">event</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  nfolds <span class="op">=</span> <span class="fl">5</span>, rule <span class="op">=</span> <span class="st">"lambda.1se"</span>, seed <span class="op">=</span> <span class="fl">11</span></span></span>
+<span class="r-in"><span>  nfolds <span class="op">=</span> <span class="fl">5</span>, rule <span class="op">=</span> <span class="st">"lambda.min"</span>, seed <span class="op">=</span> <span class="fl">1001</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># External calibration</span></span></span>
@@ -138,11 +138,11 @@ Must be of the same length with the number of rows as <code>x_new</code>.</p></d
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cal.ext</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   External Calibration Summary Table</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Predicted  Observed Lower 95% Upper 95%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.7636781 0.6778444 0.6118535 0.7509528</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.8292888 0.8558495 0.8064183 0.9083108</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.8622023 0.8743564 0.8281000 0.9231966</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.8851549 0.9169032 0.8785888 0.9568884</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.9084455 0.9429391 0.9085910 0.9785858</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.7403764 0.6938653 0.6285652 0.7659492</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.8364663 0.8191247 0.7653769 0.8766470</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.8802589 0.8889105 0.8445907 0.9355560</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 0.9082835 0.9222506 0.8851235 0.9609349</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.9344099 0.9383217 0.9030920 0.9749257</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cal.ext</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.6</span>, <span class="fl">1</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.6</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="calibrate_external-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># # Test fused lasso, MCP, and Snet models</span></span></span>
