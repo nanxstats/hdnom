@@ -15,7 +15,7 @@ Authors@R: c(
 Description: Creates nomogram visualizations for penalized Cox regression
     models, with the support of reproducible survival model building,
     validation, calibration, and comparison for high-dimensional data.
-License: GPL-3 | file LICENSE
+License: GPL (>= 3)
 LazyData: TRUE
 URL: https://nanx.me/hdnom/, https://github.com/nanxstats/hdnom
 BugReports: https://github.com/nanxstats/hdnom/issues
