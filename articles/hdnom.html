@@ -58,7 +58,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>An Introduction to hdnom</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/nanxstats/hdnom/blob/v6.1.0/vignettes/hdnom.Rmd" class="external-link"><code>vignettes/hdnom.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/nanxstats/hdnom/blob/master/vignettes/hdnom.Rmd" class="external-link"><code>vignettes/hdnom.Rmd</code></a></small>
       <div class="d-none name"><code>hdnom.Rmd</code></div>
     </div>
 
@@ -81,7 +81,7 @@ comparison.</p>
 <p>To build a penalized Cox model with good predictive performance, some
 parameter tuning is usually needed. For example, the elastic-net model
 requires to tune the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mo>ℓ</mo><mn>1</mn></msub><annotation encoding="application/x-tex">\ell_1</annotation></semantics></math>-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mo>ℓ</mo><mn>2</mn></msub><annotation encoding="application/x-tex">\ell_2</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℓ</mi><mn>1</mn></msub><annotation encoding="application/x-tex">\ell_1</annotation></semantics></math>-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℓ</mi><mn>2</mn></msub><annotation encoding="application/x-tex">\ell_2</annotation></semantics></math>
 penalty trade-off parameter
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>,
 and the regularization parameter
@@ -139,7 +139,7 @@ types:</p>
 <tr class="even">
 <td><code><a href="../reference/fit_mnet.html">fit_mnet()</a></code></td>
 <td>Mnet (MCP +
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mo>ℓ</mo><mn>2</mn></msub><annotation encoding="application/x-tex">\ell_2</annotation></semantics></math>)</td>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℓ</mi><mn>2</mn></msub><annotation encoding="application/x-tex">\ell_2</annotation></semantics></math>)</td>
 <td>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>,
@@ -157,7 +157,7 @@ types:</p>
 <tr class="even">
 <td><code><a href="../reference/fit_snet.html">fit_snet()</a></code></td>
 <td>Snet (SCAD +
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mo>ℓ</mo><mn>2</mn></msub><annotation encoding="application/x-tex">\ell_2</annotation></semantics></math>)</td>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>ℓ</mi><mn>2</mn></msub><annotation encoding="application/x-tex">\ell_2</annotation></semantics></math>)</td>
 <td>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>,
@@ -230,7 +230,7 @@ plot it:</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nom</span><span class="op">)</span></span></code></pre></div>
-<p><img src="hdnom_files/figure-html/unnamed-chunk-7-1.png" width="600" height="600" style="display: block; margin: auto;"></p>
+<p><img src="hdnom_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="600" height="600" style="display: block; margin: auto;"></p>
 <p>According to the nomogram, the adaptive elastic-net model selected 18
 variables from the original set of 27 variables and reduced the model
 complexity.</p>
@@ -319,8 +319,16 @@ of the model performance.</p>
 <span><span class="co">#&gt; 0.25 Qt. 0.6797667 0.6910788</span></span>
 <span><span class="co">#&gt; Median   0.6817213 0.6930555</span></span>
 <span><span class="co">#&gt; 0.75 Qt. 0.6823468 0.6973057</span></span>
-<span><span class="co">#&gt; Max      0.6955724 0.6999818</span></span></code></pre></div>
-<p><img src="hdnom_files/figure-html/unnamed-chunk-9-1.png" width="500" height="500" style="display: block; margin: auto;"></p>
+<span><span class="co">#&gt; Max      0.6955724 0.6999818</span></span>
+<span><span class="co">#&gt; Warning: `aes_string()` was deprecated in ggplot2 3.0.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use tidy evaluation idioms with `aes()`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> See also `vignette("ggplot2-in-packages")` for more information.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">hdnom</span> package.</span></span>
+<span><span class="co">#&gt;   Please report the issue at <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/nanxstats/hdnom/issues&gt;</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once per session.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span></code></pre></div>
+<p><img src="hdnom_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" alt="" width="500" height="500" style="display: block; margin: auto;"></p>
 <p>The solid line represents the mean of the AUC, the dashed line
 represents the median of the AUC. The darker interval in the plot shows
 the 25% and 75% quantiles of AUC, the lighter interval shows the minimum
@@ -382,7 +390,7 @@ external validation:</p>
 <span><span class="co">#&gt; AUC 0.4606283 0.5722837 0.6406513 0.6382541 0.6680544 0.6942158 0.7037</span></span>
 <span><span class="co">#&gt;           730</span></span>
 <span><span class="co">#&gt; AUC 0.7080763</span></span></code></pre></div>
-<p><img src="hdnom_files/figure-html/unnamed-chunk-10-1.png" width="500" height="500" style="display: block; margin: auto;"></p>
+<p><img src="hdnom_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="" width="500" height="500" style="display: block; margin: auto;"></p>
 <p>The time-dependent AUC on the external dataset is shown above.</p>
 </div>
 </div>
@@ -440,7 +448,7 @@ by Kaplan-Meier method with 95% CI) are summarized as above.</p>
 <p>Plot the calibration result:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cal_int</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="hdnom_files/figure-html/unnamed-chunk-12-1.png" width="500" height="500" style="display: block; margin: auto;"></p>
+<p><img src="hdnom_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" alt="" width="500" height="500" style="display: block; margin: auto;"></p>
 <p>In practice, you may want to perform calibration for multiple time
 points separately, and put the plots together in one figure. See
 <code><a href="../reference/calibrate.html">?hdnom::calibrate</a></code> for more examples about internal model
@@ -470,7 +478,7 @@ calibration.</p>
 <span><span class="co">#&gt; 2 0.8916501 0.8792732 0.8436384 0.9164132</span></span>
 <span><span class="co">#&gt; 3 0.9369653 0.9418175 0.9158249 0.9685479</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cal_ext</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="hdnom_files/figure-html/unnamed-chunk-13-1.png" width="500" height="500" style="display: block; margin: auto;"></p>
+<p><img src="hdnom_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" alt="" width="500" height="500" style="display: block; margin: auto;"></p>
 <p>The external calibration results have the similar interpretations as
 the internal calibration results, except the fact that external
 calibration is performed on the external dataset.</p>
@@ -493,8 +501,15 @@ risk groups, with the function <code><a href="../reference/kmplot.html">kmplot()
 <span>  <span class="va">cal_int</span>,</span>
 <span>  group.name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"High risk"</span>, <span class="st">"Medium risk"</span>, <span class="st">"Low risk"</span><span class="op">)</span>,</span>
 <span>  time.at <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span> <span class="op">*</span> <span class="fl">365</span></span>
-<span><span class="op">)</span></span></code></pre></div>
-<p><img src="hdnom_files/figure-html/unnamed-chunk-14-1.png" width="600" height="400" style="display: block; margin: auto;"></p>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `linewidth` instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">hdnom</span> package.</span></span>
+<span><span class="co">#&gt;   Please report the issue at <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/nanxstats/hdnom/issues&gt;</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once per session.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span></code></pre></div>
+<p><img src="hdnom_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" alt="" width="600" height="400" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/kmplot.html">kmplot</a></span><span class="op">(</span></span>
@@ -502,7 +517,7 @@ risk groups, with the function <code><a href="../reference/kmplot.html">kmplot()
 <span>  group.name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"High risk"</span>, <span class="st">"Medium risk"</span>, <span class="st">"Low risk"</span><span class="op">)</span>,</span>
 <span>  time.at <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">6</span> <span class="op">*</span> <span class="fl">365</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="hdnom_files/figure-html/unnamed-chunk-14-2.png" width="600" height="400" style="display: block; margin: auto;"></p>
+<p><img src="hdnom_files/figure-html/unnamed-chunk-14-2.png" class="r-plt" alt="" width="600" height="400" style="display: block; margin: auto;"></p>
 <p>The
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>-value
 of the log-rank test is also shown in the plot.</p>
@@ -687,7 +702,7 @@ we compare lasso and adaptive lasso by 5-fold cross-validation:</p>
 <span><span class="co">#&gt; Median   0.6881753</span></span>
 <span><span class="co">#&gt; 0.75 Qt. 0.6916884</span></span>
 <span><span class="co">#&gt; Max      0.7119939</span></span></code></pre></div>
-<p><img src="hdnom_files/figure-html/unnamed-chunk-16-1.png" width="600" height="480" style="display: block; margin: auto;"></p>
+<p><img src="hdnom_files/figure-html/unnamed-chunk-16-1.png" class="r-plt" alt="" width="600" height="480" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cmp_val</span>, interval <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt;              91.25     182.5    273.75       365    456.25     547.5    638.75</span></span>
@@ -718,7 +733,7 @@ we compare lasso and adaptive lasso by 5-fold cross-validation:</p>
 <span><span class="co">#&gt; Median   0.6881753</span></span>
 <span><span class="co">#&gt; 0.75 Qt. 0.6916884</span></span>
 <span><span class="co">#&gt; Max      0.7119939</span></span></code></pre></div>
-<p><img src="hdnom_files/figure-html/unnamed-chunk-16-2.png" width="600" height="480" style="display: block; margin: auto;"></p>
+<p><img src="hdnom_files/figure-html/unnamed-chunk-16-2.png" class="r-plt" alt="" width="600" height="480" style="display: block; margin: auto;"></p>
 <p>The solid line, dashed line and intervals have the same
 interpretation as above. For this comparison, there seems to be no
 substantial difference (AUC difference
@@ -790,7 +805,7 @@ calibration:</p>
 <span><span class="co">#&gt; 4 0.8518993 0.8968627 0.8599790 0.9353283</span></span>
 <span><span class="co">#&gt; 5 0.8998209 0.8996658 0.8591791 0.9420602</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cmp_cal</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">1</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="hdnom_files/figure-html/unnamed-chunk-17-1.png" width="600" height="480" style="display: block; margin: auto;"></p>
+<p><img src="hdnom_files/figure-html/unnamed-chunk-17-1.png" class="r-plt" alt="" width="600" height="480" style="display: block; margin: auto;"></p>
 <p>The summary output and the plot show the calibration results for each
 model type we want to compare. Lasso and adaptive lasso have comparable
 performance in this case, since their predicted overall survival
@@ -881,7 +896,7 @@ in the table below:</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
