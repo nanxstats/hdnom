@@ -63,38 +63,46 @@ event <- smart$EVENT
 y <- survival::Surv(time, event)
 
 fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 1001)
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 
 nom <- as_nomogram(
-  fit, x, time, event, pred.at = 365 * 2,
+  fit, x, time, event,
+  pred.at = 365 * 2,
   funlabel = "2-Year Overall Survival Probability"
 )
 
 print(nom)
-#> Points per unit of linear predictor: 100.9146 
-#> Linear predictor units per point   : 0.009909369 
+#> Points per unit of linear predictor: 107.0109 
+#> Linear predictor units per point   : 0.009344843 
 #> 
 #> 
 #>  AGE Points
 #>  15   0    
-#>  20   5    
-#>  25  11    
-#>  30  16    
-#>  35  21    
-#>  40  27    
-#>  45  32    
-#>  50  38    
-#>  55  43    
-#>  60  48    
-#>  65  54    
-#>  70  59    
-#>  75  64    
-#>  80  70    
-#>  85  75    
+#>  20   4    
+#>  25   8    
+#>  30  12    
+#>  35  16    
+#>  40  21    
+#>  45  25    
+#>  50  29    
+#>  55  33    
+#>  60  37    
+#>  65  41    
+#>  70  45    
+#>  75  49    
+#>  80  53    
+#>  85  58    
 #> 
 #> 
 #>  AAA Points
 #>  0    0    
-#>  1   13    
+#>  1   16    
 #> 
 #> 
 #>  CREAT Points
@@ -118,15 +126,15 @@ print(nom)
 #>  IMT Points
 #>  0.0  0    
 #>  0.5  4    
-#>  1.0  9    
-#>  1.5 13    
-#>  2.0 17    
-#>  2.5 22    
-#>  3.0 26    
-#>  3.5 30    
-#>  4.0 35    
-#>  4.5 39    
-#>  5.0 44    
+#>  1.0  7    
+#>  1.5 11    
+#>  2.0 15    
+#>  2.5 18    
+#>  3.0 22    
+#>  3.5 26    
+#>  4.0 29    
+#>  4.5 33    
+#>  5.0 37    
 #> 
 #> 
 #>  ALBUMIN Points
@@ -136,8 +144,8 @@ print(nom)
 #> 
 #> 
 #>  Total Points 2-Year Overall Survival Probability
-#>           122                                0.90
-#>            50                                0.95
+#>           113                                0.90
+#>            36                                0.95
 #> 
 plot(nom)
 ```

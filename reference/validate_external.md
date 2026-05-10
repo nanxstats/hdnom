@@ -99,6 +99,13 @@ fit <- fit_lasso(
   x, survival::Surv(time, event),
   nfolds = 5, rule = "lambda.min", seed = 11
 )
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 
 # External validation with time-dependent AUC
 val.ext <- validate_external(
@@ -116,14 +123,14 @@ print(val.ext)
 summary(val.ext)
 #> Time-Dependent AUC Summary at Evaluation Time Points
 #>         91.25     182.5    273.75       365    456.25     547.5    638.75
-#> AUC 0.4717428 0.5628139 0.6267896 0.6164705 0.6380467 0.6554616 0.6608047
+#> AUC 0.4688325 0.5603838 0.6247818 0.6143149 0.6352156 0.6526012 0.6580821
 #>           730
-#> AUC 0.6667299
+#> AUC 0.6650456
 plot(val.ext)
 #>         91.25     182.5    273.75       365    456.25     547.5    638.75
-#> AUC 0.4717428 0.5628139 0.6267896 0.6164705 0.6380467 0.6554616 0.6608047
+#> AUC 0.4688325 0.5603838 0.6247818 0.6143149 0.6352156 0.6526012 0.6580821
 #>           730
-#> AUC 0.6667299
+#> AUC 0.6650456
 
 
 # # Test fused lasso, MCP, and Snet models

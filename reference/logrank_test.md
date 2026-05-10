@@ -37,6 +37,13 @@ fit <- fit_lasso(
   x, survival::Surv(time, event),
   nfolds = 5, rule = "lambda.min", seed = 11
 )
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 
 # Internal calibration
 cal.int <- calibrate(
@@ -47,10 +54,15 @@ cal.int <- calibrate(
   pred.at = 365 * 9, ngroup = 3
 )
 #> Start fold 1 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start fold 2 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start fold 3 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start fold 4 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start fold 5 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 
 logrank_test(cal.int)
 #> Call:
@@ -59,11 +71,11 @@ logrank_test(cal.int)
 #> n=999, 1 observation deleted due to missingness.
 #> 
 #>         N Observed Expected (O-E)^2/E (O-E)^2/V
-#> grp=1 333      127     66.8     54.26     77.31
-#> grp=2 333       59     79.2      5.14      7.92
-#> grp=3 333       40     80.0     20.02     31.06
+#> grp=1 333      127     67.1     53.58      76.5
+#> grp=2 333       58     79.1      5.65       8.7
+#> grp=3 333       41     79.8     18.86      29.2
 #> 
-#>  Chisq= 79.7  on 2 degrees of freedom, p= <2e-16 
+#>  Chisq= 78.4  on 2 degrees of freedom, p= <2e-16 
 
 # External calibration
 cal.ext <- calibrate_external(
@@ -79,9 +91,9 @@ logrank_test(cal.ext)
 #> n=999, 1 observation deleted due to missingness.
 #> 
 #>         N Observed Expected (O-E)^2/E (O-E)^2/V
-#> grp=1 333       90     44.3     47.14      67.7
-#> grp=2 333       32     51.1      7.11      10.9
-#> grp=3 333       25     51.6     13.75      21.2
+#> grp=1 333       86     44.9     37.51      54.2
+#> grp=2 333       37     50.2      3.49       5.3
+#> grp=3 333       24     51.8     14.94      23.1
 #> 
-#>  Chisq= 68.2  on 2 degrees of freedom, p= 2e-15 
+#>  Chisq= 56.1  on 2 degrees of freedom, p= 7e-13 
 ```

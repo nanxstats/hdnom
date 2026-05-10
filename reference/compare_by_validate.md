@@ -116,17 +116,48 @@ cmp.val.cv <- compare_by_validate(
   tauc.time = seq(0.25, 2, 0.25) * 365, seed = 1001
 )
 #> Starting model 1 : lasso 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start fold 1 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start fold 2 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start fold 3 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start fold 4 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start fold 5 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Starting model 2 : alasso 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start fold 1 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start fold 2 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start fold 3 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start fold 4 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start fold 5 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 
 print(cmp.val.cv)
 #> High-Dimensional Cox Model Validation Object
@@ -135,7 +166,7 @@ print(cmp.val.cv)
 #> Cross-validation folds: 5 
 #> Model type: lasso 
 #> glmnet model alpha: 1 
-#> glmnet model lambda: 0.01685262 
+#> glmnet model lambda: 0.01685167 
 #> glmnet model penalty factor: not specified
 #> Time-dependent AUC type: UNO 
 #> Evaluation time points for tAUC: 91.25 182.5 273.75 365 456.25 547.5 638.75 730
@@ -146,7 +177,7 @@ print(cmp.val.cv)
 #> Cross-validation folds: 5 
 #> Model type: alasso 
 #> glmnet model alpha: 1 
-#> glmnet model lambda: 0.1086075 
+#> glmnet model lambda: 0.07078988 
 #> glmnet model penalty factor: specified
 #> Time-dependent AUC type: UNO 
 #> Evaluation time points for tAUC: 91.25 182.5 273.75 365 456.25 547.5 638.75 730
@@ -154,121 +185,121 @@ print(cmp.val.cv)
 summary(cmp.val.cv)
 #> Model type: lasso 
 #>              91.25     182.5    273.75       365    456.25     547.5    638.75
-#> Mean     0.5512447 0.5892787 0.6118296 0.6703934 0.6522846 0.6827941 0.6663543
-#> Min      0.1969697 0.3638949 0.4933239 0.5227411 0.5015440 0.5406118 0.5414032
-#> 0.25 Qt. 0.3883162 0.5121101 0.5066906 0.5287065 0.5287065 0.5808059 0.6044632
-#> Median   0.6446701 0.5253751 0.5113647 0.6234958 0.6227553 0.6684507 0.6421704
-#> 0.75 Qt. 0.7272727 0.6715544 0.6681714 0.8021683 0.7318710 0.7476227 0.6869896
-#> Max      0.7989950 0.8734591 0.8795973 0.8748553 0.8765461 0.8764793 0.8567451
+#> Mean     0.5511243 0.5925684 0.6157828 0.6724317 0.6529270 0.6829645 0.6662401
+#> Min      0.2045455 0.3668810 0.4950835 0.5237988 0.5015233 0.5435762 0.5447591
+#> 0.25 Qt. 0.3926117 0.5301080 0.5093405 0.5326304 0.5326304 0.5803628 0.6024634
+#> Median   0.6598985 0.5328432 0.5331871 0.6364637 0.6311011 0.6738583 0.6484020
+#> 0.75 Qt. 0.7146465 0.6639884 0.6669128 0.8014350 0.7298959 0.7476453 0.6851695
+#> Max      0.7839196 0.8690212 0.8743898 0.8678306 0.8694842 0.8693798 0.8504064
 #>                730
-#> Mean     0.6497359
-#> Min      0.5685657
-#> 0.25 Qt. 0.6045935
-#> Median   0.6472902
-#> 0.75 Qt. 0.6660511
-#> Max      0.7621791
+#> Mean     0.6490519
+#> Min      0.5688426
+#> 0.25 Qt. 0.6025604
+#> Median   0.6518439
+#> 0.75 Qt. 0.6635122
+#> Max      0.7585003
 #>              91.25     182.5    273.75       365    456.25     547.5    638.75
-#> Mean     0.5512447 0.5892787 0.6118296 0.6703934 0.6522846 0.6827941 0.6663543
-#> Min      0.1969697 0.3638949 0.4933239 0.5227411 0.5015440 0.5406118 0.5414032
-#> 0.25 Qt. 0.3883162 0.5121101 0.5066906 0.5287065 0.5287065 0.5808059 0.6044632
-#> Median   0.6446701 0.5253751 0.5113647 0.6234958 0.6227553 0.6684507 0.6421704
-#> 0.75 Qt. 0.7272727 0.6715544 0.6681714 0.8021683 0.7318710 0.7476227 0.6869896
-#> Max      0.7989950 0.8734591 0.8795973 0.8748553 0.8765461 0.8764793 0.8567451
+#> Mean     0.5511243 0.5925684 0.6157828 0.6724317 0.6529270 0.6829645 0.6662401
+#> Min      0.2045455 0.3668810 0.4950835 0.5237988 0.5015233 0.5435762 0.5447591
+#> 0.25 Qt. 0.3926117 0.5301080 0.5093405 0.5326304 0.5326304 0.5803628 0.6024634
+#> Median   0.6598985 0.5328432 0.5331871 0.6364637 0.6311011 0.6738583 0.6484020
+#> 0.75 Qt. 0.7146465 0.6639884 0.6669128 0.8014350 0.7298959 0.7476453 0.6851695
+#> Max      0.7839196 0.8690212 0.8743898 0.8678306 0.8694842 0.8693798 0.8504064
 #>                730
-#> Mean     0.6497359
-#> Min      0.5685657
-#> 0.25 Qt. 0.6045935
-#> Median   0.6472902
-#> 0.75 Qt. 0.6660511
-#> Max      0.7621791
+#> Mean     0.6490519
+#> Min      0.5688426
+#> 0.25 Qt. 0.6025604
+#> Median   0.6518439
+#> 0.75 Qt. 0.6635122
+#> Max      0.7585003
 #> 
 #> Model type: alasso 
 #>              91.25     182.5    273.75       365    456.25     547.5    638.75
-#> Mean     0.5507595 0.5930334 0.6119896 0.6708129 0.6531152 0.6855229 0.6689000
-#> Min      0.1969697 0.3483014 0.4834263 0.5191235 0.4992296 0.5515548 0.5520277
-#> 0.25 Qt. 0.3840206 0.5043381 0.5043835 0.5302921 0.5302921 0.5741340 0.5934681
-#> Median   0.6362098 0.5201011 0.5120325 0.6202395 0.6167865 0.6642097 0.6377153
-#> 0.75 Qt. 0.7537688 0.7019551 0.6681626 0.8014144 0.7345390 0.7536005 0.6947551
-#> Max      0.7828283 0.8904711 0.8919432 0.8829948 0.8847287 0.8841155 0.8665338
+#> Mean     0.5684793 0.5951063 0.6204221 0.6768852 0.6582206 0.6910868 0.6709637
+#> Min      0.2095960 0.3401222 0.4781737 0.5159743 0.4938931 0.5691100 0.5744797
+#> 0.25 Qt. 0.4089347 0.4905127 0.4904133 0.5522508 0.5522508 0.5738813 0.5875864
+#> Median   0.6294416 0.5427310 0.5395271 0.6083475 0.6039312 0.6523808 0.6273858
+#> 0.75 Qt. 0.7904040 0.7094755 0.6987968 0.8207581 0.7521768 0.7718022 0.6994370
+#> Max      0.8040201 0.8926900 0.8951997 0.8870953 0.8888509 0.8882597 0.8659296
 #>                730
-#> Mean     0.6501607
-#> Min      0.5536751
-#> 0.25 Qt. 0.5934151
-#> Median   0.6453506
-#> 0.75 Qt. 0.6715423
-#> Max      0.7868205
+#> Mean     0.6499762
+#> Min      0.5751707
+#> 0.25 Qt. 0.5870420
+#> Median   0.6323552
+#> 0.75 Qt. 0.6767323
+#> Max      0.7785809
 #>              91.25     182.5    273.75       365    456.25     547.5    638.75
-#> Mean     0.5507595 0.5930334 0.6119896 0.6708129 0.6531152 0.6855229 0.6689000
-#> Min      0.1969697 0.3483014 0.4834263 0.5191235 0.4992296 0.5515548 0.5520277
-#> 0.25 Qt. 0.3840206 0.5043381 0.5043835 0.5302921 0.5302921 0.5741340 0.5934681
-#> Median   0.6362098 0.5201011 0.5120325 0.6202395 0.6167865 0.6642097 0.6377153
-#> 0.75 Qt. 0.7537688 0.7019551 0.6681626 0.8014144 0.7345390 0.7536005 0.6947551
-#> Max      0.7828283 0.8904711 0.8919432 0.8829948 0.8847287 0.8841155 0.8665338
+#> Mean     0.5684793 0.5951063 0.6204221 0.6768852 0.6582206 0.6910868 0.6709637
+#> Min      0.2095960 0.3401222 0.4781737 0.5159743 0.4938931 0.5691100 0.5744797
+#> 0.25 Qt. 0.4089347 0.4905127 0.4904133 0.5522508 0.5522508 0.5738813 0.5875864
+#> Median   0.6294416 0.5427310 0.5395271 0.6083475 0.6039312 0.6523808 0.6273858
+#> 0.75 Qt. 0.7904040 0.7094755 0.6987968 0.8207581 0.7521768 0.7718022 0.6994370
+#> Max      0.8040201 0.8926900 0.8951997 0.8870953 0.8888509 0.8882597 0.8659296
 #>                730
-#> Mean     0.6501607
-#> Min      0.5536751
-#> 0.25 Qt. 0.5934151
-#> Median   0.6453506
-#> 0.75 Qt. 0.6715423
-#> Max      0.7868205
+#> Mean     0.6499762
+#> Min      0.5751707
+#> 0.25 Qt. 0.5870420
+#> Median   0.6323552
+#> 0.75 Qt. 0.6767323
+#> Max      0.7785809
 #> 
 plot(cmp.val.cv)
 #>              91.25     182.5    273.75       365    456.25     547.5    638.75
-#> Mean     0.5512447 0.5892787 0.6118296 0.6703934 0.6522846 0.6827941 0.6663543
-#> Min      0.1969697 0.3638949 0.4933239 0.5227411 0.5015440 0.5406118 0.5414032
-#> 0.25 Qt. 0.3883162 0.5121101 0.5066906 0.5287065 0.5287065 0.5808059 0.6044632
-#> Median   0.6446701 0.5253751 0.5113647 0.6234958 0.6227553 0.6684507 0.6421704
-#> 0.75 Qt. 0.7272727 0.6715544 0.6681714 0.8021683 0.7318710 0.7476227 0.6869896
-#> Max      0.7989950 0.8734591 0.8795973 0.8748553 0.8765461 0.8764793 0.8567451
+#> Mean     0.5511243 0.5925684 0.6157828 0.6724317 0.6529270 0.6829645 0.6662401
+#> Min      0.2045455 0.3668810 0.4950835 0.5237988 0.5015233 0.5435762 0.5447591
+#> 0.25 Qt. 0.3926117 0.5301080 0.5093405 0.5326304 0.5326304 0.5803628 0.6024634
+#> Median   0.6598985 0.5328432 0.5331871 0.6364637 0.6311011 0.6738583 0.6484020
+#> 0.75 Qt. 0.7146465 0.6639884 0.6669128 0.8014350 0.7298959 0.7476453 0.6851695
+#> Max      0.7839196 0.8690212 0.8743898 0.8678306 0.8694842 0.8693798 0.8504064
 #>                730
-#> Mean     0.6497359
-#> Min      0.5685657
-#> 0.25 Qt. 0.6045935
-#> Median   0.6472902
-#> 0.75 Qt. 0.6660511
-#> Max      0.7621791
+#> Mean     0.6490519
+#> Min      0.5688426
+#> 0.25 Qt. 0.6025604
+#> Median   0.6518439
+#> 0.75 Qt. 0.6635122
+#> Max      0.7585003
 #>              91.25     182.5    273.75       365    456.25     547.5    638.75
-#> Mean     0.5507595 0.5930334 0.6119896 0.6708129 0.6531152 0.6855229 0.6689000
-#> Min      0.1969697 0.3483014 0.4834263 0.5191235 0.4992296 0.5515548 0.5520277
-#> 0.25 Qt. 0.3840206 0.5043381 0.5043835 0.5302921 0.5302921 0.5741340 0.5934681
-#> Median   0.6362098 0.5201011 0.5120325 0.6202395 0.6167865 0.6642097 0.6377153
-#> 0.75 Qt. 0.7537688 0.7019551 0.6681626 0.8014144 0.7345390 0.7536005 0.6947551
-#> Max      0.7828283 0.8904711 0.8919432 0.8829948 0.8847287 0.8841155 0.8665338
+#> Mean     0.5684793 0.5951063 0.6204221 0.6768852 0.6582206 0.6910868 0.6709637
+#> Min      0.2095960 0.3401222 0.4781737 0.5159743 0.4938931 0.5691100 0.5744797
+#> 0.25 Qt. 0.4089347 0.4905127 0.4904133 0.5522508 0.5522508 0.5738813 0.5875864
+#> Median   0.6294416 0.5427310 0.5395271 0.6083475 0.6039312 0.6523808 0.6273858
+#> 0.75 Qt. 0.7904040 0.7094755 0.6987968 0.8207581 0.7521768 0.7718022 0.6994370
+#> Max      0.8040201 0.8926900 0.8951997 0.8870953 0.8888509 0.8882597 0.8659296
 #>                730
-#> Mean     0.6501607
-#> Min      0.5536751
-#> 0.25 Qt. 0.5934151
-#> Median   0.6453506
-#> 0.75 Qt. 0.6715423
-#> Max      0.7868205
+#> Mean     0.6499762
+#> Min      0.5751707
+#> 0.25 Qt. 0.5870420
+#> Median   0.6323552
+#> 0.75 Qt. 0.6767323
+#> Max      0.7785809
 
 plot(cmp.val.cv, interval = TRUE)
 #>              91.25     182.5    273.75       365    456.25     547.5    638.75
-#> Mean     0.5512447 0.5892787 0.6118296 0.6703934 0.6522846 0.6827941 0.6663543
-#> Min      0.1969697 0.3638949 0.4933239 0.5227411 0.5015440 0.5406118 0.5414032
-#> 0.25 Qt. 0.3883162 0.5121101 0.5066906 0.5287065 0.5287065 0.5808059 0.6044632
-#> Median   0.6446701 0.5253751 0.5113647 0.6234958 0.6227553 0.6684507 0.6421704
-#> 0.75 Qt. 0.7272727 0.6715544 0.6681714 0.8021683 0.7318710 0.7476227 0.6869896
-#> Max      0.7989950 0.8734591 0.8795973 0.8748553 0.8765461 0.8764793 0.8567451
+#> Mean     0.5511243 0.5925684 0.6157828 0.6724317 0.6529270 0.6829645 0.6662401
+#> Min      0.2045455 0.3668810 0.4950835 0.5237988 0.5015233 0.5435762 0.5447591
+#> 0.25 Qt. 0.3926117 0.5301080 0.5093405 0.5326304 0.5326304 0.5803628 0.6024634
+#> Median   0.6598985 0.5328432 0.5331871 0.6364637 0.6311011 0.6738583 0.6484020
+#> 0.75 Qt. 0.7146465 0.6639884 0.6669128 0.8014350 0.7298959 0.7476453 0.6851695
+#> Max      0.7839196 0.8690212 0.8743898 0.8678306 0.8694842 0.8693798 0.8504064
 #>                730
-#> Mean     0.6497359
-#> Min      0.5685657
-#> 0.25 Qt. 0.6045935
-#> Median   0.6472902
-#> 0.75 Qt. 0.6660511
-#> Max      0.7621791
+#> Mean     0.6490519
+#> Min      0.5688426
+#> 0.25 Qt. 0.6025604
+#> Median   0.6518439
+#> 0.75 Qt. 0.6635122
+#> Max      0.7585003
 #>              91.25     182.5    273.75       365    456.25     547.5    638.75
-#> Mean     0.5507595 0.5930334 0.6119896 0.6708129 0.6531152 0.6855229 0.6689000
-#> Min      0.1969697 0.3483014 0.4834263 0.5191235 0.4992296 0.5515548 0.5520277
-#> 0.25 Qt. 0.3840206 0.5043381 0.5043835 0.5302921 0.5302921 0.5741340 0.5934681
-#> Median   0.6362098 0.5201011 0.5120325 0.6202395 0.6167865 0.6642097 0.6377153
-#> 0.75 Qt. 0.7537688 0.7019551 0.6681626 0.8014144 0.7345390 0.7536005 0.6947551
-#> Max      0.7828283 0.8904711 0.8919432 0.8829948 0.8847287 0.8841155 0.8665338
+#> Mean     0.5684793 0.5951063 0.6204221 0.6768852 0.6582206 0.6910868 0.6709637
+#> Min      0.2095960 0.3401222 0.4781737 0.5159743 0.4938931 0.5691100 0.5744797
+#> 0.25 Qt. 0.4089347 0.4905127 0.4904133 0.5522508 0.5522508 0.5738813 0.5875864
+#> Median   0.6294416 0.5427310 0.5395271 0.6083475 0.6039312 0.6523808 0.6273858
+#> 0.75 Qt. 0.7904040 0.7094755 0.6987968 0.8207581 0.7521768 0.7718022 0.6994370
+#> Max      0.8040201 0.8926900 0.8951997 0.8870953 0.8888509 0.8882597 0.8659296
 #>                730
-#> Mean     0.6501607
-#> Min      0.5536751
-#> 0.25 Qt. 0.5934151
-#> Median   0.6453506
-#> 0.75 Qt. 0.6715423
-#> Max      0.7868205
+#> Mean     0.6499762
+#> Min      0.5751707
+#> 0.25 Qt. 0.5870420
+#> Median   0.6323552
+#> 0.75 Qt. 0.6767323
+#> Max      0.7785809
 ```

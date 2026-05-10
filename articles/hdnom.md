@@ -153,6 +153,46 @@ val_int <- validate(
   tauc.type = "UNO", tauc.time = seq(1, 5, 0.5) * 365,
   seed = 42, trace = FALSE
 )
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
 
 print(val_int)
 #> High-Dimensional Cox Model Validation Object
@@ -168,19 +208,19 @@ print(val_int)
 summary(val_int)
 #> Time-Dependent AUC Summary at Evaluation Time Points
 #>                365     547.5       730     912.5      1095    1277.5      1460
-#> Mean     0.6737671 0.6966826 0.6910091 0.6857992 0.7173115 0.7339952 0.6858640
-#> Min      0.6652455 0.6878694 0.6828538 0.6773043 0.7071196 0.7212796 0.6736759
-#> 0.25 Qt. 0.6706384 0.6944044 0.6888600 0.6839203 0.7134167 0.7328613 0.6829504
-#> Median   0.6736401 0.6955034 0.6916902 0.6861408 0.7153683 0.7345438 0.6855424
-#> 0.75 Qt. 0.6770644 0.7004574 0.6936543 0.6876527 0.7218986 0.7379184 0.6895093
-#> Max      0.6811961 0.7039350 0.6971243 0.6951653 0.7285819 0.7423145 0.7009491
+#> Mean     0.6734807 0.6960049 0.6904395 0.6854196 0.7161806 0.7330752 0.6852454
+#> Min      0.6650818 0.6876721 0.6823491 0.6767386 0.7058442 0.7214400 0.6739606
+#> 0.25 Qt. 0.6698185 0.6936594 0.6890617 0.6824515 0.7107146 0.7301220 0.6823311
+#> Median   0.6741002 0.6952286 0.6913730 0.6863290 0.7148338 0.7329520 0.6841489
+#> 0.75 Qt. 0.6774653 0.6976721 0.6928694 0.6876670 0.7215741 0.7378335 0.6896190
+#> Max      0.6808046 0.7042611 0.6967414 0.6946401 0.7287474 0.7412459 0.7007416
 #>             1642.5      1825
-#> Mean     0.6807895 0.6916666
-#> Min      0.6644024 0.6765242
-#> 0.25 Qt. 0.6797667 0.6910788
-#> Median   0.6817213 0.6930555
-#> 0.75 Qt. 0.6823468 0.6973057
-#> Max      0.6955724 0.6999818
+#> Mean     0.6800715 0.6904592
+#> Min      0.6646386 0.6757193
+#> 0.25 Qt. 0.6777540 0.6848380
+#> Median   0.6804777 0.6936039
+#> 0.75 Qt. 0.6820086 0.6976002
+#> Max      0.6957852 0.6991609
 ```
 
 The mean, median, 25%, and 75% quantiles of time-dependent AUC at each
@@ -194,19 +234,19 @@ It is also possible to plot the model validation result:
 
 plot(val_int)
 #>                365     547.5       730     912.5      1095    1277.5      1460
-#> Mean     0.6737671 0.6966826 0.6910091 0.6857992 0.7173115 0.7339952 0.6858640
-#> Min      0.6652455 0.6878694 0.6828538 0.6773043 0.7071196 0.7212796 0.6736759
-#> 0.25 Qt. 0.6706384 0.6944044 0.6888600 0.6839203 0.7134167 0.7328613 0.6829504
-#> Median   0.6736401 0.6955034 0.6916902 0.6861408 0.7153683 0.7345438 0.6855424
-#> 0.75 Qt. 0.6770644 0.7004574 0.6936543 0.6876527 0.7218986 0.7379184 0.6895093
-#> Max      0.6811961 0.7039350 0.6971243 0.6951653 0.7285819 0.7423145 0.7009491
+#> Mean     0.6734807 0.6960049 0.6904395 0.6854196 0.7161806 0.7330752 0.6852454
+#> Min      0.6650818 0.6876721 0.6823491 0.6767386 0.7058442 0.7214400 0.6739606
+#> 0.25 Qt. 0.6698185 0.6936594 0.6890617 0.6824515 0.7107146 0.7301220 0.6823311
+#> Median   0.6741002 0.6952286 0.6913730 0.6863290 0.7148338 0.7329520 0.6841489
+#> 0.75 Qt. 0.6774653 0.6976721 0.6928694 0.6876670 0.7215741 0.7378335 0.6896190
+#> Max      0.6808046 0.7042611 0.6967414 0.6946401 0.7287474 0.7412459 0.7007416
 #>             1642.5      1825
-#> Mean     0.6807895 0.6916666
-#> Min      0.6644024 0.6765242
-#> 0.25 Qt. 0.6797667 0.6910788
-#> Median   0.6817213 0.6930555
-#> 0.75 Qt. 0.6823468 0.6973057
-#> Max      0.6955724 0.6999818
+#> Mean     0.6800715 0.6904592
+#> Min      0.6646386 0.6757193
+#> 0.25 Qt. 0.6777540 0.6848380
+#> Median   0.6804777 0.6936039
+#> 0.75 Qt. 0.6820086 0.6976002
+#> Max      0.6957852 0.6991609
 #> Warning: `aes_string()` was deprecated in ggplot2 3.0.0.
 #> ℹ Please use tidy evaluation idioms with `aes()`.
 #> ℹ See also `vignette("ggplot2-in-packages")` for more information.
@@ -315,6 +355,46 @@ cal_int <- calibrate(
   pred.at = 365 * 5, ngroup = 3,
   seed = 42, trace = FALSE
 )
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
 
 print(cal_int)
 #> High-Dimensional Cox Model Calibration Object
@@ -330,9 +410,9 @@ print(cal_int)
 summary(cal_int)
 #>   Calibration Summary Table
 #>   Predicted  Observed Lower 95% Upper 95%
-#> 1 0.7948951 0.7527580 0.7248160 0.7817772
-#> 2 0.8968620 0.9030859 0.8828755 0.9237588
-#> 3 0.9414043 0.9429223 0.9261959 0.9599508
+#> 1 0.7945997 0.7517955 0.7238282 0.7808434
+#> 2 0.8969428 0.9054051 0.8855463 0.9257094
+#> 3 0.9411592 0.9416584 0.9245449 0.9590886
 ```
 
 We split the samples into three risk groups. In practice, the number of
@@ -454,13 +534,13 @@ cal_int_logrank
 #> n=3872, 1 observation deleted due to missingness.
 #> 
 #>          N Observed Expected (O-E)^2/E (O-E)^2/V
-#> grp=1 1290      298      159     120.3     184.7
-#> grp=2 1291      107      156      15.4      23.3
-#> grp=3 1291       54      144      55.9      81.5
+#> grp=1 1290      299      160     121.5     186.7
+#> grp=2 1291      106      155      15.7      23.8
+#> grp=3 1291       54      144      56.2      82.0
 #> 
-#>  Chisq= 192  on 2 degrees of freedom, p= <2e-16
+#>  Chisq= 194  on 2 degrees of freedom, p= <2e-16
 cal_int_logrank$pval
-#> [1] 2.058648e-42
+#> [1] 8.246084e-43
 
 cal_ext_logrank <- logrank_test(cal_ext)
 cal_ext_logrank
@@ -506,6 +586,130 @@ cmp_val <- compare_by_validate(
   tauc.time = seq(0.25, 2, 0.25) * 365,
   seed = 42, trace = FALSE
 )
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
 
 print(cmp_val)
 #> High-Dimensional Cox Model Validation Object
@@ -514,7 +718,7 @@ print(cmp_val)
 #> Cross-validation folds: 5 
 #> Model type: lasso 
 #> glmnet model alpha: 1 
-#> glmnet model lambda: 0.002093567 
+#> glmnet model lambda: 0.002093462 
 #> glmnet model penalty factor: not specified
 #> Time-dependent AUC type: UNO 
 #> Evaluation time points for tAUC: 91.25 182.5 273.75 365 456.25 547.5 638.75 730
@@ -525,99 +729,99 @@ print(cmp_val)
 #> Cross-validation folds: 5 
 #> Model type: alasso 
 #> glmnet model alpha: 1 
-#> glmnet model lambda: 0.002043219 
+#> glmnet model lambda: 0.001975709 
 #> glmnet model penalty factor: specified
 #> Time-dependent AUC type: UNO 
 #> Evaluation time points for tAUC: 91.25 182.5 273.75 365 456.25 547.5 638.75 730
 summary(cmp_val)
 #> Model type: lasso 
 #>              91.25     182.5    273.75       365    456.25     547.5    638.75
-#> Mean     0.4827672 0.6192928 0.6538723 0.6643854 0.6669015 0.6864655 0.6826751
-#> Min      0.2046216 0.5573837 0.6099864 0.6320444 0.6282973 0.6467771 0.6360650
-#> 0.25 Qt. 0.4737111 0.6077300 0.6357800 0.6549053 0.6602709 0.6745125 0.6741751
-#> Median   0.5586767 0.6172780 0.6652592 0.6734446 0.6802050 0.6900875 0.6923720
-#> 0.75 Qt. 0.5857639 0.6539803 0.6698111 0.6804087 0.6823503 0.6970406 0.7040255
-#> Max      0.5910628 0.6600921 0.6885247 0.6811243 0.6833840 0.7239096 0.7067378
+#> Mean     0.4874423 0.6195434 0.6521023 0.6629973 0.6619816 0.6830722 0.6789381
+#> Min      0.2010337 0.5608503 0.6122798 0.6486346 0.6309430 0.6505293 0.6418459
+#> 0.25 Qt. 0.4812367 0.5919644 0.6250323 0.6586299 0.6598658 0.6855409 0.6844111
+#> Median   0.5722064 0.6461149 0.6502842 0.6591979 0.6642597 0.6873421 0.6873253
+#> 0.75 Qt. 0.5823765 0.6483234 0.6834408 0.6652689 0.6715018 0.6884744 0.6902685
+#> Max      0.6003584 0.6504641 0.6894743 0.6832550 0.6833377 0.7034744 0.6908396
 #>                730
-#> Mean     0.6777609
-#> Min      0.6329447
-#> 0.25 Qt. 0.6444693
-#> Median   0.6891215
-#> 0.75 Qt. 0.7047325
-#> Max      0.7175364
+#> Mean     0.6753402
+#> Min      0.6389226
+#> 0.25 Qt. 0.6590422
+#> Median   0.6788038
+#> 0.75 Qt. 0.6973424
+#> Max      0.7025902
 #>              91.25     182.5    273.75       365    456.25     547.5    638.75
-#> Mean     0.4827672 0.6192928 0.6538723 0.6643854 0.6669015 0.6864655 0.6826751
-#> Min      0.2046216 0.5573837 0.6099864 0.6320444 0.6282973 0.6467771 0.6360650
-#> 0.25 Qt. 0.4737111 0.6077300 0.6357800 0.6549053 0.6602709 0.6745125 0.6741751
-#> Median   0.5586767 0.6172780 0.6652592 0.6734446 0.6802050 0.6900875 0.6923720
-#> 0.75 Qt. 0.5857639 0.6539803 0.6698111 0.6804087 0.6823503 0.6970406 0.7040255
-#> Max      0.5910628 0.6600921 0.6885247 0.6811243 0.6833840 0.7239096 0.7067378
+#> Mean     0.4874423 0.6195434 0.6521023 0.6629973 0.6619816 0.6830722 0.6789381
+#> Min      0.2010337 0.5608503 0.6122798 0.6486346 0.6309430 0.6505293 0.6418459
+#> 0.25 Qt. 0.4812367 0.5919644 0.6250323 0.6586299 0.6598658 0.6855409 0.6844111
+#> Median   0.5722064 0.6461149 0.6502842 0.6591979 0.6642597 0.6873421 0.6873253
+#> 0.75 Qt. 0.5823765 0.6483234 0.6834408 0.6652689 0.6715018 0.6884744 0.6902685
+#> Max      0.6003584 0.6504641 0.6894743 0.6832550 0.6833377 0.7034744 0.6908396
 #>                730
-#> Mean     0.6777609
-#> Min      0.6329447
-#> 0.25 Qt. 0.6444693
-#> Median   0.6891215
-#> 0.75 Qt. 0.7047325
-#> Max      0.7175364
+#> Mean     0.6753402
+#> Min      0.6389226
+#> 0.25 Qt. 0.6590422
+#> Median   0.6788038
+#> 0.75 Qt. 0.6973424
+#> Max      0.7025902
 #> 
 #> Model type: alasso 
 #>              91.25     182.5    273.75       365    456.25     547.5    638.75
-#> Mean     0.4832599 0.6145490 0.6494225 0.6611006 0.6626019 0.6825328 0.6783679
-#> Min      0.2202417 0.5508769 0.6050334 0.6295552 0.6283363 0.6467145 0.6364456
-#> 0.25 Qt. 0.4666258 0.6055436 0.6295124 0.6553851 0.6570205 0.6729362 0.6736249
-#> Median   0.5557789 0.6153925 0.6636266 0.6723190 0.6698239 0.6772200 0.6788560
-#> 0.75 Qt. 0.5826359 0.6452357 0.6656352 0.6731217 0.6769759 0.6976513 0.7008794
-#> Max      0.5910174 0.6556963 0.6833048 0.6751220 0.6808527 0.7181422 0.7020338
+#> Mean     0.4824467 0.6149303 0.6494734 0.6612155 0.6623466 0.6823777 0.6784074
+#> Min      0.2180421 0.5499664 0.6041062 0.6320047 0.6293084 0.6469668 0.6375049
+#> 0.25 Qt. 0.4636956 0.6043111 0.6274733 0.6558596 0.6581365 0.6734195 0.6737463
+#> Median   0.5628179 0.6224510 0.6635569 0.6719357 0.6691850 0.6774600 0.6801025
+#> 0.75 Qt. 0.5797494 0.6438599 0.6689453 0.6727589 0.6754483 0.6971519 0.6992665
+#> Max      0.5879287 0.6540629 0.6832853 0.6735184 0.6796550 0.7168904 0.7014171
 #>                730
-#> Mean     0.6744843
-#> Min      0.6332345
-#> 0.25 Qt. 0.6473292
-#> Median   0.6881753
-#> 0.75 Qt. 0.6916884
-#> Max      0.7119939
+#> Mean     0.6743261
+#> Min      0.6341038
+#> 0.25 Qt. 0.6470226
+#> Median   0.6875398
+#> 0.75 Qt. 0.6925823
+#> Max      0.7103821
 #>              91.25     182.5    273.75       365    456.25     547.5    638.75
-#> Mean     0.4832599 0.6145490 0.6494225 0.6611006 0.6626019 0.6825328 0.6783679
-#> Min      0.2202417 0.5508769 0.6050334 0.6295552 0.6283363 0.6467145 0.6364456
-#> 0.25 Qt. 0.4666258 0.6055436 0.6295124 0.6553851 0.6570205 0.6729362 0.6736249
-#> Median   0.5557789 0.6153925 0.6636266 0.6723190 0.6698239 0.6772200 0.6788560
-#> 0.75 Qt. 0.5826359 0.6452357 0.6656352 0.6731217 0.6769759 0.6976513 0.7008794
-#> Max      0.5910174 0.6556963 0.6833048 0.6751220 0.6808527 0.7181422 0.7020338
+#> Mean     0.4824467 0.6149303 0.6494734 0.6612155 0.6623466 0.6823777 0.6784074
+#> Min      0.2180421 0.5499664 0.6041062 0.6320047 0.6293084 0.6469668 0.6375049
+#> 0.25 Qt. 0.4636956 0.6043111 0.6274733 0.6558596 0.6581365 0.6734195 0.6737463
+#> Median   0.5628179 0.6224510 0.6635569 0.6719357 0.6691850 0.6774600 0.6801025
+#> 0.75 Qt. 0.5797494 0.6438599 0.6689453 0.6727589 0.6754483 0.6971519 0.6992665
+#> Max      0.5879287 0.6540629 0.6832853 0.6735184 0.6796550 0.7168904 0.7014171
 #>                730
-#> Mean     0.6744843
-#> Min      0.6332345
-#> 0.25 Qt. 0.6473292
-#> Median   0.6881753
-#> 0.75 Qt. 0.6916884
-#> Max      0.7119939
+#> Mean     0.6743261
+#> Min      0.6341038
+#> 0.25 Qt. 0.6470226
+#> Median   0.6875398
+#> 0.75 Qt. 0.6925823
+#> Max      0.7103821
 plot(cmp_val)
 #>              91.25     182.5    273.75       365    456.25     547.5    638.75
-#> Mean     0.4827672 0.6192928 0.6538723 0.6643854 0.6669015 0.6864655 0.6826751
-#> Min      0.2046216 0.5573837 0.6099864 0.6320444 0.6282973 0.6467771 0.6360650
-#> 0.25 Qt. 0.4737111 0.6077300 0.6357800 0.6549053 0.6602709 0.6745125 0.6741751
-#> Median   0.5586767 0.6172780 0.6652592 0.6734446 0.6802050 0.6900875 0.6923720
-#> 0.75 Qt. 0.5857639 0.6539803 0.6698111 0.6804087 0.6823503 0.6970406 0.7040255
-#> Max      0.5910628 0.6600921 0.6885247 0.6811243 0.6833840 0.7239096 0.7067378
+#> Mean     0.4874423 0.6195434 0.6521023 0.6629973 0.6619816 0.6830722 0.6789381
+#> Min      0.2010337 0.5608503 0.6122798 0.6486346 0.6309430 0.6505293 0.6418459
+#> 0.25 Qt. 0.4812367 0.5919644 0.6250323 0.6586299 0.6598658 0.6855409 0.6844111
+#> Median   0.5722064 0.6461149 0.6502842 0.6591979 0.6642597 0.6873421 0.6873253
+#> 0.75 Qt. 0.5823765 0.6483234 0.6834408 0.6652689 0.6715018 0.6884744 0.6902685
+#> Max      0.6003584 0.6504641 0.6894743 0.6832550 0.6833377 0.7034744 0.6908396
 #>                730
-#> Mean     0.6777609
-#> Min      0.6329447
-#> 0.25 Qt. 0.6444693
-#> Median   0.6891215
-#> 0.75 Qt. 0.7047325
-#> Max      0.7175364
+#> Mean     0.6753402
+#> Min      0.6389226
+#> 0.25 Qt. 0.6590422
+#> Median   0.6788038
+#> 0.75 Qt. 0.6973424
+#> Max      0.7025902
 #>              91.25     182.5    273.75       365    456.25     547.5    638.75
-#> Mean     0.4832599 0.6145490 0.6494225 0.6611006 0.6626019 0.6825328 0.6783679
-#> Min      0.2202417 0.5508769 0.6050334 0.6295552 0.6283363 0.6467145 0.6364456
-#> 0.25 Qt. 0.4666258 0.6055436 0.6295124 0.6553851 0.6570205 0.6729362 0.6736249
-#> Median   0.5557789 0.6153925 0.6636266 0.6723190 0.6698239 0.6772200 0.6788560
-#> 0.75 Qt. 0.5826359 0.6452357 0.6656352 0.6731217 0.6769759 0.6976513 0.7008794
-#> Max      0.5910174 0.6556963 0.6833048 0.6751220 0.6808527 0.7181422 0.7020338
+#> Mean     0.4824467 0.6149303 0.6494734 0.6612155 0.6623466 0.6823777 0.6784074
+#> Min      0.2180421 0.5499664 0.6041062 0.6320047 0.6293084 0.6469668 0.6375049
+#> 0.25 Qt. 0.4636956 0.6043111 0.6274733 0.6558596 0.6581365 0.6734195 0.6737463
+#> Median   0.5628179 0.6224510 0.6635569 0.6719357 0.6691850 0.6774600 0.6801025
+#> 0.75 Qt. 0.5797494 0.6438599 0.6689453 0.6727589 0.6754483 0.6971519 0.6992665
+#> Max      0.5879287 0.6540629 0.6832853 0.6735184 0.6796550 0.7168904 0.7014171
 #>                730
-#> Mean     0.6744843
-#> Min      0.6332345
-#> 0.25 Qt. 0.6473292
-#> Median   0.6881753
-#> 0.75 Qt. 0.6916884
-#> Max      0.7119939
+#> Mean     0.6743261
+#> Min      0.6341038
+#> 0.25 Qt. 0.6470226
+#> Median   0.6875398
+#> 0.75 Qt. 0.6925823
+#> Max      0.7103821
 ```
 
 ![](hdnom_files/figure-html/unnamed-chunk-16-1.png)
@@ -626,33 +830,33 @@ plot(cmp_val)
 
 plot(cmp_val, interval = TRUE)
 #>              91.25     182.5    273.75       365    456.25     547.5    638.75
-#> Mean     0.4827672 0.6192928 0.6538723 0.6643854 0.6669015 0.6864655 0.6826751
-#> Min      0.2046216 0.5573837 0.6099864 0.6320444 0.6282973 0.6467771 0.6360650
-#> 0.25 Qt. 0.4737111 0.6077300 0.6357800 0.6549053 0.6602709 0.6745125 0.6741751
-#> Median   0.5586767 0.6172780 0.6652592 0.6734446 0.6802050 0.6900875 0.6923720
-#> 0.75 Qt. 0.5857639 0.6539803 0.6698111 0.6804087 0.6823503 0.6970406 0.7040255
-#> Max      0.5910628 0.6600921 0.6885247 0.6811243 0.6833840 0.7239096 0.7067378
+#> Mean     0.4874423 0.6195434 0.6521023 0.6629973 0.6619816 0.6830722 0.6789381
+#> Min      0.2010337 0.5608503 0.6122798 0.6486346 0.6309430 0.6505293 0.6418459
+#> 0.25 Qt. 0.4812367 0.5919644 0.6250323 0.6586299 0.6598658 0.6855409 0.6844111
+#> Median   0.5722064 0.6461149 0.6502842 0.6591979 0.6642597 0.6873421 0.6873253
+#> 0.75 Qt. 0.5823765 0.6483234 0.6834408 0.6652689 0.6715018 0.6884744 0.6902685
+#> Max      0.6003584 0.6504641 0.6894743 0.6832550 0.6833377 0.7034744 0.6908396
 #>                730
-#> Mean     0.6777609
-#> Min      0.6329447
-#> 0.25 Qt. 0.6444693
-#> Median   0.6891215
-#> 0.75 Qt. 0.7047325
-#> Max      0.7175364
+#> Mean     0.6753402
+#> Min      0.6389226
+#> 0.25 Qt. 0.6590422
+#> Median   0.6788038
+#> 0.75 Qt. 0.6973424
+#> Max      0.7025902
 #>              91.25     182.5    273.75       365    456.25     547.5    638.75
-#> Mean     0.4832599 0.6145490 0.6494225 0.6611006 0.6626019 0.6825328 0.6783679
-#> Min      0.2202417 0.5508769 0.6050334 0.6295552 0.6283363 0.6467145 0.6364456
-#> 0.25 Qt. 0.4666258 0.6055436 0.6295124 0.6553851 0.6570205 0.6729362 0.6736249
-#> Median   0.5557789 0.6153925 0.6636266 0.6723190 0.6698239 0.6772200 0.6788560
-#> 0.75 Qt. 0.5826359 0.6452357 0.6656352 0.6731217 0.6769759 0.6976513 0.7008794
-#> Max      0.5910174 0.6556963 0.6833048 0.6751220 0.6808527 0.7181422 0.7020338
+#> Mean     0.4824467 0.6149303 0.6494734 0.6612155 0.6623466 0.6823777 0.6784074
+#> Min      0.2180421 0.5499664 0.6041062 0.6320047 0.6293084 0.6469668 0.6375049
+#> 0.25 Qt. 0.4636956 0.6043111 0.6274733 0.6558596 0.6581365 0.6734195 0.6737463
+#> Median   0.5628179 0.6224510 0.6635569 0.6719357 0.6691850 0.6774600 0.6801025
+#> 0.75 Qt. 0.5797494 0.6438599 0.6689453 0.6727589 0.6754483 0.6971519 0.6992665
+#> Max      0.5879287 0.6540629 0.6832853 0.6735184 0.6796550 0.7168904 0.7014171
 #>                730
-#> Mean     0.6744843
-#> Min      0.6332345
-#> 0.25 Qt. 0.6473292
-#> Median   0.6881753
-#> 0.75 Qt. 0.6916884
-#> Max      0.7119939
+#> Mean     0.6743261
+#> Min      0.6341038
+#> 0.25 Qt. 0.6470226
+#> Median   0.6875398
+#> 0.75 Qt. 0.6925823
+#> Max      0.7103821
 ```
 
 ![](hdnom_files/figure-html/unnamed-chunk-16-2.png)
@@ -685,6 +889,130 @@ cmp_cal <- compare_by_calibrate(
   pred.at = 365 * 9, ngroup = 5,
   seed = 42, trace = FALSE
 )
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will
+#> change from 'breslow' to 'efron' (matching survival::coxph). To silence this
+#> message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To
+#> preview the v5.1 behavior, pass cox.ties = 'efron'.
 
 print(cmp_cal)
 #> High-Dimensional Cox Model Calibration Object
@@ -693,7 +1021,7 @@ print(cmp_cal)
 #> Cross-validation folds: 5 
 #> Model type: lasso 
 #> glmnet model alpha: 1 
-#> glmnet model lambda: 0.002093567 
+#> glmnet model lambda: 0.002093462 
 #> glmnet model penalty factor: not specified
 #> Calibration time point: 3285 
 #> Number of groups formed for calibration: 5 
@@ -704,7 +1032,7 @@ print(cmp_cal)
 #> Cross-validation folds: 5 
 #> Model type: alasso 
 #> glmnet model alpha: 1 
-#> glmnet model lambda: 0.002043219 
+#> glmnet model lambda: 0.001975709 
 #> glmnet model penalty factor: specified
 #> Calibration time point: 3285 
 #> Number of groups formed for calibration: 5
@@ -712,20 +1040,20 @@ summary(cmp_cal)
 #>   Model type: lasso 
 #>   Calibration Summary Table
 #>   Predicted  Observed Lower 95% Upper 95%
-#> 1 0.5360869 0.4645979 0.3838711 0.5623012
-#> 2 0.7173978 0.7367828 0.6759875 0.8030458
-#> 3 0.7926580 0.8008848 0.7266555 0.8826968
-#> 4 0.8453596 0.9029309 0.8669861 0.9403659
-#> 5 0.8941238 0.8945548 0.8538844 0.9371624
+#> 1 0.5426179 0.4747087 0.3966392 0.5681444
+#> 2 0.7218507 0.7446394 0.6835825 0.8111498
+#> 3 0.7934762 0.7982580 0.7291087 0.8739653
+#> 4 0.8428964 0.8819779 0.8416960 0.9241877
+#> 5 0.8918399 0.9141967 0.8768705 0.9531119
 #> 
 #>   Model type: alasso 
 #>   Calibration Summary Table
 #>   Predicted  Observed Lower 95% Upper 95%
-#> 1 0.5311444 0.4699603 0.3897777 0.5666375
-#> 2 0.7235129 0.7380587 0.6742751 0.8078758
-#> 3 0.8007681 0.8069695 0.7356825 0.8851642
-#> 4 0.8518993 0.8968627 0.8599790 0.9353283
-#> 5 0.8998209 0.8996658 0.8591791 0.9420602
+#> 1 0.5334593 0.4703293 0.3901615 0.5669694
+#> 2 0.7241085 0.7437159 0.6795200 0.8139765
+#> 3 0.8009006 0.7977930 0.7274354 0.8749557
+#> 4 0.8522096 0.8983365 0.8616712 0.9365619
+#> 5 0.9004385 0.9009150 0.8604709 0.9432601
 plot(cmp_cal, xlim = c(0.3, 1), ylim = c(0.3, 1))
 ```
 

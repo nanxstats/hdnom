@@ -138,6 +138,13 @@ regression models.
 <span class="r-in"><span>  <span class="va">x</span>, <span class="fu">survival</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">event</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  nfolds <span class="op">=</span> <span class="fl">5</span>, rule <span class="op">=</span> <span class="st">"lambda.min"</span>, seed <span class="op">=</span> <span class="fl">11</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># External validation with time-dependent AUC</span></span></span>
 <span class="r-in"><span><span class="va">val.ext</span> <span class="op">&lt;-</span> <span class="fu">validate_external</span><span class="op">(</span></span></span>
@@ -155,14 +162,14 @@ regression models.
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">val.ext</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Time-Dependent AUC Summary at Evaluation Time Points</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         91.25     182.5    273.75       365    456.25     547.5    638.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AUC 0.4717428 0.5628139 0.6267896 0.6164705 0.6380467 0.6554616 0.6608047</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AUC 0.4688325 0.5603838 0.6247818 0.6143149 0.6352156 0.6526012 0.6580821</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           730</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AUC 0.6667299</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AUC 0.6650456</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">val.ext</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         91.25     182.5    273.75       365    456.25     547.5    638.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AUC 0.4717428 0.5628139 0.6267896 0.6164705 0.6380467 0.6554616 0.6608047</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AUC 0.4688325 0.5603838 0.6247818 0.6143149 0.6352156 0.6526012 0.6580821</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           730</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AUC 0.6667299</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AUC 0.6650456</span>
 <span class="r-plt img"><img src="validate_external-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># # Test fused lasso, MCP, and Snet models</span></span></span>

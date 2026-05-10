@@ -89,20 +89,27 @@ overall survival probablity.</p>
 <span class="r-in"><span><span class="va">event</span> <span class="op">&lt;-</span> <span class="va">smart</span><span class="op">$</span><span class="va">EVENT</span></span></span>
 <span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu">survival</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">event</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="fit_lasso.html">fit_lasso</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, nfolds <span class="op">=</span> <span class="fl">5</span>, rule <span class="op">=</span> <span class="st">"lambda.1se"</span>, seed <span class="op">=</span> <span class="fl">11</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="fit_lasso.html">fit_lasso</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, nfolds <span class="op">=</span> <span class="fl">5</span>, rule <span class="op">=</span> <span class="st">"lambda.min"</span>, seed <span class="op">=</span> <span class="fl">11</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">fit</span>, <span class="va">x</span>, <span class="va">y</span>, newx <span class="op">=</span> <span class="va">x</span><span class="op">[</span><span class="fl">101</span><span class="op">:</span><span class="fl">105</span>, <span class="op">]</span>, pred.at <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span> <span class="op">*</span> <span class="fl">365</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            365       730      1095      1460      1825      2190      2555</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.9597234 0.9384128 0.9134911 0.8894236 0.8586872 0.8338478 0.8020999</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.9597234 0.9384128 0.9134911 0.8894236 0.8586872 0.8338478 0.8020999</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.9597234 0.9384128 0.9134911 0.8894236 0.8586872 0.8338478 0.8020999</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.9597234 0.9384128 0.9134911 0.8894236 0.8586872 0.8338478 0.8020999</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.9597234 0.9384128 0.9134911 0.8894236 0.8586872 0.8338478 0.8020999</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.9168526 0.8745076 0.8260687 0.7800429 0.7228961 0.6772544 0.6220716</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.9717226 0.9566574 0.9388126 0.9211954 0.8983244 0.8791720 0.8548243</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.9797314 0.9688642 0.9559284 0.9430883 0.9263137 0.9121723 0.8940669</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.8633244 0.7969063 0.7236200 0.6566884 0.5773234 0.5169723 0.4476898</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.9703024 0.9544985 0.9357951 0.9173480 0.8934265 0.8734182 0.8480147</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           2920      3285      3650</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.7705992 0.7254538 0.7254538</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.7705992 0.7254538 0.7254538</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.7705992 0.7254538 0.7254538</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.7705992 0.7254538 0.7254538</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.7705992 0.7254538 0.7254538</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.5719206 0.5069896 0.5069896</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.8314082 0.7989511 0.7989511</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.8765145 0.8519491 0.8519491</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.3883074 0.3166438 0.3166438</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.8236179 0.7898596 0.7898596</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -21,6 +21,8 @@ Useful links:
 
 Authors:
 
+- Nan Xiao <me@nanx.me> ([ORCID](https://orcid.org/0000-0002-0250-5673))
+
 - Qing-Song Xu <qsxu@csu.edu.cn>
 
 - Miao-Zhu Li <miaozhu.li@duke.edu>

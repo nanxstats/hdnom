@@ -139,7 +139,14 @@ time <- smart$TEVENT[1:500]
 event <- smart$EVENT[1:500]
 y <- survival::Surv(time, event)
 
-fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.min", seed = 11)
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 
 # Model validation by bootstrap with time-dependent AUC
 # Normally boot.times should be set to 200 or more,
@@ -153,8 +160,11 @@ val.boot <- validate(
   seed = 1010
 )
 #> Start bootstrap sample 1 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start bootstrap sample 2 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start bootstrap sample 3 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 
 # Model validation by 5-fold cross-validation with time-dependent AUC
 val.cv <- validate(
@@ -166,10 +176,15 @@ val.cv <- validate(
   seed = 1010
 )
 #> Start fold 1 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start fold 2 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start fold 3 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start fold 4 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start fold 5 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 
 # Model validation by repeated cross-validation with time-dependent AUC
 val.repcv <- validate(
@@ -181,20 +196,35 @@ val.repcv <- validate(
   seed = 1010
 )
 #> Start repeat round 1 fold 1 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start repeat round 1 fold 2 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start repeat round 1 fold 3 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start repeat round 1 fold 4 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start repeat round 1 fold 5 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start repeat round 2 fold 1 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start repeat round 2 fold 2 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start repeat round 2 fold 3 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start repeat round 2 fold 4 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start repeat round 2 fold 5 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start repeat round 3 fold 1 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start repeat round 3 fold 2 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start repeat round 3 fold 3 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start repeat round 3 fold 4 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 #> Start repeat round 3 fold 5 
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 
 # bootstrap-based discrimination curves has a very narrow band
 print(val.boot)
@@ -204,41 +234,41 @@ print(val.boot)
 #> Bootstrap samples: 3 
 #> Model type: lasso 
 #> glmnet model alpha: 1 
-#> glmnet model lambda: 0.1182981 
+#> glmnet model lambda: 0.01839927 
 #> glmnet model penalty factor: not specified
 #> Time-dependent AUC type: UNO 
 #> Evaluation time points for tAUC: 91.25 182.5 273.75 365 456.25 547.5 638.75 730
 summary(val.boot)
 #> Time-Dependent AUC Summary at Evaluation Time Points
 #>              91.25     182.5    273.75       365    456.25     547.5    638.75
-#> Mean     0.5853199 0.6249183 0.6686747 0.6930277 0.6939214 0.7019696 0.6952237
-#> Min      0.4965657 0.5963733 0.6591369 0.6809984 0.6817096 0.6727704 0.6914517
-#> 0.25 Qt. 0.5631313 0.6177748 0.6662872 0.6897655 0.6906126 0.6943256 0.6938939
-#> Median   0.6296970 0.6391763 0.6734375 0.6985327 0.6995156 0.7158808 0.6963360
-#> 0.75 Qt. 0.6296970 0.6391909 0.6734437 0.6990424 0.7000273 0.7165691 0.6971097
-#> Max      0.6296970 0.6392054 0.6734499 0.6995521 0.7005390 0.7172574 0.6978834
+#> Mean     0.6039057 0.6833737 0.7393081 0.7802076 0.7804790 0.7930654 0.7652258
+#> Min      0.5648485 0.6534571 0.7234113 0.7610369 0.7615473 0.7700398 0.7523180
+#> 0.25 Qt. 0.5723232 0.6663138 0.7311501 0.7723847 0.7727783 0.7867470 0.7615195
+#> Median   0.5797980 0.6791706 0.7388889 0.7837326 0.7840092 0.8034542 0.7707209
+#> 0.75 Qt. 0.6234343 0.6983320 0.7472565 0.7897930 0.7899448 0.8045782 0.7716796
+#> Max      0.6670707 0.7174934 0.7556241 0.7958535 0.7958804 0.8057022 0.7726383
 #>                730
-#> Mean     0.6775340
-#> Min      0.6653434
-#> 0.25 Qt. 0.6662506
-#> Median   0.6671579
-#> 0.75 Qt. 0.6836292
-#> Max      0.7001006
+#> Mean     0.7598040
+#> Min      0.7517281
+#> 0.25 Qt. 0.7531567
+#> Median   0.7545853
+#> 0.75 Qt. 0.7638420
+#> Max      0.7730988
 plot(val.boot)
 #>              91.25     182.5    273.75       365    456.25     547.5    638.75
-#> Mean     0.5853199 0.6249183 0.6686747 0.6930277 0.6939214 0.7019696 0.6952237
-#> Min      0.4965657 0.5963733 0.6591369 0.6809984 0.6817096 0.6727704 0.6914517
-#> 0.25 Qt. 0.5631313 0.6177748 0.6662872 0.6897655 0.6906126 0.6943256 0.6938939
-#> Median   0.6296970 0.6391763 0.6734375 0.6985327 0.6995156 0.7158808 0.6963360
-#> 0.75 Qt. 0.6296970 0.6391909 0.6734437 0.6990424 0.7000273 0.7165691 0.6971097
-#> Max      0.6296970 0.6392054 0.6734499 0.6995521 0.7005390 0.7172574 0.6978834
+#> Mean     0.6039057 0.6833737 0.7393081 0.7802076 0.7804790 0.7930654 0.7652258
+#> Min      0.5648485 0.6534571 0.7234113 0.7610369 0.7615473 0.7700398 0.7523180
+#> 0.25 Qt. 0.5723232 0.6663138 0.7311501 0.7723847 0.7727783 0.7867470 0.7615195
+#> Median   0.5797980 0.6791706 0.7388889 0.7837326 0.7840092 0.8034542 0.7707209
+#> 0.75 Qt. 0.6234343 0.6983320 0.7472565 0.7897930 0.7899448 0.8045782 0.7716796
+#> Max      0.6670707 0.7174934 0.7556241 0.7958535 0.7958804 0.8057022 0.7726383
 #>                730
-#> Mean     0.6775340
-#> Min      0.6653434
-#> 0.25 Qt. 0.6662506
-#> Median   0.6671579
-#> 0.75 Qt. 0.6836292
-#> Max      0.7001006
+#> Mean     0.7598040
+#> Min      0.7517281
+#> 0.25 Qt. 0.7531567
+#> Median   0.7545853
+#> 0.75 Qt. 0.7638420
+#> Max      0.7730988
 
 
 # k-fold cv provides a more strict evaluation than bootstrap
@@ -249,41 +279,41 @@ print(val.cv)
 #> Cross-validation folds: 5 
 #> Model type: lasso 
 #> glmnet model alpha: 1 
-#> glmnet model lambda: 0.1182981 
+#> glmnet model lambda: 0.01839927 
 #> glmnet model penalty factor: not specified
 #> Time-dependent AUC type: UNO 
 #> Evaluation time points for tAUC: 91.25 182.5 273.75 365 456.25 547.5 638.75 730
 summary(val.cv)
 #> Time-Dependent AUC Summary at Evaluation Time Points
 #>              91.25     182.5    273.75       365    456.25     547.5    638.75
-#> Mean     0.3871268 0.5553328 0.6603796 0.7094117 0.7108955 0.7166735 0.7087837
-#> Min      0.0050000 0.0050000 0.4141414 0.5105351 0.5105351 0.5430566 0.4794722
-#> 0.25 Qt. 0.0050000 0.3359944 0.5095475 0.6848001 0.6848001 0.6925183 0.6925183
-#> Median   0.2882653 0.7065967 0.7065967 0.7047705 0.7121891 0.6965153 0.7609198
-#> 0.75 Qt. 0.7878788 0.8450521 0.8052632 0.8052632 0.8052632 0.8046595 0.8046595
-#> Max      0.8494898 0.8840206 0.8663490 0.8416897 0.8416897 0.8466179 0.8063486
+#> Mean     0.3573288 0.5672998 0.7347406 0.7908407 0.7917342 0.8018140 0.7884141
+#> Min      0.0050000 0.0050000 0.5733084 0.5733441 0.5733441 0.5719349 0.5078634
+#> 0.25 Qt. 0.0050000 0.4170932 0.6666667 0.7568325 0.7612997 0.7875473 0.7747474
+#> Median   0.3571429 0.7057292 0.7263533 0.7837907 0.7837907 0.8128328 0.8227046
+#> 0.75 Qt. 0.5306122 0.7705323 0.7705323 0.9033944 0.9033944 0.9012712 0.9012712
+#> Max      0.8888889 0.9381443 0.9368421 0.9368421 0.9368421 0.9354839 0.9354839
 #>                730
-#> Mean     0.6679114
-#> Min      0.4794722
-#> 0.25 Qt. 0.6798159
-#> Median   0.6826454
-#> 0.75 Qt. 0.6925183
-#> Max      0.8051053
+#> Mean     0.7669701
+#> Min      0.5078634
+#> 0.25 Qt. 0.7731366
+#> Median   0.8030970
+#> 0.75 Qt. 0.8494822
+#> Max      0.9012712
 plot(val.cv)
 #>              91.25     182.5    273.75       365    456.25     547.5    638.75
-#> Mean     0.3871268 0.5553328 0.6603796 0.7094117 0.7108955 0.7166735 0.7087837
-#> Min      0.0050000 0.0050000 0.4141414 0.5105351 0.5105351 0.5430566 0.4794722
-#> 0.25 Qt. 0.0050000 0.3359944 0.5095475 0.6848001 0.6848001 0.6925183 0.6925183
-#> Median   0.2882653 0.7065967 0.7065967 0.7047705 0.7121891 0.6965153 0.7609198
-#> 0.75 Qt. 0.7878788 0.8450521 0.8052632 0.8052632 0.8052632 0.8046595 0.8046595
-#> Max      0.8494898 0.8840206 0.8663490 0.8416897 0.8416897 0.8466179 0.8063486
+#> Mean     0.3573288 0.5672998 0.7347406 0.7908407 0.7917342 0.8018140 0.7884141
+#> Min      0.0050000 0.0050000 0.5733084 0.5733441 0.5733441 0.5719349 0.5078634
+#> 0.25 Qt. 0.0050000 0.4170932 0.6666667 0.7568325 0.7612997 0.7875473 0.7747474
+#> Median   0.3571429 0.7057292 0.7263533 0.7837907 0.7837907 0.8128328 0.8227046
+#> 0.75 Qt. 0.5306122 0.7705323 0.7705323 0.9033944 0.9033944 0.9012712 0.9012712
+#> Max      0.8888889 0.9381443 0.9368421 0.9368421 0.9368421 0.9354839 0.9354839
 #>                730
-#> Mean     0.6679114
-#> Min      0.4794722
-#> 0.25 Qt. 0.6798159
-#> Median   0.6826454
-#> 0.75 Qt. 0.6925183
-#> Max      0.8051053
+#> Mean     0.7669701
+#> Min      0.5078634
+#> 0.25 Qt. 0.7731366
+#> Median   0.8030970
+#> 0.75 Qt. 0.8494822
+#> Max      0.9012712
 
 
 # repeated cv provides similar results as k-fold cv
@@ -296,7 +326,7 @@ print(val.repcv)
 #> Cross-validation repeated times: 3 
 #> Model type: lasso 
 #> glmnet model alpha: 1 
-#> glmnet model lambda: 0.1182981 
+#> glmnet model lambda: 0.01839927 
 #> glmnet model penalty factor: not specified
 #> Time-dependent AUC type: UNO 
 #> Evaluation time points for tAUC: 91.25 182.5 273.75 365 456.25 547.5 638.75 730
@@ -305,34 +335,34 @@ summary(val.repcv)
 #> each CV repeat, then calculated element-wise mean across all tables.
 #> Time-Dependent AUC Summary at Evaluation Time Points
 #>                      91.25     182.5    273.75       365    456.25     547.5
-#> Mean of Mean     0.3880378 0.6386841 0.6828935 0.7222304 0.7233879 0.7241837
-#> Mean of Min      0.0050000 0.3118519 0.4799798 0.5226577 0.5226577 0.5432355
-#> Mean of 0.25 Qt. 0.0050000 0.4473707 0.5232730 0.6703547 0.6736697 0.6862773
-#> Mean of Median   0.3851895 0.7381908 0.7079172 0.7073084 0.7097813 0.7226275
-#> Mean of 0.75 Qt. 0.7214320 0.8020073 0.8153940 0.8266904 0.8266904 0.8012616
-#> Mean of Max      0.8235673 0.8940001 0.8879035 0.8841406 0.8841406 0.8675167
+#> Mean of Mean     0.3395427 0.6321354 0.7363690 0.7814654 0.7817636 0.7896420
+#> Mean of Min      0.0050000 0.2562963 0.5485496 0.5854828 0.5854828 0.6121502
+#> Mean of 0.25 Qt. 0.0050000 0.5178877 0.6777625 0.7360496 0.7372877 0.7383443
+#> Mean of Median   0.3707311 0.6772799 0.7465876 0.7788345 0.7788345 0.7803462
+#> Mean of 0.75 Qt. 0.5324707 0.8123997 0.8181241 0.8924927 0.8927458 0.8897212
+#> Mean of Max      0.7845118 0.8968137 0.8908213 0.9144675 0.9144675 0.9276482
 #>                     638.75       730
-#> Mean of Mean     0.7031466 0.6659973
-#> Mean of Min      0.5113682 0.4873410
-#> Mean of 0.25 Qt. 0.5973297 0.5873776
-#> Mean of Median   0.7440957 0.6617980
-#> Mean of 0.75 Qt. 0.7997169 0.7642075
-#> Mean of Max      0.8632224 0.8292622
+#> Mean of Mean     0.7652450 0.7615084
+#> Mean of Min      0.5378789 0.5378789
+#> Mean of 0.25 Qt. 0.6797544 0.6979878
+#> Mean of Median   0.7824805 0.7895895
+#> Mean of 0.75 Qt. 0.8932617 0.8561390
+#> Mean of Max      0.9328494 0.9259470
 plot(val.repcv)
 #>                      91.25     182.5    273.75       365    456.25     547.5
-#> Mean of Mean     0.3880378 0.6386841 0.6828935 0.7222304 0.7233879 0.7241837
-#> Mean of Min      0.0050000 0.3118519 0.4799798 0.5226577 0.5226577 0.5432355
-#> Mean of 0.25 Qt. 0.0050000 0.4473707 0.5232730 0.6703547 0.6736697 0.6862773
-#> Mean of Median   0.3851895 0.7381908 0.7079172 0.7073084 0.7097813 0.7226275
-#> Mean of 0.75 Qt. 0.7214320 0.8020073 0.8153940 0.8266904 0.8266904 0.8012616
-#> Mean of Max      0.8235673 0.8940001 0.8879035 0.8841406 0.8841406 0.8675167
+#> Mean of Mean     0.3395427 0.6321354 0.7363690 0.7814654 0.7817636 0.7896420
+#> Mean of Min      0.0050000 0.2562963 0.5485496 0.5854828 0.5854828 0.6121502
+#> Mean of 0.25 Qt. 0.0050000 0.5178877 0.6777625 0.7360496 0.7372877 0.7383443
+#> Mean of Median   0.3707311 0.6772799 0.7465876 0.7788345 0.7788345 0.7803462
+#> Mean of 0.75 Qt. 0.5324707 0.8123997 0.8181241 0.8924927 0.8927458 0.8897212
+#> Mean of Max      0.7845118 0.8968137 0.8908213 0.9144675 0.9144675 0.9276482
 #>                     638.75       730
-#> Mean of Mean     0.7031466 0.6659973
-#> Mean of Min      0.5113682 0.4873410
-#> Mean of 0.25 Qt. 0.5973297 0.5873776
-#> Mean of Median   0.7440957 0.6617980
-#> Mean of 0.75 Qt. 0.7997169 0.7642075
-#> Mean of Max      0.8632224 0.8292622
+#> Mean of Mean     0.7652450 0.7615084
+#> Mean of Min      0.5378789 0.5378789
+#> Mean of 0.25 Qt. 0.6797544 0.6979878
+#> Mean of Median   0.7824805 0.7895895
+#> Mean of 0.75 Qt. 0.8932617 0.8561390
+#> Mean of Max      0.9328494 0.9259470
 
 # # Test fused lasso, SCAD, and Mnet models
 #

@@ -85,6 +85,13 @@ fit <- fit_lasso(
   x, Surv(time, event),
   nfolds = 5, rule = "lambda.min", seed = 1001
 )
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
+#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 
 # External calibration
 cal.ext <- calibrate_external(
@@ -101,11 +108,11 @@ print(cal.ext)
 summary(cal.ext)
 #>   External Calibration Summary Table
 #>   Predicted  Observed Lower 95% Upper 95%
-#> 1 0.7403764 0.6938653 0.6285652 0.7659492
-#> 2 0.8364663 0.8191247 0.7653769 0.8766470
-#> 3 0.8802589 0.8889105 0.8445907 0.9355560
-#> 4 0.9082835 0.9222506 0.8851235 0.9609349
-#> 5 0.9344099 0.9383217 0.9030920 0.9749257
+#> 1 0.7415120 0.6992675 0.6342287 0.7709759
+#> 2 0.8385190 0.8134855 0.7590315 0.8718462
+#> 3 0.8786984 0.8895648 0.8456116 0.9358026
+#> 4 0.9046670 0.9272047 0.8910823 0.9647913
+#> 5 0.9299455 0.9328762 0.8962903 0.9709556
 plot(cal.ext, xlim = c(0.6, 1), ylim = c(0.6, 1))
 
 # # Test fused lasso, MCP, and Snet models
