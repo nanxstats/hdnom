@@ -58,17 +58,18 @@ summary.hdnom.compare.validate <- function(object, silent = FALSE, ...) {
 #'
 #' @method plot hdnom.compare.validate
 #'
-#' @importFrom ggplot2 ggplot aes_string geom_point geom_line
-#' scale_x_continuous scale_colour_manual ylab coord_cartesian
+#' @importFrom ggplot2 ggplot aes_string geom_point geom_line scale_x_continuous
+#' @importFrom ggplot2 scale_colour_manual ylab coord_cartesian
 #'
 #' @export
 #'
 #' @examples
 #' NULL
 plot.hdnom.compare.validate <- function(
-    x, interval = FALSE,
-    col.pal = c("JCO", "Lancet", "NPG", "AAAS"),
-    ylim = NULL, ...) {
+  x, interval = FALSE,
+  col.pal = c("JCO", "Lancet", "NPG", "AAAS"),
+  ylim = NULL, ...
+) {
   n <- length(x)
   dflist <- vector("list", n)
 

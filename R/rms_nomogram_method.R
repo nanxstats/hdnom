@@ -45,6 +45,7 @@ print.nomogram.raw <- function(x, dec = 0, ...) {
 # originally written by Frank E Harrell Jr.
 
 #' @importFrom graphics axis lines par segments strwidth text
+#' @export
 
 plot.nomogram.raw <- function(
   x, lplabel = "Linear Predictor",
@@ -56,7 +57,8 @@ plot.nomogram.raw <- function(
   varname.label = TRUE, varname.label.sep = "=", ia.space = .7,
   tck = NA, tcl = -0.25, lmgp = .4, naxes,
   points.label = "Points", total.points.label = "Total Points",
-  total.sep.page = FALSE, total.fun, cap.labels = FALSE, ...) {
+  total.sep.page = FALSE, total.fun, cap.labels = FALSE, ...
+) {
   set <- x
 
   info <- attr(set, "info")
@@ -140,7 +142,8 @@ plot.nomogram.raw <- function(
     naxes, xl, maxscale, cex.var, nint, space.used,
     col.grid, cex.axis, tck, tck2, tcl, tcl2,
     label.every, force.label,
-    points = TRUE, points.label = "Points", usr) {
+    points = TRUE, points.label = "Points", usr
+  ) {
     y <- naxes - 1
     plot(
       0, 0,
@@ -148,7 +151,9 @@ plot.nomogram.raw <- function(
       type = "n", axes = FALSE, xlab = "", ylab = ""
     )
     if (!missing(usr)) par(usr = usr)
-    if (!points) return(y + 1)
+    if (!points) {
+      return(y + 1)
+    }
 
     ax <- c(0, maxscale)
     text(xl, y, points.label, adj = 0, cex = cex.var)
@@ -374,21 +379,21 @@ plot.nomogram.raw <- function(
 
     text(xl, y, lplabel, adj = 0, cex = cex.var)
     axisf(1,
-          at = x, labels = formati(lp.at), pos = y,
-          cex = cex.axis, tck = tck, tcl = tcl,
-          label.every = label.every, force.label = force.label,
-          mgp = c(0, lmgp - 0.6, 0), padj = 1
+      at = x, labels = formati(lp.at), pos = y,
+      cex = cex.axis, tck = tck, tcl = tcl,
+      label.every = label.every, force.label = force.label,
+      mgp = c(0, lmgp - 0.6, 0), padj = 1
     )
     axisf(1,
-          at = scaled.x2, labels = FALSE, tck = tck2, tcl = tcl2,
-          pos = y, cex = cex.axis
+      at = scaled.x2, labels = FALSE, tck = tck2, tcl = tcl2,
+      pos = y, cex = cex.axis
     )
     conf <- S$conf
     if (length(conf)) {
       bar(conf$x,
-          y + c(conf.space[1], conf.space[1] + conf$w * diff(conf.space)),
-          zcrit, conf$se, col.conf,
-          nlev = conf$nlev
+        y + c(conf.space[1], conf.space[1] + conf$w * diff(conf.space)),
+        zcrit, conf$se, col.conf,
+        nlev = conf$nlev
       )
     }
   }
@@ -418,7 +423,7 @@ plot.nomogram.raw <- function(
       if (length(sides) != length(fat)) {
         stop("fun.side vector not same length as fun.at or fun.lp.at")
       }
-      for (jj in 1:length(fat))
+      for (jj in 1:length(fat)) {
         axis(
           sides[jj],
           at = scaled[jj], labels = fat[jj],
@@ -426,6 +431,7 @@ plot.nomogram.raw <- function(
           mgp = if (sides[jj] == 1) c(0, lmgp - 0.6, 0) else c(0, lmgp, 0),
           padj = if (sides[jj] == 1) 1 else 0
         )
+      }
       lines(range(scaled), rep(y, 2)) # make sure all ticks are connected
     }
   }
@@ -444,12 +450,15 @@ capitalize <- function(string) {
 
 axisf <- function(
   side, at, labels = TRUE, pos, cex, tck, tcl,
-  label.every = 1, force.label = FALSE, disc = FALSE, ...) {
+  label.every = 1, force.label = FALSE, disc = FALSE, ...
+) {
   ax <- function(..., cex) axis(..., cex.axis = cex)
 
   ax(side, at, labels = FALSE, pos = pos, cex = cex, tck = tck, tcl = tcl, ...)
 
-  if (is.logical(labels) && !labels) return(invisible())
+  if (is.logical(labels) && !labels) {
+    return(invisible())
+  }
 
   if (label.every > 1 && !disc) {
     sq <- seq(along = at, by = label.every)
@@ -458,14 +467,14 @@ axisf <- function(
   if (is.logical(labels)) labels <- format(at, trim = TRUE)
 
   if (force.label) {
-    for (i in 1:length(labels))
+    for (i in 1:length(labels)) {
       if (!is.na(at[i])) {
         ax(side, at[i], labels[i], pos = pos, cex = cex, tcl = 0, ...)
       }
-  }
-  else {
+    }
+  } else {
     ax(side, at[!is.na(at)], labels[!is.na(at)],
-       pos = pos, cex = cex, tcl = 0, ...
+      pos = pos, cex = cex, tcl = 0, ...
     )
   }
 
@@ -484,7 +493,8 @@ save_oldpar <- function() {
 str_graph_wrap <- function(
   x, width = 0.9 * getOption("width"),
   indent = 0, exdent = 0,
-  prefix = "", simplify = TRUE, units = "user", cex = NULL) {
+  prefix = "", simplify = TRUE, units = "user", cex = NULL
+) {
   if (!is.character(x)) x <- as.character(x)
 
   spc.len <- strwidth(" ", units = units, cex = cex)
@@ -553,11 +563,12 @@ str_graph_wrap <- function(
         exdentString,
         nBlocks - 1
       )), sep = "")
-      for (k in (1:nBlocks))
+      for (k in (1:nBlocks)) {
         s[k] <- paste(
           s[k], paste(words[lowerBlockIndex[k]:upperBlockIndex[k]], collapse = " "),
           sep = ""
         )
+      }
       yi <- c(yi, s, prefix)
     }
     y <- if (length(yi)) {

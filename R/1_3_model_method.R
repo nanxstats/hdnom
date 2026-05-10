@@ -16,23 +16,19 @@
 #' event <- smart$EVENT
 #' y <- survival::Surv(time, event)
 #'
-#' fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+#' fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.min", seed = 11)
 #' print(fit)
 print.hdnom.model <- function(x, ...) {
   model <- x$model
   model_type <- x$type
 
-  switch(
-
-    model_type,
-
+  switch(model_type,
     lasso = {
       cat("High-Dimensional Cox Model Object\n")
       cat("Random seed:", x$"seed", "\n")
       cat("Model type: lasso\n")
       cat("Best lambda:", x$"lambda", "\n")
     },
-
     alasso = {
       cat("High-Dimensional Cox Model Object\n")
       cat("Random seed:", x$"seed", "\n")
@@ -40,7 +36,6 @@ print.hdnom.model <- function(x, ...) {
       cat("First step best lambda:", x$"lambda_init", "\n")
       cat("Second step best lambda:", x$"lambda", "\n")
     },
-
     enet = {
       cat("High-Dimensional Cox Model Object\n")
       cat("Random seed:", x$"seed", "\n")
@@ -48,7 +43,6 @@ print.hdnom.model <- function(x, ...) {
       cat("Best alpha:", x$"alpha", "\n")
       cat("Best lambda:", x$"lambda", "\n")
     },
-
     aenet = {
       cat("High-Dimensional Cox Model Object\n")
       cat("Random seed:", x$"seed", "\n")
@@ -58,7 +52,6 @@ print.hdnom.model <- function(x, ...) {
       cat("Second step best alpha:", x$"alpha", "\n")
       cat("Second step best lambda:", x$"lambda", "\n")
     },
-
     mcp = {
       cat("High-Dimensional Cox Model Object\n")
       cat("Random seed:", x$"seed", "\n")
@@ -66,7 +59,6 @@ print.hdnom.model <- function(x, ...) {
       cat("Best gamma:", x$"gamma", "\n")
       cat("Best lambda:", x$"lambda", "\n")
     },
-
     mnet = {
       cat("High-Dimensional Cox Model Object\n")
       cat("Random seed:", x$"seed", "\n")
@@ -75,7 +67,6 @@ print.hdnom.model <- function(x, ...) {
       cat("Best alpha:", x$"alpha", "\n")
       cat("Best lambda:", x$"lambda", "\n")
     },
-
     scad = {
       cat("High-Dimensional Cox Model Object\n")
       cat("Random seed:", x$"seed", "\n")
@@ -83,7 +74,6 @@ print.hdnom.model <- function(x, ...) {
       cat("Best gamma:", x$"gamma", "\n")
       cat("Best lambda:", x$"lambda", "\n")
     },
-
     snet = {
       cat("High-Dimensional Cox Model Object\n")
       cat("Random seed:", x$"seed", "\n")
@@ -92,7 +82,6 @@ print.hdnom.model <- function(x, ...) {
       cat("Best alpha:", x$"alpha", "\n")
       cat("Best lambda:", x$"lambda", "\n")
     },
-
     flasso = {
       cat("High-Dimensional Cox Model Object\n")
       cat("Random seed:", x$"seed", "\n")
@@ -135,7 +124,7 @@ print.hdnom.model <- function(x, ...) {
 #' event <- smart$EVENT
 #' y <- survival::Surv(time, event)
 #'
-#' fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+#' fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.min", seed = 11)
 #' predict(fit, x, y, newx = x[101:105, ], pred.at = 1:10 * 365)
 predict.hdnom.model <- function(object, x, y, newx, pred.at, ...) {
   model <- object$model
@@ -146,24 +135,25 @@ predict.hdnom.model <- function(object, x, y, newx, pred.at, ...) {
   time <- y[, 1L]
   event <- y[, 2L]
 
-  obj_type <- switch(
-    model_type,
-    lasso = "glmnet", alasso = "glmnet", enet = "glmnet", aenet = "glmnet",
-    mcp = "ncvreg", mnet = "ncvreg", scad = "ncvreg", snet = "ncvreg",
+  obj_type <- switch(model_type,
+    lasso = "glmnet",
+    alasso = "glmnet",
+    enet = "glmnet",
+    aenet = "glmnet",
+    mcp = "ncvreg",
+    mnet = "ncvreg",
+    scad = "ncvreg",
+    snet = "ncvreg",
     flasso = "penalized"
   )
 
-  switch(
-
-    obj_type,
-
+  switch(obj_type,
     glmnet = {
       lp <- predict(model, x, type = "link")
       basesurv <- glmnet_basesurv(time, event, lp, pred.at)
       lpnew <- predict(model, newx, type = "link")
       p <- exp(exp(lpnew) %*% -t(basesurv$"cumulative_base_hazard"))
     },
-
     ncvreg = {
       lp <- predict(model, x, type = "link")
       basesurv <- ncvreg_basesurv(time, event, lp, pred.at)
@@ -177,7 +167,6 @@ predict.hdnom.model <- function(object, x, y, newx, pred.at, ...) {
       # p = matrix(NA, nrow = nrow(newx), ncol = length(pred.at))
       # for (i in 1L:nrow(newx)) p[i, ] = sapply(pred.at, survfun[[i]])
     },
-
     penalized = {
       pred <- predict(model, newx)
       p <- matrix(NA, nrow = nrow(newx), ncol = length(pred.at))
@@ -215,27 +204,27 @@ infer_variable_type <- function(object, x) {
   model <- object$model
   model_type <- object$type
 
-  obj_type <- switch(
-    model_type,
-    lasso = "glmnet", alasso = "glmnet", enet = "glmnet", aenet = "glmnet",
-    mcp = "ncvreg", mnet = "ncvreg", scad = "ncvreg", snet = "ncvreg",
+  obj_type <- switch(model_type,
+    lasso = "glmnet",
+    alasso = "glmnet",
+    enet = "glmnet",
+    aenet = "glmnet",
+    mcp = "ncvreg",
+    mnet = "ncvreg",
+    scad = "ncvreg",
+    snet = "ncvreg",
     flasso = "penalized"
   )
 
-  switch(
-
-    obj_type,
-
+  switch(obj_type,
     glmnet = {
       nonzero_idx <- which(as.logical(abs(model$beta) > .Machine$double.eps))
       nonzero_var <- rownames(model$beta)[nonzero_idx]
     },
-
     ncvreg = {
       nonzero_idx <- which(model$beta[-1L, ] > .Machine$double.eps)
       nonzero_var <- names(model$beta[-1L, ])[nonzero_idx]
     },
-
     penalized = {
       nonzero_idx <- which(model@"penalized" > .Machine$double.eps)
       nonzero_var <- colnames(x)[nonzero_idx]

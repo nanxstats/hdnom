@@ -67,16 +67,17 @@
 #' plot(cmp.val.cv)
 #' plot(cmp.val.cv, interval = TRUE)
 compare_by_validate <- function(
-    x, time, event,
-    model.type = c(
-      "lasso", "alasso", "flasso", "enet", "aenet",
-      "mcp", "mnet", "scad", "snet"
-    ),
-    method = c("bootstrap", "cv", "repeated.cv"),
-    boot.times = NULL, nfolds = NULL, rep.times = NULL,
-    tauc.type = c("CD", "SZ", "UNO"), tauc.time,
-    rule = c("lambda.min", "lambda.1se"),
-    seed = 1001, trace = TRUE) {
+  x, time, event,
+  model.type = c(
+    "lasso", "alasso", "flasso", "enet", "aenet",
+    "mcp", "mnet", "scad", "snet"
+  ),
+  method = c("bootstrap", "cv", "repeated.cv"),
+  boot.times = NULL, nfolds = NULL, rep.times = NULL,
+  tauc.type = c("CD", "SZ", "UNO"), tauc.time,
+  rule = c("lambda.min", "lambda.1se"),
+  seed = 1001, trace = TRUE
+) {
   method <- match.arg(method)
   tauc.type <- match.arg(tauc.type)
   rule <- match.arg(rule)

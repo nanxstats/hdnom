@@ -48,7 +48,8 @@ y <- survival::Surv(time, event)
 fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 1001)
 
 nom <- as_nomogram(
-  fit, x, time, event, pred.at = 365 * 2,
+  fit, x, time, event,
+  pred.at = 365 * 2,
   funlabel = "2-Year Overall Survival Probability"
 )
 

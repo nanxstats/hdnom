@@ -46,16 +46,17 @@
 #' summary(cmp.cal.cv)
 #' plot(cmp.cal.cv)
 compare_by_calibrate <- function(
-    x, time, event,
-    model.type = c(
-      "lasso", "alasso", "flasso", "enet", "aenet",
-      "mcp", "mnet", "scad", "snet"
-    ),
-    method = c("fitting", "bootstrap", "cv", "repeated.cv"),
-    boot.times = NULL, nfolds = NULL, rep.times = NULL,
-    pred.at, ngroup = 5,
-    rule = c("lambda.min", "lambda.1se"),
-    seed = 1001, trace = TRUE) {
+  x, time, event,
+  model.type = c(
+    "lasso", "alasso", "flasso", "enet", "aenet",
+    "mcp", "mnet", "scad", "snet"
+  ),
+  method = c("fitting", "bootstrap", "cv", "repeated.cv"),
+  boot.times = NULL, nfolds = NULL, rep.times = NULL,
+  pred.at, ngroup = 5,
+  rule = c("lambda.min", "lambda.1se"),
+  seed = 1001, trace = TRUE
+) {
   method <- match.arg(method)
   rule <- match.arg(rule)
 

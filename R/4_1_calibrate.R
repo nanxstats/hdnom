@@ -135,17 +135,18 @@
 #' # summary(cal.repcv)
 #' # plot(cal.repcv)
 calibrate <- function(
-    x, time, event,
-    model.type = c(
-      "lasso", "alasso", "flasso", "enet", "aenet",
-      "mcp", "mnet", "scad", "snet"
-    ),
-    alpha, lambda, pen.factor = NULL, gamma,
-    lambda1, lambda2,
-    method = c("fitting", "bootstrap", "cv", "repeated.cv"),
-    boot.times = NULL, nfolds = NULL, rep.times = NULL,
-    pred.at, ngroup = 5,
-    seed = 1001, trace = TRUE) {
+  x, time, event,
+  model.type = c(
+    "lasso", "alasso", "flasso", "enet", "aenet",
+    "mcp", "mnet", "scad", "snet"
+  ),
+  alpha, lambda, pen.factor = NULL, gamma,
+  lambda1, lambda2,
+  method = c("fitting", "bootstrap", "cv", "repeated.cv"),
+  boot.times = NULL, nfolds = NULL, rep.times = NULL,
+  pred.at, ngroup = 5,
+  seed = 1001, trace = TRUE
+) {
   model.type <- match.arg(model.type)
   method <- match.arg(method)
   if (length(pred.at) != 1L) stop("pred.at should only contain 1 time point")

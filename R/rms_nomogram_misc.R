@@ -7,7 +7,8 @@
 
 rms_datadist <- function(
   ..., data, q.display, q.effect = c(.25, .75),
-  adjto.cat = c("mode", "first"), n.unique = 10) {
+  adjto.cat = c("mode", "first"), n.unique = 10
+) {
   adjto.cat <- match.arg(adjto.cat)
   X <- list(...)
 
@@ -18,8 +19,7 @@ rms_datadist <- function(
     Values <- x$values
     X[[1]] <- NULL
     argnames <- argnames[-1]
-  }
-  else {
+  } else {
     Limits <- list()
     Values <- list()
   }
@@ -27,33 +27,27 @@ rms_datadist <- function(
   if (is.data.frame(X[[1]])) {
     if (length(X) > 1) stop("when the first argument is a data frame, no other variables may be specified")
     X <- X[[1]]
-  }
-
-  else
-    if (is.recursive(X[[1]]) &&
-        length(Terms <- X[[1]]$terms) && length(D <- attr(Terms, "Design"))) {
-      n <- D$name[D$assume != "interaction"]
-      X <- list()
-      if (missing(data)) {
-        for (nm in n) X[[nm]] <- eval.parent(nm)
-      } else
-        if (length(names(data))) {
-          j <- match(n, names(data), 0)
-          if (any(j == 0)) {
-            stop(paste(
-              "variable(s)",
-              paste(n[j == 0], collapse = " "),
-              "in model not found on data=, \nwhich has variables",
-              paste(names(data), collapse = " ")
-            ))
-          }
-          for (nm in n) X[[nm]] <- data[[nm]]
-        }
-      else {
-        for (nm in n) X[[nm]] <- get(nm, data)
+  } else if (is.recursive(X[[1]]) &&
+    length(Terms <- X[[1]]$terms) && length(D <- attr(Terms, "Design"))) {
+    n <- D$name[D$assume != "interaction"]
+    X <- list()
+    if (missing(data)) {
+      for (nm in n) X[[nm]] <- eval.parent(nm)
+    } else if (length(names(data))) {
+      j <- match(n, names(data), 0)
+      if (any(j == 0)) {
+        stop(paste(
+          "variable(s)",
+          paste(n[j == 0], collapse = " "),
+          "in model not found on data=, \nwhich has variables",
+          paste(names(data), collapse = " ")
+        ))
       }
+      for (nm in n) X[[nm]] <- data[[nm]]
+    } else {
+      for (nm in n) X[[nm]] <- get(nm, data)
     }
-  else {
+  } else {
     if (length(X) & !length(names(X))) names(X) <- argnames[1:length(X)]
 
     # NEED TO FIX: R has no database.object
@@ -64,8 +58,7 @@ rms_datadist <- function(
         # if(is.numeric(data)) X <- c(X,database.object(data))
         # else
         X <- c(X, data)
-      }
-      else {
+      } else {
         # if(is.numeric(data)) X <- database.object(data)
         # else
         X <- data
@@ -97,9 +90,7 @@ rms_datadist <- function(
           levx[1], levx[ll]
         )
         values <- levx
-      }
-
-      else if (ll) {
+      } else if (ll) {
         adjto <- if (adjto.cat == "first") {
           lev[1]
         } else {
@@ -108,8 +99,7 @@ rms_datadist <- function(
         }
         limits <- factor(c(NA, adjto, NA, lev[1], lev[ll], lev[1], lev[ll]), levels = lev)
         # non-ordered categorical
-      }
-      else { # regular numeric variable
+      } else { # regular numeric variable
         clx <- setdiff(class(x), c("integer", "numeric"))
         # above prevents rounding of quantiles to integers
         y <- x[!is.na(x)]
@@ -123,8 +113,7 @@ rms_datadist <- function(
         if (nunique < 2) {
           warning(paste(nam[i], "is constant"))
           limits <- rep(y[1], 7)
-        }
-        else {
+        } else {
           r <- range(values)
           limits[6:7] <- r
           if (nunique < 4) {
@@ -144,12 +133,11 @@ rms_datadist <- function(
           # use low category if binary var, middle if 3-level, median otherwise
           if (nunique < 3) {
             limits[2] <- values[1]
-          } else
-            if (nunique == 3) {
-              limits[2] <- values[2]
-            } else {
-              limits[2] <- median(unclass(y))
-            }
+          } else if (nunique == 3) {
+            limits[2] <- values[2]
+          } else {
+            limits[2] <- median(unclass(y))
+          }
 
           if (nunique < 4) {
             q <- r
@@ -191,7 +179,9 @@ all_numeric <- function(x, what = c("test", "vector"), extras = c(".", "NA")) {
   x <- sub("[[:space:]]+$", "", x)
   x <- sub("^[[:space:]]+", "", x)
   xs <- x[x %nin% c("", extras)]
-  if (!length(xs)) return(if (what == "test") FALSE else x)
+  if (!length(xs)) {
+    return(if (what == "test") FALSE else x)
+  }
   isnum <- suppressWarnings(!any(is.na(as.numeric(xs))))
   if (what == "test") {
     isnum
@@ -213,7 +203,9 @@ all_numeric <- function(x, what = c("test", "vector"), extras = c(".", "NA")) {
 # for handling `...` arguments to nomogram().
 
 rms_args <- function(.object, envir = parent.frame(2)) {
-  if (length(.object) < 2) return(NULL)
+  if (length(.object) < 2) {
+    return(NULL)
+  }
   .names <- names(.object)[-1]
   # see if no variables given with = after their names
   if (!length(.names)) .names <- rep("", length(.object) - 1)
@@ -225,8 +217,7 @@ rms_args <- function(.object, envir = parent.frame(2)) {
     if (.names[.i] == "") {
       .names[.i] <- .vars[.i]
       .res[[.i]] <- NA
-    }
-    else {
+    } else {
       .res[[.i]] <- eval(.object[[.i + 1]], envir = envir)
     }
   }
@@ -293,8 +284,7 @@ get_lim <- function(at, x, allow.null = FALSE, need.all = TRUE) {
         } else {
           limits[[n]] <- rep(NA, 7)
         } # Added 28 Jul 94
-      }
-      else {
+      } else {
         limits[[n]] <- u
       }
     }
@@ -412,7 +402,9 @@ related_predictors <- function(at, type = c("all", "direct")) {
     }
     x[[i]] <- r
   }
-  if (type == "direct") return(x)
+  if (type == "direct") {
+    return(x)
+  }
 
   while (TRUE) {
     bigger <- FALSE
@@ -456,7 +448,7 @@ check_values <- function(f, i, x, n, limval, type.range = "plot") {
   charval <- length(values) && is.character(values)
   if (isna & as != 7) {
     if (!length(limval) || match(name, dimnames(limval$limits)[[2]], 0) == 0 ||
-        is.na(limval$limits["Adjust to", name])) {
+      is.na(limval$limits["Adjust to", name])) {
       stop(paste("variable", name, "does not have limits defined by datadist"))
     }
 
@@ -516,8 +508,7 @@ check_values <- function(f, i, x, n, limval, type.range = "plot") {
       }
       x
     }
-  }
-  else if (as == 7) {
+  } else if (as == 7) {
     if (isna) {
       x <- parms
     } else if (is.character(x)) {
@@ -559,7 +550,8 @@ rms_predict <- function(
   conf.type = c("mean", "individual", "simultaneous"),
   kint = NULL,
   na.action = na.keep, expand.na = TRUE,
-  center.terms = type == "terms", ref.zero = FALSE, ...) {
+  center.terms = type == "terms", ref.zero = FALSE, ...
+) {
   type <- match.arg(type)
   conf.type <- match.arg(conf.type)
   if (conf.type == "simultaneous") {
@@ -667,20 +659,20 @@ rms_predict <- function(
       xi <- get_limi(name[i], Limval, need.all = TRUE)[2L]
       if (assume[i] %in% c(5L, 8L)) {
         xi <- factor(xi, parms[[name[i]]])
-      } else
-        if (assume[i] == 7L) {
-          stop("scored() is not implemented in hdnom")
-          # xi <- scored(xi, name = name[i])
-        } else
-          if (assume[i] == 10L) {
-            xi <- matrix(parms[[name[i]]], nrow = 1)
-          } # matrx col medians
+      } else if (assume[i] == 7L) {
+        stop("scored() is not implemented in hdnom")
+        # xi <- scored(xi, name = name[i])
+      } else if (assume[i] == 10L) {
+        xi <- matrix(parms[[name[i]]], nrow = 1)
+      } # matrx col medians
       adjto[[ii]] <- xi
     }
     names(adjto) <- name[non.ia]
     attr(adjto, "row.names") <- "1"
     class(adjto) <- "data.frame"
-    if (type == "adjto.data.frame") return(adjto)
+    if (type == "adjto.data.frame") {
+      return(adjto)
+    }
     adjto <- model.frame(Terms, adjto)
     adjto <- model.matrix(Terms.ns, adjto)[, -1, drop = FALSE]
     if (type == "adjto") {
@@ -715,34 +707,32 @@ rms_predict <- function(
         }
         if (!se.fit && !conf.int) {
           return(LP)
-        } else
-          if (length(fit$se.fit)) {
-            if (nrp > 1L) {
-              warning("se.fit is retrieved from the fit but it corresponded to kint")
-            }
-            retlist <- list(linear.predictors = LP)
-            if (se.fit) retlist$se.fit <- naresid(naa, fit$se.fit)
-            if (conf.int) {
-              plminus <- zcrit * sqrt(retlist$se.fit^2 + vconstant)
-              retlist$lower <- LP - plminus
-              retlist$upper <- LP + plminus
-            }
-            return(retlist)
+        } else if (length(fit$se.fit)) {
+          if (nrp > 1L) {
+            warning("se.fit is retrieved from the fit but it corresponded to kint")
           }
-      } # end type='lp'
-      else
-        if (type == "x") {
-          return(
-            structure(
-              naresid(naa, fit$x),
-              strata = if (length(stra <- fit$strata)) {
-                naresid(naa, stra)
-              } else {
-                NULL
-              }
-            )
-          )
+          retlist <- list(linear.predictors = LP)
+          if (se.fit) retlist$se.fit <- naresid(naa, fit$se.fit)
+          if (conf.int) {
+            plminus <- zcrit * sqrt(retlist$se.fit^2 + vconstant)
+            retlist$lower <- LP - plminus
+            retlist$upper <- LP + plminus
+          }
+          return(retlist)
         }
+      } # end type='lp'
+      else if (type == "x") {
+        return(
+          structure(
+            naresid(naa, fit$x),
+            strata = if (length(stra <- fit$strata)) {
+              naresid(naa, stra)
+            } else {
+              NULL
+            }
+          )
+        )
+      }
       X <- fit[["x"]]
       rnam <- dimnames(X)[[1]]
       if (!length(X)) {
@@ -773,8 +763,7 @@ rms_predict <- function(
             xi <- as.integer(xi)
             levels(xi) <- parms[[name[i]]]
             class(xi) <- "factor"
-          }
-          else if (as == 7L) {
+          } else if (as == 7L) {
             stop("scored() is not implemented in hdnom")
             # xi <- scored(xi, name = name[i])
           } else if (as == 10L) {
@@ -788,8 +777,7 @@ rms_predict <- function(
             if (allna) {
               xi <- matrix(double(1L), nrow = length(xi), ncol = ncols)
               for (j in 1L:ncol(xi)) xi[, j] <- parms[[name[i]]][j]
-            }
-            else {
+            } else {
               xi <- matrix(xi, nrow = length(xi), ncol = ncols)
             }
           }
@@ -802,7 +790,9 @@ rms_predict <- function(
         class(X) <- "data.frame"
         newdata <- X
         # Note: data.frame() converts matrix variables to individual variables
-        if (type == "data.frame") return(newdata)
+        if (type == "data.frame") {
+          return(newdata)
+        }
       } # end !is.data.frame(newdata)
       else {
         # Need to convert any factors to have all levels in original fit
@@ -816,8 +806,8 @@ rms_predict <- function(
             w <- newdata[, i]
             V <- NULL
             if (asj %in% c(5L, 7L, 8L) |
-                (name[j] %in% names(Values) &&
-                 length(V <- Values[[name[j]]]) && is.character(V))) {
+              (name[j] %in% names(Values) &&
+                length(V <- Values[[name[j]]]) && is.character(V))) {
               if (length(Pa <- parms[[name[j]]])) V <- Pa
               newdata[, i] <- factor(w, V)
               # Handles user specifying numeric values without quotes, that are levels
@@ -835,7 +825,9 @@ rms_predict <- function(
         }
       } # is.data.frame(newdata)
       X <- model.frame(Terms, newdata, na.action = na.action, ...)
-      if (type == "model.frame") return(X)
+      if (type == "model.frame") {
+        return(X)
+      }
       naa <- attr(X, "na.action")
       rnam <- row.names(X)
 
@@ -893,7 +885,9 @@ rms_predict <- function(
     }
   }
 
-  if (type %in% c("adjto.data.frame", "adjto")) return(adj_to(type))
+  if (type %in% c("adjto.data.frame", "adjto")) {
+    return(adj_to(type))
+  }
 
   if (type == "x") {
     return(
@@ -910,19 +904,19 @@ rms_predict <- function(
     if (somex) {
       xb <- matxv(X, coeff, kint = kint) - Center + offset
       names(xb) <- rnam
-    }
-    else {
+    } else {
       xb <- if (offpres) offset else numeric(0)
       if (nstrata > 0) attr(xb, "strata") <- naresid(naa, strata)
-      return(structure(if (se.fit) {
-        list(
-          linear.predictors = xb,
-          se.fit = rep(NA, length(xb))
-        )
-      } else {
-        xb
-      },
-      na.action = if (expand.na) NULL else naa
+      return(structure(
+        if (se.fit) {
+          list(
+            linear.predictors = xb,
+            se.fit = rep(NA, length(xb))
+          )
+        } else {
+          xb
+        },
+        na.action = if (expand.na) NULL else naa
       ))
     }
     xb <- naresid(naa, xb)
@@ -958,8 +952,7 @@ rms_predict <- function(
         } else {
           list(linear.predictors = xb - ycenter)
         }
-      }
-      else {
+      } else {
         xb - ycenter
       }
       retlist <- structure(ww, na.action = if (expand.na) NULL else naa)
@@ -984,8 +977,7 @@ rms_predict <- function(
         }
       }
       return(retlist)
-    }
-    else {
+    } else {
       return(structure(xb - ycenter, na.action = if (expand.na) NULL else naa))
     }
   } # end if type = "lp"
@@ -1005,7 +997,7 @@ rms_predict <- function(
       if (!length(adjto)) adjto <- adj_to(type)
       if (ncol(adjto) != ncol(X)) {
         if (dimnames(adjto)[[2L]][1L] %in% c("Intercept", "(Intercept)") &&
-            dimnames(X)[[2L]][1L] %nin% c("Intercept", "(Intercept)")) {
+          dimnames(X)[[2L]][1L] %nin% c("Intercept", "(Intercept)")) {
           adjto <- adjto[, -1L, drop = FALSE]
         }
         if (ncol(adjto) != ncol(X)) stop("program logic error")
@@ -1023,7 +1015,7 @@ rms_predict <- function(
         if (se.fit) {
           se[, j] <-
             (((X[, ko, drop = FALSE] %*% cov[k, k, drop = FALSE]) *
-                X[, ko, drop = FALSE]) %*% rep(1., length(ko)))^.5
+              X[, ko, drop = FALSE]) %*% rep(1., length(ko)))^.5
         }
       }
     }
@@ -1053,8 +1045,7 @@ rms_predict <- function(
 
     if (se.fit) {
       return(structure(list(fitted = fitted, se.fit = naresid(naa, se)), na.action = if (expand.na) NULL else naa))
-    }
-    else {
+    } else {
       return(structure(fitted, na.action = if (expand.na) NULL else naa))
     }
   }
@@ -1156,7 +1147,9 @@ matxv <- function(a, b, kint = 1, bmat = FALSE) {
     ca <- ncol(a)
     cb <- ncol(b)
     if (cb < ca) stop("number of columns in b must be >= number in a")
-    if (cb == ca) return(a %*% t(b))
+    if (cb == ca) {
+      return(a %*% t(b))
+    }
     excess <- cb - ca
     xx <- matrix(0, nrow = nrow(a), ncol = excess)
     if (lbi && lkint) {
@@ -1169,8 +1162,7 @@ matxv <- function(a, b, kint = 1, bmat = FALSE) {
         stop("b intercepts attribute do not match kint")
       }
       xx[] <- 1.
-    }
-    else if (lkint) {
+    } else if (lkint) {
       if (kint > excess) {
         stop("kint > number of excess elements in b")
       }
@@ -1189,7 +1181,9 @@ matxv <- function(a, b, kint = 1, bmat = FALSE) {
     stop(paste("columns in a (", nc, ") must be <= length of b (", length(b), ")", sep = ""))
   }
 
-  if (nc == lb) return(drop(a %*% b))
+  if (nc == lb) {
+    return(drop(a %*% b))
+  }
 
   excess <- lb - nc
   if (lbi && lkint) {
@@ -1202,15 +1196,13 @@ matxv <- function(a, b, kint = 1, bmat = FALSE) {
       stop("b intercepts attribute do not match kint")
     }
     bkint <- b[1]
-  }
-  else if (lkint) {
+  } else if (lkint) {
     if (kint > excess) {
       stop("kint > number excess elements in b")
     }
 
     bkint <- b[kint]
-  }
-  else {
+  } else {
     bkint <- 0.
   }
   drop(bkint + (a %*% b[(lb - nc + 1L):lb]))

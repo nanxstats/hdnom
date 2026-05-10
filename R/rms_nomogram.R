@@ -15,7 +15,8 @@ as_nomogram_raw <- function(
   est.all = TRUE, abbrev = FALSE, minlength = 4, maxscale = 100, nint = 10,
   vnames = c("labels", "names"),
   varname.label = TRUE, varname.label.sep = "=",
-  omit = NULL, verbose = FALSE) {
+  omit = NULL, verbose = FALSE
+) {
   conf.lp <- match.arg(conf.lp)
   vnames <- match.arg(vnames)
 
@@ -88,8 +89,9 @@ as_nomogram_raw <- function(
 
   # Keep character variables intact
   lims <- unclass(lims)
-  for (i in 1:length(lims))
+  for (i in 1:length(lims)) {
     if (is.factor(lims[[i]])) lims[[i]] <- as.character(lims[[i]])
+  }
   attr(lims, "class") <- "data.frame" # so can subscript later
 
   # Find underlying categorical variables
@@ -111,8 +113,7 @@ as_nomogram_raw <- function(
 
   Intercept <- if (nrp > 0) {
     fit$coefficients[kint]
-  } else
-    if (length(fit$center)) (-fit$center) else 0
+  } else if (length(fit$center)) (-fit$center) else 0
   intercept.offset <- fit$coefficients[kint] - fit$coefficients[ir]
 
   settings <- list()
@@ -122,10 +123,9 @@ as_nomogram_raw <- function(
     lz <- length(z)
     if (lz < 2) {
       settings[[ni]] <- check_values(at, i, NA, -nint, Limval, type.range = "full")
-    } else
-      if (lz > 0 && any(is.na(z))) {
-        stop("may not specify NA as a variable value")
-      }
+    } else if (lz > 0 && any(is.na(z))) {
+      stop("may not specify NA as a variable value")
+    }
     if (lz == 1) {
       lims[2, i] <- z
     } else if (lz > 1) {
@@ -133,9 +133,9 @@ as_nomogram_raw <- function(
       if (is.null(lims[[ni]]) || is.na(lims[2, ni])) {
         lims[[ni]] <- c(NA, z[1], NA)
         warning(paste("adjustment values for ", ni,
-                      " not defined in datadist; taken to be first value specified (",
-                      z[1], ")",
-                      sep = ""
+          " not defined in datadist; taken to be first value specified (",
+          z[1], ")",
+          sep = ""
         ))
       }
     }
@@ -174,7 +174,7 @@ as_nomogram_raw <- function(
   if (any(assume == 9)) {
     main.effects <-
       main.effects[order(10 * discrete[main.effects] +
-                           (name[main.effects] %in% names(interact)))]
+        (name[main.effects] %in% names(interact)))]
   }
 
   # For each predictor, get vector of predictor numbers directly or
@@ -230,20 +230,22 @@ as_nomogram_raw <- function(
           if (discrete[n]) {
             acombo[[n]] <-
               abbreviate(parms[[n]],
-                         minlength = if (minlength == 1) {
-                           4
-                         } else {
-                           minlength
-                         }
+                minlength = if (minlength == 1) {
+                  4
+                } else {
+                  minlength
+                }
               )[combo[[n]]]
             # lucky that abbreviate function names its result
           }
         }
       }
-      for (n in names(combo)) if (is.factor(combo[[n]])) {
-        combo[[n]] <- as.character(combo[[n]])
-        # so row insertion will work xadj
-        acombo[[n]] <- as.character(acombo[[n]]) # so format() will work
+      for (n in names(combo)) {
+        if (is.factor(combo[[n]])) {
+          combo[[n]] <- as.character(combo[[n]])
+          # so row insertion will work xadj
+          acombo[[n]] <- as.character(acombo[[n]]) # so format() will work
+        }
       }
       entities <- entities + 1
       already.done[namo] <- TRUE
@@ -262,15 +264,15 @@ as_nomogram_raw <- function(
         for (j in 1:length(acombo)) {
           set.name <-
             paste(set.name,
-                  if (varname.label) {
-                    paste(namo[j], varname.label.sep,
-                          sep = ""
-                    )
-                  } else {
-                    ""
-                  },
-                  format(acombo[[j]][k]),
+              if (varname.label) {
+                paste(namo[j], varname.label.sep,
                   sep = ""
+                )
+              } else {
+                ""
+              },
+              format(acombo[[j]][k]),
+              sep = ""
             )
           if (j < length(acombo)) set.name <- paste(set.name, " ", sep = "")
         }
@@ -278,8 +280,10 @@ as_nomogram_raw <- function(
         # Make list of all terms needing inclusion in calculation
         # Include interation term names  - interactions.containing in rmsMisc.s
         ia.names <- NULL
-        for (j in r) ia.names <-
-          c(ia.names, name[interactions.containing(at, j)])
+        for (j in r) {
+          ia.names <-
+            c(ia.names, name[interactions.containing(at, j)])
+        }
         ia.names <- unique(ia.names)
         attr(x, "info") <-
           list(
@@ -305,8 +309,9 @@ as_nomogram_raw <- function(
     j <- j + 1
     ns <- names(S)
     nam <- names(S)
-    for (k in 1:length(nam))
+    for (k in 1:length(nam)) {
       xadj[[nam[k]]][start[j]:(start[j] + len[j] - 1)] <- S[[k]]
+    }
   }
   xadj <- structure(
     xadj,
@@ -332,8 +337,8 @@ as_nomogram_raw <- function(
   }
 
   R <- matrix(NA,
-              nrow = 2, ncol = length(main.effects),
-              dimnames = list(NULL, name[main.effects])
+    nrow = 2, ncol = length(main.effects),
+    dimnames = list(NULL, name[main.effects])
   )
   R[1, ] <- 1e30
   R[2, ] <- -1e30
@@ -473,8 +478,7 @@ as_nomogram_raw <- function(
         # median.se <- tapply(xse[i], deciles, median)
         # xc <- (mean.xxb - Intercept) * sc
         # sec <- sc * median.se
-      }
-      else {
+      } else {
         xc <- (xxb[i] - Intercept) * sc
         sec <- sc * xse[i]
       }
@@ -482,8 +486,7 @@ as_nomogram_raw <- function(
         x = scaled.x, x.real = lp.at,
         conf = list(x = xc, se = sec, w = w, nlev = nlev)
       )
-    }
-    else {
+    } else {
       set[[iset]] <- list(x = scaled.x, x.real = lp.at)
     }
   }
@@ -552,11 +555,15 @@ num_intercepts <- function(fit, type = c("fit", "coef")) {
     nm1 <- names(fit$coef)[1]
     nrp <- 1 * (nm1 == "Intercept" | nm1 == "(Intercept)")
   }
-  if (type == "fit") return(nrp)
+  if (type == "fit") {
+    return(nrp)
+  }
   if (type == "coef") w <- fit$coefficients
   i <- attr(w, "intercepts")
   li <- length(i)
-  if (!li) return(nrp)
+  if (!li) {
+    return(nrp)
+  }
   if (li == 1 && i == 0) 0 else li
 }
 
@@ -632,7 +639,9 @@ formati <- function(x) {
 
 interactions.containing <- function(at, pred) {
   ia <- at$interactions
-  if (length(ia) == 0) return(NULL)
+  if (length(ia) == 0) {
+    return(NULL)
+  }
   name <- at$name
   parms <- at$parms
   ic <- NULL
@@ -681,7 +690,9 @@ replace.substring.wild <- function(text, old, new, test = NULL, front = FALSE, b
     }
 
     qual <- test(substring(text, st, en))
-    if (!any(qual)) return(text)
+    if (!any(qual)) {
+      return(text)
+    }
 
     st <- (st[qual])[1]
     en <- (en[qual])[1]
@@ -713,7 +724,9 @@ replace.substring.wild <- function(text, old, new, test = NULL, front = FALSE, b
     loc.before <- list(first = loc.before$first[1], last = loc.before$last[1])
   }
 
-  if (sum(loc.before$first + loc.before$last) == 0) return(text)
+  if (sum(loc.before$first + loc.before$last) == 0) {
+    return(text)
+  }
 
   loc.after <- if (old.after.star == "") {
     list(first = 0, last = 0)
@@ -721,7 +734,9 @@ replace.substring.wild <- function(text, old, new, test = NULL, front = FALSE, b
     la <- substring.location(text, old.after.star, restrict = c(loc.before$last + 1, 1e10))
     lastpos <- length(la$first)
     la <- list(first = la$first[lastpos], last = la$last[lastpos])
-    if (la$first + la$last == 0) return(text)
+    if (la$first + la$last == 0) {
+      return(text)
+    }
     la
   }
 
@@ -766,15 +781,23 @@ substring.location <- function(text, string, restrict) {
   if (length(text) > 1) stop("only works with a single character string")
   l.text <- nchar(text)
   l.string <- nchar(string)
-  if (l.string > l.text) return(list(first = 0, last = 0))
-  if (l.string == l.text) return(if (text == string) list(first = 1, last = l.text) else list(first = 0, last = 0))
+  if (l.string > l.text) {
+    return(list(first = 0, last = 0))
+  }
+  if (l.string == l.text) {
+    return(if (text == string) list(first = 1, last = l.text) else list(first = 0, last = 0))
+  }
   is <- 1:(l.text - l.string + 1)
   ss <- substring(text, is, is + l.string - 1)
   k <- ss == string
-  if (!any(k)) return(list(first = 0, last = 0))
+  if (!any(k)) {
+    return(list(first = 0, last = 0))
+  }
   k <- is[k]
   if (!missing(restrict)) k <- k[k >= restrict[1] & k <= restrict[2]]
-  if (length(k) == 0) return(list(first = 0, last = 0))
+  if (length(k) == 0) {
+    return(list(first = 0, last = 0))
+  }
   list(first = k, last = k + l.string - 1)
 }
 
@@ -793,12 +816,13 @@ substring2 <- function(text, first, last = 100000L) base::substring(text, first,
 
     last <- rep(last, length = lf)
     for (i in 1:lf) {
-      text <- paste(if (first[i] > 1) {
-        substring(text, 1, first[i] - 1)
-      },
-      value,
-      substring(text, last[i] + 1),
-      sep = ""
+      text <- paste(
+        if (first[i] > 1) {
+          substring(text, 1, first[i] - 1)
+        },
+        value,
+        substring(text, last[i] + 1),
+        sep = ""
       )
 
       if (i < lf) {

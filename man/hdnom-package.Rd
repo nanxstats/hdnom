@@ -24,6 +24,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Nan Xiao \email{me@nanx.me} (\href{https://orcid.org/0000-0002-0250-5673}{ORCID})
   \item Qing-Song Xu \email{qsxu@csu.edu.cn}
   \item Miao-Zhu Li \email{miaozhu.li@duke.edu}
 }
