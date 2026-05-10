@@ -22,6 +22,7 @@
 #' model fits on the resampled data. From the Cox model you have built.
 #' @param pen.factor Penalty factors to apply to each coefficient.
 #' From the built \emph{adaptive lasso} or \emph{adaptive elastic-net} model.
+#' @param cox.ties Cox tie-handling method for glmnet model refits.
 #' @param gamma Value of the model parameter gamma for
 #' MCP/SCAD/Mnet/Snet models.
 #' @param lambda1 Value of the penalty parameter lambda1 for fused lasso model.
@@ -145,10 +146,12 @@ calibrate <- function(
   method = c("fitting", "bootstrap", "cv", "repeated.cv"),
   boot.times = NULL, nfolds = NULL, rep.times = NULL,
   pred.at, ngroup = 5,
+  cox.ties = c("breslow", "efron"),
   seed = 1001, trace = TRUE
 ) {
   model.type <- match.arg(model.type)
   method <- match.arg(method)
+  cox.ties <- match.arg(cox.ties)
   if (length(pred.at) != 1L) stop("pred.at should only contain 1 time point")
 
   set.seed(seed)
@@ -164,7 +167,8 @@ calibrate <- function(
       pred_list <- glmnet_calibrate_surv_prob_pred(
         x_tr = x, x_te = x, y_tr = Surv(time, event),
         alpha = alpha, lambda = lambda, pen.factor = pen.factor,
-        pred.at = pred.at
+        pred.at = pred.at,
+        cox.ties = cox.ties
       )
     }
 
@@ -225,7 +229,8 @@ calibrate <- function(
         pred_list_list[[i]] <- glmnet_calibrate_surv_prob_pred(
           x_tr = x_tr, x_te = x_te, y_tr = y_tr,
           alpha = alpha, lambda = lambda, pen.factor = pen.factor,
-          pred.at = pred.at
+          pred.at = pred.at,
+          cox.ties = cox.ties
         )
       }
 
@@ -295,7 +300,8 @@ calibrate <- function(
         pred_list_list[[i]] <- glmnet_calibrate_surv_prob_pred(
           x_tr = x_tr, x_te = x_te, y_tr = y_tr,
           alpha = alpha, lambda = lambda, pen.factor = pen.factor,
-          pred.at = pred.at
+          pred.at = pred.at,
+          cox.ties = cox.ties
         )
       }
 
@@ -374,7 +380,8 @@ calibrate <- function(
           pred_list_list[[j]][[i]] <- glmnet_calibrate_surv_prob_pred(
             x_tr = x_tr, x_te = x_te, y_tr = y_tr,
             alpha = alpha, lambda = lambda, pen.factor = pen.factor,
-            pred.at = pred.at
+            pred.at = pred.at,
+            cox.ties = cox.ties
           )
         }
 
@@ -445,6 +452,7 @@ calibrate <- function(
         attr(prob, "alpha") <- alpha
         attr(prob, "lambda") <- lambda
         attr(prob, "pen.factor") <- pen.factor
+        attr(prob, "cox.ties") <- cox.ties
       }
 
       if (model.type %in% c("mcp", "mnet", "scad", "snet")) {
@@ -475,6 +483,7 @@ calibrate <- function(
         attr(prob, "alpha") <- alpha
         attr(prob, "lambda") <- lambda
         attr(prob, "pen.factor") <- pen.factor
+        attr(prob, "cox.ties") <- cox.ties
         attr(prob, "boot.times") <- boot.times
       }
 
@@ -508,6 +517,7 @@ calibrate <- function(
         attr(prob, "alpha") <- alpha
         attr(prob, "lambda") <- lambda
         attr(prob, "pen.factor") <- pen.factor
+        attr(prob, "cox.ties") <- cox.ties
         attr(prob, "nfolds") <- nfolds
       }
 
@@ -541,6 +551,7 @@ calibrate <- function(
         attr(prob, "alpha") <- alpha
         attr(prob, "lambda") <- lambda
         attr(prob, "pen.factor") <- pen.factor
+        attr(prob, "cox.ties") <- cox.ties
         attr(prob, "nfolds") <- nfolds
         attr(prob, "rep.times") <- rep.times
       }

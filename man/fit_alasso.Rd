@@ -9,7 +9,8 @@ fit_alasso(
   y,
   nfolds = 5L,
   rule = c("lambda.min", "lambda.1se"),
-  seed = c(1001, 1002)
+  seed = c(1001, 1002),
+  cox.ties = c("breslow", "efron")
 )
 }
 \arguments{
@@ -25,6 +26,9 @@ for details.}
 
 \item{seed}{Two random seeds for cross-validation fold division
 in two estimation steps.}
+
+\item{cox.ties}{Cox tie-handling method passed to
+\code{\link[glmnet]{cv.glmnet}} and \code{\link[glmnet]{glmnet}}.}
 }
 \description{
 Automatic model selection for high-dimensional Cox models

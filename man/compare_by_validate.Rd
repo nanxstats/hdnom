@@ -17,6 +17,7 @@ compare_by_validate(
   tauc.type = c("CD", "SZ", "UNO"),
   tauc.time,
   rule = c("lambda.min", "lambda.1se"),
+  cox.ties = c("breslow", "efron"),
   seed = 1001,
   trace = TRUE
 )
@@ -56,6 +57,8 @@ the time-dependent AUC.}
 
 \item{rule}{Model selection criterion for glmnet models,
 `"lambda.min"` or `"lambda.1se"`. Defaults to `"lambda.min"`.}
+
+\item{cox.ties}{Cox tie-handling method for glmnet model fits and refits.}
 
 \item{seed}{A random seed for cross-validation fold division.}
 

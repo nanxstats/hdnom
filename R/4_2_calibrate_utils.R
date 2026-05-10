@@ -9,18 +9,21 @@
 glmnet_calibrate_surv_prob_pred <- function(
   x_tr, x_te, y_tr,
   alpha, lambda, pen.factor,
-  pred.at
+  pred.at,
+  cox.ties
 ) {
   if (is.null(pen.factor)) {
     object <- glmnet(
       x = x_tr, y = y_tr, family = "cox",
-      alpha = alpha, lambda = lambda
+      alpha = alpha, lambda = lambda,
+      cox.ties = cox.ties
     )
   } else {
     object <- glmnet(
       x = x_tr, y = y_tr, family = "cox",
       alpha = alpha, lambda = lambda,
-      penalty.factor = pen.factor
+      penalty.factor = pen.factor,
+      cox.ties = cox.ties
     )
   }
 

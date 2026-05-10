@@ -22,6 +22,7 @@ validate(
   rep.times = NULL,
   tauc.type = c("CD", "SZ", "UNO"),
   tauc.time,
+  cox.ties = c("breslow", "efron"),
   seed = 1001,
   trace = TRUE
 )
@@ -78,6 +79,8 @@ Including \code{"CD"} proposed by Chambless and Diao (2006).,
 
 \item{tauc.time}{Numeric vector. Time points at which to evaluate
 the time-dependent AUC.}
+
+\item{cox.ties}{Cox tie-handling method for glmnet model refits.}
 
 \item{seed}{A random seed for resampling.}
 

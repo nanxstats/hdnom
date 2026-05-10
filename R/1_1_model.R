@@ -10,6 +10,8 @@
 #' \code{"lambda.1se"}. See \code{\link[glmnet]{cv.glmnet}}
 #' for details.
 #' @param seed A random seed for cross-validation fold division.
+#' @param cox.ties Cox tie-handling method passed to
+#' \code{\link[glmnet]{cv.glmnet}} and \code{\link[glmnet]{glmnet}}.
 #'
 #' @export fit_lasso
 #'
@@ -32,13 +34,19 @@
 fit_lasso <- function(
   x, y, nfolds = 5L,
   rule = c("lambda.min", "lambda.1se"),
-  seed = 1001
+  seed = 1001,
+  cox.ties = c("breslow", "efron")
 ) {
   call <- match.call()
   rule <- match.arg(rule)
+  cox.ties <- match.arg(cox.ties)
 
   set.seed(seed)
-  lasso_cv <- cv.glmnet(x, y, family = "cox", nfolds = nfolds, alpha = 1)
+  lasso_cv <- cv.glmnet(
+    x, y,
+    family = "cox", nfolds = nfolds,
+    alpha = 1, cox.ties = cox.ties
+  )
 
   if (rule == "lambda.min") {
     lambda_opt <- lasso_cv$lambda.min
@@ -49,7 +57,8 @@ fit_lasso <- function(
   lasso_full <- glmnet(
     x, y,
     family = "cox",
-    lambda = lambda_opt, alpha = 1
+    lambda = lambda_opt, alpha = 1,
+    cox.ties = cox.ties
   )
 
   if (lasso_full$df < 0.5) {
@@ -66,6 +75,7 @@ fit_lasso <- function(
     "lambda" = lambda_opt,
     "type" = "lasso",
     "seed" = seed,
+    "cox.ties" = cox.ties,
     "call" = call
   )
 
@@ -86,6 +96,8 @@ fit_lasso <- function(
 #' for details.
 #' @param seed Two random seeds for cross-validation fold division
 #' in two estimation steps.
+#' @param cox.ties Cox tie-handling method passed to
+#' \code{\link[glmnet]{cv.glmnet}} and \code{\link[glmnet]{glmnet}}.
 #'
 #' @export fit_alasso
 #'
@@ -108,14 +120,20 @@ fit_lasso <- function(
 fit_alasso <- function(
   x, y, nfolds = 5L,
   rule = c("lambda.min", "lambda.1se"),
-  seed = c(1001, 1002)
+  seed = c(1001, 1002),
+  cox.ties = c("breslow", "efron")
 ) {
   call <- match.call()
   rule <- match.arg(rule)
+  cox.ties <- match.arg(cox.ties)
 
   # Tune lambda for the both two stages of adaptive lasso estimation
   set.seed(seed[1L])
-  lasso_cv <- cv.glmnet(x, y, family = "cox", nfolds = nfolds, alpha = 0)
+  lasso_cv <- cv.glmnet(
+    x, y,
+    family = "cox", nfolds = nfolds,
+    alpha = 0, cox.ties = cox.ties
+  )
 
   if (rule == "lambda.min") {
     lambda_opt_init <- lasso_cv$lambda.min
@@ -126,7 +144,8 @@ fit_alasso <- function(
   lasso_full <- glmnet(
     x, y,
     family = "cox",
-    lambda = lambda_opt_init, alpha = 0
+    lambda = lambda_opt_init, alpha = 0,
+    cox.ties = cox.ties
   )
 
   bhat <- as.matrix(lasso_full$beta)
@@ -139,7 +158,8 @@ fit_alasso <- function(
   alasso_cv <- cv.glmnet(
     x, y,
     family = "cox", nfolds = nfolds, alpha = 1,
-    penalty.factor = adpen
+    penalty.factor = adpen,
+    cox.ties = cox.ties
   )
 
   if (rule == "lambda.min") {
@@ -151,7 +171,8 @@ fit_alasso <- function(
   alasso_full <- glmnet(
     x, y,
     family = "cox", lambda = lambda_opt,
-    alpha = 1, penalty.factor = adpen
+    alpha = 1, penalty.factor = adpen,
+    cox.ties = cox.ties
   )
 
   if (alasso_full$df < 0.5) {
@@ -175,6 +196,7 @@ fit_alasso <- function(
     "pen_factor" = adpen_vec,
     "type" = "alasso",
     "seed" = seed,
+    "cox.ties" = cox.ties,
     "call" = call
   )
 
@@ -199,6 +221,8 @@ fit_alasso <- function(
 #' default is \code{FALSE}. To enable parallel tuning, load the
 #' \code{doParallel} package and run \code{registerDoParallel()}
 #' with the number of CPU cores before calling this function.
+#' @param cox.ties Cox tie-handling method passed to
+#' \code{\link[glmnet]{cv.glmnet}} and \code{\link[glmnet]{glmnet}}.
 #'
 #' @export fit_enet
 #'
@@ -230,16 +254,19 @@ fit_alasso <- function(
 fit_enet <- function(
   x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
   rule = c("lambda.min", "lambda.1se"),
-  seed = 1001, parallel = FALSE
+  seed = 1001, parallel = FALSE,
+  cox.ties = c("breslow", "efron")
 ) {
   call <- match.call()
   rule <- match.arg(rule)
+  cox.ties <- match.arg(cox.ties)
 
   enet_cv <- glmnet_tune_alpha(
     x, y,
     family = "cox",
     nfolds = nfolds, alphas = alphas,
-    seed = seed, parallel = parallel
+    seed = seed, parallel = parallel,
+    cox.ties = cox.ties
   )
 
   alpha_opt <- enet_cv$best.alpha
@@ -254,7 +281,8 @@ fit_enet <- function(
     x, y,
     family = "cox",
     lambda = lambda_opt,
-    alpha = alpha_opt
+    alpha = alpha_opt,
+    cox.ties = cox.ties
   )
 
   if (enet_full$df < 0.5) {
@@ -272,6 +300,7 @@ fit_enet <- function(
     "lambda" = lambda_opt,
     "type" = "enet",
     "seed" = seed,
+    "cox.ties" = cox.ties,
     "call" = call
   )
 
@@ -297,6 +326,8 @@ fit_enet <- function(
 #' default is \code{FALSE}. To enable parallel tuning, load the
 #' \code{doParallel} package and run \code{registerDoParallel()}
 #' with the number of CPU cores before calling this function.
+#' @param cox.ties Cox tie-handling method passed to
+#' \code{\link[glmnet]{cv.glmnet}} and \code{\link[glmnet]{glmnet}}.
 #'
 #' @importFrom glmnet glmnet
 #'
@@ -331,17 +362,20 @@ fit_aenet <- function(
   x, y, nfolds = 5L, alphas = seq(0.05, 0.95, 0.05),
   rule = c("lambda.min", "lambda.1se"),
   seed = c(1001, 1002),
-  parallel = FALSE
+  parallel = FALSE,
+  cox.ties = c("breslow", "efron")
 ) {
   call <- match.call()
   rule <- match.arg(rule)
+  cox.ties <- match.arg(cox.ties)
 
   # Tune alpha for the both two stages of adaptive enet estimation
   enet_cv <- glmnet_tune_alpha(
     x, y,
     family = "cox",
     nfolds = nfolds, alphas = alphas,
-    seed = seed[1L], parallel = parallel
+    seed = seed[1L], parallel = parallel,
+    cox.ties = cox.ties
   )
 
   alpha_opt_init <- enet_cv$best.alpha
@@ -356,7 +390,8 @@ fit_aenet <- function(
     x, y,
     family = "cox",
     lambda = lambda_opt_init,
-    alpha = alpha_opt_init
+    alpha = alpha_opt_init,
+    cox.ties = cox.ties
   )
 
   bhat <- as.matrix(enet_full$beta)
@@ -372,7 +407,8 @@ fit_aenet <- function(
     penalty.factor = adpen,
     alphas = alphas,
     seed = seed[2L],
-    parallel = parallel
+    parallel = parallel,
+    cox.ties = cox.ties
   )
 
   alpha_opt <- aenet_cv$best.alpha
@@ -389,7 +425,8 @@ fit_aenet <- function(
     exclude = which(bhat == 0),
     lambda = lambda_opt,
     alpha = alpha_opt,
-    penalty.factor = adpen
+    penalty.factor = adpen,
+    cox.ties = cox.ties
   )
 
   if (aenet_full$df < 0.5) {
@@ -415,6 +452,7 @@ fit_aenet <- function(
     "pen_factor" = adpen_vec,
     "type" = "aenet",
     "seed" = seed,
+    "cox.ties" = cox.ties,
     "call" = call
   )
 
