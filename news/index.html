@@ -33,6 +33,14 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="6.2.0" id="hdnom-620">hdnom 6.2.0<a class="anchor" aria-label="anchor" href="#hdnom-620"></a></h2>
+<div class="section level3">
+<h3 id="improvements-6-2-0">Improvements<a class="anchor" aria-label="anchor" href="#improvements-6-2-0"></a></h3>
+<ul><li>Updated selected code examples to use <code>rule = "lambda.min"</code> where glmnet 5.0 could otherwise select a null Cox model with <code>rule = "lambda.1se"</code> (<a href="https://github.com/nanxstats/hdnom/issues/24" class="external-link">#24</a>).</li>
+<li>Added a <code>cox.ties</code> argument to glmnet-based Cox model fitting helpers, including <code><a href="../reference/fit_lasso.html">fit_lasso()</a></code>, and forwarded it to the underlying <code>cv.glmnet()</code> and <code>glmnet()</code> calls. The default remains <code>"breslow"</code> to lock in current behavior and silence the glmnet tie-handling migration warning, while <code>"efron"</code> is available for users who want to opt in (<a href="https://github.com/nanxstats/hdnom/issues/25" class="external-link">#25</a>).</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="6.1.0" id="hdnom-610">hdnom 6.1.0<a class="anchor" aria-label="anchor" href="#hdnom-610"></a></h2><p class="text-muted">CRAN release: 2025-06-09</p>
 <div class="section level3">
 <h3 id="breaking-changes-6-1-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-6-1-0"></a></h3>

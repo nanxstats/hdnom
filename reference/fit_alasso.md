@@ -11,7 +11,8 @@ fit_alasso(
   y,
   nfolds = 5L,
   rule = c("lambda.min", "lambda.1se"),
-  seed = c(1001, 1002)
+  seed = c(1001, 1002),
+  cox.ties = c("breslow", "efron")
 )
 ```
 
@@ -33,13 +34,19 @@ fit_alasso(
 - rule:
 
   Model selection criterion, `"lambda.min"` or `"lambda.1se"`. See
-  [`cv.glmnet`](https://rdrr.io/pkg/glmnet/man/cv.glmnet.html) for
-  details.
+  [`cv.glmnet`](https://glmnet.stanford.edu/reference/cv.glmnet.html)
+  for details.
 
 - seed:
 
   Two random seeds for cross-validation fold division in two estimation
   steps.
+
+- cox.ties:
+
+  Cox tie-handling method passed to
+  [`cv.glmnet`](https://glmnet.stanford.edu/reference/cv.glmnet.html)
+  and [`glmnet`](https://glmnet.stanford.edu/reference/glmnet.html).
 
 ## Examples
 
@@ -51,16 +58,6 @@ event <- smart$EVENT
 y <- survival::Surv(time, event)
 
 fit <- fit_alasso(x, y, nfolds = 3, rule = "lambda.min", seed = c(7, 11))
-#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
-#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
-#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
-#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
-#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
-#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
-#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
-#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
-#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
-#> Warning: Starting in glmnet 5.1, the default Cox tie-handling method will change from 'breslow' to 'efron' (matching survival::coxph). To silence this message and lock in the v5.0 default, pass cox.ties = 'breslow' explicitly. To preview the v5.1 behavior, pass cox.ties = 'efron'.
 
 nom <- as_nomogram(
   fit, x, time, event,

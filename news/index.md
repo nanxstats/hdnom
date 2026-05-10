@@ -1,5 +1,22 @@
 # Changelog
 
+## hdnom 6.2.0
+
+### Improvements
+
+- Updated selected code examples to use `rule = "lambda.min"` where
+  glmnet 5.0 could otherwise select a null Cox model with
+  `rule = "lambda.1se"`
+  ([\#24](https://github.com/nanxstats/hdnom/issues/24)).
+- Added a `cox.ties` argument to glmnet-based Cox model fitting helpers,
+  including
+  [`fit_lasso()`](https://nanx.me/hdnom/reference/fit_lasso.md), and
+  forwarded it to the underlying `cv.glmnet()` and `glmnet()` calls. The
+  default remains `"breslow"` to lock in current behavior and silence
+  the glmnet tie-handling migration warning, while `"efron"` is
+  available for users who want to opt in
+  ([\#25](https://github.com/nanxstats/hdnom/issues/25)).
+
 ## hdnom 6.1.0
 
 CRAN release: 2025-06-09

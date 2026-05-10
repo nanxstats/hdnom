@@ -12,7 +12,8 @@ glmnet_calibrate_surv_prob_pred(
   alpha,
   lambda,
   pen.factor,
-  pred.at
+  pred.at,
+  cox.ties
 )
 ```
 
