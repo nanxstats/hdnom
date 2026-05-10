@@ -67,7 +67,7 @@
 #' event <- smart$EVENT[1:500]
 #' y <- survival::Surv(time, event)
 #'
-#' fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+#' fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.min", seed = 11)
 #'
 #' # Model validation by bootstrap with time-dependent AUC
 #' # Normally boot.times should be set to 200 or more,
@@ -158,17 +158,18 @@
 #' # summary(val.repcv)
 #' # plot(val.repcv)
 validate <- function(
-    x, time, event,
-    model.type = c(
-      "lasso", "alasso", "flasso", "enet", "aenet",
-      "mcp", "mnet", "scad", "snet"
-    ),
-    alpha, lambda, pen.factor = NULL, gamma,
-    lambda1, lambda2,
-    method = c("bootstrap", "cv", "repeated.cv"),
-    boot.times = NULL, nfolds = NULL, rep.times = NULL,
-    tauc.type = c("CD", "SZ", "UNO"), tauc.time,
-    seed = 1001, trace = TRUE) {
+  x, time, event,
+  model.type = c(
+    "lasso", "alasso", "flasso", "enet", "aenet",
+    "mcp", "mnet", "scad", "snet"
+  ),
+  alpha, lambda, pen.factor = NULL, gamma,
+  lambda1, lambda2,
+  method = c("bootstrap", "cv", "repeated.cv"),
+  boot.times = NULL, nfolds = NULL, rep.times = NULL,
+  tauc.type = c("CD", "SZ", "UNO"), tauc.time,
+  seed = 1001, trace = TRUE
+) {
   model.type <- match.arg(model.type)
   method <- match.arg(method)
   tauc.type <- match.arg(tauc.type)

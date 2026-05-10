@@ -94,7 +94,7 @@ time <- smart$TEVENT[1:500]
 event <- smart$EVENT[1:500]
 y <- survival::Surv(time, event)
 
-fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.1se", seed = 11)
+fit <- fit_lasso(x, y, nfolds = 5, rule = "lambda.min", seed = 11)
 
 # Model validation by bootstrap with time-dependent AUC
 # Normally boot.times should be set to 200 or more,
