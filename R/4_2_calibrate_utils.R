@@ -7,9 +7,10 @@
 #'
 #' @keywords internal
 glmnet_calibrate_surv_prob_pred <- function(
-    x_tr, x_te, y_tr,
-    alpha, lambda, pen.factor,
-    pred.at) {
+  x_tr, x_te, y_tr,
+  alpha, lambda, pen.factor,
+  pred.at
+) {
   if (is.null(pen.factor)) {
     object <- glmnet(
       x = x_tr, y = y_tr, family = "cox",
@@ -61,10 +62,11 @@ glmnet_calibrate_surv_prob_pred <- function(
 #'
 #' @keywords internal
 ncvreg_calibrate_surv_prob_pred <- function(
-    x_tr, x_te, y_tr,
-    model.type,
-    alpha, lambda, gamma,
-    pred.at) {
+  x_tr, x_te, y_tr,
+  model.type,
+  alpha, lambda, gamma,
+  pred.at
+) {
   if (model.type == "mcp") {
     object <- ncvreg::ncvsurv(
       X = x_tr, y = y_tr,
@@ -131,9 +133,10 @@ ncvreg_calibrate_surv_prob_pred <- function(
 #'
 #' @keywords internal
 penalized_calibrate_surv_prob_pred <- function(
-    x_tr, x_te, y_tr,
-    lambda1, lambda2,
-    pred.at) {
+  x_tr, x_te, y_tr,
+  lambda1, lambda2,
+  pred.at
+) {
   object <- penalized(
     response = y_tr, penalized = x_tr,
     lambda1 = lambda1, lambda2 = lambda2,
@@ -175,9 +178,10 @@ penalized_calibrate_surv_prob_pred <- function(
 #'
 #' @keywords internal
 calibrate_surv_prob_true <- function(
-    pred_prob, grp,
-    time, event,
-    pred.at, ngroup) {
+  pred_prob, grp,
+  time, event,
+  pred.at, ngroup
+) {
   true_prob <- matrix(NA, ncol = 3L, nrow = ngroup)
   colnames(true_prob) <- c("Observed", "Lower 95%", "Upper 95%")
 

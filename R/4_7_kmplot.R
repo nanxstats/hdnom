@@ -64,8 +64,9 @@
 #'   time.at = 1:6 * 365
 #' )
 kmplot <- function(
-    object, group.name = NULL, time.at = NULL,
-    col.pal = c("JCO", "Lancet", "NPG", "AAAS")) {
+  object, group.name = NULL, time.at = NULL,
+  col.pal = c("JCO", "Lancet", "NPG", "AAAS")
+) {
   if (!(any(c("hdnom.calibrate", "hdnom.calibrate.external") %in% class(object)))) {
     stop('object class must be "hdnom.calibrate" or "hdnom.calibrate.external"')
   }
@@ -94,14 +95,15 @@ kmplot <- function(
 #' @importFrom stats pchisq
 #' @importFrom survival survdiff
 #' @importFrom gridExtra grid.arrange arrangeGrob
-#' @importFrom ggplot2 geom_step geom_blank geom_text element_blank
-#' element_line element_text element_rect scale_colour_manual
-#' scale_y_discrete unit annotate theme_bw
+#' @importFrom ggplot2 geom_step geom_blank geom_text element_blank element_line
+#' @importFrom ggplot2 element_text element_rect scale_colour_manual
+#' @importFrom ggplot2 scale_y_discrete unit annotate theme_bw
 #'
 #' @keywords internal
 kmplot_raw <- function(
-    fit, group.name = NULL, time.at = NULL,
-    surv.df = NULL, col.pal = NULL) {
+  fit, group.name = NULL, time.at = NULL,
+  surv.df = NULL, col.pal = NULL
+) {
   if (is.null(group.name)) {
     group.name <- paste("Group", gsub("grp=", "", levels(summary(fit)$"strata")))
   }

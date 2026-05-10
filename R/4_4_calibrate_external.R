@@ -102,9 +102,10 @@
 #' # summary(cal.ext3)
 #' # plot(cal.ext3)
 calibrate_external <- function(
-    object, x, time, event,
-    x_new, time_new, event_new,
-    pred.at, ngroup = 5) {
+  object, x, time, event,
+  x_new, time_new, event_new,
+  pred.at, ngroup = 5
+) {
   if (!("hdnom.model" %in% class(object))) {
     stop('object must be of class "hdnom.model"')
   }

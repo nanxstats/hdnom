@@ -58,14 +58,15 @@ summary.hdnom.compare.calibrate <- function(object, ...) {
 #' @export
 #'
 #' @importFrom ggplot2 ggplot aes_string geom_errorbar
-#' geom_line geom_point geom_abline scale_colour_manual
-#' xlab ylab
+#' @importFrom ggplot2 geom_line geom_point geom_abline scale_colour_manual
+#' @importFrom ggplot2 xlab ylab
 #'
 #' @examples
 #' NULL
 plot.hdnom.compare.calibrate <- function(
-    x, xlim = c(0, 1), ylim = c(0, 1),
-    col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ...) {
+  x, xlim = c(0, 1), ylim = c(0, 1),
+  col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ...
+) {
   n <- length(x)
   dflist <- vector("list", n)
 

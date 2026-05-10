@@ -240,13 +240,14 @@ summary.hdnom.validate <- function(object, silent = FALSE, ...) {
 #' @export
 #'
 #' @importFrom ggplot2 ggplot aes_string geom_point geom_line geom_point
-#' geom_ribbon scale_x_continuous scale_fill_manual scale_colour_manual
-#' theme ylab coord_cartesian
+#' @importFrom ggplot2 geom_ribbon scale_x_continuous scale_fill_manual
+#' @importFrom ggplot2 scale_colour_manual theme ylab coord_cartesian
 #'
 #' @examples
 #' NULL
 plot.hdnom.validate <- function(
-    x, col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ylim = NULL, ...) {
+  x, col.pal = c("JCO", "Lancet", "NPG", "AAAS"), ylim = NULL, ...
+) {
   df <- as.data.frame(t(summary(x, silent = TRUE)))
   tauc_time <- attr(x, "tauc.time")
 

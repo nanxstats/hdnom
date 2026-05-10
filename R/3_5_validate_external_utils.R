@@ -7,8 +7,9 @@
 #'
 #' @keywords internal
 glmnet_validate_external_tauc <- function(
-    object, x_tr, x_te, y_tr, y_te,
-    tauc.type, tauc.time) {
+  object, x_tr, x_te, y_tr, y_te,
+  tauc.type, tauc.time
+) {
   lp_tr <- as.vector(predict(object, newx = x_tr, type = "link"))
   lp_te <- as.vector(predict(object, newx = x_te, type = "link"))
 
@@ -47,8 +48,9 @@ glmnet_validate_external_tauc <- function(
 #'
 #' @keywords internal
 ncvreg_validate_external_tauc <- function(
-    object, x_tr, x_te, y_tr, y_te,
-    tauc.type, tauc.time) {
+  object, x_tr, x_te, y_tr, y_te,
+  tauc.type, tauc.time
+) {
   lp_tr <- as.vector(predict(object, X = x_tr, type = "link"))
   lp_te <- as.vector(predict(object, X = x_te, type = "link"))
 
@@ -88,8 +90,9 @@ ncvreg_validate_external_tauc <- function(
 #'
 #' @keywords internal
 penalized_validate_external_tauc <- function(
-    object, x_tr, x_te, y_tr, y_te,
-    tauc.type, tauc.time) {
+  object, x_tr, x_te, y_tr, y_te,
+  tauc.type, tauc.time
+) {
   lp_tr <- as.vector(object@"lin.pred")
   lp_te <- as.vector(x_te %*% as.matrix(object@"penalized"))
 

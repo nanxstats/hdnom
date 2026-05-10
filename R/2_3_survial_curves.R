@@ -52,8 +52,9 @@ glmnet_survcurve <- function(object, time, event, x, survtime) {
 #' @examples
 #' NULL
 glmnet_basesurv <- function(
-    time, event, lp,
-    times.eval = NULL, centered = FALSE) {
+  time, event, lp,
+  times.eval = NULL, centered = FALSE
+) {
   if (is.null(times.eval)) times.eval <- sort(unique(time))
 
   t.unique <- sort(unique(time[event == 1L]))
@@ -125,8 +126,9 @@ ncvreg_survcurve <- function(object, time, event, x, survtime) {
 #' @examples
 #' NULL
 ncvreg_basesurv <- function(
-    time, event, lp,
-    times.eval = NULL, centered = FALSE) {
+  time, event, lp,
+  times.eval = NULL, centered = FALSE
+) {
   if (is.null(times.eval)) times.eval <- sort(unique(time))
 
   t.unique <- sort(unique(time[event == 1L]))
@@ -198,8 +200,9 @@ penalized_survcurve <- function(object, time, event, x, survtime) {
 #' @examples
 #' NULL
 penalized_basesurv <- function(
-    time, event, lp,
-    times.eval = NULL, centered = FALSE) {
+  time, event, lp,
+  times.eval = NULL, centered = FALSE
+) {
   if (is.null(times.eval)) times.eval <- sort(unique(time))
 
   t.unique <- sort(unique(time[event == 1L]))
