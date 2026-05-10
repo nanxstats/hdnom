@@ -11,7 +11,8 @@ fit_enet(
   alphas = seq(0.05, 0.95, 0.05),
   rule = c("lambda.min", "lambda.1se"),
   seed = 1001,
-  parallel = FALSE
+  parallel = FALSE,
+  cox.ties = c("breslow", "efron")
 )
 }
 \arguments{
@@ -33,6 +34,9 @@ for details.}
 default is \code{FALSE}. To enable parallel tuning, load the
 \code{doParallel} package and run \code{registerDoParallel()}
 with the number of CPU cores before calling this function.}
+
+\item{cox.ties}{Cox tie-handling method passed to
+\code{\link[glmnet]{cv.glmnet}} and \code{\link[glmnet]{glmnet}}.}
 }
 \description{
 Automatic model selection for high-dimensional Cox models

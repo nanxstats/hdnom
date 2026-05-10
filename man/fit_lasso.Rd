@@ -4,7 +4,14 @@
 \alias{fit_lasso}
 \title{Model selection for high-dimensional Cox models with lasso penalty}
 \usage{
-fit_lasso(x, y, nfolds = 5L, rule = c("lambda.min", "lambda.1se"), seed = 1001)
+fit_lasso(
+  x,
+  y,
+  nfolds = 5L,
+  rule = c("lambda.min", "lambda.1se"),
+  seed = 1001,
+  cox.ties = c("breslow", "efron")
+)
 }
 \arguments{
 \item{x}{Data matrix.}
@@ -18,6 +25,9 @@ fit_lasso(x, y, nfolds = 5L, rule = c("lambda.min", "lambda.1se"), seed = 1001)
 for details.}
 
 \item{seed}{A random seed for cross-validation fold division.}
+
+\item{cox.ties}{Cox tie-handling method passed to
+\code{\link[glmnet]{cv.glmnet}} and \code{\link[glmnet]{glmnet}}.}
 }
 \description{
 Automatic model selection for high-dimensional Cox models

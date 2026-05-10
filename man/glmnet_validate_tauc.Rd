@@ -13,7 +13,8 @@ glmnet_validate_tauc(
   lambda,
   pen.factor,
   tauc.type,
-  tauc.time
+  tauc.time,
+  cox.ties
 )
 }
 \value{

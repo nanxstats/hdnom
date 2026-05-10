@@ -9,18 +9,21 @@
 glmnet_validate_tauc <- function(
   x_tr, x_te, y_tr, y_te,
   alpha, lambda, pen.factor,
-  tauc.type, tauc.time
+  tauc.type, tauc.time,
+  cox.ties
 ) {
   if (is.null(pen.factor)) {
     samp_fit <- glmnet(
       x = x_tr, y = y_tr, family = "cox",
-      alpha = alpha, lambda = lambda
+      alpha = alpha, lambda = lambda,
+      cox.ties = cox.ties
     )
   } else {
     samp_fit <- glmnet(
       x = x_tr, y = y_tr, family = "cox",
       alpha = alpha, lambda = lambda,
-      penalty.factor = pen.factor
+      penalty.factor = pen.factor,
+      cox.ties = cox.ties
     )
   }
 

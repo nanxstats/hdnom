@@ -22,6 +22,7 @@ calibrate(
   rep.times = NULL,
   pred.at,
   ngroup = 5,
+  cox.ties = c("breslow", "efron"),
   seed = 1001,
   trace = TRUE
 )
@@ -75,6 +76,8 @@ repeated cross-validation.}
 \item{pred.at}{Time point at which calibration should take place.}
 
 \item{ngroup}{Number of groups to be formed for calibration.}
+
+\item{cox.ties}{Cox tie-handling method for glmnet model refits.}
 
 \item{seed}{A random seed for resampling.}
 
