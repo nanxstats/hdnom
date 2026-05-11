@@ -36,13 +36,13 @@ fit_enet(
 - alphas:
 
   Alphas to tune in
-  [`cv.glmnet`](https://glmnet.stanford.edu/reference/cv.glmnet.html).
+  [`cv.glmnet`](https://rdrr.io/pkg/glmnet/man/cv.glmnet.html).
 
 - rule:
 
   Model selection criterion, `"lambda.min"` or `"lambda.1se"`. See
-  [`cv.glmnet`](https://glmnet.stanford.edu/reference/cv.glmnet.html)
-  for details.
+  [`cv.glmnet`](https://rdrr.io/pkg/glmnet/man/cv.glmnet.html) for
+  details.
 
 - seed:
 
@@ -58,8 +58,8 @@ fit_enet(
 - cox.ties:
 
   Cox tie-handling method passed to
-  [`cv.glmnet`](https://glmnet.stanford.edu/reference/cv.glmnet.html)
-  and [`glmnet`](https://glmnet.stanford.edu/reference/glmnet.html).
+  [`cv.glmnet`](https://rdrr.io/pkg/glmnet/man/cv.glmnet.html) and
+  [`glmnet`](https://rdrr.io/pkg/glmnet/man/glmnet.html).
 
 ## Examples
 

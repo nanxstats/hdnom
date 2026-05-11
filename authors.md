@@ -36,8 +36,6 @@ bioRxiv, 065524.
       year = {2016},
       journal = {bioRxiv},
       publisher = {Cold Spring Harbor Labs Journals},
-      url = {https://www.biorxiv.org/content/10.1101/065524v1},
-      eprint = {https://www.biorxiv.org/content/10.1101/065524v1.full.pdf},
       doi = {10.1101/065524},
     }
 
