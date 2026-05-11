@@ -5,8 +5,6 @@ bibentry(
   year = "2016",
   journal = "bioRxiv",
   publisher = "Cold Spring Harbor Labs Journals",
-  URL = "https://www.biorxiv.org/content/10.1101/065524v1",
-  eprint = "https://www.biorxiv.org/content/10.1101/065524v1.full.pdf",
   textVersion = "Nan Xiao, Qing-Song Xu, and Miao-Zhu Li. (2016). hdnom: Building Nomograms for Penalized Cox Models with High-Dimensional Survival Data. bioRxiv, 065524.",
   doi = "10.1101/065524"
 )
