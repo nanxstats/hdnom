@@ -1,5 +1,14 @@
 # Changelog
 
+## hdnom 6.2.1
+
+### Bug fixes
+
+- Updated a [`structure()`](https://rdrr.io/r/base/structure.html) call
+  to use `names` instead of the deprecated special name `.Names`, fixing
+  an R-devel check note
+  ([\#30](https://github.com/nanxstats/hdnom/issues/30)).
+
 ## hdnom 6.2.0
 
 CRAN release: 2026-05-12
