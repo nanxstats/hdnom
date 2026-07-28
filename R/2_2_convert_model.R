@@ -71,7 +71,7 @@ convert_model <- function(model, x) {
   res$Design$assume <- rep("asis", n_nzv)
   res$Design$assume.code <- rep(1L, n_nzv)
   res$Design$parms <- list()
-  res$Design$values <- structure(list(), .Names = character(0))
+  res$Design$values <- structure(list(), names = character(0))
   res$Design$nonlinear <- vector("list", n_nzv)
   names(res$Design$nonlinear) <- names(x_nzv)
   for (i in 1L:n_nzv) res$Design$nonlinear[[i]] <- FALSE
