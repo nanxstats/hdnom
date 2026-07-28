@@ -2,6 +2,8 @@
 
 ## hdnom 6.2.0
 
+CRAN release: 2026-05-12
+
 ### Improvements
 
 - Updated selected code examples to use `rule = "lambda.min"` where
