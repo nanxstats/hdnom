@@ -1,3 +1,10 @@
+# hdnom 6.2.1
+
+## Bug fixes
+
+- Updated a `structure()` call to use `names` instead of the deprecated
+  special name `.Names`, fixing an R-devel check note (#30).
+
 # hdnom 6.2.0
 
 ## Improvements
