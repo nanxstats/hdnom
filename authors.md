@@ -24,7 +24,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/nanxstats/hdnom/blob/master/inst/CITATION)
+[`inst/CITATION`](https://github.com/nanxstats/hdnom/blob/v6.2.1/inst/CITATION)
 
 Nan Xiao, Qing-Song Xu, and Miao-Zhu Li. (2016). hdnom: Building
 Nomograms for Penalized Cox Models with High-Dimensional Survival Data.

@@ -2,6 +2,8 @@
 
 ## hdnom 6.2.1
 
+CRAN release: 2026-07-28
+
 ### Bug fixes
 
 - Updated a [`structure()`](https://rdrr.io/r/base/structure.html) call
